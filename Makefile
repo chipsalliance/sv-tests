@@ -27,7 +27,11 @@ $(1)_$(2): info init
 	@echo "NAME: $(name)" > $(OUT_DIR)/$(1)/$(2).log
 	@echo "TESTS: $(verifies)" >> $(OUT_DIR)/$(1)/$(2).log
 	@echo "EXPECTS: $(expected)" >> $(OUT_DIR)/$(1)/$(2).log
-	@$(RUNNERS_DIR)/$(1) $(2) >> $(OUT_DIR)/$(1)/$(2).log 2>&1
+	$(eval TMPDIR:=$(shell mktemp -d))
+	$(eval RC:=$(shell cd $(TMPDIR) && ${CURDIR}/$(RUNNERS_DIR)/$(1) ${CURDIR}/$(TESTS_DIR)/$(2) >> $(1).log 2>&1; echo $$?))
+	@echo "RETURN CODE: $(RC)" >> $(OUT_DIR)/$(1)/$(2).log
+	@cat $(TMPDIR)/$(1).log >> $(OUT_DIR)/$(1)/$(2).log
+	@rm -r $(TMPDIR)
 
 tests: $(1)_$(2)
 endef
