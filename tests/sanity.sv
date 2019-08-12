@@ -1,16 +1,16 @@
 /*
-:name: counter
-:description: A simple counter module
-:expected: 0
+:name: sanity
+:description: A simple module that should fail during parsing
+:expected: 1
 :verifies: 5.2 5.3 5.4
 */
-module counter_tb (
+module sanity_tb (
 	clk,
 	out
 );
 	input clk;
 	output out;
-
+syntaxerror
 	wire clk;
 	reg out;
 
