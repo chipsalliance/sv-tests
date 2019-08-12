@@ -1,0 +1,5 @@
+#!/bin/bash
+
+echo "I AM A FAKE RUNNER!"
+echo "MY INVOKATION ARGS: $@"
+>&2 echo "stderr test"
