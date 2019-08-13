@@ -9,6 +9,9 @@ clean:
 	@rm -rf $(OUT_DIR)
 
 init:
+ifneq (,$(wildcard $(OUT_DIR)/*))
+	@echo -e "!!! WARNING !!!\nThe output directory is not empty"
+endif
 	@mkdir -p $(addprefix $(OUT_DIR), $(RUNNERS))
 
 define parse_param
