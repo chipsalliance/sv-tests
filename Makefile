@@ -28,7 +28,9 @@ $(1)_$(2): info init
 	@echo "TAGS: $(tags)" >> $(OUT_DIR)/$(1)/$(2).log
 	@echo "SHOULD_FAIL: $(should_fail)" >> $(OUT_DIR)/$(1)/$(2).log
 	$(eval TMPDIR:=$(shell mktemp -d))
-	$(eval RC:=$(shell cd $(TMPDIR) && ${CURDIR}/$(RUNNERS_DIR)/$(1) ${CURDIR}/$(TESTS_DIR)/$(2) >> $(1).log 2>&1; echo $$?))
+	$(eval RUNNER_PATH:=$(abspath $(RUNNERS_DIR)/$(1)))
+	$(eval TEST_PATH:=$(abspath $(TESTS_DIR)/$(2)))
+	$(eval RC:=$(shell cd $(TMPDIR) && $(RUNNER_PATH) $(TEST_PATH) >> $(1).log 2>&1; echo $$?))
 	@echo "RC: $(RC)" >> $(OUT_DIR)/$(1)/$(2).log
 	@cat $(TMPDIR)/$(1).log >> $(OUT_DIR)/$(1)/$(2).log
 	@rm -r $(TMPDIR)
