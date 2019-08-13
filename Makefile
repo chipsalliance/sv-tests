@@ -22,14 +22,14 @@ define runner_gen
 $(1)_$(2): info init
 	@echo Testing $(2) with $(1)
 	$(call parse_param,name,$(TESTS_DIR)/$(2))
-	$(call parse_param,expected,$(TESTS_DIR)/$(2))
-	$(call parse_param,verifies,$(TESTS_DIR)/$(2))
+	$(call parse_param,expected_rc,$(TESTS_DIR)/$(2))
+	$(call parse_param,tags,$(TESTS_DIR)/$(2))
 	@echo "NAME: $(name)" > $(OUT_DIR)/$(1)/$(2).log
-	@echo "TESTS: $(verifies)" >> $(OUT_DIR)/$(1)/$(2).log
-	@echo "EXPECTS: $(expected)" >> $(OUT_DIR)/$(1)/$(2).log
+	@echo "TAGS: $(tags)" >> $(OUT_DIR)/$(1)/$(2).log
+	@echo "EXPECTED_RC: $(expected_rc)" >> $(OUT_DIR)/$(1)/$(2).log
 	$(eval TMPDIR:=$(shell mktemp -d))
 	$(eval RC:=$(shell cd $(TMPDIR) && ${CURDIR}/$(RUNNERS_DIR)/$(1) ${CURDIR}/$(TESTS_DIR)/$(2) >> $(1).log 2>&1; echo $$?))
-	@echo "RETURN CODE: $(RC)" >> $(OUT_DIR)/$(1)/$(2).log
+	@echo "RC: $(RC)" >> $(OUT_DIR)/$(1)/$(2).log
 	@cat $(TMPDIR)/$(1).log >> $(OUT_DIR)/$(1)/$(2).log
 	@rm -r $(TMPDIR)
 

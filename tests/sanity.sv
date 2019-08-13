@@ -1,8 +1,8 @@
 /*
 :name: sanity
 :description: A simple module that should fail during parsing
-:expected: 1
-:verifies: 5.2 5.3 5.4
+:expected_rc: 1
+:tags: 5.2 5.3 5.4
 */
 module sanity_tb (
 	clk,

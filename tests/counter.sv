@@ -1,8 +1,8 @@
 /*
 :name: counter
 :description: A simple counter module
-:expected: 0
-:verifies: 5.2 5.3 5.4
+:expected_rc: 0
+:tags: 5.2 5.3 5.4
 */
 module counter_tb (
 	clk,

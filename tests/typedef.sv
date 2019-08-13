@@ -1,8 +1,8 @@
 /*
 :name: typedef
 :description: A module testing typedef support
-:expected: 0
-:verifies: 6.18
+:expected_rc: 0
+:tags: 6.18
 */
 module typedef_tb (
 	clk,

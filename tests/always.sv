@@ -1,8 +1,8 @@
 /*
 :name: always
 :description: A module testing various structured procedures
-:expected: 0
-:verifies: 9.2
+:expected_rc: 0
+:tags: 9.2
 */
 module always_tb (
 	clk,
