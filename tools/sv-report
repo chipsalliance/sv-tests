@@ -92,7 +92,7 @@ for r in [os.path.dirname(r) for r in glob(args.logs + "/*/")]:
         tests[t_name] = {}
         tests[t_name]["path"] = t
 
-        test_tags = ["name", "tags", "expected_rc", "rc"]
+        test_tags = ["name", "tags", "should_fail", "rc"]
         with open(t, "r") as f:
             for l in f:
                 try:
@@ -135,7 +135,14 @@ for r in [os.path.dirname(r) for r in glob(args.logs + "/*/")]:
 
         # generate tags summary
         for _, test in tests.items():
-            passed = test["expected_rc"] == test["rc"]
+            # check if test has passed
+            passed = True
+
+            tool_should_fail = test["should_fail"] == "1"
+            tool_failed = test["rc"] != "0"
+
+            if tool_should_fail != tool_failed:
+                passed = False
 
             if passed:
                 logger.debug("{} passed {} in {}"

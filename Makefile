@@ -22,11 +22,11 @@ define runner_gen
 $(1)_$(2): info init
 	@echo Testing $(2) with $(1)
 	$(call parse_param,name,$(TESTS_DIR)/$(2))
-	$(call parse_param,expected_rc,$(TESTS_DIR)/$(2))
+	$(call parse_param,should_fail,$(TESTS_DIR)/$(2))
 	$(call parse_param,tags,$(TESTS_DIR)/$(2))
 	@echo "NAME: $(name)" > $(OUT_DIR)/$(1)/$(2).log
 	@echo "TAGS: $(tags)" >> $(OUT_DIR)/$(1)/$(2).log
-	@echo "EXPECTED_RC: $(expected_rc)" >> $(OUT_DIR)/$(1)/$(2).log
+	@echo "SHOULD_FAIL: $(should_fail)" >> $(OUT_DIR)/$(1)/$(2).log
 	$(eval TMPDIR:=$(shell mktemp -d))
 	$(eval RC:=$(shell cd $(TMPDIR) && ${CURDIR}/$(RUNNERS_DIR)/$(1) ${CURDIR}/$(TESTS_DIR)/$(2) >> $(1).log 2>&1; echo $$?))
 	@echo "RC: $(RC)" >> $(OUT_DIR)/$(1)/$(2).log

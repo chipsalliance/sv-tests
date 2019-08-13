@@ -1,7 +1,7 @@
 /*
 :name: counter
 :description: A simple counter module
-:expected_rc: 0
+:should_fail: 0
 :tags: 5.2 5.3 5.4
 */
 module counter_tb (

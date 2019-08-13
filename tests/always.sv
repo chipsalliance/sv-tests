@@ -1,7 +1,7 @@
 /*
 :name: always
 :description: A module testing various structured procedures
-:expected_rc: 0
+:should_fail: 0
 :tags: 9.2
 */
 module always_tb (

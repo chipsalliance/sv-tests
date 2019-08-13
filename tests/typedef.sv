@@ -1,7 +1,7 @@
 /*
 :name: typedef
 :description: A module testing typedef support
-:expected_rc: 0
+:should_fail: 0
 :tags: 6.18
 */
 module typedef_tb (
