@@ -4,6 +4,7 @@ from glob import glob
 import argparse
 import logging
 import pandas
+import jinja2
 import copy
 import sys
 import os
@@ -28,6 +29,10 @@ parser.add_argument("-i", "--input",
 parser.add_argument("-l", "--logs",
                     help="Directory with all the individual test results",
                     default="out")
+
+parser.add_argument("-t", "--template",
+                    help="Path to the html report tepmplate",
+                    default="conf/report-template.html")
 
 parser.add_argument("-o", "--out",
                     help="Path to the html file with the report",
@@ -200,8 +205,13 @@ try:
     # make the fields colorful
     s = df.style.applymap(colorful_fields)
 
+    report_table = s.render(uuid="sv-test-report-table")
+
+    with open(args.template, "r") as f:
+        report = jinja2.Template(f.read())
+
     with open(args.out, 'w') as f:
-        f.write(s.render())
+        f.write(report.render(report_table=report_table))
 except KeyError:
     logger.critical("Unable to generate report, not enough logs")
 except Exception as e:

@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <title>SystemVerilog Report</title>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.19/css/jquery.dataTables.css">
+    <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
+
+    <script>
+        $(document).ready( function () {
+            $('#T_sv-test-report-table').DataTable( {
+                paging: false
+            });
+        } );
+    </script>
+
+    <!-- override some defautl styles -->
+    <style type="text/css">
+        table.dataTable {
+            width: auto;
+        }
+    </style>
+  </head>
+
+  <body>
+    {{ report_table }}
+  </body>
+
+</html>
