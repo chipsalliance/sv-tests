@@ -10,7 +10,7 @@ clean:
 
 init:
 ifneq (,$(wildcard $(OUT_DIR)/*))
-	@echo -e "!!! WARNING !!!\nThe output directory is not empty"
+	@echo -e "\n!!! WARNING !!!\nThe output directory is not empty\n"
 endif
 	@mkdir -p $(addprefix $(OUT_DIR), $(RUNNERS))
 
