@@ -1,4 +1,4 @@
-all: tests
+all: report
 
 OUT_DIR=./out/
 TESTS_DIR=./tests
