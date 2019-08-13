@@ -1,0 +1,201 @@
+#!/bin/env python3
+
+from glob import glob
+import argparse
+import logging
+import pandas
+import copy
+import sys
+import os
+import re
+
+parser = argparse.ArgumentParser()
+
+logger_args = parser.add_mutually_exclusive_group()
+
+logger_args.add_argument("-q", "--quiet",
+                         action="store_true",
+                         help="Disable all logs")
+
+logger_args.add_argument("-v", "--verbose",
+                         action="store_true",
+                         help="Verbose logging")
+
+parser.add_argument("-i", "--input",
+                    help="Input database/LRM",
+                    default="conf/lrm.conf")
+
+parser.add_argument("-l", "--logs",
+                    help="Directory with all the individual test results",
+                    default="out")
+
+parser.add_argument("-o", "--out",
+                    help="Path to the html file with the report",
+                    default="out/report.html")
+
+# parse args
+args = parser.parse_args()
+
+# setup logger
+logger = logging.getLogger()
+logger.setLevel(logging.DEBUG)
+
+ch = logging.StreamHandler()
+ch.setFormatter(logging.Formatter('%(levelname)-8s| %(message)s'))
+logger.addHandler(ch)
+
+if args.quiet:
+    logger.setLevel(logging.ERROR)
+elif args.verbose:
+    logger.setLevel(logging.DEBUG)
+else:
+    logger.setLevel(logging.INFO)
+
+# generate input database first
+database = {}
+try:
+    with open(args.input) as f:
+        for l in f:
+            l = l.strip()
+            # skip lines with comments
+            if re.search("^\s*#.*", l) is not None:
+                continue
+
+            entry = l.split("\t")
+
+            if len(entry) < 2:
+                raise KeyError("Invalid entry: " + l)
+
+            database[entry[0]] = "\t".join(entry[1:])
+except KeyError as e:
+    # TODO: exit on error/critical handler
+    logger.critical("Unable to parse the database - " + str(e))
+    sys.exit(1)
+
+logger.info("Generating {} from log files in '{}'".format(args.out, args.logs))
+
+data = {}
+
+for r in [os.path.dirname(r) for r in glob(args.logs + "/*/")]:
+    r_name = os.path.basename(r)
+    logger.debug("Found Runner: " + r_name)
+    data[r_name] = {}
+
+    # all tests info
+    data[r_name]["tests"] = {}
+    tests = data[r_name]["tests"]
+
+    for t in glob(os.path.join(args.logs, r_name, "*.log")):
+        t_name = os.path.basename(t)
+        logger.debug("Found log: " + r_name + "/" + t_name)
+
+        tests[t_name] = {}
+        tests[t_name]["path"] = t
+
+        test_tags = ["name", "tags", "expected_rc", "rc"]
+        with open(t, "r") as f:
+            for l in f:
+                try:
+                    tag = re.search("^([a-zA-Z_-]+):(.+)", l)
+
+                    if tag is None:
+                        raise KeyError("Could not find tags: {}"
+                                       .format(", ".join(test_tags)))
+
+                    param = tag.group(1).lower()
+                    value = tag.group(2).strip()
+
+                    if param in test_tags:
+                        test_tags.remove(param)
+                        tests[t_name][param] = value
+
+                        if len(test_tags) == 0:
+                            # found all tags
+                            break
+                    else:
+                        logger.warning(
+                                "Skipping unknown parameter: {} in {}"
+                                .format(param, t))
+
+                except Exception as e:
+                    logger.warning("Skipping " + t + " on " + r_name + ": " + str(e))
+                    del tests[t_name]
+                    break
+
+        # check if test was skipped
+        if t_name not in tests:
+            continue
+
+        # Initialize the tag-based side of the result dict
+        data[r_name]["tags"] = {}
+        tags = data[r_name]["tags"]
+
+        for tag in database:
+            tags[tag] = 0
+
+        # generate tags summary
+        for _, test in tests.items():
+            passed = test["expected_rc"] == test["rc"]
+
+            if passed:
+                logger.debug("{} passed {} in {}"
+                             .format(r_name, test["tags"], test["name"]))
+            else:
+                logger.debug("{} failed {} in {}"
+                             .format(r_name, test["tags"], test["name"]))
+
+            for tag in test["tags"].split(" "):
+                try:
+                    if tags[tag] < 0:
+                        # already failed, don't overwrite
+                        continue
+
+                    if passed:
+                        tags[tag] = 1
+                    else:
+                        tags[tag] = -1
+                except KeyError:
+                    logger.warning("Tag not present in the database: " + tag)
+                    continue
+
+# for now just drop all the extra data and generate a very simple html
+# just use the number of passed tests as a PASS/FAIL result
+
+try:
+    for r in data:
+        # so for now we're droppung all the detailed test info
+        del data[r]["tests"]
+
+        # and moving the tags info up
+        data[r] = data[r]["tags"]
+
+    df = pandas.DataFrame(data=data)
+
+    def colorful_fields(val):
+        try:
+            color = 'color: '
+            if val > 0:
+                # green
+                color += "#89E894;"
+            elif val < 0:
+                # red
+                color += "#ff6961;"
+            else:
+                # gray
+                color += "#cfcece;"
+
+            color = "background-" + color * 2
+
+            return color
+        except:
+            return ""
+
+    # make the fields colorful
+    s = df.style.applymap(colorful_fields)
+
+    with open(args.out, 'w') as f:
+        f.write(s.render())
+except KeyError:
+    logger.critical("Unable to generate report, not enough logs")
+except Exception as e:
+    logger.critical("Unable to generate report: " + str(e))
