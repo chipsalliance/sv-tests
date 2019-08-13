@@ -47,4 +47,8 @@ info:
 
 tests:
 
+report: init tests
+	@echo "Generating report"
+	@./tools/sv-report
+
 $(foreach r, $(RUNNERS),$(foreach t, $(TESTS),$(eval $(call runner_gen,$(r),$(t)))))
