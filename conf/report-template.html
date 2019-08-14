@@ -34,14 +34,10 @@
                 return 1;
             }
 
-            /* post conversion a and b */
-            var A = 0;
-            var B = 0;
-
             var a_parts = a.split(".");
             var b_parts = b.split(".");
 
-            /* One or none of these will be executed */
+            /* One or none of these loops will be executed */
             while (a_parts.length < b_parts.length) {
                 a_parts.push("0");
             }
