@@ -22,6 +22,8 @@ make tests
 
 * Yosys
 * Odin II
+* Verilator
+* Icarus
 
 ## Assumptions
 

@@ -1,0 +1,3 @@
+#!/bin/bash
+
+iverilog -g2012 -o iverilog.out $1
