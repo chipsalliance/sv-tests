@@ -2,7 +2,7 @@
 :name: sanity
 :description: A simple module that should fail during parsing
 :should_fail: 1
-:tags: 5.2 5.3 5.4
+:tags: sanity
 */
 module sanity_tb (
 	clk,
