@@ -22,6 +22,7 @@ make tests
 
 * Yosys
 * Odin II
+* Verilator
 
 ## Assumptions
 
