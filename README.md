@@ -20,10 +20,10 @@ make tests
 
 ## Supported tools
 
-* Yosys
-* Odin II
-* Verilator
-* Icarus
+* [Yosys](http://www.clifford.at/yosys/)
+* [Odin II](https://verilogtorouting.org/)
+* [Verilator](https://www.veripool.org/wiki/verilator)
+* [Icarus](http://iverilog.icarus.com/)
 
 ## Assumptions
 
