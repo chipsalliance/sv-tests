@@ -1,3 +1,6 @@
+{% if False %}
+<!-- vim: set ts=2 sts=2 sw=2 et: -->
+{% endif %}
 <!DOCTYPE html>
 <html>
   <head>
@@ -10,87 +13,135 @@
 
     <!-- custom sorting for the chapter IDs -->
     <script>
-        function isChapterNumber(a) {
-            var parts = a.split(".");
+      function isChapterNumber(a) {
+        var parts = a.split(".");
 
-            for (var i = 0; i < parts.length; i++) {
+        for (var i = 0; i < parts.length; i++) {
 
-                if (isNaN(Number(parts[i]))) {
-                    return false;
-                }
-            }
+        if (isNaN(Number(parts[i]))) {
+           return false;
+         }
+       }
 
-            return true;
-        };
+        return true;
+      };
 
-        function chapterNumberCompare(a, b) {
-            if (!isChapterNumber(a)) {
-                if (!isChapterNumber(b)) {
-                    return ((a < b) ? -1 : ((a > b) ? 1 : 0));
-                } else {
-                    return -1;
-                }
-            } else if (!isChapterNumber(b)) {
-                return 1;
-            }
-
-            /* post conversion a and b */
-            var A = 0;
-            var B = 0;
-
-            var a_parts = a.split(".");
-            var b_parts = b.split(".");
-
-            /* One or none of these will be executed */
-            while (a_parts.length < b_parts.length) {
-                a_parts.push("0");
-            }
-
-            while (a_parts.length > b_parts.length) {
-                b_parts.push("1");
-            }
-
-            for (var i = 0; i < a_parts.length; i++) {
-                if (Number(a_parts[i]) == Number(b_parts[i])) {
-                  continue;
-                } else if (Number(a_parts[i]) < Number(b_parts[i])) {
-                    return -1;
-                } else if (Number(a_parts[i]) > Number(b_parts[i])) {
-                  return 1;
-                }
-            }
-
-            return 0;
+      function chapterNumberCompare(a, b) {
+        if (!isChapterNumber(a)) {
+          if (!isChapterNumber(b)) {
+            return ((a < b) ? -1 : ((a > b) ? 1 : 0));
+          } else {
+            return -1;
+          }
+        } else if (!isChapterNumber(b)) {
+          return 1;
         }
 
-        $.fn.dataTable.ext.type.order['sv-id-asc'] = function (a, b) {
-                return chapterNumberCompare(a, b);
-        };
+        var a_parts = a.split(".");
+        var b_parts = b.split(".");
 
-        $.fn.dataTable.ext.type.order['sv-id-desc'] = function (a, b) {
-                return chapterNumberCompare(b, a);
-        };
+        /* One or none of these loops will be executed */
+        while (a_parts.length < b_parts.length) {
+          a_parts.push("0");
+        }
+
+        while (a_parts.length > b_parts.length) {
+          b_parts.push("0");
+        }
+
+        for (var i = 0; i < a_parts.length; i++) {
+          if (Number(a_parts[i]) == Number(b_parts[i])) {
+            continue;
+          } else if (Number(a_parts[i]) < Number(b_parts[i])) {
+            return -1;
+          } else if (Number(a_parts[i]) > Number(b_parts[i])) {
+            return 1;
+          }
+        }
+
+        return 0;
+      }
+
+      $.fn.dataTable.ext.type.order['sv-id-asc'] = function (a, b) {
+        return chapterNumberCompare(a, b);
+      };
+
+      $.fn.dataTable.ext.type.order['sv-id-desc'] = function (a, b) {
+        return chapterNumberCompare(b, a);
+      };
     </script>
 
     <script>
-        $(document).ready( function () {
-            $('#T_sv-test-report-table').DataTable( {
-                paging: false,
-                "columnDefs": [ { "type": "sv-id", targets: 0 } ]
-            });
-        } );
+      $.fn.dataTable.ext.order['test-status'] = function ( settings, col ) {
+        return this.api().column( col, {order:'index'} ).nodes().map( function ( td, i ) {
+
+          if (td.className.includes("test-passed")) {
+            return 1;
+          }
+
+          if (td.className.includes("test-failed")) {
+            return 2;
+          }
+
+          return 3;
+        });
+      };
+    </script>
+
+    <script>
+      $(document).ready( function () {
+        $('#report_table').DataTable( {
+          paging: false,
+          "columnDefs": [ { "type": "sv-id", targets: 0 } ],
+          "columns": [
+            null,
+            {% for tool in report %}
+            { "orderDataType": "test-status" },
+            {% endfor %}
+          ]
+        });
+      } );
     </script>
 
     <!-- override some defautl styles -->
     <style type="text/css">
-        table.dataTable {
-            width: auto;
-        }
+      table.dataTable {
+          width: auto;
+      }
+
+      .test-failed {
+        background-color: #ff6961;
+      }
+      .test-passed {
+        background-color: #89E894;
+      }
+      .test-na {
+        background-color: #cfcece;
+      }
+
     </style>
   </head>
 
   <body>
-    {{ report_table }}
+    <table id="report_table">
+      <thead>
+        <tr>
+          <th>  </th>
+          {% for tool in report %}
+          <th> {{ tool }} </th>
+          {% endfor %}
+        </tr>
+      </thead>
+        {% for tag, info in database.items() %}
+        <tr>
+          <th> {{ tag }} </th>
+          {% for tool, tooldata in report.items() %}
+          <th class="{{ tooldata[tag] }}">
+          </th>
+          {% endfor %}
+        </tr>
+      {% endfor %}
+    </table>
   </body>
 
 </html>

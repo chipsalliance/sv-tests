@@ -3,7 +3,6 @@
 from glob import glob
 import argparse
 import logging
-import pandas
 import jinja2
 import copy
 import sys
@@ -136,7 +135,7 @@ for r in [os.path.dirname(r) for r in glob(args.logs + "/*/")]:
         tags = data[r_name]["tags"]
 
         for tag in database:
-            tags[tag] = "?"
+            tags[tag] = "test-na"
 
         # generate tags summary
         for _, test in tests.items():
@@ -158,14 +157,14 @@ for r in [os.path.dirname(r) for r in glob(args.logs + "/*/")]:
 
             for tag in test["tags"].split(" "):
                 try:
-                    if tags[tag] == "-":
+                    if tags[tag] == "test-failed":
                         # already failed, don't overwrite
                         continue
 
                     if passed:
-                        tags[tag] = "+"
+                        tags[tag] = "test-passed"
                     else:
-                        tags[tag] = "-"
+                        tags[tag] = "test-failed"
                 except KeyError:
                     logger.warning("Tag not present in the database: " + tag)
                     continue
@@ -181,37 +180,11 @@ try:
         # and moving the tags info up
         data[r] = data[r]["tags"]
 
-    df = pandas.DataFrame(data=data)
-
-    def colorful_fields(val):
-        try:
-            color = 'color: '
-            if val == "+":
-                # green
-                color += "#89E894;"
-            elif val == "-":
-                # red
-                color += "#ff6961;"
-            else:
-                # gray
-                color += "#cfcece;"
-
-            color = "background-" + color * 2
-
-            return color
-        except:
-            return ""
-
-    # make the fields colorful
-    s = df.style.applymap(colorful_fields)
-
-    report_table = s.render(uuid="sv-test-report-table")
-
     with open(args.template, "r") as f:
         report = jinja2.Template(f.read())
 
     with open(args.out, 'w') as f:
-        f.write(report.render(report_table=report_table))
+        f.write(report.render(report=data, database=database))
 except KeyError:
     logger.critical("Unable to generate report, not enough logs")
 except Exception as e:
