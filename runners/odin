@@ -1,34 +1,3 @@
 #!/bin/bash
 
-DUT_FILE="${1}"
-
-ODIN_PATH=$(which odin_II)
-
-if [[ $? -ne 0 ]]; then
-  echo "odin_II not in PATH"
-  exit 1
-fi
-
-# XXX can these file be accessed in a better way?
-ODIN_DIR=$(dirname ${ODIN_PATH})
-ODIN_ARCH="${ODIN_DIR}/../libs/libarchfpga/arch/sample_arch.xml"
-
-ODIN_CONF="
-<config>
-        <verilog_files>
-                <verilog_file>${1}</verilog_file>
-        </verilog_files>
-        <output>
-                <output_type>blif</output_type>
-                <output_path_and_name>./output.blif</output_path_and_name>
-                <target>
-                        <arch_file>${ODIN_ARCH}</arch_file>
-                </target>
-        </output>
-</config>"
-
-ODIN_CONF_FILE=odin.conf
-
-echo $ODIN_CONF > $ODIN_CONF_FILE
-
-odin_II --permissive -c $ODIN_CONF_FILE
+odin_II --permissive -V $1 -o odin.blif
