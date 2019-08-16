@@ -111,16 +111,76 @@
 
       .test-failed {
         background-color: #ff6961;
+        cursor: pointer;
       }
       .test-passed {
         background-color: #89E894;
+        cursor: pointer;
       }
       .test-na {
         background-color: #cfcece;
       }
 
+      .logfile {
+        display: none;
+        position: fixed;
+        bottom: 0;
+        right: 10%;
+        left: 10%;
+        width: 80%;
+        height: 60%;
+        border: 2px solid black;
+        overflow-y: scroll;
+        overflow-x: hidden;
+        z-index: 10;
+        font-family: "Courier New", Courier, monospace;
+        cursor: text;
+      }
+      .logfile-close-btn {
+        float: right;
+        cursor: pointer;
+      }
+      .logfile-shown {
+        display: block;
+      }
+
     </style>
+
+    <script>
+      function toggleLog(div_id) {
+        all_logs = document.getElementsByClassName("logfile-shown");
+
+        for (var i=0; i < all_logs.length; ++i) {
+          if (all_logs[i].id != div_id) {
+            all_logs[i].classList.remove("logfile-shown");
+          }
+        }
+
+        log_div = document.getElementById(div_id);
+        log_div.classList.toggle("logfile-shown");
+      }
+
+      function hideLog(div_id) {
+        log_div = document.getElementById(div_id);
+        log_div.classList.remove("logfile-shown");
+      }
+    </script>
   </head>
+
+  {% for tag, info in database.items() %}
+  {% for tool, tooldata in report.items() %}
+  {% if "test-na" not in tooldata["tags"][tag]["status"] %}
+  <div class="logfile {{ tooldata["tags"][tag]["status"] }}"
+       id="{{ tool }}-{{ tag }}-logfile">
+    <div class="logfile-close-btn"
+         onclick='hideLog("{{ tool }}-{{ tag }}-logfile")'>
+      [X]
+    </div>
+    {{ tooldata["tags"][tag]["log"] }}
+  </div>
+  {% endif %}
+  {% endfor %}
+  {% endfor %}
 
   <body>
     <table id="report_table">
@@ -136,7 +196,11 @@
         <tr>
           <th> {{ tag }} </th>
           {% for tool, tooldata in report.items() %}
-          <th class="{{ tooldata[tag] }}">
+          <th class="{{ tooldata["tags"][tag]["status"] }}"
+            {% if "test-na" not in tooldata["tags"][tag]["status"] %}
+            onclick='toggleLog("{{ tool }}-{{ tag }}-logfile")'
+            {% endif %}
+            >
           </th>
           {% endfor %}
         </tr>
