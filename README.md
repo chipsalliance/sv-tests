@@ -28,5 +28,3 @@ make tests
 ## Assumptions
 
 * The tested tools have to be available in `PATH`.
-* The Odin binary (`odin_II`) should be built and added to `PATH` in its git repository.
-The configuration files required by Odin are searched for using `$(which odin_II)`.
