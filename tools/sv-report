@@ -98,8 +98,8 @@ for r in [os.path.dirname(r) for r in glob(args.logs + "/*/")]:
 
         test_tags = ["name", "tags", "should_fail", "rc"]
         with open(t, "r") as f:
-            for l in f:
-                try:
+            try:
+                for l in f:
                     tag = re.search("^([a-zA-Z_-]+):(.+)", l)
 
                     if tag is None:
@@ -121,10 +121,13 @@ for r in [os.path.dirname(r) for r in glob(args.logs + "/*/")]:
                                 "Skipping unknown parameter: {} in {}"
                                 .format(param, t))
 
-                except Exception as e:
-                    logger.warning("Skipping " + t + " on " + r_name + ": " + str(e))
-                    del tests[t_name]
-                    break
+            except Exception as e:
+                logger.warning("Skipping " + t + " on " + r_name + ": " + str(e))
+                del tests[t_name]
+                continue
+
+            f.seek(0)
+            tests[t_name]["log"] = f.read()
 
         # check if test was skipped
         if t_name not in tests:
@@ -135,7 +138,8 @@ for r in [os.path.dirname(r) for r in glob(args.logs + "/*/")]:
         tags = data[r_name]["tags"]
 
         for tag in database:
-            tags[tag] = "test-na"
+            tags[tag] = {}
+            tags[tag]["status"] = "test-na"
 
         # generate tags summary
         for _, test in tests.items():
@@ -157,28 +161,30 @@ for r in [os.path.dirname(r) for r in glob(args.logs + "/*/")]:
 
             for tag in test["tags"].split(" "):
                 try:
-                    if tags[tag] == "test-failed":
+                    if tags[tag]["status"] == "test-failed":
                         # already failed, don't overwrite
                         continue
 
                     if passed:
-                        tags[tag] = "test-passed"
+                        tags[tag]["status"] = "test-passed"
                     else:
-                        tags[tag] = "test-failed"
+                        tags[tag]["status"] = "test-failed"
                 except KeyError:
                     logger.warning("Tag not present in the database: " + tag)
                     continue
 
-# for now just drop all the extra data and generate a very simple html
-# just use the number of passed tests as a PASS/FAIL result
-
 try:
     for r in data:
-        # so for now we're droppung all the detailed test info
-        del data[r]["tests"]
+        for tag in data[r]["tags"]:
+            tag_handle= data[r]["tags"][tag]
 
-        # and moving the tags info up
-        data[r] = data[r]["tags"]
+            tag_handle["log"] = ""
+
+            for test in data[r]["tests"]:
+                test_handle = data[r]["tests"][test]
+                if tag in test_handle["tags"].split():
+                    tag_handle["log"] += test_handle["log"] + "\n\n"
+            tag_handle["log"] = tag_handle["log"].replace("\n", "</br>")
 
     with open(args.template, "r") as f:
         report = jinja2.Template(f.read())
