@@ -106,16 +106,26 @@
     <!-- override some defautl styles -->
     <style type="text/css">
       table.dataTable {
-          width: auto;
+        width: auto;
+        table-layout: fixed;
+      }
+      table.dataTable tbody tr th {
+        width: calc(100% / {{ report.keys()|length + 1}} );
       }
 
       .test-failed {
         background-color: #ff6961;
         cursor: pointer;
+        border: 1px;
+        border-color: #505050;
+        border-style: dotted;
       }
       .test-passed {
         background-color: #89E894;
         cursor: pointer;
+        border: 1px;
+        border-color: #505050;
+        border-style: dotted;
       }
       .test-na {
         background-color: #cfcece;
