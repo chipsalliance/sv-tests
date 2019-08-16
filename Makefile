@@ -4,6 +4,10 @@ OUT_DIR=./out/
 TESTS_DIR=./tests
 RUNNERS_DIR=./runners
 
+export OUT_DIR
+export TESTS_DIR
+export RUNNERS_DIR
+
 clean:
 	@echo -e "Removing $(OUT_DIR)"
 	@rm -rf $(OUT_DIR)
@@ -14,33 +18,11 @@ ifneq (,$(wildcard $(OUT_DIR)/*))
 endif
 	@mkdir -p $(addprefix $(OUT_DIR), $(RUNNERS))
 
-define parse_param
-	$(eval $(1):=$(shell grep -m 1 :$1: $2 | cut -d' ' -f2-))
-endef
-
 # $(1) - runner name
 # $(2) - test
 define runner_gen
-
 $(1)_$(2): info init
-	$(call parse_param,name,$(TESTS_DIR)/$(2))
-	$(call parse_param,should_fail,$(TESTS_DIR)/$(2))
-	$(call parse_param,tags,$(TESTS_DIR)/$(2))
-	@echo "NAME: $(name)" > $(OUT_DIR)/$(1)/$(2).log
-	@echo "TAGS: $(tags)" >> $(OUT_DIR)/$(1)/$(2).log
-	@echo "SHOULD_FAIL: $(should_fail)" >> $(OUT_DIR)/$(1)/$(2).log
-	$(eval TMPDIR:=$(shell mktemp -d))
-	$(eval RUNNER_PATH:=$(abspath $(RUNNERS_DIR)/$(1)))
-	$(eval TEST_PATH:=$(abspath $(TESTS_DIR)/$(2)))
-	$(eval RC:=$(shell cd $(TMPDIR) && $(RUNNER_PATH) $(TEST_PATH) >> $(1).log 2>&1; echo $$?))
-	@echo "RC: $(RC)" >> $(OUT_DIR)/$(1)/$(2).log
-	@cat $(TMPDIR)/$(1).log >> $(OUT_DIR)/$(1)/$(2).log
-	@if [[ $(should_fail) == "0" && $(RC) == "0" ]] || [[ $(should_fail) == "1" && $(RC) != "0" ]]; then \
-		echo -e "Testing $(2) with $(1):\tPASS"; \
-	else \
-		echo -e "Testing $(2) with $(1):\tFAIL"; \
-	fi
-	@rm -r $(TMPDIR)
+	@./tools/runner $(1) $(2)
 
 tests: $(1)_$(2)
 endef

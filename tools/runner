@@ -1,0 +1,42 @@
+#!/bin/env bash
+
+RUNNER="$1"
+TEST="$2"
+
+function parse_param() {
+	echo $(grep -m 1 :$1: $2 | cut -d' ' -f2-)
+}
+
+
+name=$(parse_param name "${TESTS_DIR}/${TEST}")
+should_fail=$(parse_param should_fail "${TESTS_DIR}/${TEST}")
+tags=$(parse_param tags "${TESTS_DIR}/${TEST}")
+
+echo "NAME: ${name}" > "${OUT_DIR}/${RUNNER}/${TEST}.log"
+echo "TAGS: ${tags}" >> "${OUT_DIR}/${RUNNER}/${TEST}.log"
+echo "SHOULD_FAIL: ${should_fail}" >> ${OUT_DIR}/${RUNNER}/${TEST}.log
+
+TMPDIR=$(mktemp -d)
+
+RUNNER_PATH=$(readlink -f "${RUNNERS_DIR}/${RUNNER}")
+
+TEST_PATH=$(readlink -f  "${TESTS_DIR}/${TEST}")
+
+cd "${TMPDIR}" > /dev/null
+
+"${RUNNER_PATH}" "${TEST_PATH}" >> ${RUNNER}.log 2>&1
+RC=$?
+
+cd - > /dev/null
+
+echo "RC: ${RC}" >> "${OUT_DIR}/${RUNNER}/${TEST}.log"
+
+cat "${TMPDIR}/${RUNNER}.log" >> "${OUT_DIR}/${RUNNER}/${TEST}.log"
+
+if [[ ${should_fail} == "0" && ${RC} == "0" ]] || [[ ${should_fail} == "1" && ${RC} != "0" ]]; then
+  echo -e "Testing ${TEST} with ${RUNNER}:\tPASS";
+else
+  echo -e "Testing ${TEST} with ${RUNNER}:\tFAIL";
+fi
+
+rm -r "${TMPDIR}"
