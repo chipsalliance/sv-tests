@@ -24,6 +24,7 @@ make tests
 * [Odin II](https://verilogtorouting.org/)
 * [Verilator](https://www.veripool.org/wiki/verilator)
 * [Icarus](http://iverilog.icarus.com/)
+* [slang](https://github.com/MikePopoloski/slang)
 
 ## Assumptions
 
