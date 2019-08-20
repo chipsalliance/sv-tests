@@ -152,6 +152,8 @@ for r in [os.path.dirname(r) for r in glob(args.logs + "/*/")]:
             if tool_should_fail != tool_failed:
                 passed = False
 
+            test["status"] = "test-" + ("passed" if passed else "failed")
+
             if passed:
                 logger.debug("{} passed {} in {}"
                              .format(r_name, test["tags"], test["name"]))
@@ -178,13 +180,15 @@ try:
         for tag in data[r]["tags"]:
             tag_handle = data[r]["tags"][tag]
 
-            tag_handle["log"] = ""
+            tag_handle["logs"] = {}
 
             for test in data[r]["tests"]:
                 test_handle = data[r]["tests"][test]
                 if tag in test_handle["tags"].split():
-                    tag_handle["log"] += test_handle["log"] + "\n\n"
-            tag_handle["log"] = tag_handle["log"].replace("\n", "</br>")
+                    tag_handle["logs"][test_handle["name"]] = {}
+                    inner = tag_handle["logs"][test_handle["name"]]
+                    inner["log"] = test_handle["log"].replace("\n", "</br>")
+                    inner["status"] = test_handle["status"]
 
     with open(args.template, "r") as f:
         report = jinja2.Template(f.read())
