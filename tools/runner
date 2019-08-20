@@ -1,42 +1,109 @@
-#!/bin/env bash
+#!/bin/env python3
 
-RUNNER="$1"
-TEST="$2"
+import os
+import re
+import sys
+import shutil
+import logging
+import argparse
+import tempfile
+import subprocess
 
-function parse_param() {
-	echo $(grep -m 1 :$1: $2 | cut -d' ' -f2-)
-}
+parser = argparse.ArgumentParser()
 
+parser.add_argument("-r", "--runner",
+                    required=True)
 
-name=$(parse_param name "${TESTS_DIR}/${TEST}")
-should_fail=$(parse_param should_fail "${TESTS_DIR}/${TEST}")
-tags=$(parse_param tags "${TESTS_DIR}/${TEST}")
+parser.add_argument("-t", "--test",
+                    required=True)
 
-echo "NAME: ${name}" > "${OUT_DIR}/${RUNNER}/${TEST}.log"
-echo "TAGS: ${tags}" >> "${OUT_DIR}/${RUNNER}/${TEST}.log"
-echo "SHOULD_FAIL: ${should_fail}" >> ${OUT_DIR}/${RUNNER}/${TEST}.log
+args = parser.parse_args()
 
-TMPDIR=$(mktemp -d)
+# setup logger
+logger = logging.getLogger()
+logger.setLevel(logging.DEBUG)
 
-RUNNER_PATH=$(readlink -f "${RUNNERS_DIR}/${RUNNER}")
+ch = logging.StreamHandler()
+ch.setFormatter(logging.Formatter('%(levelname)-8s| %(message)s'))
+logger.addHandler(ch)
 
-TEST_PATH=$(readlink -f  "${TESTS_DIR}/${TEST}")
+dirs = {}
 
-cd "${TMPDIR}" > /dev/null
+try:
+    dirs['out'] = os.environ['OUT_DIR']
+    dirs['tests'] = os.environ['TESTS_DIR']
+    dirs['runners'] = os.environ['RUNNERS_DIR']
+except KeyError as e:
+    logger.error("Required environment variables missing: {}".format(str(e)))
+    sys.exit(1)
 
-"${RUNNER_PATH}" "${TEST_PATH}" >> ${RUNNER}.log 2>&1
-RC=$?
+runner = os.path.abspath(os.path.join(dirs['runners'], args.runner))
+test = os.path.abspath(os.path.join(dirs['tests'], args.test))
+out = os.path.abspath(os.path.join(dirs['out'],
+                      args.runner,
+                      args.test + ".log"))
 
-cd - > /dev/null
+req_test_params = ["name", "tags", "description", "should_fail"]
 
-echo "RC: ${RC}" >> "${OUT_DIR}/${RUNNER}/${TEST}.log"
+test_params = {}
 
-cat "${TMPDIR}/${RUNNER}.log" >> "${OUT_DIR}/${RUNNER}/${TEST}.log"
+# look for all required params
+try:
+    with open(test) as f:
+        for l in f:
+            param = re.search(r"^:([a-zA-Z_-]+):\s*(.+)", l)
 
-if [[ ${should_fail} == "0" && ${RC} == "0" ]] || [[ ${should_fail} == "1" && ${RC} != "0" ]]; then
-  echo -e "Testing ${TEST} with ${RUNNER}:\tPASS";
-else
-  echo -e "Testing ${TEST} with ${RUNNER}:\tFAIL";
-fi
+            if param is None:
+                continue
 
-rm -r "${TMPDIR}"
+            param_name = param.group(1).lower()
+            param_value = param.group(2)
+
+            if param_name not in req_test_params:
+                logger.warning("Unsupported test param found: {} - ignoring"
+                               .format(param_name))
+                continue
+
+            test_params[param_name] = param_value
+
+            if len(set(req_test_params) - set(test_params.keys())) == 0:
+                # all parameters found
+                break
+
+        else:
+            missing = list(set(req_test_params) - set(test_params.keys()))
+            logger.error("Required parameters missing ({}) in {}"
+                         .format(", ".join(missing), args.test))
+            sys.exit(1)
+except Exception as e:
+    logger.error("Unable to parse test file: {}".format(str(e)))
+    sys.exit(1)
+
+try:
+    tmp_dir = tempfile.mkdtemp()
+except (PermissionError, FileExistsError) as e:
+    logger.error("Unable to create a temporary directory for test: {}"
+                 .format(str(e)))
+    sys.exit(1)
+
+try:
+    proc = subprocess.Popen([runner, test], cwd=tmp_dir,
+                            stdout=subprocess.PIPE,
+                            stderr=subprocess.STDOUT)
+
+    output, _ = proc.communicate()
+
+    test_params['rc'] = proc.returncode
+
+    with open(out, "w") as log:
+        # start by writing params
+        for p in test_params:
+            log.write("{}: {}\n".format(p, test_params[p]))
+        log.write("\n")
+        log.write(output.decode('utf-8'))
+except Exception as e:
+    logger.error("Unable to test {} using {}: {}"
+                 .format(args.runner, args.test, str(e)))
+    sys.exit(1)
+finally:
+    shutil.rmtree(tmp_dir)

@@ -22,7 +22,7 @@ endif
 # $(2) - test
 define runner_gen
 $(1)_$(2): info init
-	@./tools/runner $(1) $(2)
+	@./tools/runner --runner $(1) --test $(2)
 
 tests: $(1)_$(2)
 endef
