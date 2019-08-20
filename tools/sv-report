@@ -187,7 +187,9 @@ try:
             tag_handle["log"] = tag_handle["log"].replace("\n", "</br>")
 
     with open(args.template, "r") as f:
-        report = jinja2.Template(f.read())
+        report = jinja2.Template(f.read(),
+                                 trim_blocks=True,
+                                 lstrip_blocks=True)
 
     with open(args.out, 'w') as f:
         f.write(report.render(report=data, database=database))
