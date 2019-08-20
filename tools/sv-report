@@ -4,7 +4,6 @@ from glob import glob
 import argparse
 import logging
 import jinja2
-import copy
 import sys
 import os
 import re
@@ -60,15 +59,15 @@ database = {}
 try:
     with open(args.input) as f:
         for l in f:
-            l = l.strip()
+            ls = l.strip()
             # skip lines with comments
-            if re.search("^\s*#.*", l) is not None:
+            if re.search(r"^\s*#.*", ls) is not None:
                 continue
 
-            entry = l.split("\t")
+            entry = ls.split("\t")
 
             if len(entry) < 2:
-                raise KeyError("Invalid entry: " + l)
+                raise KeyError("Invalid entry: " + ls)
 
             database[entry[0]] = "\t".join(entry[1:])
 except KeyError as e:
@@ -100,7 +99,7 @@ for r in [os.path.dirname(r) for r in glob(args.logs + "/*/")]:
         with open(t, "r") as f:
             try:
                 for l in f:
-                    tag = re.search("^([a-zA-Z_-]+):(.+)", l)
+                    tag = re.search(r"^([a-zA-Z_-]+):(.+)", l)
 
                     if tag is None:
                         raise KeyError("Could not find tags: {}"
@@ -122,7 +121,8 @@ for r in [os.path.dirname(r) for r in glob(args.logs + "/*/")]:
                                 .format(param, t))
 
             except Exception as e:
-                logger.warning("Skipping " + t + " on " + r_name + ": " + str(e))
+                logger.warning("Skipping {} on {}: {}"
+                               .format(t, r_name, str(e)))
                 del tests[t_name]
                 continue
 
@@ -176,7 +176,7 @@ for r in [os.path.dirname(r) for r in glob(args.logs + "/*/")]:
 try:
     for r in data:
         for tag in data[r]["tags"]:
-            tag_handle= data[r]["tags"][tag]
+            tag_handle = data[r]["tags"][tag]
 
             tag_handle["log"] = ""
 
