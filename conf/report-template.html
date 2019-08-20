@@ -124,6 +124,10 @@
         cursor: pointer;
       }
 
+      .test-cell-selected {
+        border: 2px solid black;
+      }
+
       .test-failed {
         background-color: #ff6961;
       }
@@ -198,22 +202,30 @@
     </style>
 
     <script>
-      function toggleLog(div_id) {
+      function toggleLog(div_id, cell_id) {
         all_logs = document.getElementsByClassName("logfile-shown");
 
         for (var i=0; i < all_logs.length; ++i) {
           if (all_logs[i].id != div_id) {
-            all_logs[i].classList.remove("logfile-shown");
+            hideLog(all_logs[i].id);
           }
         }
 
         log_div = document.getElementById(div_id);
         log_div.classList.toggle("logfile-shown");
+
+        cell = document.getElementById(cell_id);
+        cell.classList.toggle("test-cell-selected");
       }
 
       function hideLog(div_id) {
         log_div = document.getElementById(div_id);
         log_div.classList.remove("logfile-shown");
+
+        cells = document.getElementsByClassName("test-cell-selected");
+        for (var i=0; i < cells.length; ++i) {
+          cells[i].classList.remove("test-cell-selected");
+        }
       }
 
       function selectTab(group, test, btn_id) {
@@ -302,7 +314,8 @@
           <th class="{{ tooldata["tags"][tag]["status"] }}
             {% if "test-na" not in tooldata["tags"][tag]["status"] %} test-cell {% endif %}"
             {% if "test-na" not in tooldata["tags"][tag]["status"] %}
-            onclick='toggleLog("{{ tool }}-{{ tag }}-logfile")'
+            id='{{tool}}-{{tag}}-cell'
+            onclick='toggleLog("{{ tool }}-{{ tag }}-logfile", "{{tool}}-{{tag}}-cell")'
             {% endif %}
             >
           </th>
