@@ -83,7 +83,11 @@
             return 2;
           }
 
-          return 3;
+          if (td.className.includes("test-varied")) {
+            return 3;
+          }
+
+          return 4;
         });
       };
     </script>
@@ -125,6 +129,9 @@
       }
       .test-passed {
         background-color: #89E894;
+      }
+      .test-varied {
+        background-color: #ffd761;
       }
       .test-na {
         background-color: #cfcece;
