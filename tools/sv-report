@@ -139,7 +139,7 @@ for r in [os.path.dirname(r) for r in glob(args.logs + "/*/")]:
 
         for tag in database:
             tags[tag] = {}
-            tags[tag]["status"] = "test-na"
+            tags[tag]["status"] = []
 
         # generate tags summary
         for _, test in tests.items():
@@ -152,7 +152,8 @@ for r in [os.path.dirname(r) for r in glob(args.logs + "/*/")]:
             if tool_should_fail != tool_failed:
                 passed = False
 
-            test["status"] = "test-" + ("passed" if passed else "failed")
+            status = "test-" + ("passed" if passed else "failed")
+            test["status"] = status
 
             if passed:
                 logger.debug("{} passed {} in {}"
@@ -163,17 +164,18 @@ for r in [os.path.dirname(r) for r in glob(args.logs + "/*/")]:
 
             for tag in test["tags"].split(" "):
                 try:
-                    if tags[tag]["status"] == "test-failed":
-                        # already failed, don't overwrite
-                        continue
-
-                    if passed:
-                        tags[tag]["status"] = "test-passed"
-                    else:
-                        tags[tag]["status"] = "test-failed"
+                    tags[tag]["status"].append(status)
                 except KeyError:
                     logger.warning("Tag not present in the database: " + tag)
                     continue
+
+        for tag in tags:
+            if len(tags[tag]["status"]) == 0:
+                tags[tag]["status"] = "test-na"
+            elif all(tags[tag]["status"][0] == x for x in tags[tag]["status"]):
+                tags[tag]["status"] = tags[tag]["status"][0]
+            else:
+                tags[tag]["status"] = "test-varied"
 
 try:
     for r in data:
