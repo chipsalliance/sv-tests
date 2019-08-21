@@ -1,0 +1,6 @@
+#!/bin/bash
+
+OUT="iverilog.out"
+
+iverilog -g2012 -o $OUT $1
+vvp $OUT
