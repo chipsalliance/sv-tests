@@ -42,7 +42,7 @@ tests:
 
 report: init tests
 	@echo -e "\nGenerating report"
-	@./tools/sv-report --quiet
+	@./tools/sv-report
 	@echo -e "\nDONE!"
 
 $(foreach r, $(RUNNERS),$(foreach t, $(TESTS),$(eval $(call runner_gen,$(r),$(t)))))
