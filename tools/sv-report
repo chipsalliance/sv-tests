@@ -4,7 +4,6 @@ from glob import glob
 import argparse
 import logging
 import jinja2
-import copy
 import sys
 import os
 import re
@@ -60,15 +59,15 @@ database = {}
 try:
     with open(args.input) as f:
         for l in f:
-            l = l.strip()
+            ls = l.strip()
             # skip lines with comments
-            if re.search("^\s*#.*", l) is not None:
+            if re.search(r"^\s*#.*", ls) is not None:
                 continue
 
-            entry = l.split("\t")
+            entry = ls.split("\t")
 
             if len(entry) < 2:
-                raise KeyError("Invalid entry: " + l)
+                raise KeyError("Invalid entry: " + ls)
 
             database[entry[0]] = "\t".join(entry[1:])
 except KeyError as e:
@@ -100,7 +99,7 @@ for r in [os.path.dirname(r) for r in glob(args.logs + "/*/")]:
         with open(t, "r") as f:
             try:
                 for l in f:
-                    tag = re.search("^([a-zA-Z_-]+):(.+)", l)
+                    tag = re.search(r"^([a-zA-Z_-]+):(.+)", l)
 
                     if tag is None:
                         raise KeyError("Could not find tags: {}"
@@ -122,7 +121,8 @@ for r in [os.path.dirname(r) for r in glob(args.logs + "/*/")]:
                                 .format(param, t))
 
             except Exception as e:
-                logger.warning("Skipping " + t + " on " + r_name + ": " + str(e))
+                logger.warning("Skipping {} on {}: {}"
+                               .format(t, r_name, str(e)))
                 del tests[t_name]
                 continue
 
@@ -152,6 +152,8 @@ for r in [os.path.dirname(r) for r in glob(args.logs + "/*/")]:
             if tool_should_fail != tool_failed:
                 passed = False
 
+            test["status"] = "test-" + ("passed" if passed else "failed")
+
             if passed:
                 logger.debug("{} passed {} in {}"
                              .format(r_name, test["tags"], test["name"]))
@@ -176,15 +178,17 @@ for r in [os.path.dirname(r) for r in glob(args.logs + "/*/")]:
 try:
     for r in data:
         for tag in data[r]["tags"]:
-            tag_handle= data[r]["tags"][tag]
+            tag_handle = data[r]["tags"][tag]
 
-            tag_handle["log"] = ""
+            tag_handle["logs"] = {}
 
             for test in data[r]["tests"]:
                 test_handle = data[r]["tests"][test]
                 if tag in test_handle["tags"].split():
-                    tag_handle["log"] += test_handle["log"] + "\n\n"
-            tag_handle["log"] = tag_handle["log"].replace("\n", "</br>")
+                    tag_handle["logs"][test_handle["name"]] = {}
+                    inner = tag_handle["logs"][test_handle["name"]]
+                    inner["log"] = test_handle["log"].replace("\n", "</br>")
+                    inner["status"] = test_handle["status"]
 
     with open(args.template, "r") as f:
         report = jinja2.Template(f.read())

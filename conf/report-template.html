@@ -113,19 +113,18 @@
         width: calc(100% / {{ report.keys()|length + 1}} );
       }
 
-      .test-failed {
-        background-color: #ff6961;
-        cursor: pointer;
+      .test-cell {
         border: 1px;
         border-color: #505050;
         border-style: dotted;
+        cursor: pointer;
+      }
+
+      .test-failed {
+        background-color: #ff6961;
       }
       .test-passed {
         background-color: #89E894;
-        cursor: pointer;
-        border: 1px;
-        border-color: #505050;
-        border-style: dotted;
       }
       .test-na {
         background-color: #cfcece;
@@ -140,19 +139,54 @@
         width: 80%;
         max-height: 60%;
         border: 2px solid black;
-        overflow-y: scroll;
+        overflow-y: hidden;
         overflow-x: hidden;
         z-index: 10;
         font-family: "Courier New", Courier, monospace;
+      }
+      .logfile-inner {
+        overflow-y: scroll;
+        overflow-x: hidden;
+        max-height: calc(60vh - 50px);
+        display: none;
         cursor: text;
       }
-      .logfile-close-btn {
+      .logtab-bar {
+        background-color: #666;
+        height: 50px;
+        min-height: 50px;
+      }
+      .logtab-btn {
+        padding: 4px;
+        margin: 0px;
+        cursor: pointer;
+        font-size: 17px;
+        height: 100%;
+        border: 2px solid #666;
+      }
+      .logtab-close-btn {
+        background: #cfcece;
         float: right;
+      }
+      .logtab-tab-btn {
+        float: left;
+      }
+      .logtab-btn-selected {
+        border-top: 0px;
+      }
+      .logfile-tab {
+        z-index: 11;
+        float: left;
         cursor: pointer;
       }
       .logfile-shown {
         display: block;
       }
+      .logtab-shown {
+        display: block;
+      }
+
+      button:focus {outline:0;}
 
     </style>
 
@@ -174,19 +208,71 @@
         log_div = document.getElementById(div_id);
         log_div.classList.remove("logfile-shown");
       }
+
+      function selectTab(group, test, btn_id) {
+        all_tabs = document.getElementsByClassName(group);
+        tab_id = group + "-" + test;
+
+        all_btns = document.getElementsByClassName("logtab-btn-selected");
+
+        for (var i=0; i < all_btns.length; ++i) {
+          if (all_btns[i].parentElement.id == group + "-bar") {
+            if (all_btns[i].id != btn_id) {
+              all_btns[i].classList.remove("logtab-btn-selected");
+            }
+          }
+        }
+
+        for (var i=0; i < all_tabs.length; ++i) {
+          if (all_tabs[i].id != tab_id) {
+            all_tabs[i].classList.remove("logtab-shown");
+          }
+        }
+
+        chosen_tab = document.getElementById(tab_id);
+        chosen_tab.classList.toggle("logtab-shown");
+
+        btn = document.getElementById(btn_id);
+
+        btn.classList.toggle("logtab-btn-selected");
+      }
     </script>
   </head>
 
   {% for tag, info in database.items() %}
   {% for tool, tooldata in report.items() %}
   {% if "test-na" not in tooldata["tags"][tag]["status"] %}
-  <div class="logfile {{ tooldata["tags"][tag]["status"] }}"
+  <div class="logfile"
        id="{{ tool }}-{{ tag }}-logfile">
-    <div class="logfile-close-btn"
-         onclick='hideLog("{{ tool }}-{{ tag }}-logfile")'>
-      [X]
+    {% for test, output in tooldata["tags"][tag]["logs"].items() %}
+    <div id="logtab-{{tool}}-{{tag}}-{{test}}"
+         class="logtab-{{tool}}-{{tag}} logfile-inner
+                {% if loop.first %} logtab-shown {% endif %}
+                {{output["status"]}}">
+    {{output["log"]}}
     </div>
-    {{ tooldata["tags"][tag]["log"] }}
+    {% endfor %}
+    <div class="logtab-bar"
+         id="logtab-{{tool}}-{{tag}}-bar">
+      {% for test, output in tooldata["tags"][tag]["logs"].items() %}
+      <button class="logtab-btn
+                     logtab-tab-btn
+                     {{output["status"]}}
+                     {% if loop.first %} logtab-btn-selected {% endif %}
+                     "
+              id="logtab-btn-{{tool}}-{{tag}}-{{test}}"
+              onclick='selectTab("logtab-{{tool}}-{{tag}}",
+                                 "{{test}}",
+                                 "logtab-btn-{{tool}}-{{tag}}-{{test}}")'
+        >
+        {{ test }}</button>
+      {% endfor %}
+
+      <button class="logtab-btn logtab-close-btn"
+              onclick='hideLog("{{ tool }}-{{ tag }}-logfile")'>
+        close
+      </button>
+    </div>
   </div>
   {% endif %}
   {% endfor %}
@@ -206,7 +292,8 @@
         <tr>
           <th> {{ tag }} </th>
           {% for tool, tooldata in report.items() %}
-          <th class="{{ tooldata["tags"][tag]["status"] }}"
+          <th class="{{ tooldata["tags"][tag]["status"] }}
+            {% if "test-na" not in tooldata["tags"][tag]["status"] %} test-cell {% endif %}"
             {% if "test-na" not in tooldata["tags"][tag]["status"] %}
             onclick='toggleLog("{{ tool }}-{{ tag }}-logfile")'
             {% endif %}
