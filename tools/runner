@@ -99,7 +99,7 @@ try:
     test_params['rc'] = proc.returncode
 
     tool_should_fail = test_params["should_fail"] == "1"
-    tool_failed = test_params["rc"] != "0"
+    tool_failed = test_params["rc"] != 0
 
     test_passed = tool_should_fail == tool_failed
 
