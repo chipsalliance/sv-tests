@@ -3,6 +3,7 @@
 :description: A module testing various structured procedures
 :should_fail: 0
 :tags: 9.2
+:steps: syntax
 */
 module always_tb (
 	clk,

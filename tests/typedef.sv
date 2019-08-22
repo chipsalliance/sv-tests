@@ -3,6 +3,7 @@
 :description: A module testing typedef support
 :should_fail: 0
 :tags: 6.18
+:steps: syntax
 */
 module typedef_tb (
 	clk,

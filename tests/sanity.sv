@@ -3,6 +3,7 @@
 :description: A simple module that should fail during parsing
 :should_fail: 1
 :tags: sanity
+:steps: syntax
 */
 module sanity_tb (
 	clk,

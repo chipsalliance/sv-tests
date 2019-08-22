@@ -3,6 +3,7 @@
 :description: A simple counter module
 :should_fail: 0
 :tags: 5.2 5.3 5.4
+:steps: syntax
 */
 module counter_tb (
 	clk,
