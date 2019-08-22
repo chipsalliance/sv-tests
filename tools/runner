@@ -27,6 +27,44 @@ ch = logging.StreamHandler()
 ch.setFormatter(logging.Formatter('%(levelname)-8s| %(message)s'))
 logger.addHandler(ch)
 
+
+def parse_params(file_path, req_params):
+    # look for all required params
+    result = {}
+    try:
+        with open(file_path) as f:
+            for l in f:
+                param = re.search(r":([a-zA-Z_-]+):\s*(.+)", l)
+
+                if param is None:
+                    continue
+
+                param_name = param.group(1).lower()
+                param_value = param.group(2)
+
+                if param_name not in req_params:
+                    logger.warning("Unsupported param found: {} - ignoring"
+                                   .format(param_name))
+                    continue
+
+                result[param_name] = param_value
+
+                if len(set(req_params) - set(result.keys())) == 0:
+                    # all parameters found
+                    break
+
+            else:
+                missing = list(set(req_params) - set(result.keys()))
+                logger.error("Required parameters missing ({}) in {}"
+                             .format(", ".join(missing), file_path))
+                sys.exit(1)
+    except Exception as e:
+        logger.error("Unable to parse test file: {}".format(str(e)))
+        sys.exit(1)
+
+    return result
+
+
 dirs = {}
 
 try:
@@ -43,41 +81,17 @@ out = os.path.abspath(os.path.join(dirs['out'],
                       args.runner,
                       args.test + ".log"))
 
-req_test_params = ["name", "tags", "description", "should_fail"]
+req_test_params = ["name", "tags", "description", "should_fail", "steps"]
+req_runner_params = ["type"]
 
-test_params = {}
+test_params = parse_params(test, req_test_params)
+runner_params = parse_params(runner, req_runner_params)
 
-# look for all required params
-try:
-    with open(test) as f:
-        for l in f:
-            param = re.search(r"^:([a-zA-Z_-]+):\s*(.+)", l)
+if runner_params["type"] not in test_params["steps"].split():
+    logger.debug("Skipping {}/{}, step {}"
+                 .format(args.runner, args.test, runner_params["type"]))
 
-            if param is None:
-                continue
-
-            param_name = param.group(1).lower()
-            param_value = param.group(2)
-
-            if param_name not in req_test_params:
-                logger.warning("Unsupported test param found: {} - ignoring"
-                               .format(param_name))
-                continue
-
-            test_params[param_name] = param_value
-
-            if len(set(req_test_params) - set(test_params.keys())) == 0:
-                # all parameters found
-                break
-
-        else:
-            missing = list(set(req_test_params) - set(test_params.keys()))
-            logger.error("Required parameters missing ({}) in {}"
-                         .format(", ".join(missing), args.test))
-            sys.exit(1)
-except Exception as e:
-    logger.error("Unable to parse test file: {}".format(str(e)))
-    sys.exit(1)
+    sys.exit(0)
 
 try:
     tmp_dir = tempfile.mkdtemp()
