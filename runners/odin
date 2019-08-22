@@ -1,3 +1,4 @@
 #!/bin/bash
+#:type: syntax
 
 odin_II --permissive -V $1 -o odin.blif

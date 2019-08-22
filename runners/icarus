@@ -1,3 +1,4 @@
 #!/bin/bash
+#:type: syntax
 
 iverilog -g2012 -o iverilog.out $1

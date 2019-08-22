@@ -1,3 +1,4 @@
 #!/bin/bash
+#:type: syntax
 
 yosys -p "read_verilog -sv $1"

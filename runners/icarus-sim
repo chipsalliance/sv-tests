@@ -1,4 +1,5 @@
 #!/bin/bash
+#:type: simulation
 
 OUT="iverilog.out"
 

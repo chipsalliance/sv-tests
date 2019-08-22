@@ -1,4 +1,5 @@
 #!/bin/bash
+#:type: syntax
 
 echo "I AM A FAKE RUNNER!"
 echo "MY INVOKATION ARGS: $@"
