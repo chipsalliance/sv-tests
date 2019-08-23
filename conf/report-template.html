@@ -122,10 +122,15 @@
         border-color: #505050;
         border-style: dotted;
         cursor: pointer;
+
+        font-family: "Courier New", Courier, monospace;
+        font-size: 10px;
+        font-weight: normal;
       }
 
       .test-cell-selected {
         border: 2px solid black;
+        font-weight: bold;
       }
 
       .test-failed {
@@ -318,6 +323,9 @@
             onclick='toggleLog("{{ tool }}-{{ tag }}-logfile", "{{tool}}-{{tag}}-cell")'
             {% endif %}
             >
+            {% if "test-na" not in tooldata["tags"][tag]["status"] %}
+            {{ tooldata["tags"][tag]["passed-num"] }}/{{ tooldata["tags"][tag]["logs"]|length }}
+            {% endif %}
           </th>
           {% endfor %}
         </tr>

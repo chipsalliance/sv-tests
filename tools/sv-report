@@ -170,6 +170,8 @@ for r in [os.path.dirname(r) for r in glob(args.logs + "/*/")]:
                     continue
 
         for tag in tags:
+            tags[tag]["passed-num"] = tags[tag]["status"].count("test-passed")
+
             if len(tags[tag]["status"]) == 0:
                 tags[tag]["status"] = "test-na"
             elif all(tags[tag]["status"][0] == x for x in tags[tag]["status"]):
