@@ -88,12 +88,11 @@ for r in [os.path.dirname(r) for r in glob(args.logs + "/*/")]:
     data[r_name]["tests"] = {}
     tests = data[r_name]["tests"]
 
-    for t in glob(os.path.join(args.logs, r_name, "*.log")):
-        t_name = os.path.basename(t)
-        logger.debug("Found log: " + r_name + "/" + t_name)
+    for t in glob(os.path.join(args.logs, r_name, "**/*.log"), recursive=True):
+        t_id = t[len(args.logs) + 1:]
+        logger.debug("Found log: " + t_id)
 
-        tests[t_name] = {}
-        tests[t_name]["path"] = t
+        tests[t_id] = {}
 
         test_tags = ["name", "tags", "should_fail", "rc", "description"]
         with open(t, "r") as f:
@@ -110,7 +109,7 @@ for r in [os.path.dirname(r) for r in glob(args.logs + "/*/")]:
 
                     if param in test_tags:
                         test_tags.remove(param)
-                        tests[t_name][param] = value
+                        tests[t_id][param] = value
 
                         if len(test_tags) == 0:
                             # found all tags
@@ -123,14 +122,14 @@ for r in [os.path.dirname(r) for r in glob(args.logs + "/*/")]:
             except Exception as e:
                 logger.warning("Skipping {} on {}: {}"
                                .format(t, r_name, str(e)))
-                del tests[t_name]
+                del tests[t_id]
                 continue
 
             f.seek(0)
-            tests[t_name]["log"] = f.read()
+            tests[t_id]["log"] = f.read()
 
         # check if test was skipped
-        if t_name not in tests:
+        if t_id not in tests:
             continue
 
         # Initialize the tag-based side of the result dict
@@ -187,10 +186,11 @@ try:
             for test in data[r]["tests"]:
                 test_handle = data[r]["tests"][test]
                 if tag in test_handle["tags"].split():
-                    tag_handle["logs"][test_handle["name"]] = {}
-                    inner = tag_handle["logs"][test_handle["name"]]
+                    tag_handle["logs"][test] = {}
+                    inner = tag_handle["logs"][test]
                     inner["log"] = test_handle["log"].replace("\n", "</br>")
                     inner["status"] = test_handle["status"]
+                    inner["name"] = test_handle["name"]
 
     with open(args.template, "r") as f:
         report = jinja2.Template(f.read(),

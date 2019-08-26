@@ -16,12 +16,12 @@ init:
 ifneq (,$(wildcard $(OUT_DIR)/*))
 	@echo -e "!!! WARNING !!!\nThe output directory is not empty\n"
 endif
-	@mkdir -p $(addprefix $(OUT_DIR), $(RUNNERS))
 
 # $(1) - runner name
 # $(2) - test
 define runner_gen
 $(1)_$(2): info init
+	@mkdir -p $(OUT_DIR)/$(1)/$(dir $(2))
 	@./tools/runner --runner $(1) --test $(2)
 
 tests: $(1)_$(2)
@@ -29,7 +29,7 @@ endef
 
 RUNNERS := $(wildcard $(RUNNERS_DIR)/*)
 RUNNERS := $(RUNNERS:$(RUNNERS_DIR)/%=%)
-TESTS := $(wildcard $(TESTS_DIR)/*.sv)
+TESTS := $(shell find $(TESTS_DIR)/ -type f -iname *.sv)
 TESTS := $(TESTS:$(TESTS_DIR)/%=%)
 
 space := $(subst ,, )
