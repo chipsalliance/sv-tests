@@ -168,35 +168,36 @@
         display: none;
         position: fixed;
         bottom: 0;
-        right: 10%;
-        left: 10%;
-        width: 80%;
-        max-height: 60%;
+        left: 1.5%;
+        width: 97%;
+        max-height: 80%;
         border: 2px solid black;
         overflow-y: hidden;
         overflow-x: hidden;
         z-index: 10;
         font-family: "Courier New", Courier, monospace;
+        background-color: #666;
       }
       .logfile-inner {
         overflow-y: scroll;
         overflow-x: hidden;
-        max-height: calc(60vh - 50px);
+        max-height: calc(60vh);
+        border-bottom: 1px solid black;
         display: none;
         cursor: text;
       }
       .logtab-bar {
-        background-color: #666;
-        height: 50px;
-        min-height: 50px;
+        overflow-y: scroll;
+        max-height: calc(20vh);
       }
       .logtab-btn {
-        padding: 4px;
         margin: 0px;
         cursor: pointer;
-        font-size: 17px;
-        height: 100%;
         border: 2px solid #666;
+        overflow:hidden;
+        text-overflow: ellipsis;
+        width: 12.5%;
+        white-space: nowrap;
       }
       .logtab-close-btn {
         background: #cfcece;
@@ -206,7 +207,8 @@
         float: left;
       }
       .logtab-btn-selected {
-        border-top: 0px;
+        border: 2px solid black;
+        font-weight: bold;
       }
       .logfile-tab {
         z-index: 11;
@@ -306,6 +308,10 @@
     {% endfor %}
     <div class="logtab-bar"
          id="logtab-{{tool}}-{{tag}}-bar">
+      <button class="logtab-btn logtab-close-btn"
+              onclick='hideLog("{{ tool }}-{{ tag }}-logfile")'>
+        close
+      </button>
       {% for test, output in tooldata["tags"][tag]["logs"].items() %}
       <button class="logtab-btn
                      logtab-tab-btn
@@ -319,11 +325,6 @@
         >
         {{ test }}</button>
       {% endfor %}
-
-      <button class="logtab-btn logtab-close-btn"
-              onclick='hideLog("{{ tool }}-{{ tag }}-logfile")'>
-        close
-      </button>
     </div>
   </div>
   {% endif %}
