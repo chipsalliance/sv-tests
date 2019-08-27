@@ -26,7 +26,7 @@ parser.add_argument("-i", "--input",
 
 parser.add_argument("-l", "--logs",
                     help="Directory with all the individual test results",
-                    default="out")
+                    default="out/logs")
 
 parser.add_argument("-t", "--template",
                     help="Path to the html report tepmplate",

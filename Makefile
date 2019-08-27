@@ -8,6 +8,8 @@ export OUT_DIR
 export TESTS_DIR
 export RUNNERS_DIR
 
+include tools/runners.mk
+
 clean:
 	@echo -e "Removing $(OUT_DIR)"
 	@rm -rf $(OUT_DIR)
@@ -16,12 +18,15 @@ init:
 ifneq (,$(wildcard $(OUT_DIR)/*))
 	@echo -e "!!! WARNING !!!\nThe output directory is not empty\n"
 endif
+	@mkdir -p $(OUT_DIR)/runners/bin
+
+runners: init
 
 # $(1) - runner name
 # $(2) - test
 define runner_gen
-$(1)_$(2): info init
-	@mkdir -p $(OUT_DIR)/$(1)/$(dir $(2))
+$(1)_$(2): info init runners
+	@mkdir -p $(OUT_DIR)/logs/$(1)/$(dir $(2))
 	@./tools/runner --runner $(1) --test $(2)
 
 tests: $(1)_$(2)
