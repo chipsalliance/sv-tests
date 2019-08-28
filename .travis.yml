@@ -3,6 +3,10 @@ dist: bionic
 language: python
 python: 3.6
 
+cache:
+  pip: true
+  ccache: true
+
 install:
   - pip install -r conf/requirements.txt
 
