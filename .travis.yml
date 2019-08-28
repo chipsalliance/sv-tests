@@ -1,5 +1,5 @@
 os: linux
-dist: trusty
+dist: bionic
 language: python
 python: 3.6
 
