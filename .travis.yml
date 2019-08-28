@@ -1,0 +1,17 @@
+os: linux
+dist: trusty
+language: python
+python: 3.6
+
+install:
+  - pip install -r conf/requirements.txt
+
+jobs:
+  include:
+    - stage: "Tests"
+      name: "Python PEP8 checks"
+      script:
+        - "flake8 $(file tools/* | sed -ne 's/:\\s*Python.*//p')"
+
+    - name: "Generate report.hml"
+      script: make report
