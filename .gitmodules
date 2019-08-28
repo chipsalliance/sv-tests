@@ -1,15 +1,15 @@
 [submodule "tools/runners/odin_ii"]
 	path = tools/odin_ii
-	url = git@github.com:verilog-to-routing/vtr-verilog-to-routing.git
+	url = https://github.com/verilog-to-routing/vtr-verilog-to-routing.git
 [submodule "tools/runners/icarus"]
 	path = tools/icarus
-	url = git@github.com:steveicarus/iverilog.git
+	url = https://github.com/steveicarus/iverilog.git
 [submodule "tools/runners/verilator"]
 	path = tools/verilator
-	url = git@github.com:verilator/verilator.git
+	url = https://github.com/verilator/verilator.git
 [submodule "tools/runners/slang"]
 	path = tools/slang
-	url = git@github.com:MikePopoloski/slang.git
+	url = https://github.com/MikePopoloski/slang.git
 [submodule "tools/runners/yosys"]
 	path = tools/yosys
-	url = git@github.com:YosysHQ/yosys.git
+	url = https://github.com/YosysHQ/yosys.git
