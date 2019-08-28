@@ -1,6 +1,7 @@
 INSTALL_DIR := $(abspath $(OUT_DIR)/runners/)
 
 RDIR := third_party/tools
+TDIR := tools
 
 .PHONY: runners
 
@@ -60,7 +61,14 @@ $(INSTALL_DIR)/bin/zachjs-sv2v:
 	@cd $(RDIR)/zachjs-sv2v && make
 	@cp $(RDIR)/zachjs-sv2v/bin/sv2v $@
 
+# tree-sitter-verilog
+tree-sitter-verilog: $(INSTALL_DIR)/lib/verilog.so
+
+$(INSTALL_DIR)/lib/verilog.so:
+	@cd $(RDIR)/tree-sitter-verilog && npm install
+	@/usr/bin/env python3 -c "from tree_sitter import Language; Language.build_library(\"$@\", [\"$(abspath $(RDIR)/tree-sitter-verilog)\"])"
+
 # setup the dependencies
-RUNNERS_TARGETS := odin yosys icarus verilator slang zachjs-sv2v
+RUNNERS_TARGETS := odin yosys icarus verilator slang zachjs-sv2v tree-sitter-verilog
 .PHONY: $(RUNNERS_TARGETS)
 runners: $(RUNNERS_TARGETS)
