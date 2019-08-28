@@ -37,11 +37,16 @@ except KeyError as e:
     logger.error("Required environment variables missing: {}".format(str(e)))
     sys.exit(1)
 
+new_path = [os.path.abspath(dirs['out'] + "/runners/bin/"), os.environ['PATH']]
+
+os.environ['PATH'] = ":".join(new_path)
+
 runner = os.path.abspath(os.path.join(dirs['runners'], args.runner))
 test = os.path.abspath(os.path.join(dirs['tests'], args.test))
 out = os.path.abspath(os.path.join(dirs['out'],
-                      args.runner,
-                      args.test + ".log"))
+                                   "logs",
+                                   args.runner,
+                                   args.test + ".log"))
 
 req_test_params = ["name", "tags", "description", "should_fail"]
 

@@ -4,7 +4,13 @@ The purpose of this project is to find all the supported and missing SystemVeril
 
 # Running
 
-Just run:
+Initialize the submodules:
+```
+$ git submodule init
+$ git submodule update
+```
+
+And then just run:
 
 ```
 make -j$(nproc)
@@ -25,7 +31,3 @@ make tests
 * [Verilator](https://www.veripool.org/wiki/verilator)
 * [Icarus](http://iverilog.icarus.com/)
 * [slang](https://github.com/MikePopoloski/slang)
-
-## Assumptions
-
-* The tested tools have to be available in `PATH`.
