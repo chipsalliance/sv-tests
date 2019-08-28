@@ -7,6 +7,10 @@ cache:
   pip: true
   ccache: true
 
+env:
+  global:
+    - MAKEFLAGS="-j2"
+
 install:
   - sudo apt-get install gperf -y
   - sudo apt-get install libfl-dev -y
