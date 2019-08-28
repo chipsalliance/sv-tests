@@ -19,7 +19,8 @@ make runners
 And then just run:
 
 ```
-make -j$(nproc)
+$ make generate-tests -j$(nproc)
+$ make -j$(nproc)
 ```
 
 This should generate many log files for all the tools/tests combinations and an `out/report.html` file with a summary of the tested features and tools.
