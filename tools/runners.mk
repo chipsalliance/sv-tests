@@ -13,7 +13,7 @@ $(INSTALL_DIR)/bin/odin_II:
 
 # yosys
 $(INSTALL_DIR)/bin/yosys:
-	@$(MAKE) -C $(RDIR)/yosys
+	@$(MAKE) -C $(RDIR)/yosys ENABLE_TCL=0 ENABLE_ABC=0 ENABLE_GLOB=0 ENABLE_PLUGINS=0 ENABLE_READLINE=0 ENABLE_COVER=0
 	@cp $(RDIR)/yosys/yosys $(INSTALL_DIR)/bin/
 
 # icarus
