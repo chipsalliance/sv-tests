@@ -37,6 +37,7 @@ jobs:
       script:
         - "make slang"
         - "make odin"
+        - "make generate-tests"
         - "make report"
         - "mkdir out/deploy"
         - "cp out/report.html out/deploy/index.thml"
