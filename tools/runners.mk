@@ -34,7 +34,7 @@ $(INSTALL_DIR)/bin/verilator:
 # slang
 $(INSTALL_DIR)/bin/driver:
 	@mkdir -p $(RDIR)/slang/build
-	@cd $(RDIR)/slang/build && cmake .. && make -j13
+	@cd $(RDIR)/slang/build && cmake .. -DSLANG_INCLUDE_TESTS=OFF && make -j13
 	@cp $(RDIR)/slang/build/bin/* $(INSTALL_DIR)/bin/
 
 # setup the dependencies
