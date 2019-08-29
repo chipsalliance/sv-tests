@@ -1,7 +1,8 @@
 os: linux
 dist: bionic
 language: python
-python: 3.6
+python:
+  - "3.7"
 
 cache:
   pip: true
@@ -28,4 +29,6 @@ jobs:
         - "flake8 $(file tools/* | sed -ne 's/:\\s*Python.*//p')"
 
     - name: "Generate report.hml"
-      script: make report
+      script:
+        - "make report"
+
