@@ -7,6 +7,8 @@ python:
 cache:
   pip: true
   ccache: true
+  directories:
+    - $HOME/.stack
 
 env:
   global:
@@ -34,9 +36,13 @@ jobs:
         - sudo ln -sf /usr/bin/gcc-8 /usr/bin/gcc
         - sudo ln -sf /usr/bin/g++-8 /usr/bin/g++
         - pip install -r conf/requirements.txt
+        - mkdir -p ~/.local/bin
+        - export PATH=$HOME/.local/bin:$PATH
+        - travis_retry curl -L https://get.haskellstack.org/stable/linux-x86_64.tar.gz | tar xz --wildcards --strip-components=1 -C ~/.local/bin '*/stack'
       script:
         - "make slang"
         - "make odin"
+        - "make zachjs-sv2v"
         - "make generate-tests"
         - "make report"
         - "mkdir out/deploy"
