@@ -38,3 +38,4 @@ make tests
 * [Verilator](https://www.veripool.org/wiki/verilator)
 * [Icarus](http://iverilog.icarus.com/)
 * [slang](https://github.com/MikePopoloski/slang)
+* [sv2v(zachjs)](https://github.com/zachjs/sv2v)
