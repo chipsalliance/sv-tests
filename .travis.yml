@@ -35,5 +35,7 @@ jobs:
         - sudo ln -sf /usr/bin/g++-8 /usr/bin/g++
         - pip install -r conf/requirements.txt
       script:
+        - "make slang"
+        - "make odin"
         - "make report"
 
