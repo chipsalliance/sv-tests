@@ -28,6 +28,9 @@ jobs:
         - sudo apt-get install libfl-dev -y
         - sudo apt-get install gcc-8 -y
         - sudo apt-get install g++-8 -y
+        - sudo apt-get install yosys -y
+        - sudo apt-get install iverilog -y
+        - sudo apt-get install verilator -y
         - sudo ln -sf /usr/bin/gcc-8 /usr/bin/gcc
         - sudo ln -sf /usr/bin/g++-8 /usr/bin/g++
         - pip install -r conf/requirements.txt
