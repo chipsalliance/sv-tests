@@ -1,17 +1,41 @@
 os: linux
-dist: trusty
+dist: bionic
 language: python
-python: 3.6
+python:
+  - "3.7"
 
-install:
-  - pip install -r conf/requirements.txt
+cache:
+  pip: true
+  ccache: true
+
+env:
+  global:
+    - MAKEFLAGS="-j2"
+
 
 jobs:
   include:
     - stage: "Tests"
       name: "Python PEP8 checks"
+      install:
+        - pip install -r conf/requirements.txt
       script:
         - "flake8 $(file tools/* | sed -ne 's/:\\s*Python.*//p')"
 
     - name: "Generate report.hml"
-      script: make report
+      install:
+        - sudo apt-get install gperf -y
+        - sudo apt-get install libfl-dev -y
+        - sudo apt-get install gcc-8 -y
+        - sudo apt-get install g++-8 -y
+        - sudo apt-get install yosys -y
+        - sudo apt-get install iverilog -y
+        - sudo apt-get install verilator -y
+        - sudo ln -sf /usr/bin/gcc-8 /usr/bin/gcc
+        - sudo ln -sf /usr/bin/g++-8 /usr/bin/g++
+        - pip install -r conf/requirements.txt
+      script:
+        - "make slang"
+        - "make odin"
+        - "make report"
+

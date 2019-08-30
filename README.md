@@ -10,6 +10,12 @@ $ git submodule init
 $ git submodule update
 ```
 
+Build tools (optional, tools from `PATH` can be used):
+
+```
+make runners
+```
+
 And then just run:
 
 ```
