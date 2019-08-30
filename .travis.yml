@@ -42,8 +42,6 @@ jobs:
         - "cp out/report.html out/deploy/index.thml"
       deploy:
         provider: pages
-        name: $GIT_USER
-        email: $GIT_EMAIL
         github_token: $GH_TOKEN
         skip_cleanup: true
         keep_history: true
