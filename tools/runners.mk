@@ -14,9 +14,9 @@ $(INSTALL_DIR)/bin/odin_II: init
 	@cp $(RDIR)/odin_ii/ODIN_II/odin_II $(INSTALL_DIR)/bin/
 
 # yosys
-yosys: $(install_dir)/bin/yosys
+yosys: $(INSTALL_DIR)/bin/yosys
 
-$(install_dir)/bin/yosys: init
+$(INSTALL_DIR)/bin/yosys: init
 	@$(MAKE) -C $(RDIR)/yosys ENABLE_TCL=0 ENABLE_ABC=0 ENABLE_GLOB=0 ENABLE_PLUGINS=0 ENABLE_READLINE=0 ENABLE_COVER=0
 	@cp $(RDIR)/yosys/yosys $(INSTALL_DIR)/bin/
 
