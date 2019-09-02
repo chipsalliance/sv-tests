@@ -54,4 +54,5 @@ $(INSTALL_DIR)/bin/driver:
 
 # setup the dependencies
 RUNNERS_TARGETS := odin yosys icarus verilator slang
+.PHONY: $(RUNNERS_TARGETS)
 runners: $(RUNNERS_TARGETS)

@@ -14,6 +14,8 @@ export GENERATORS_DIR
 
 include tools/runners.mk
 
+.PHONY: clean init info tests generate-tests report
+
 clean:
 	@echo -e "Removing $(OUT_DIR)"
 	@rm -rf $(OUT_DIR)
