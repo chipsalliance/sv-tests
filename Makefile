@@ -24,9 +24,8 @@ init:
 ifneq (,$(wildcard $(OUT_DIR)/*))
 	@echo -e "!!! WARNING !!!\nThe output directory is not empty\n"
 endif
-	@mkdir -p $(OUT_DIR)/runners/bin
 
-runners: init
+runners:
 
 # $(1) - runner name
 # $(2) - test
