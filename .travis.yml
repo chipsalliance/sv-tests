@@ -41,6 +41,7 @@ jobs:
         - "make report"
         - "mkdir out/deploy"
         - "cp out/report.html out/deploy/index.html"
+        - "touch out/deploy/.nojekyll"
       deploy:
         provider: pages
         github_token: $GH_TOKEN
