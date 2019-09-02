@@ -40,7 +40,7 @@ jobs:
         - "make generate-tests"
         - "make report"
         - "mkdir out/deploy"
-        - "cp out/report.html out/deploy/index.thml"
+        - "cp out/report.html out/deploy/index.html"
       deploy:
         provider: pages
         github_token: $GH_TOKEN
