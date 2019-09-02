@@ -47,5 +47,6 @@ jobs:
         skip_cleanup: true
         keep_history: true
         local_dir: out/deploy
+        verbose: true
         on:
           branch: master
