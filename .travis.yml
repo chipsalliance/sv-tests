@@ -20,7 +20,7 @@ jobs:
       install:
         - pip install -r conf/requirements.txt
       script:
-        - "flake8 $(file tools/* | sed -ne 's/:\\s*Python.*//p')"
+        - "flake8 $(file generators/* tools/* | sed -ne 's/:.*python.*//pI')"
 
     - name: "Generate report.hml"
       install:
@@ -37,6 +37,7 @@ jobs:
       script:
         - "make slang"
         - "make odin"
+        - "make generate-tests"
         - "make report"
         - "mkdir out/deploy"
         - "cp out/report.html out/deploy/index.thml"
