@@ -52,7 +52,15 @@ $(INSTALL_DIR)/bin/driver:
 	@cd $(RDIR)/slang/build && cmake .. -DSLANG_INCLUDE_TESTS=OFF && make -j13
 	@cp $(RDIR)/slang/build/bin/* $(INSTALL_DIR)/bin/
 
+# zachjs-sv2v
+zachjs-sv2v: $(INSTALL_DIR)/bin/zachjs-sv2v
+
+$(INSTALL_DIR)/bin/zachjs-sv2v:
+	@mkdir -p $(OUT_DIR)/runners/bin
+	@cd $(RDIR)/zachjs-sv2v && make
+	@cp $(RDIR)/zachjs-sv2v/bin/sv2v $@
+
 # setup the dependencies
-RUNNERS_TARGETS := odin yosys icarus verilator slang
+RUNNERS_TARGETS := odin yosys icarus verilator slang zachjs-sv2v
 .PHONY: $(RUNNERS_TARGETS)
 runners: $(RUNNERS_TARGETS)

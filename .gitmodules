@@ -13,3 +13,6 @@
 [submodule "tools/runners/yosys"]
 	path = tools/yosys
 	url = https://github.com/YosysHQ/yosys.git
+[submodule "tools/zachjs-sv2v"]
+	path = tools/zachjs-sv2v
+	url = https://github.com/zachjs/sv2v
