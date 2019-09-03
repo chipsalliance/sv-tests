@@ -32,11 +32,11 @@ runners:
 # $(1) - runner name
 # $(2) - test
 define runner_gen
-run-$(1)-$(2): info init
+$(OUT_DIR)/logs/$(1)/$(2).log: $(TESTS_DIR)/$(2)
 	@mkdir -p $(OUT_DIR)/logs/$(1)/$(dir $(2))
 	@./tools/runner --runner $(1) --test $(2)
 
-tests: run-$(1)-$(2)
+tests: $(OUT_DIR)/logs/$(1)/$(2).log
 endef
 
 define generator_gen
@@ -64,7 +64,7 @@ tests:
 
 generate-tests:
 
-report: init tests
+report: init info tests
 	@echo -e "\nGenerating report"
 	@./tools/sv-report
 	@echo -e "\nDONE!"
