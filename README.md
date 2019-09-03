@@ -2,6 +2,8 @@
 
 The purpose of this project is to find all the supported and missing SystemVerilog features in various Verilog tools.
 
+The report generated from the last passing master build can be viewed [here](https://symbiflow.github.io/sv-tests/).
+
 # Running
 
 Initialize the submodules:
