@@ -3,7 +3,7 @@ all: report
 OUT_DIR=./out/
 CONF_DIR=./conf
 TESTS_DIR=./tests
-RUNNERS_DIR=./runners
+RUNNERS_DIR=./tools/runners
 GENERATORS_DIR=./generators
 
 export OUT_DIR
@@ -47,8 +47,9 @@ generate-$(1):
 generate-tests: generate-$(1)
 endef
 
-RUNNERS := $(wildcard $(RUNNERS_DIR)/*)
+RUNNERS := $(wildcard $(RUNNERS_DIR)/*.py)
 RUNNERS := $(RUNNERS:$(RUNNERS_DIR)/%=%)
+RUNNERS := $(basename $(RUNNERS))
 TESTS := $(shell find $(TESTS_DIR)/ -type f -iname *.sv)
 TESTS := $(TESTS:$(TESTS_DIR)/%=%)
 GENERATORS := $(wildcard $(GENERATORS_DIR)/*)

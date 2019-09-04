@@ -94,7 +94,9 @@ for r in [os.path.dirname(r) for r in glob(args.logs + "/*/")]:
 
         tests[t_id] = {}
 
-        test_tags = ["name", "tags", "should_fail", "rc", "description"]
+        test_tags = ["name", "tags", "should_fail", "rc",
+                     "description", "files", "incdirs",
+                     "top_module"]
         with open(t, "r") as f:
             try:
                 for l in f:
