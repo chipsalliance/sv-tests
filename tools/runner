@@ -106,7 +106,7 @@ try:
     tool_should_fail = test_params["should_fail"] == "1"
     tool_failed = test_params["rc"] != 0
 
-    test_passed = tool_should_fail == tool_failed
+    test_passed = proc.returncode < 126 and tool_should_fail == tool_failed
 
     if test_passed:
         logger.info("PASS: {}/{}".format(args.runner, args.test))

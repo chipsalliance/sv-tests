@@ -148,7 +148,7 @@ for r in [os.path.dirname(r) for r in glob(args.logs + "/*/")]:
             tool_should_fail = test["should_fail"] == "1"
             tool_failed = test["rc"] != "0"
 
-            if tool_should_fail != tool_failed:
+            if int(test["rc"]) >= 126 or tool_should_fail != tool_failed:
                 passed = False
 
             status = "test-" + ("passed" if passed else "failed")
