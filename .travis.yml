@@ -8,12 +8,12 @@ cache:
   pip: true
   ccache: true
   directories:
+    - $HOME/.ccache
     - $HOME/.stack
 
 env:
   global:
     - MAKEFLAGS="-j2"
-
 
 jobs:
   include:
@@ -35,6 +35,10 @@ jobs:
         - sudo apt-get install verilator -y
         - sudo ln -sf /usr/bin/gcc-8 /usr/bin/gcc
         - sudo ln -sf /usr/bin/g++-8 /usr/bin/g++
+        - sudo ln -sf /usr/bin/ccache /usr/local/bin/gcc
+        - sudo ln -sf /usr/bin/ccache /usr/local/bin/g++
+        - sudo ln -sf /usr/bin/ccache /usr/local/bin/gcc-8
+        - sudo ln -sf /usr/bin/ccache /usr/local/bin/g++-8
         - pip install -r conf/requirements.txt
         - mkdir -p ~/.local/bin
         - export PATH=$HOME/.local/bin:$PATH
