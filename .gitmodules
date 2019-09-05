@@ -16,3 +16,6 @@
 [submodule "tools/zachjs-sv2v"]
 	path = tools/zachjs-sv2v
 	url = https://github.com/zachjs/sv2v
+[submodule "external/swerv"]
+	path = external/swerv
+	url = https://github.com/chipsalliance/Cores-SweRV

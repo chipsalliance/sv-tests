@@ -4,10 +4,12 @@ OUT_DIR=./out/
 CONF_DIR=./conf
 TESTS_DIR=./tests
 RUNNERS_DIR=./tools/runners
+EXTERNAL_DIR=./external
 GENERATORS_DIR=./generators
 
 export OUT_DIR
 export CONF_DIR
+export EXTERNAL_DIR
 export TESTS_DIR
 export RUNNERS_DIR
 export GENERATORS_DIR
