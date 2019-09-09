@@ -1,0 +1,60 @@
+#!/usr/bin/env python3
+
+import os
+import sys
+
+templ = """/*
+:name: swerv
+:description: Full swerv core test
+:files: {0}
+:incdirs: {1}
+:should_fail: 0
+:tags: swerv
+:top_module: swerv_wrapper
+*/
+"""
+
+try:
+    external_dir = os.environ['EXTERNAL_DIR']
+    tests_dir = os.environ['TESTS_DIR']
+    conf_dir = os.environ['CONF_DIR']
+except KeyError:
+    print("Export the CORES_DIR, TESTS_DIR and CONF_DIR variables first")
+    sys.exit(1)
+
+try:
+    tests_subdir = sys.argv[1]
+except IndexError:
+    print("Usage: ./generator <subdir>")
+    sys.exit(1)
+
+swerv_path = os.path.abspath(os.path.join(external_dir, "swerv"))
+swerv_flist = os.path.join(swerv_path, "testbench", "flist.verilator")
+
+sources = ''
+
+sources += os.path.join(
+           swerv_path, "configs", "snapshots",
+           "default", "common_defines.vh") + ' '
+
+sources += os.path.join(swerv_path, "design", "include", "build.h") + ' '
+sources += os.path.join(swerv_path, "design", "include", "global.h") + ' '
+sources += os.path.join(
+           swerv_path, "design", "include", "swerv_types.sv") + ' '
+
+with open(swerv_flist, "r") as f:
+    for l in f:
+        src_file = l.strip().replace("$RV_ROOT", swerv_path)
+        sources += src_file + ' '
+
+incdirs = ''
+
+incdirs += os.path.join(swerv_path, "design", "include") + ' '
+incdirs += os.path.join(swerv_path, "design", "lib") + ' '
+incdirs += os.path.join(swerv_path, "design", "dmi") + ' '
+incdirs += os.path.join(swerv_path, "configs", "snapshots", "default") + ' '
+
+test_file = os.path.join(tests_dir, "generated", tests_subdir, "swerv.sv")
+
+with open(test_file, "w") as f:
+    f.write(templ.format(sources, incdirs))
