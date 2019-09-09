@@ -1,3 +1,0 @@
-#!/bin/bash
-
-zachjs-sv2v $1

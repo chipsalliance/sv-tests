@@ -7,7 +7,7 @@ import shutil
 import logging
 import argparse
 import tempfile
-import subprocess
+from importlib import import_module
 
 parser = argparse.ArgumentParser()
 
@@ -26,6 +26,16 @@ logger.setLevel(logging.DEBUG)
 ch = logging.StreamHandler()
 ch.setFormatter(logging.Formatter('%(levelname)-8s| %(message)s'))
 logger.addHandler(ch)
+
+runner_obj = None
+
+try:
+    module = import_module('runners.' + args.runner)
+    runner_cls = getattr(module, args.runner)
+    runner_obj = runner_cls()
+except Exception as e:
+    logger.error("Unable to load runner module: {}".format(str(e)))
+    sys.exit(1)
 
 dirs = {}
 
@@ -48,7 +58,9 @@ out = os.path.abspath(os.path.join(dirs['out'],
                                    args.runner,
                                    args.test + ".log"))
 
-req_test_params = ["name", "tags", "description", "should_fail"]
+req_test_params = ["name", "tags", "description",
+                   "should_fail", "files", "incdirs",
+                   "top_module"]
 
 test_params = {}
 
@@ -76,13 +88,22 @@ try:
                 break
 
         else:
-            missing = list(set(req_test_params) - set(test_params.keys()))
-            logger.error("Required parameters missing ({}) in {}"
-                         .format(", ".join(missing), args.test))
-            sys.exit(1)
+            # set default values for optional metadata entries
+            test_params.setdefault('files', test)
+            test_params.setdefault('incdirs', '')
+            test_params.setdefault('top_module', '')
+
+            if len(set(req_test_params) - set(test_params.keys())) != 0:
+                missing = list(set(req_test_params) - set(test_params.keys()))
+                logger.error("Required parameters missing ({}) in {}"
+                             .format(", ".join(missing), args.test))
+                sys.exit(1)
 except Exception as e:
     logger.error("Unable to parse test file: {}".format(str(e)))
     sys.exit(1)
+
+test_params['files'] = test_params['files'].split()
+test_params['incdirs'] = test_params['incdirs'].split()
 
 try:
     tmp_dir = tempfile.mkdtemp()
@@ -95,18 +116,14 @@ try:
     logger.info("Running {}/{}"
                 .format(args.runner, args.test))
 
-    proc = subprocess.Popen([runner, test], cwd=tmp_dir,
-                            stdout=subprocess.PIPE,
-                            stderr=subprocess.STDOUT)
+    output, rc = runner_obj.run(tmp_dir, test_params)
 
-    output, _ = proc.communicate()
-
-    test_params['rc'] = proc.returncode
+    test_params['rc'] = rc
 
     tool_should_fail = test_params["should_fail"] == "1"
     tool_failed = test_params["rc"] != 0
 
-    test_passed = proc.returncode < 126 and tool_should_fail == tool_failed
+    test_passed = rc < 126 and tool_should_fail == tool_failed
 
     if test_passed:
         logger.info("PASS: {}/{}".format(args.runner, args.test))
@@ -118,7 +135,7 @@ try:
         for p in test_params:
             log.write("{}: {}\n".format(p, test_params[p]))
         log.write("\n")
-        log.write(output.decode('utf-8'))
+        log.write(output)
 except Exception as e:
     logger.error("Unable to test {} using {}: {}"
                  .format(args.runner, args.test, str(e)))
