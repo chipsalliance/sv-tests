@@ -141,6 +141,7 @@ for r in [os.path.dirname(r) for r in glob(args.logs + "/*/")]:
         for tag in database:
             tags[tag] = {}
             tags[tag]["status"] = []
+            tags[tag]["x"] = []
 
         # generate tags summary
         for _, test in tests.items():
@@ -170,6 +171,54 @@ for r in [os.path.dirname(r) for r in glob(args.logs + "/*/")]:
                     logger.warning("Tag not present in the database: " + tag)
                     continue
 
+            reparse = { 'state' : 0, 'log' : [], 'tag' : '' }
+            for line in test['log'].split('\n'):
+                m = re.search(':([a-z]+):([\.0-9]*):(.*)', line.rstrip().replace(' ', ''))
+                if m:
+                    if m.group(1) == 'assert':
+                        tag = m.group(2)
+                        y = dict()
+                        #print('Test assert (' + m.group(2) + '): ' + m.group(3))
+                        rc = eval(m.group(3), {'__builtins__':None}, {})
+                        if rc:
+                            tags[tag]['status'].append('test-passed')
+                            y['rc'] = 'test-passed'
+                        else:
+                            tags[tag]['status'].append('test-failed')
+                            y['rc'] = 'test-failed'
+
+                        y['log'] = line
+                        tags[tag]['x'].append(y)
+                    elif m.group(1) == 're':
+                        spl = m.group(3).split(':')
+                        if spl[0] == 'BEGIN':
+                            reparse['state'] += 1
+                            reparse['tag'] = m.group(2)
+                        elif spl[0] == 'END':
+                            y = dict()
+                            tag = reparse['tag']
+                            print('tag: ' + tag)
+                            if reparse['state'] == 2:
+                                tags[tag]['status'].append('test-passed')
+                                y['rc'] = 'test-passed'
+                            else:
+                                tags[tag]['status'].append('test-failed')
+                                y['rc'] = 'test-failed'
+
+                            y['log'] = ''
+                            for l in reparse['log']:
+                                y['log'] += (l + '<br>')
+                            tags[tag]['x'].append(y)
+
+                            reparse['state'] = 0
+                            reparse['log'] = []
+                        elif spl[0] == 'FOUND':
+                            reparse['state'] += 1
+                else:
+                    if reparse['state']:
+                        reparse['log'].append(line.rstrip())
+
+
         for tag in tags:
             tags[tag]["passed-num"] = tags[tag]["status"].count("test-passed")
 
@@ -195,6 +244,15 @@ try:
                     inner["log"] = test_handle["log"].replace("\n", "</br>")
                     inner["status"] = test_handle["status"]
                     inner["name"] = test_handle["name"]
+
+            no = 0
+            for x in tag_handle['x']:
+                no += 1
+                tag_handle['logs']['test-' + ('%d' % no)] = {}
+                inner = tag_handle['logs']['test-' + ('%d' % no)]
+                inner['log'] = x['log']
+                inner['status'] = x['rc']
+                inner['name'] = 'test-' + ('%d' % no)
 
     with open(args.template, "r") as f:
         report = jinja2.Template(f.read(),

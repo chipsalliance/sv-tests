@@ -135,7 +135,27 @@ try:
         for p in test_params:
             log.write("{}: {}\n".format(p, test_params[p]))
         log.write("\n")
-        log.write(output)
+
+        # Preprocess
+        regexp = None
+        for line in output.split('\n'):
+            log.write(line + '\n')
+
+            m = re.search(':([a-z]+):([0-9\.]+):(.*)', line.rstrip().replace(' ', ''))
+            if m and m.group(1) == 're':
+                ex = m.group(3).split(':')
+                if ex[0] == 'BEGIN':
+                    r = runner_obj.mapexp(ex[1])
+                    if r:
+                        regexp = { 'x' : ':' + m.group(1) + ':' + m.group(2) + ':FOUND:' + ex[1], 'y' : r }
+                elif ex[0] == 'END':
+                    regexp = None
+            elif regexp:
+                inp = line.rstrip().lower()
+                if regexp['y'] in inp:
+                    log.write(regexp['x'] + '\n')
+                    regexp = None
+
 except Exception as e:
     logger.error("Unable to test {} using {}: {}"
                  .format(args.runner, args.test, str(e)))
