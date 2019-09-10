@@ -1,0 +1,96 @@
+#!/usr/bin/env python3
+
+import re
+import os
+import sys
+import glob
+
+templ = """/*
+:name: {0}
+:description: Test imported from ivtest
+:files: {1}
+:should_fail: {2}
+:tags: ivtest
+*/
+"""
+
+try:
+    third_party_dir = os.environ['THIRD_PARTY_DIR']
+    tests_dir = os.environ['TESTS_DIR']
+    conf_dir = os.environ['CONF_DIR']
+except KeyError:
+    print("Export the THIRD_PARTY_DIR, TESTS_DIR and CONF_DIR variables first")
+    sys.exit(1)
+
+try:
+    tests_subdir = sys.argv[1]
+except IndexError:
+    print("Usage: ./generator <subdir>")
+    sys.exit(1)
+
+type_should_fail = ['CE', 'RE', 'EF', 'TE']
+
+ivtest_exclude = [
+    'regress-vams.list', 'regress-vhdl.list', 'vhdl_regress.list',
+    'vpi_regress.list'
+]
+
+ivtest_blacklist = [
+    'sv_casting',
+]
+
+ivtest_dir = os.path.abspath(os.path.join(third_party_dir, "tests", "ivtest"))
+ivtest_exclude = set(
+    map(lambda x: os.path.join(ivtest_dir, x), ivtest_exclude))
+ivtest_lists = list(
+    set(glob.glob(os.path.join(ivtest_dir, '*.list'))) - ivtest_exclude)
+
+tests = []
+
+skip = False
+
+for l in ivtest_lists:
+    with open(l, 'r') as f:
+        for line in f:
+            if skip:
+                skip = False
+                continue
+
+            # remove comments
+            line = re.sub(r'#.*?\n', '', line)
+
+            # skip multiline definitions
+            if re.search(r'\\\n', line):
+                skip = True
+                continue
+
+            line = line.split()
+
+            if len(line) < 3:
+                continue
+
+            name = line[0]
+            path = os.path.join(ivtest_dir, line[2], line[0] + '.v')
+            should_fail = 0
+
+            # sanitize name
+            name = re.sub(r'\W', '', name)
+
+            if name in ivtest_blacklist:
+                continue
+
+            for t in type_should_fail:
+                if re.match(t, line[1]):
+                    should_fail = 1
+
+            tests.append((name + '_iv', path, should_fail))
+
+test_dir = os.path.join(tests_dir, 'generated', tests_subdir)
+
+if not os.path.isdir(test_dir):
+    os.makedirs(test_dir, exist_ok=True)
+
+for test in tests:
+    test_file = os.path.join(test_dir, test[0] + '.sv')
+    with open(test_file, "w") as f:
+        f.write(templ.format(*test))
