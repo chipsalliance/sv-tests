@@ -29,6 +29,7 @@ jobs:
       install:
         - sudo apt-get install gperf -y
         - sudo apt-get install libfl-dev -y
+        - sudo apt-get install npm
         - sudo apt-get install gcc-8 -y
         - sudo apt-get install g++-8 -y
         - sudo apt-get install yosys -y
@@ -48,6 +49,7 @@ jobs:
         - "make slang"
         - "make odin"
         - "make zachjs-sv2v"
+        - "make tree-sitter-verilog"
         - "make generate-tests"
         - "make report"
         - "mkdir out/deploy"
