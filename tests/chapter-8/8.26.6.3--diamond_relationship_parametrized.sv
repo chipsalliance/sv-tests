@@ -5,7 +5,7 @@
 :tags: 8.26.6.3
 */
 module class_tb ();
-	interface class ibase#(type T = logic;
+	interface class ibase#(type T = logic);
 		pure virtual function void fn(T val);
 	endclass
 

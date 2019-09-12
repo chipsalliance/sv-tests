@@ -5,7 +5,7 @@
 :tags: 8.5 8.25
 */
 module class_tb ();
-	class test_cls $(parameter a = 12);
+	class test_cls #(parameter a = 12);
 	endclass
 
 	test_cls #(34) test_obj;
