@@ -41,3 +41,4 @@ make tests
 * [Icarus](http://iverilog.icarus.com/)
 * [slang](https://github.com/MikePopoloski/slang)
 * [sv2v(zachjs)](https://github.com/zachjs/sv2v)
+* [tree-sitter-verilog](https://github.com/tree-sitter/tree-sitter-verilog)
