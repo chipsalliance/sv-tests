@@ -1,0 +1,29 @@
+{
+	"name": "nets",
+	"filename": "{1}--net_{0}.sv",
+	"template": [
+		"/*",
+		":name: net_{0}",
+		":description: {0} net test",
+		":should_fail: 0",
+		":tags: {1}",
+		"*/",
+		"module top();",
+		"{0} v;",
+		"endmodule"
+	],
+	"values": [
+		["wire", "6.6.1"],
+		["tri", "6.6.1"],
+		["uwire", "6.6.2"],
+		["wor", "6.6.3"],
+		["wand", "6.6.3"],
+		["trior", "6.6.3"],
+		["triand", "6.6.3"],
+		["trireg", "6.6.4"],
+		["tri0", "6.6.5"],
+		["tri1", "6.6.5"],
+		["supply0", "6.6.6"],
+		["supply1", "6.6.6"]
+	]
+}
