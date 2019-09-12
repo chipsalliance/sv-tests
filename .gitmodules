@@ -22,3 +22,6 @@
 [submodule "third_party/cores/ibex"]
 	path = third_party/cores/ibex
 	url = https://github.com/lowRISC/ibex
+[submodule "third_party/tools/tree-sitter-verilog"]
+	path = third_party/tools/tree-sitter-verilog
+	url = https://github.com/tree-sitter/tree-sitter-verilog

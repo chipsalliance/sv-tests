@@ -1,3 +1,4 @@
 conan
 flake8
 jinja2
+tree_sitter
