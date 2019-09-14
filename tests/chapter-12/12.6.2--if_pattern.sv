@@ -20,7 +20,7 @@ module case_tb ();
 
 	u tmp;
 
-	initial if (tmp matches (tagged a '{4'b01zx, .v}))
+	initial if (tmp matches tagged a '{4'b01zx, .v})
 		$display("a %d", v);
 		
 		
