@@ -54,7 +54,12 @@ incdirs += os.path.join(swerv_path, "design", "lib") + ' '
 incdirs += os.path.join(swerv_path, "design", "dmi") + ' '
 incdirs += os.path.join(swerv_path, "configs", "snapshots", "default") + ' '
 
-test_file = os.path.join(tests_dir, "generated", tests_subdir, "swerv.sv")
+test_dir = os.path.join(tests_dir, 'generated', tests_subdir)
+
+if not os.path.isdir(test_dir):
+    os.makedirs(test_dir, exist_ok=True)
+
+test_file = os.path.join(test_dir, "swerv.sv")
 
 with open(test_file, "w") as f:
     f.write(templ.format(sources, incdirs))

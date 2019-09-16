@@ -1,0 +1,32 @@
+{
+	"name": "unary_op",
+	"filename": "{2}--unary_op_{1}.sv",
+	"template": [
+		"/*",
+		":name: unary_op_{1}",
+		":description: {0} operator test",
+		":should_fail: 0",
+		":tags: {2}",
+		"*/",
+		"module top();",
+		"int a = 12;",
+		"int b = 5;",
+		"initial begin",
+		"    a = {0}b;",
+		"end",
+		"endmodule"
+	],
+	"values": [
+		["+", "plus", "11.3"],
+		["-", "minus", "11.3"],
+		["!", "not_log", "11.3"],
+		["~", "not_bit", "11.4.8"],
+		["&", "and", "11.4.9"],
+		["~&", "nand", "11.4.9"],
+		["|", "or", "11.4.9"],
+		["~|", "nor", "11.4.9"],
+		["^", "xor", "11.4.9"],
+		["~^", "xnor_1", "11.4.9"],
+		["^~", "xnor_2", "11.4.9"]
+	]
+}
