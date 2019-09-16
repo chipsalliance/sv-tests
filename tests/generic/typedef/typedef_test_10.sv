@@ -4,4 +4,4 @@
 :should_fail: 0
 :tags: 6.18
 */
-typedef data_t my_array_t [ * ];
+typedef data_t my_array_t [*]  assoc;

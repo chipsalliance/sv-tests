@@ -5,5 +5,5 @@
 :tags: 6.18
 */
 typedef struct packed {
-  apkg::type_member #(N, M) [P:0] some_member;
+  apkg::type_member /*#(N, M)*/ [P:0] some_member;
 } mystruct_t;

@@ -9,7 +9,7 @@ module top();
 
   initial begin
     a = 659;      // is a decimal number
-    a = 'h 837FF; // is a hexadecimal number
+    a = 'h837FF; // is a hexadecimal number
     a = 'o7460;   // is an octal number
   end
 

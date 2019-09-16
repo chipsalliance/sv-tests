@@ -9,7 +9,7 @@
 
 `ifdef XXX
 `undef XXX
-`elsif YYY == 1
+`elsif YYY 
 `define XXX 0
 `endif
 

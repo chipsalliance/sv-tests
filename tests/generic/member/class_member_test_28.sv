@@ -6,7 +6,7 @@
 */
 class myclass;
 function void shifter;
-  for ( ; shft_idx < n_bits;
+  for ( int shft_idx  = 0 ; shft_idx < n_bits;
        shft_idx++) begin
   end
 endfunction

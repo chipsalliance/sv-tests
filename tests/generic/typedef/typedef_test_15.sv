@@ -5,5 +5,5 @@
 :tags: 6.18
 */
 typedef struct packed {
-  [4:0] some_member;
+ logic [4:0] some_member;
 } mystruct_t;
