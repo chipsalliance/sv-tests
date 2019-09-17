@@ -5,5 +5,5 @@
 :tags: 6.15 8.3
 */
 class zzxx;
-extern function automatic void set_port(int ap);
+extern function /*automatic*/ void set_port(int ap);
 endclass

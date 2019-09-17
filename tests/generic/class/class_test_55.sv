@@ -6,7 +6,7 @@
 */
 class Driver;
   Packet pNP [*];
-  Packet pNP1 [* ];
-  Packet pNP2 [ *];
-  Packet pNP3 [ * ];
+  Packet pNP1 [*];
+  Packet pNP2 [*];
+  Packet pNP3 [*];
 endclass
