@@ -1,0 +1,88 @@
+#!/usr/bin/env python3
+#
+# example usage: ./gentests.py --input=basic7.sv --output=../tests/
+#
+
+import re
+
+
+def generate_tests(fin, dout):
+    config = dict()
+
+    itr = 0
+    outfp = None
+
+    with open(fin, 'r') as fp:
+        while True:
+            raw_line = fp.readline()
+            if not raw_line:
+                break
+            line = raw_line.rstrip()
+
+            m = re.search(':([a-zA-Z_]+):[ ]*([_0-9a-zA-Z.&, -]*)', line)
+            if m:
+                key = m.group(1).lower()
+                val = m.group(2)
+
+                config[key] = val
+                if key == 'tags':
+                    itr = 0
+
+                if key == 'begin':
+                    itr += 1
+                    fname = ''
+                    fname += config['tags'] + '-' + str(itr)
+                    fname += '-' + config['desc']
+                    fname += '-' + config['begin']
+                    fname += '.sv'
+                    outfp = open(dout + '/' + fname, 'w')
+
+                    # write header
+                    outfp.write(''
+                                '/*\n'
+                                ':name: {}\n'
+                                ':description: {}\n'
+                                ':should_fail: {}\n'
+                                ':tags: {}\n'
+                                '*/\n'
+                                .format(config['desc'] + '-' + config['begin'],
+                                        config['description'],
+                                        config['should_fail'],
+                                        config['tags']))
+
+                    if 'wrap_module' in config['flags']:
+                        outfp.write('\nmodule top ();\n\n')
+
+                elif key == 'end':
+                    if 'wrap_module' in config['flags']:
+                        outfp.write('\nendmodule\n')
+
+                    outfp.close()
+                    outfp = None
+
+                elif key == 'break':
+                    break
+
+            elif outfp:
+                outfp.write(raw_line)
+
+
+if __name__ == '__main__':
+    import sys
+    import os
+
+    try:
+        tests_dir = os.environ['TESTS_DIR']
+        conf_dir = os.environ['CONF_DIR']
+    except KeyError:
+        print("Unexported environment variables TESTS_DIR and/or CONF_DIR")
+        sys.exit(1)
+
+    try:
+        tests_subdir = sys.argv[1]
+    except IndexError:
+        print("Usage {} <subdir>".format(sys.argv[0]))
+        sys.exit(1)
+
+    generate_tests(conf_dir + '/generators/chapter-7.sv',
+                   tests_dir + '/generated/' + tests_subdir)
