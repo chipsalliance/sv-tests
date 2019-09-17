@@ -14,6 +14,8 @@ export TESTS_DIR
 export RUNNERS_DIR
 export GENERATORS_DIR
 
+USE_ALL_RUNNERS?=0
+
 include tools/runners.mk
 
 .PHONY: clean init info tests generate-tests report
@@ -47,9 +49,10 @@ generate-$(1):
 generate-tests: generate-$(1)
 endef
 
-RUNNERS := $(wildcard $(RUNNERS_DIR)/*.py)
-RUNNERS := $(RUNNERS:$(RUNNERS_DIR)/%=%)
-RUNNERS := $(basename $(RUNNERS))
+RUNNERS_FOUND := $(wildcard $(RUNNERS_DIR)/*.py)
+RUNNERS_FOUND := $(RUNNERS_FOUND:$(RUNNERS_DIR)/%=%)
+RUNNERS_FOUND := $(basename $(RUNNERS_FOUND))
+RUNNERS := $(shell OUT_DIR=$(OUT_DIR) ./tools/check-runners $(RUNNERS_FOUND))
 TESTS := $(shell find $(TESTS_DIR)/ -type f -iname *.sv)
 TESTS := $(TESTS:$(TESTS_DIR)/%=%)
 GENERATORS := $(wildcard $(GENERATORS_DIR)/*)
@@ -58,6 +61,11 @@ GENERATORS := $(GENERATORS:$(GENERATORS_DIR)/%=%)
 space := $(subst ,, )
 
 info:
+ifneq ($(USE_ALL_RUNNERS), 0)
+ifneq ($(RUNNERS), $(RUNNERS_FOUND))
+	$(error Some runners are missing)
+endif
+endif
 	@echo -e "Found the following runners:$(subst $(space),"\\n \* ", $(RUNNERS))\n"
 	@echo -e "Found the following tests:$(subst $(space),"\\n \* ", $(TESTS))\n"
 

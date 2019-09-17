@@ -1,4 +1,5 @@
 import subprocess
+import shutil
 
 
 class BaseRunner:
@@ -13,8 +14,15 @@ class BaseRunner:
     to be detected and launched by the Makefile.
     """
 
-    def __init__(self, name):
+    def __init__(self, name, executable=None):
+        """Base runner class constructor
+        Arguments:
+        name -- runner name.
+        executable -- name of an executable used by the particular runner
+        can be omitted if default can_run method isn't used.
+        """
         self.name = name
+        self.executable = executable
 
     def run(self, tmp_dir, params):
         """Run the provided test case
@@ -36,3 +44,13 @@ class BaseRunner:
         log, _ = proc.communicate()
 
         return (log.decode('utf-8'), proc.returncode)
+
+    def can_run(self):
+        """Check if runner can be used
+        This method is called by the main runner script (tools/runner) as
+        a sanity check to verify that tool used by the runner is properly
+        installed.
+
+        Returns True when tool is installed and can be used, False otherwise.
+        """
+        return shutil.which(self.executable) is not None
