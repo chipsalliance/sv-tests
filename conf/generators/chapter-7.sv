@@ -424,9 +424,11 @@ real u [7:0];
 bit [7:0] p;
 // :end:
 
+// ---------------------------- Packed arrays ---------------------
 // :tags: 7.4.1
 
-// Packed arrays can be made of only the single bit data types (bit, logic, reg), enumerated types, and
+// Packed arrays can be made of only the single bit data types
+// (bit, logic, reg), enumerated types, and
 // recursively other packed arrays and packed structures.
 
 // :should_fail: 1
@@ -475,6 +477,7 @@ logic [7:0] _logic;
 reg [31:0] _reg;
 // :end:
 
+// ---------------------------------- 7.4.2 ------------------------------
 // :tags: 7.4.2
 
 // :should_fail: 0
@@ -521,152 +524,7 @@ logic _logic [7:0];
 reg _reg [31:0];
 // :end:
 
-// :tags: 7.4.3
-
-// :desc: arrays-packed-operations
-
-// TODO: Test packed and unpacked arrays?
-
-// :description: Test support of reading and writing on the array
-// :begin: read-write
-bit [7:0] a;
-bit [7:0] b;
-
-assign a = b;
-// :end:
-
-// :description: Test support of reading and writing on slice of the array
-// :begin: read-write-slice
-bit [7:0] a;
-bit [7:0] b;
-
-assign a[7:4] = b[3:0];
-// :end:
-
-// :description: Test support of reading and writing a variable slice of the array
-// :begin: read-write-variable-slice-non-zero
-bit [7:0] a;
-bit [7:0] b;
-
-parameter c = 1;
-int x;
-int y;
-
-initial begin
-	a = 8'h00;
-	b = 8'hde;
-
-	x = 1;
-	y = 1;
-	a[x+:c] = b[y+:c];
-end
-// :end:
-
-// TODO: Not sure if that should fail.
-// TODO: Icarus fails with:
-// TODO: "error: Indexed part widths must be constant and greater than zero."
-// TODO: Info in queue section: "Unlike arrays, the empty queue, {}, is a valid queue"
-// :begin: read-write-variable-slice-zero
-bit [7:0] a;
-bit [7:0] b;
-
-parameter c = 0;
-int x;
-int y;
-
-initial begin
-	a = 8'h00;
-	b = 8'hde;
-
-	x = 1;
-	y = 1;
-	a[x+:c] = b[y+:c];
-end
-// :end:
-
-// :description: Test support of reading and writing an element of the array
-// :begin: read-write-element
-bit [7:0] a;
-bit [7:0] b;
-
-assign a[4] = b[1];
-// :end:
-
-// :description: Test support of equality operation on the array
-// :begin: equality
-bit [7:0] a;
-bit [7:0] b;
-
-initial begin
-	a = 8'h0;
-	b = 8'h1;
-
-	if (a == b)
-	begin
-		a = 8'hff;
-		b = 8'hff;
-	end
-	else
-	begin
-		a = 8'hee;
-		b = 8'hee;
-	end
-end
-// :end:
-
-// :description: Test support of equality operation on slice of the array
-// :begin: equality-slice
-bit [7:0] a;
-bit [7:0] b;
-
-initial begin
-	a = 8'h0;
-	b = 8'h1;
-
-	if (a[2:1] == b[3:2])
-	begin
-		a = 8'hff;
-		b = 8'hff;
-	end
-	else
-	begin
-		a = 8'hee;
-		b = 8'hee;
-	end
-end
-// :end:
-
-// Only on packed arrays: Assignment from an integer and
-//  Treatment as an integer in an expression
-
-// :description: Test support of assignment from an integer
-// :begin: assign-from-integer
-bit [7:0] a;
-
-assign a = 8'b1010_0101;
-// :end:
-
-// TODO: not sure if that should fail or not
-// TODO: veriator fails with:
-// TODO: "Operator ADD expects 32 bits on the LHS, but LHS's VARREF 'a' generates 8 bits."
-
-// :description: Test support of treatment as an integer in an expression
-// :begin: treat-as-integer
-bit [7:0] a;
-int b;
-
-assign a = 8'd1;
-assign b = (a + 4);
-// :end:
-
-// :begin: treat-as-integer-same-size
-bit [31:0] a;
-int b;
-
-assign a = 32'd1;
-assign b = (a + 4);
-// :end:
-
+// --------------------------------- 7.4.4 -------------------------------
 // :tags: 7.4.4
 // :desc: memories
 // :description: Test support of memories
@@ -683,47 +541,13 @@ logic [7:0] _logic [255:0];
 bit [7:0] _bit [255:0];
 // :end:
 
-// :begin: write-word
-logic [7:0] mema [0:255];
-
-initial begin
-	mema[5] = 0;
-end
-// :end:
-
-// :begin: read-word
-logic [7:0] mema [0:255];
-logic [7:0] data;
-
-parameter addr = 8'hab;
-
-initial begin
-	data = mema[addr];
-end
-// :end:
-
+// --------------------------------- 7.4.5 -------------------------------
 // :tags: 7.4.5
 // :desc: multidimensional-arrays
 // :description: Test support of multidimensional arrays
 
 // :begin: simple
 bit [3:0] [7:0] joe [1:10];
-// :end:
-
-// :begin: add
-bit [3:0] [7:0] joe [1:10];
-
-initial begin
-	joe[9] = joe[8] + 1;
-end
-// :end:
-
-// :begin: copy
-bit [3:0] [7:0] joe [1:10];
-
-initial begin
-	joe[7][3:2] = joe[6][1:0];
-end
 // :end:
 
 // :begin: stages-packed
@@ -748,43 +572,13 @@ typedef bit [1:5] bsix;
 bsix [1:10] v5;
 // :end:
 
-// :begin: subarray-assign-1
-int A[2][3][4], B[2][3][4];
-
-initial begin
-	A[0][2] = B[1][1];
-end
-// :end:
-
-// :begin: subarray-assign-2
-int A[2][3][4], B[2][3][4];
-
-initial begin
-	A[1] = B[0];
-end
-// :end:
-
-// :begin: subarray-assign-3
-int A[2][3][4], B[2][3][4];
-
-initial begin
-	A = B;
-end
-// :end:
-
-// :begin: subarray-assign-4
-int A[2][3][4], C[5][4];
-
-initial begin
-	A[0][1] = C[4];
-end
-// :end:
-
 // All arrays in the list shall have the same data
 // type and the same packed array dimensions
 // :begin: two-arrays
 bit [7:0] [31:0] v7 [1:5] [1:10], v8 [0:255];
 // :end:
+
+
 
 // :tags: 7.4.6
 // :desc: indexing-and-slicing
@@ -1320,6 +1114,7 @@ string words [int] = '{default: "hello"};
 integer tab [string] = '{"Peter":20, "Paul":22, "Mary":23, default:-1};
 // :end:
 
+// ------------------------------ 7.10 -----------------------------------
 // :tags: 7.10
 // :desc: queues
 
@@ -1345,98 +1140,9 @@ integer q2[$:255];
 string names[$] = { "Bob" };
 // :end:
 
-// :tags: 7.10.1
-// :desc: queue-operators
-
-// :begin: read-write
-integer q1[$];
-integer q2[$];
-
-initial begin
-	q1[0] = 1;
-	q2[0] = q1[0];
-end
-// :end:
-
-// :tags: 7.10.2
-// :desc: queue-methods
-// :description: Test support of queue methods
-
-// :tags: 7.10.2.1
-// :begin: size
-int Q[$];
-int i;
-
-initial
-	i = Q.size;
-// :end:
-
-// :tags: 7.10.2.2
-// :begin: insert
-int Q[$];
-
-initial
-	Q.insert(0, 1);
-// :end:
-
-// :tags: 7.10.2.3
-// :begin: delete
-int Q[$];
-
-initial begin
-	Q.insert(0, 1);
-	Q.delete(0);
-end
-// :end:
-
-// :begin: delete-all
-int Q[$];
-
-initial begin
-	Q.insert(0, 1);
-	Q.delete;
-end
-// :end:
-
-// :tags: 7.10.2.4
-// :begin: pop-front
-int Q[$];
-int i;
-
-initial begin
-	Q.insert(0, 1);
-	i = Q.pop_front();
-end
-// :end:
-
-// :tags: 7.10.2.5
-// :begin: pop-back
-int Q[$];
-int i;
-
-initial begin
-	Q.insert(0, 1);
-	i = Q.pop_back();
-end
-// :end:
-
-// :tags: 7.10.2.6
-// :begin: push-front
-int Q[$];
-
-initial
-	Q.push_front(1);
-// :end:
-
-// :tags: 7.10.2.7
-// :begin: push-back
-int Q[$];
-
-initial
-	Q.push_back(1);
-// :end:
-
 // TODO: 7.10.3 persitence-of-references-to-elements-of-a-queue
+
+
 
 // :tags: 7.10.4
 // :desc: updating-a-queue-using-assignment-and-unpacked-array-concatenation
@@ -1483,6 +1189,8 @@ int q[$] = { 2, 4, 6 };
 initial
 	q = {}; // q.delete
 // :end:
+
+
 
 // TODO: 7.10.5 Bounded queues
 
