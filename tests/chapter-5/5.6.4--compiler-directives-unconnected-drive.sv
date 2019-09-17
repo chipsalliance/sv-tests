@@ -5,8 +5,10 @@
 :tags: 5.6.4
 */
 
-`nounconnected_drive
-`unconnected_drive
+
+`unconnected_drive pull1
 
 module ts();
 endmodule
+
+`nounconnected_drive
