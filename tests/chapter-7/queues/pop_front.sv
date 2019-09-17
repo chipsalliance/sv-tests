@@ -2,7 +2,7 @@
 :name: pop_front
 :description: Test queues pop_front function support
 :should_fail: 0
-:tags: 7.10.2.4
+:tags: 7.10.2.4 7.10.2
 */
 module top ();
 

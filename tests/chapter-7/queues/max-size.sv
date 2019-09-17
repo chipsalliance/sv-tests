@@ -2,7 +2,7 @@
 :name: max-size
 :description: Test queues size support
 :should_fail: 0
-:tags: 7.10.1
+:tags: 7.10.1 7.10.2
 */
 module top ();
 

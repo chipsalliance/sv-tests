@@ -2,7 +2,7 @@
 :name: push_front
 :description: Test queues push_front function support
 :should_fail: 0
-:tags: 7.10.2.6
+:tags: 7.10.2.6 7.10.2
 */
 module top ();
 

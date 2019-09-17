@@ -2,7 +2,7 @@
 :name: push_back
 :description: Test queues push_back function support
 :should_fail: 0
-:tags: 7.10.2.7
+:tags: 7.10.2.7 7.10.2
 */
 module top ();
 

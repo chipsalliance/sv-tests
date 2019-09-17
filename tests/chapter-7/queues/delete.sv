@@ -2,7 +2,7 @@
 :name: delete
 :description: Test queues delete function support
 :should_fail: 0
-:tags: 7.10.2.3
+:tags: 7.10.2.3 7.10.2
 */
 module top ();
 
