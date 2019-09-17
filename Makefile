@@ -35,8 +35,7 @@ runners:
 # $(2) - test
 define runner_gen
 $(OUT_DIR)/logs/$(1)/$(2).log: $(TESTS_DIR)/$(2)
-	@mkdir -p $(OUT_DIR)/logs/$(1)/$(dir $(2))
-	@./tools/runner --runner $(1) --test $(2)
+	@./tools/runner --runner $(1) --test $(2) --out $(OUT_DIR)/logs/$(1)/$(2).log
 
 tests: $(OUT_DIR)/logs/$(1)/$(2).log
 endef

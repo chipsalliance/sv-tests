@@ -17,6 +17,9 @@ parser.add_argument("-r", "--runner",
 parser.add_argument("-t", "--test",
                     required=True)
 
+parser.add_argument("-o", "--out",
+                    required=True)
+
 args = parser.parse_args()
 
 # setup logger
@@ -53,10 +56,7 @@ os.environ['PATH'] = ":".join(new_path)
 
 runner = os.path.abspath(os.path.join(dirs['runners'], args.runner))
 test = os.path.abspath(os.path.join(dirs['tests'], args.test))
-out = os.path.abspath(os.path.join(dirs['out'],
-                                   "logs",
-                                   args.runner,
-                                   args.test + ".log"))
+out = os.path.abspath(args.out)
 
 req_test_params = ["name", "tags", "description",
                    "should_fail", "files", "incdirs",
@@ -129,6 +129,8 @@ try:
         logger.info("PASS: {}/{}".format(args.runner, args.test))
     else:
         logger.warning("FAIL: {}/{}".format(args.runner, args.test))
+
+    os.makedirs(os.path.dirname(out), exist_ok=True)
 
     with open(out, "w") as log:
         # start by writing params
