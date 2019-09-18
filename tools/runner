@@ -20,11 +20,14 @@ parser.add_argument("-t", "--test",
 parser.add_argument("-o", "--out",
                     required=True)
 
+parser.add_argument("-q", "--quiet", dest='verbosity', action='store_const',
+                    const=logging.ERROR, default=logging.DEBUG)
+
 args = parser.parse_args()
 
 # setup logger
 logger = logging.getLogger()
-logger.setLevel(logging.DEBUG)
+logger.setLevel(args.verbosity)
 
 ch = logging.StreamHandler()
 ch.setFormatter(logging.Formatter('%(levelname)-8s| %(message)s'))
