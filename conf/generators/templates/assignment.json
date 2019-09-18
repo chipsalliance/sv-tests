@@ -1,0 +1,34 @@
+{
+	"name": "assignment_op",
+	"filename": "11.4.1--{1}_assignment.sv",
+	"template": [
+		"/*",
+		":name: {1}_assignment",
+		":description: {0} assignment test",
+		":should_fail: 0",
+		":tags: 11.4.1",
+		"*/",
+		"module top();",
+		"int a = 12;",
+		"int b = 5;",
+		"initial begin",
+		"    a {0} b;",
+		"end",
+		"endmodule"
+	],
+	"values": [
+		["=", "normal"],
+		["+=", "plus"],
+		["-=", "minus"],
+		["*=", "mul"],
+		["/=", "div"],
+		["%=", "mod"],
+		["&=", "and"],
+		["|=", "or"],
+		["^=", "xor"],
+		["<<=", "log_shl"],
+		[">>=", "log_shr"],
+		["<<<=", "arith_shl"],
+		[">>>=", "arith_shr"]
+	]
+}
