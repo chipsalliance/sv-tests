@@ -30,7 +30,7 @@ parser.add_argument("-l", "--logs",
 
 parser.add_argument("-t", "--template",
                     help="Path to the html report tepmplate",
-                    default="conf/report-template.html")
+                    default="conf/report/report-template.html")
 
 parser.add_argument("-o", "--out",
                     help="Path to the html file with the report",

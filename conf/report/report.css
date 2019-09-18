@@ -1,0 +1,123 @@
+table.dataTable {
+  width: auto;
+  table-layout: fixed;
+}
+
+table.dataTable tbody tr th#report_table_tag {
+  text-align: left;
+  width: 50px;
+}
+
+table.dataTable tbody tr th#report_table_info {
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  text-align: left;
+  overflow: hidden;
+  max-width: 150px;
+  width: 150px;
+}
+
+.ui-widget-shadow {
+  -webkit-box-shadow: none;
+  box-shadow: none;
+}
+
+.ui-tooltip {
+  font-family: "Courier New", Courier, monospace;
+  font-size: 13px;
+  font-weight: normal;
+}
+
+.ui-corner-all {
+  border-radius: 0px;
+}
+
+.test-cell {
+  border: 1px;
+  border-color: #505050;
+  border-style: dotted;
+  cursor: pointer;
+
+  font-family: "Courier New", Courier, monospace;
+  font-size: 10px;
+  font-weight: normal;
+}
+
+.test-cell-selected {
+  border: 2px solid black;
+  font-weight: bold;
+}
+
+.test-failed {
+  background-color: #ff6961;
+}
+.test-passed {
+  background-color: #89E894;
+}
+.test-varied {
+  background-color: #ffd761;
+}
+.test-na {
+  background-color: #cfcece;
+}
+
+.logfile {
+  display: none;
+  position: fixed;
+  bottom: 0;
+  left: 1.5%;
+  width: 97%;
+  max-height: 80%;
+  border: 2px solid black;
+  overflow-y: hidden;
+  overflow-x: hidden;
+  z-index: 10;
+  font-family: "Courier New", Courier, monospace;
+  background-color: #666;
+}
+.logfile-inner {
+  overflow-y: scroll;
+  overflow-x: hidden;
+  max-height: calc(60vh);
+  border-bottom: 1px solid black;
+  display: none;
+  cursor: text;
+}
+.logtab-bar {
+  overflow-y: scroll;
+  max-height: calc(20vh);
+}
+.logtab-btn {
+  margin: 0px;
+  cursor: pointer;
+  border: 2px solid #666;
+  overflow:hidden;
+  text-overflow: ellipsis;
+  width: 12.5%;
+  white-space: nowrap;
+}
+.logtab-close-btn {
+  background: #cfcece;
+  float: right;
+}
+.logtab-tab-btn {
+  float: left;
+}
+.logtab-btn-selected {
+  border: 2px solid black;
+  font-weight: bold;
+}
+.logfile-tab {
+  z-index: 11;
+  float: left;
+  cursor: pointer;
+}
+.logfile-shown {
+  display: block;
+}
+.logtab-shown {
+  display: block;
+}
+
+button:focus {outline:0;}
+
