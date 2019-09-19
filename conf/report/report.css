@@ -61,13 +61,23 @@ table.dataTable tbody tr th#report_table_info {
   background-color: #cfcece;
 }
 
-.logfile {
+#logfile-outer {
   display: none;
   position: fixed;
   bottom: 0;
   left: 1.5%;
   width: 97%;
   max-height: 80%;
+  border: 2px solid black;
+  overflow-y: hidden;
+  overflow-x: hidden;
+  z-index: 10;
+  font-family: "Courier New", Courier, monospace;
+  background-color: #fff;
+}
+.logfile {
+  display: none;
+  max-height: 20%;
   border: 2px solid black;
   overflow-y: hidden;
   overflow-x: hidden;
@@ -83,6 +93,15 @@ table.dataTable tbody tr th#report_table_info {
   display: none;
   cursor: text;
 }
+.iframe-log {
+  width: 100%;
+  height: calc(20vh);
+}
+.iframe-wrap {
+  width: 50%;
+  float: left;
+  box-sizing: border-box;
+}
 .logtab-bar {
   overflow-y: scroll;
   max-height: calc(20vh);
@@ -95,6 +114,7 @@ table.dataTable tbody tr th#report_table_info {
   text-overflow: ellipsis;
   width: 12.5%;
   white-space: nowrap;
+  box-sizing: border-box;
 }
 .logtab-close-btn {
   background: #cfcece;
@@ -114,6 +134,9 @@ table.dataTable tbody tr th#report_table_info {
 }
 .logfile-shown {
   display: block;
+}
+.logfile-outer-shown {
+  display: block !important;
 }
 .logtab-shown {
   display: block;

@@ -84,10 +84,21 @@ function toggleLog(div_id, cell_id) {
   }
 
   log_div = document.getElementById(div_id);
-  log_div.classList.toggle("logfile-shown");
+  outer_div = document.getElementById('logfile-outer');
 
-  cell = document.getElementById(cell_id);
-  cell.classList.toggle("test-cell-selected");
+  window.open('about:blank', 'log-frame')
+  window.open('about:blank', 'file-frame')
+
+  all_btns = document.getElementsByClassName("logtab-btn-selected");
+  for (var i=0; i < all_btns.length; i++) {
+    all_btns[i].classList.remove("logtab-btn-selected");
+  }
+
+  if (log_div.classList.toggle("logfile-shown")) {
+    outer_div.classList.add("logfile-outer-shown");
+  } else {
+    outer_div.classList.remove("logfile-outer-shown");
+  }
 }
 
 function hideLog(div_id) {
@@ -100,32 +111,17 @@ function hideLog(div_id) {
   }
 }
 
-function selectTab(group, test, btn_id) {
-  all_tabs = document.getElementsByClassName(group);
-  tab_id = group + "-" + test;
-
+function selectTab(path, btn_id) {
   all_btns = document.getElementsByClassName("logtab-btn-selected");
-
-  for (var i=0; i < all_btns.length; ++i) {
-    if (all_btns[i].parentElement.id == group + "-bar") {
-      if (all_btns[i].id != btn_id) {
-        all_btns[i].classList.remove("logtab-btn-selected");
-      }
-    }
+  for (var i=0; i < all_btns.length; i++) {
+    all_btns[i].classList.remove("logtab-btn-selected");
   }
-
-  for (var i=0; i < all_tabs.length; ++i) {
-    if (all_tabs[i].id != tab_id) {
-      all_tabs[i].classList.remove("logtab-shown");
-    }
-  }
-
-  chosen_tab = document.getElementById(tab_id);
-  chosen_tab.classList.toggle("logtab-shown");
 
   btn = document.getElementById(btn_id);
+  btn.classList.add("logtab-btn-selected");
 
-  btn.classList.toggle("logtab-btn-selected");
+  window.open('about:blank', 'file-frame')
+  window.open(path, "log-frame");
 }
 
 $(function() {

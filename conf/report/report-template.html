@@ -42,43 +42,41 @@
     }
   </style>
 
-  {% for tag, info in database.items() %}
-  {% for tool, tooldata in report.items() %}
-  {% if "test-na" not in tooldata["tags"][tag]["status"] %}
-  <div class="logfile"
-       id="{{ tool }}-{{ tag }}-logfile">
-    {% for test, output in tooldata["tags"][tag]["logs"].items() %}
-    <div id="logtab-{{tool}}-{{tag}}-{{test}}"
-         class="logtab-{{tool}}-{{tag}} logfile-inner
-                {% if loop.first %} logtab-shown {% endif %}
-                {{output["status"]}}">
-    {{output["log"]}}
+  <div id="logfile-outer">
+    <div class="iframe-wrap">
+      <iframe class="iframe-log" name="log-frame"></iframe>
     </div>
+    <div class="iframe-wrap">
+      <iframe class="iframe-log" name="file-frame"></iframe>
+    </div>
+    {% for tag, info in database.items() %}
+    {% for tool, tooldata in report.items() %}
+    {% if "test-na" not in tooldata["tags"][tag]["status"] %}
+    <div class="logfile"
+         id="{{ tool }}-{{ tag }}-logfile">
+      <div class="logtab-bar"
+           id="logtab-{{tool}}-{{tag}}-bar">
+	      <button class="logtab-btn logtab-close-btn"
+		      onclick='toggleLog("{{ tool }}-{{ tag }}-logfile", "{{tool}}-{{tag}}-cell")'>
+          close
+        </button>
+        {% for test, output in tooldata["tags"][tag]["logs"].items() %}
+        <button class="logtab-btn
+                       logtab-tab-btn
+                       {{output["status"]}}
+                       "
+		onclick='selectTab("{{output["fname"]}}", "logtab-btn-{{tool}}-{{tag}}-{{test}}")'
+                id="logtab-btn-{{tool}}-{{tag}}-{{test}}"
+          >
+          {{ output["name"] }}
+        </button>
+        {% endfor %}
+      </div>
+    </div>
+    {% endif %}
     {% endfor %}
-    <div class="logtab-bar"
-         id="logtab-{{tool}}-{{tag}}-bar">
-      <button class="logtab-btn logtab-close-btn"
-              onclick='hideLog("{{ tool }}-{{ tag }}-logfile")'>
-        close
-      </button>
-      {% for test, output in tooldata["tags"][tag]["logs"].items() %}
-      <button class="logtab-btn
-                     logtab-tab-btn
-                     {{output["status"]}}
-                     {% if loop.first %} logtab-btn-selected {% endif %}
-                     "
-              id="logtab-btn-{{tool}}-{{tag}}-{{test}}"
-              onclick='selectTab("logtab-{{tool}}-{{tag}}",
-                                 "{{test}}",
-                                 "logtab-btn-{{tool}}-{{tag}}-{{test}}")'
-        >
-        {{ output["name"] }}</button>
-      {% endfor %}
-    </div>
+    {% endfor %}
   </div>
-  {% endif %}
-  {% endfor %}
-  {% endfor %}
 
   <body>
     <table id="report_table">
