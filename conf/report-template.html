@@ -102,8 +102,10 @@
         $('#report_table').DataTable( {
           paging: false,
           fixedHeader: true,
-          "columnDefs": [ { "type": "sv-id", targets: 0 } ],
+          "order": [[ 1, "asc" ]],
+          "columnDefs": [ { "type": "sv-id", targets: 1 } ],
           "columns": [
+            null,
             null,
             {% for tool in report %}
             { "orderDataType": "test-status" },
@@ -119,8 +121,22 @@
         width: auto;
         table-layout: fixed;
       }
-      table.dataTable tbody tr th {
-        width: calc(100% / {{ report.keys()|length + 1}} );
+      table.dataTable tbody tr th#report_table_result {
+        width: calc(80% / {{ report.keys()|length}} );
+      }
+
+      table.dataTable tbody tr th#report_table_tag {
+        text-align: left;
+        width: 50px;
+      }
+
+      table.dataTable tbody tr th#report_table_info {
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        text-align: left;
+        overflow: hidden;
+        max-width: 150px;
+        width: 150px;
       }
 
       .ui-widget-shadow {
@@ -339,6 +355,7 @@
       <thead>
         <tr>
           <th>  </th>
+          <th>  </th>
           {% for tool in report %}
           <th> {{ tool.lower() }} </th>
           {% endfor %}
@@ -346,9 +363,10 @@
       </thead>
         {% for tag, info in database.items() %}
         <tr>
-          <th title="{{info}}"> {{ tag }} </th>
+          <th id="report_table_info" title="{{info}}"> {{ info }} </th>
+          <th id="report_table_tag" title="{{info}}"> {{ tag }} </th>
           {% for tool, tooldata in report.items() %}
-          <th class="{{ tooldata["tags"][tag]["status"] }}
+          <th id="report_table_result" class="{{ tooldata["tags"][tag]["status"] }}
             {% if "test-na" not in tooldata["tags"][tag]["status"] %} test-cell {% endif %}"
             {% if "test-na" not in tooldata["tags"][tag]["status"] %}
             id='{{tool}}-{{tag}}-cell'
