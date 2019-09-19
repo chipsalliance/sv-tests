@@ -1,0 +1,9 @@
+{
+	"name": "hdlconvertor",
+	"project": "hdlconv",
+	"should_fail": "0",
+	"paths": [
+		["tests", "hdlconvertor", "tests", "sv_test", "*"]
+	],
+	"matches": ["*.sv"]
+}
