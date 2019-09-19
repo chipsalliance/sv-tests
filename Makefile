@@ -16,13 +16,11 @@ export GENERATORS_DIR
 
 include tools/runners.mk
 
-.PHONY: clean init info tests generate-tests report
+.PHONY: clean init info tests generate-tests report tools/report-gen
 
 clean:
-	@echo -e "Removing $(OUT_DIR)"
-	@rm -rf $(OUT_DIR)
-	@echo -e "Removing $(TESTS_DIR)/generated/"
-	@rm -rf $(TESTS_DIR)/generated/
+	rm -rf $(OUT_DIR)
+	rm -rf $(TESTS_DIR)/generated/
 
 init:
 ifneq (,$(wildcard $(OUT_DIR)/*))
@@ -35,7 +33,7 @@ runners:
 # $(2) - test
 define runner_gen
 $(OUT_DIR)/logs/$(1)/$(2).log: $(TESTS_DIR)/$(2)
-	@./tools/runner --runner $(1) --test $(2) --out $(OUT_DIR)/logs/$(1)/$(2).log --quiet
+	./tools/runner --runner $(1) --test $(2) --out $(OUT_DIR)/logs/$(1)/$(2).log --quiet
 
 tests: $(OUT_DIR)/logs/$(1)/$(2).log
 endef
@@ -65,10 +63,11 @@ tests:
 
 generate-tests:
 
-report: init info tests
-	@echo -e "\nGenerating report"
-	@./tools/sv-report
-	@echo -e "\nDONE!"
+tools/report-gen:
+	$(MAKE) -C tools report-gen
+
+report: init tests tools/report-gen
+	./tools/report-gen
 
 $(foreach g, $(GENERATORS), $(eval $(call generator_gen,$(g))))
 $(foreach r, $(RUNNERS),$(foreach t, $(TESTS),$(eval $(call runner_gen,$(r),$(t)))))
