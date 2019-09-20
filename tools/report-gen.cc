@@ -237,6 +237,38 @@ private:
     std::map<string, std::map<string, SuccessAggregate>> tags_to_toolmetrics_;
 };
 
+class CSVTestResultWriter {
+  public:
+    void Update(const string& tool, const string& logfile,
+                const LogfileHeader &header) {
+        unique_tool_set_.insert(tool);
+        string test_name = logfile.substr(logfile.find_first_of('/') + 1);
+        test_name = test_name.substr(0, test_name.length() - 4);  // remove 'log'
+        auto &test_row = test_to_toolresult_[test_name];
+        test_row.insert({tool, header.result_good()});
+    }
+
+    void Emit(const string &filename) {
+        FILE *f = fopen(filename.c_str(), "w");
+        fprintf(f, "test:string");
+        for (auto tool : unique_tool_set_)
+            fprintf(f, ",%s:bool", tool.c_str());
+        fprintf(f, "\n");
+        for (auto test : test_to_toolresult_) {
+            fprintf(f, "%s,", test.first.c_str());
+            for (auto tool : unique_tool_set_) {
+                fprintf(f, "%s,", test.second[tool] ? "true" : "false");
+            }
+            fprintf(f, "\n");
+        }
+        fclose(f);
+    }
+
+  private:
+    std::set<string> unique_tool_set_;
+    std::map<string, std::map<string, bool>> test_to_toolresult_;
+};
+
 string ExtractToolNameFromLogfile(const string& logfile,
                                   const string& prefix) {
     string result = logfile.substr(prefix.length());
@@ -294,6 +326,7 @@ int main(int argc, char *argv[]) {
     TagResultWriter tagresultwriter(base_dir);
     ResultAggregationGridWriter result_aggregation_grid;
     result_aggregation_grid.ReadTagDescriptions(lrm_conf);
+    CSVTestResultWriter csv;
 
     // Extract relevant data from logfile headers.
     boost::filesystem::recursive_directory_iterator it(log_prefix);
@@ -313,9 +346,11 @@ int main(int argc, char *argv[]) {
             result_aggregation_grid.Update(tool, tag, header);
             tagresultwriter.Update(tool, tag, logfile_link, header);
         }
+        csv.Update(tool, logfile.substr(log_prefix.length()), header);
     }
 
     EmitToplevelReport(base_dir);    // The frameset
     result_aggregation_grid.Emit(base_dir, print_missing_tests);
     tagresultwriter.Emit();          // Links to individual logs
+    csv.Emit(base_dir + "/results.csv");
 }
