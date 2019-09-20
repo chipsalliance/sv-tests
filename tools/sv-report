@@ -58,13 +58,15 @@ tag_usage = {}
 
 
 def logToHTML(path):
-    link_pat = r'(/[^ ]+\.\w{1,3})'
-    link_sub = r'<a href="\1" target="file-frame">\1</a>'
+    depth = path.count('/') - 1
+    link_pat = r'[^ ]*/(tests/[^ ]+\.sv)'
+    src_relative = '../' * depth
+    link_sub = r'<a href="{}\1" target="file-frame">\1</a>'
     with open(path, 'r') as log:
         with open(path + '.html', 'w') as html:
             html.write('<pre>')
             for l in log:
-                html.write(re.sub(link_pat, link_sub, l))
+                html.write(re.sub(link_pat, link_sub.format(src_relative), l))
             html.write('</pre>')
 
 
