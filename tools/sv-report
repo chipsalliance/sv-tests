@@ -168,6 +168,9 @@ for r in [os.path.dirname(r) for r in glob(args.logs + "/*/")]:
                     tags[tag]["status"].append(status)
                 except KeyError:
                     logger.warning("Tag not present in the database: " + tag)
+                    database[tag] = ''
+                    tags[tag] = {}
+                    tags[tag]["status"] = [status]
                     continue
 
         for tag in tags:
