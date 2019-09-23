@@ -11,6 +11,7 @@ module dowhile_tb ();
 		do begin
 			$display(i, test[i]);
 			i++;
-		end while(test[i] != "222")
+		end while(test[i] != "222"); 
+	   
 	end
 endmodule

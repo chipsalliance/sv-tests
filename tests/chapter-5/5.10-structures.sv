@@ -15,9 +15,9 @@ module top();
   initial begin;
     ms = '{ 0, 1};
 
-    ms = '{ default, 1};
+    ms = '{ default:1, int:1};
 
     ms = '{ int:0, int:1};
-  end;
+  end
 
 endmodule

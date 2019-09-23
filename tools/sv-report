@@ -54,6 +54,8 @@ elif args.verbose:
 else:
     logger.setLevel(logging.INFO)
 
+tag_usage = {}
+
 # generate input database first
 database = {}
 try:
@@ -76,6 +78,9 @@ except KeyError as e:
     sys.exit(1)
 
 logger.info("Generating {} from log files in '{}'".format(args.out, args.logs))
+
+for tag in database:
+    tag_usage[tag] = 0
 
 data = {}
 
@@ -165,9 +170,14 @@ for r in [os.path.dirname(r) for r in glob(args.logs + "/*/")]:
 
             for tag in test["tags"].split(" "):
                 try:
+                    tag_usage[tag] += 1
                     tags[tag]["status"].append(status)
                 except KeyError:
                     logger.warning("Tag not present in the database: " + tag)
+                    database[tag] = ''
+                    tag_usage[tag] = 1
+                    tags[tag] = {}
+                    tags[tag]["status"] = [status]
                     continue
 
         for tag in tags:
@@ -179,6 +189,10 @@ for r in [os.path.dirname(r) for r in glob(args.logs + "/*/")]:
                 tags[tag]["status"] = tags[tag]["status"][0]
             else:
                 tags[tag]["status"] = "test-varied"
+
+for tag in tag_usage:
+    if tag_usage[tag] == 0:
+        del database[tag]
 
 try:
     for r in data:
