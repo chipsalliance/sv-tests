@@ -1,0 +1,9 @@
+{
+	"name": "utd-sv",
+	"project": "utd-sv",
+	"should_fail": "0",
+	"paths": [
+		["tests", "utd-sv"]
+	],
+	"matches": ["*.v"]
+}
