@@ -1,0 +1,9 @@
+{
+	"name": "svinterfaces",
+	"project": "yosys",
+	"should_fail": "0",
+	"paths": [
+		["tools", "yosys", "tests", "svinterfaces"]
+	],
+	"matches": ["*.sv"]
+}
