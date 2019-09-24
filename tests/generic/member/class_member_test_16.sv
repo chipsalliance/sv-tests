@@ -1,7 +1,7 @@
 /*
 :name: class_member_test_16
 :description: Test
-:should_fail: 0
+:should_fail: 1
 :tags: 8.3
 */
 class myclass;
