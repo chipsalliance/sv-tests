@@ -25,3 +25,6 @@
 [submodule "third_party/tools/tree-sitter-verilog"]
 	path = third_party/tools/tree-sitter-verilog
 	url = https://github.com/tree-sitter/tree-sitter-verilog
+[submodule "third_party/cores/fx68k"]
+	path = third_party/cores/fx68k
+	url = https://github.com/ijor/fx68k

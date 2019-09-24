@@ -1,0 +1,45 @@
+#!/usr/bin/env python3
+
+import os
+import sys
+
+templ = """/*
+:name: fx68k
+:description: Full fx68k core test
+:files: {0}
+:should_fail: 0
+:tags: fx68k
+*/
+"""
+
+try:
+    third_party_dir = os.environ['THIRD_PARTY_DIR']
+    tests_dir = os.environ['TESTS_DIR']
+except KeyError:
+    print("Export the THIRD_PARTY_DIR and TESTS_DIR variables first")
+    sys.exit(1)
+
+try:
+    tests_subdir = sys.argv[1]
+except IndexError:
+    print("Usage: ./generator <subdir>")
+    sys.exit(1)
+
+fx68k_path = os.path.abspath(os.path.join(third_party_dir, "cores", "fx68k"))
+
+fx68k_sources = ['fx68k.sv', 'fx68kAlu.sv', 'uaddrPla.sv']
+
+sources = ''
+
+for src in fx68k_sources:
+    sources += os.path.join(fx68k_path, src) + ' '
+
+test_dir = os.path.join(tests_dir, 'generated', tests_subdir)
+
+if not os.path.isdir(test_dir):
+    os.makedirs(test_dir, exist_ok=True)
+
+test_file = os.path.join(test_dir, "fx68k.sv")
+
+with open(test_file, "w") as f:
+    f.write(templ.format(sources))
