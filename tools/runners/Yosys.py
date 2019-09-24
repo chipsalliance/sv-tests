@@ -5,12 +5,12 @@ from BaseRunner import BaseRunner
 
 class Yosys(BaseRunner):
     def __init__(self):
-        super().__init__("yosys")
+        super().__init__("yosys", "yosys")
 
     def prepare_run_cb(self, tmp_dir, params):
         scr = os.path.join(tmp_dir, 'scr.ys')
 
-        self.cmd = ['yosys', '-Q', '-T', 'scr.ys']
+        self.cmd = [self.executable, '-Q', '-T', 'scr.ys']
 
         inc = ""
 

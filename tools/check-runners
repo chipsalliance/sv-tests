@@ -1,0 +1,35 @@
+#!/usr/bin/env python3
+
+import os
+import sys
+import argparse
+from importlib import import_module
+
+parser = argparse.ArgumentParser()
+
+parser.add_argument("runners", metavar='runner',
+                    type=str, nargs='+')
+
+args = parser.parse_args()
+
+runner_obj = None
+
+runners_ok = []
+
+for runner in args.runners:
+    try:
+        module = import_module('runners.' + runner)
+        runner_cls = getattr(module, runner)
+        runner_obj = runner_cls()
+    except Exception:
+        continue
+
+    new_path = [os.path.abspath(os.environ['OUT_DIR'] + "/runners/bin/"),
+                os.environ['PATH']]
+
+    os.environ['PATH'] = ":".join(new_path)
+
+    if runner_obj.can_run():
+        print(runner)
+    else:
+        print('Runner {} not found'.format(runner), file=sys.stderr)

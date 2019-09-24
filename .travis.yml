@@ -51,7 +51,7 @@ jobs:
         - "make zachjs-sv2v"
         - "make tree-sitter-verilog"
         - "make generate-tests"
-        - "make report"
+        - "make report USE_ALL_RUNNERS=1"
         - "mkdir out/deploy"
         - "cp out/report.html out/deploy/index.html"
         - "touch out/deploy/.nojekyll"

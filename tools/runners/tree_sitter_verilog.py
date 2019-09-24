@@ -44,3 +44,12 @@ class tree_sitter_verilog(BaseRunner):
                     self.ret = 1
 
         return (self.log, self.ret)
+
+    def can_run(self):
+        try:
+            return os.path.isfile(os.path.abspath(os.path.join(
+                                  os.environ['OUT_DIR'], 'runners',
+                                  'lib', 'verilog.so')))
+        except KeyError as e:
+            print(str(e))
+            return False
