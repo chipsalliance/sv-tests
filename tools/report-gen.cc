@@ -25,6 +25,7 @@ using std::string;
 typedef std::istream_iterator<string> stream_it;
 
 static constexpr char kListDir[] = "./lists/";
+static constexpr char kTotalTag[] = "{Total}";
 
 // All relevant boilerplate in code for simplicity
 static constexpr char kToplevelFrameset[] = R"(
@@ -52,9 +53,9 @@ static constexpr char kHTMLHeader[] = R"(
    thead th { padding:1em; position:sticky; top:0; }
    td { padding: 0.5em; }
    .tag { text-align:left; }
-   .good { background-color: #77FF77; }
-   .poor { background-color: #FFFF77; }
-   .bad  { background-color:  #FF7777; }
+   .good { font-family:monospace; background-color: #77FF77; }
+   .poor { font-family:monospace; background-color: #FFFF77; }
+   .bad  { font-family:monospace; background-color:  #FF7777; }
    div { padding: 5px; margin: 2px; }
   </style>
 </head>
@@ -152,6 +153,7 @@ public:
     }
 
     static string GetFilenameFor(const string &tool, const string &tag) {
+        if (tag == kTotalTag) return "";
         return string(kListDir) + "tag_" + tag + "-tool_" + tool + ".html";
     }
 
@@ -219,11 +221,16 @@ private:
                 fprintf(f, "<td>&nbsp;</td>");
             else {
                 const SuccessAggregate &aggregate = found_result->second;
-                fprintf(f, "<td class='%s'><a href='%s' "
-                        "target='tool-tag-frame'>%d/%d</a></td>",
-                        aggregate.result_css_class(),
-                        TagResultWriter::GetFilenameFor(tool, tag).c_str(),
-                        aggregate.expected_outcome, aggregate.total);
+                const string link = TagResultWriter::GetFilenameFor(tool, tag);
+                fprintf(f, "<td class='%s'", aggregate.result_css_class());
+                if (link.empty()) {
+                    fprintf(f, " style='font-weight:bold;'>%d/%d</td>",
+                            aggregate.expected_outcome, aggregate.total);
+                } else {
+                    fprintf(f, "><a href='%s' target='tool-tag-frame'>%d/%d</a>"
+                            "</td>", link.c_str(),
+                            aggregate.expected_outcome, aggregate.total);
+                }
             }
         }
         fprintf(f, "</tr>\n");
@@ -346,6 +353,7 @@ int main(int argc, char *argv[]) {
             result_aggregation_grid.Update(tool, tag, header);
             tagresultwriter.Update(tool, tag, logfile_link, header);
         }
+        result_aggregation_grid.Update(tool, kTotalTag, header);
         csv.Update(tool, logfile.substr(log_prefix.length()), header);
     }
 
