@@ -1,0 +1,114 @@
+{% if False %}
+<!-- vim: set ts=2 sts=2 sw=2 et: -->
+{% endif %}
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <title>SystemVerilog Report</title>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
+    <link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/themes/smoothness/jquery-ui.css">
+
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.19/css/jquery.dataTables.css">
+    <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
+    <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/fixedheader/3.1.5/js/dataTables.fixedHeader.min.js"> </script>
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/fixedheader/3.1.5/css/fixedHeader.dataTables.min.css">
+    <link rel="stylesheet" type="text/css" href="report.css">
+    <script type="text/javascript" charset="utf8" src="report.js"></script>
+  </head>
+
+  <script>
+    $(document).ready( function () {
+      $('#report_table').DataTable( {
+        paging: false,
+        fixedHeader: true,
+        "order": [[ 1, "asc" ]],
+        "columnDefs": [ { "type": "sv-id", targets: 1 } ],
+        "columns": [
+          null,
+          null,
+          {% for tool in report %}
+          { "orderDataType": "test-status" },
+          {% endfor %}
+        ]
+      });
+    } );
+  </script>
+  <style type="text/css">
+    table.dataTable tbody tr th#report_table_result {
+      width: calc(80% / {{ report.keys()|length}} );
+    }
+  </style>
+
+  <div id="logfile-outer">
+    <div class="iframe-wrap">
+      <iframe class="iframe-log" name="log-frame"></iframe>
+    </div>
+    <div class="iframe-wrap">
+      <iframe class="iframe-log" name="file-frame"></iframe>
+    </div>
+    {% for tag, info in database.items() %}
+    {% for tool, tooldata in report.items() %}
+    {% if "test-na" not in tooldata["tags"][tag]["status"] %}
+    <div class="logfile"
+         id="{{ tool }}-{{ tag }}-logfile">
+      <div class="logtab-bar"
+           id="logtab-{{tool}}-{{tag}}-bar">
+	      <button class="logtab-btn logtab-close-btn"
+		      onclick='toggleLog("{{ tool }}-{{ tag }}-logfile", "{{tool}}-{{tag}}-cell")'>
+          close
+        </button>
+        {% for test, output in tooldata["tags"][tag]["logs"].items() %}
+        <button class="logtab-btn
+                       logtab-tab-btn
+                       {{output["status"]}}
+                       "
+		onclick='selectTab("{{output["fname"]}}", "logtab-btn-{{tool}}-{{tag}}-{{test}}")'
+                id="logtab-btn-{{tool}}-{{tag}}-{{test}}"
+          >
+          {{ output["name"] }}
+        </button>
+        {% endfor %}
+      </div>
+    </div>
+    {% endif %}
+    {% endfor %}
+    {% endfor %}
+  </div>
+
+  <body>
+    <table id="report_table">
+      <thead>
+        <tr>
+          <th>  </th>
+          <th>  </th>
+          {% for tool in report %}
+          <th> {{ tool.lower() }} </th>
+          {% endfor %}
+        </tr>
+      </thead>
+        {% for tag, info in database.items() %}
+        <tr>
+          <th id="report_table_info" title="{{info}}"> {{ info }} </th>
+          <th id="report_table_tag" title="{{info}}"> {{ tag }} </th>
+          {% for tool, tooldata in report.items() %}
+          <th id="report_table_result" class="{{ tooldata["tags"][tag]["status"] }}
+            {% if "test-na" not in tooldata["tags"][tag]["status"] %} test-cell {% endif %}"
+            {% if "test-na" not in tooldata["tags"][tag]["status"] %}
+            id='{{tool}}-{{tag}}-cell'
+            onclick='toggleLog("{{ tool }}-{{ tag }}-logfile", "{{tool}}-{{tag}}-cell")'
+            {% endif %}
+            >
+            {% if "test-na" not in tooldata["tags"][tag]["status"] %}
+            {{ tooldata["tags"][tag]["passed-num"] }}/{{ tooldata["tags"][tag]["logs"]|length }}
+            {% endif %}
+          </th>
+          {% endfor %}
+        </tr>
+      {% endfor %}
+    </table>
+  </body>
+
+</html>

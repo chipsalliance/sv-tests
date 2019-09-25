@@ -54,6 +54,8 @@ jobs:
         - "make report USE_ALL_RUNNERS=1"
         - "mkdir out/deploy"
         - "cp out/report.html out/deploy/index.html"
+        - "cp out/report.css out/deploy/report.css"
+        - "cp out/report.js out/deploy/report.js"
         - "touch out/deploy/.nojekyll"
       deploy:
         provider: pages

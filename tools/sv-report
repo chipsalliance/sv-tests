@@ -30,7 +30,7 @@ parser.add_argument("-l", "--logs",
 
 parser.add_argument("-t", "--template",
                     help="Path to the html report tepmplate",
-                    default="conf/report-template.html")
+                    default="conf/report/report-template.html")
 
 parser.add_argument("-o", "--out",
                     help="Path to the html file with the report",
@@ -55,6 +55,20 @@ else:
     logger.setLevel(logging.INFO)
 
 tag_usage = {}
+
+
+def logToHTML(path):
+    depth = path.count('/') - 1
+    link_pat = r'[^ ]*/(tests/[^ ]+\.sv)'
+    src_relative = '../' * depth
+    link_sub = r'<a href="{}\1" target="file-frame">\1</a>'
+    with open(path, 'r') as log:
+        with open(path + '.html', 'w') as html:
+            html.write('<pre>')
+            for l in log:
+                html.write(re.sub(link_pat, link_sub.format(src_relative), l))
+            html.write('</pre>')
+
 
 # generate input database first
 database = {}
@@ -134,6 +148,8 @@ for r in [os.path.dirname(r) for r in glob(args.logs + "/*/")]:
 
             f.seek(0)
             tests[t_id]["log"] = f.read()
+            tests[t_id]["fname"] = os.path.join('logs', t_id + '.html')
+            logToHTML(t)
 
         # check if test was skipped
         if t_id not in tests:
@@ -209,6 +225,7 @@ try:
                     inner["log"] = test_handle["log"].replace("\n", "</br>")
                     inner["status"] = test_handle["status"]
                     inner["name"] = test_handle["name"]
+                    inner["fname"] = test_handle["fname"]
 
     with open(args.template, "r") as f:
         report = jinja2.Template(f.read(),

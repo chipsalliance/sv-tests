@@ -135,6 +135,9 @@ try:
 
     os.makedirs(os.path.dirname(out), exist_ok=True)
 
+    test_params['files'] = ' '.join(test_params['files'])
+    test_params['incdirs'] = ' '.join(test_params['incdirs'])
+
     with open(out, "w") as log:
         # start by writing params
         for p in test_params:

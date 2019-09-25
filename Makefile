@@ -71,8 +71,10 @@ tests:
 
 generate-tests:
 
-report: init tests
+report: init info tests
 	./tools/sv-report
+	cp ./conf/report/report.* ./out/.
+	cp -rfT ./tests ./out/tests/
 
 $(foreach g, $(GENERATORS), $(eval $(call generator_gen,$(g))))
 $(foreach r, $(RUNNERS),$(foreach t, $(TESTS),$(eval $(call runner_gen,$(r),$(t)))))
