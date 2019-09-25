@@ -4,12 +4,12 @@
 	"template": [
 		"/*",
 		":name: integer_{2}",
-		":description: {0}{1} net test",
+		":description: {1} {0}net test",
 		":should_fail: 0",
 		":tags: 6.11",
 		"*/",
 		"module top();",
-		"{0}{1} v;",
+		"{1} {0}v;",
 		"endmodule"
 	],
 	"values": [
