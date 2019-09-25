@@ -6,5 +6,6 @@
 */
 module top();
 	string a = "Test";
-	a.putc(2, "B");
+	initial
+		a.putc(2, "B");
 endmodule

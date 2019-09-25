@@ -6,5 +6,6 @@
 */
 module top();
 	string a;
-	a.bintoa(12);
+	initial
+		a.bintoa(12);
 endmodule

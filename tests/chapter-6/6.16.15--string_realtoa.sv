@@ -6,5 +6,6 @@
 */
 module top();
 	string a;
-	a.realtoa(4.76);
+	initial
+		a.realtoa(4.76);
 endmodule
