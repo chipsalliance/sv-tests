@@ -1,5 +1,5 @@
 /*
-:name: string_compare
+:name: string_compare_fn
 :description: string.compare()  tests
 :should_fail: 0
 :tags: 6.16.6

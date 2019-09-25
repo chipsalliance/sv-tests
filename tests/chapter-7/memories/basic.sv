@@ -1,5 +1,5 @@
 /*
-:name: basic
+:name: memories-basic
 :description: Test memories support
 :should_fail: 0
 :tags: 7.4.4

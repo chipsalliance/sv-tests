@@ -1,6 +1,6 @@
 /*
-:name: unique_if
-:description: A module testing unique-if statement
+:name: priority_if
+:description: A module testing priority-if statement
 :should_fail: 0
 :tags: 12.4.2
 */

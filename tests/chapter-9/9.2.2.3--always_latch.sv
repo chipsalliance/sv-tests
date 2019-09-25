@@ -1,5 +1,5 @@
 /*
-:name: always_latch
+:name: always_latch_expr
 :description: always_latch check
 :should_fail: 0
 :tags: 9.2.2.3

@@ -1,5 +1,5 @@
 /*
-:name: pop_back
+:name: pop_back-assign
 :description: Update queue by assignment (pop_back)
 :should_fail: 0
 :tags: 7.10.4

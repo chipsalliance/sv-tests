@@ -1,5 +1,5 @@
 /*
-:name: operations-on-arrays-rw
+:name: operations-on-unpacked-arrays-rw
 :description: Test unpacked arrays operations support (R & W)
 :should_fail: 0
 :tags: 7.4.3
