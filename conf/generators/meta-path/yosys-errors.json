@@ -1,0 +1,9 @@
+{
+	"name": "errors",
+	"project": "yosys",
+	"should_fail": "1",
+	"paths": [
+		["tools", "yosys", "tests", "errors"]
+	],
+	"matches": ["*.v"]
+}
