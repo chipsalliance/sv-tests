@@ -61,7 +61,7 @@ def logToHTML(path):
     depth = path.count('/') - 1
     link_pat = r'[^ ]*/(tests/[^ ]+\.sv)'
     src_relative = '../' * depth
-    link_sub = r'<a href="{}\1" target="file-frame">\1</a>'
+    link_sub = r'<a href="{}\1.html" target="file-frame">\1</a>'
     with open(path, 'r') as log:
         with open(path + '.html', 'w') as html:
             html.write('<pre>')
