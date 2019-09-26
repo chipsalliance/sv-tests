@@ -3,12 +3,17 @@ table.dataTable {
   table-layout: fixed;
 }
 
-table.dataTable tbody tr th#report_table_tag {
+table.dataTable tfoot th {
+  padding: 10px 10px 6px 10px;
+  border-top: 0px;
+}
+
+.report_table_tag {
   text-align: left;
   width: 50px;
 }
 
-table.dataTable tbody tr th#report_table_info {
+.report_table_info {
   text-overflow: ellipsis;
   white-space: nowrap;
   text-align: left;

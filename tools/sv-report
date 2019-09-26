@@ -226,6 +226,17 @@ try:
                     inner["status"] = test_handle["status"]
                     inner["name"] = test_handle["name"]
                     inner["fname"] = test_handle["fname"]
+        data[r]["total"] = {}
+
+        # find the number of tests that passed
+        rts = data[r]["tests"]
+        data[r]["total"]["tests"] = sum(
+                1 for t in rts if rts[t]["status"] in "test-passed")
+
+        # find the number of tags for which all the tests passed
+        rtt = data[r]["tags"]
+        data[r]["total"]["tags"] = sum(
+                1 for t in rtt if rtt[t]["status"] in "test-passed")
 
     with open(args.template, "r") as f:
         report = jinja2.Template(f.read(),
