@@ -108,6 +108,21 @@
           {% endfor %}
         </tr>
       {% endfor %}
+      <tfoot>
+        <tr>
+          <th class="report_table_info" colspan="2"> Total tests passed: </th>
+
+          {% for tool in report %}
+          <th class="report_table_result" title="{{ tool.lower() }}" > {{ report[tool]["total"]["tests"] }}/{{ report[tool]["tests"].keys()|length }}</th>
+          {% endfor %}
+        </tr>
+        <tr>
+          <th class="report_table_info" colspan="2"> Total tags passed: </th>
+          {% for tool in report %}
+          <th class="report_table_result" title="{{ tool.lower() }}" > {{ report[tool]["total"]["tags"]}}/{{ database.keys()|length}}</th>
+          {% endfor %}
+        </tr>
+      </tfoot>
     </table>
   </body>
 
