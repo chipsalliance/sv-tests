@@ -74,7 +74,7 @@ generate-tests:
 report: init info tests
 	./tools/sv-report
 	cp ./conf/report/report.* ./out/.
-	cp -rfT ./tests ./out/tests/
+	find $(TESTS_DIR) -name *.sv -exec ./tools/formatter $(OUT_DIR) {} +
 
 $(foreach g, $(GENERATORS), $(eval $(call generator_gen,$(g))))
 $(foreach r, $(RUNNERS),$(foreach t, $(TESTS),$(eval $(call runner_gen,$(r),$(t)))))
