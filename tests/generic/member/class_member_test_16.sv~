@@ -1,0 +1,13 @@
+/*
+:name: class_member_test_16
+:description: Test
+:should_fail: 1
+:tags: 8.3
+*/
+class myclass;
+<<<<<<< HEAD
+extern function void subroutine;
+=======
+extern function automatic void subroutine;
+>>>>>>> b9e8768ff83ed14ea2832e5c584e07c7cde60013
+endclass
