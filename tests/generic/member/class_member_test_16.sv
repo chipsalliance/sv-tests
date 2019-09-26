@@ -5,5 +5,5 @@
 :tags: 8.3
 */
 class myclass;
-extern function automatic void subroutine;
+extern function void subroutine;
 endclass
