@@ -37,7 +37,7 @@
     } );
   </script>
   <style type="text/css">
-    table.dataTable tbody tr th#report_table_result {
+    .report_table_result {
       width: calc(80% / {{ report.keys()|length}} );
     }
   </style>
@@ -91,10 +91,10 @@
       </thead>
         {% for tag, info in database.items() %}
         <tr>
-          <th id="report_table_info" title="{{info}}"> {{ info }} </th>
-          <th id="report_table_tag" title="{{info}}"> {{ tag }} </th>
+          <th class="report_table_info" title="{{info}}"> {{ info }} </th>
+          <th class="report_table_tag" title="{{info}}"> {{ tag }} </th>
           {% for tool, tooldata in report.items() %}
-          <th id="report_table_result" class="{{ tooldata["tags"][tag]["status"] }}
+          <th class="report_table_result {{ tooldata["tags"][tag]["status"] }}
             {% if "test-na" not in tooldata["tags"][tag]["status"] %} test-cell {% endif %}"
             {% if "test-na" not in tooldata["tags"][tag]["status"] %}
             id='{{tool}}-{{tag}}-cell'

@@ -3,12 +3,12 @@ table.dataTable {
   table-layout: fixed;
 }
 
-table.dataTable tbody tr th#report_table_tag {
+.report_table_tag {
   text-align: left;
   width: 50px;
 }
 
-table.dataTable tbody tr th#report_table_info {
+.report_table_info {
   text-overflow: ellipsis;
   white-space: nowrap;
   text-align: left;
