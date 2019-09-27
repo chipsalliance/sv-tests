@@ -57,7 +57,7 @@
       <div class="logtab-bar"
            id="logtab-{{tool}}-{{tag}}-bar">
 	      <button class="logtab-btn logtab-close-btn"
-		      onclick='toggleLog("{{ tool }}-{{ tag }}-logfile", "{{tool}}-{{tag}}-cell")'>
+		      onclick='toggleLog("{{tool}}", "{{tag}}", null)'>
           close
         </button>
         {% for test, output in tooldata["tags"][tag]["logs"].items() %}
@@ -65,7 +65,8 @@
                        logtab-tab-btn
                        {{output["status"]}}
                        "
-		onclick='selectTab("{{output["fname"]}}", "logtab-btn-{{tool}}-{{tag}}-{{test}}")'
+                onclick='selectTab("{{output["fname"]}}",
+                                   "logtab-btn-{{tool}}-{{tag}}-{{test}}")'
                 id="logtab-btn-{{tool}}-{{tag}}-{{test}}"
           >
           {{ output["name"] }}
@@ -98,7 +99,8 @@
             {% if "test-na" not in tooldata["tags"][tag]["status"] %} test-cell {% endif %}"
             {% if "test-na" not in tooldata["tags"][tag]["status"] %}
             id='{{tool}}-{{tag}}-cell'
-            onclick='toggleLog("{{ tool }}-{{ tag }}-logfile", "{{tool}}-{{tag}}-cell")'
+            onclick='toggleLog("{{tool}}", "{{tag}}",
+                               "{{tooldata["tags"][tag]["logs"]|first}}")'
             {% endif %}
             >
             {% if "test-na" not in tooldata["tags"][tag]["status"] %}

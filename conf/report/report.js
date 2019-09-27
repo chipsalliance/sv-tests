@@ -74,8 +74,11 @@ $.fn.dataTable.ext.order['test-status'] = function ( settings, col ) {
   });
 };
 
-function toggleLog(div_id, cell_id) {
+function toggleLog(tool, tag, test_id) {
   all_logs = document.getElementsByClassName("logfile-shown");
+
+  var div_id = [tool, tag, "logfile"].join("-");
+  var cell_id = [tool, tag, "cell"].join("-");
 
   for (var i=0; i < all_logs.length; ++i) {
     if (all_logs[i].id != div_id) {
@@ -86,13 +89,13 @@ function toggleLog(div_id, cell_id) {
   log_div = document.getElementById(div_id);
   outer_div = document.getElementById('logfile-outer');
 
-  window.open('about:blank', 'log-frame')
-  window.open('about:blank', 'file-frame')
-
-  all_btns = document.getElementsByClassName("logtab-btn-selected");
-  for (var i=0; i < all_btns.length; i++) {
-    all_btns[i].classList.remove("logtab-btn-selected");
+  if (test_id === null) {
+    window.open(logfile, 'log-frame')
+  } else {
+    selectTab("logs/" + test_id + ".html",
+              ["logtab-btn", tool, tag, test_id].join("-"));
   }
+  window.open('about:blank', 'file-frame')
 
   if (log_div.classList.toggle("logfile-shown")) {
     outer_div.classList.add("logfile-outer-shown");
