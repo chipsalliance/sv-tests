@@ -6,5 +6,6 @@
 */
 module top();
 	string a;
-	a.itoa(12);
+	initial
+		a.itoa(12);
 endmodule
