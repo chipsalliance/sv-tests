@@ -90,7 +90,7 @@ function toggleLog(tool, tag, test_id) {
   outer_div = document.getElementById('logfile-outer');
 
   if (test_id === null) {
-    window.open(logfile, 'log-frame')
+    window.open('about:blank', 'log-frame')
   } else {
     selectTab("logs/" + test_id + ".html",
               ["logtab-btn", tool, tag, test_id].join("-"));
