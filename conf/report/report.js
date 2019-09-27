@@ -102,6 +102,9 @@ function toggleLog(tool, tag, test_id) {
   } else {
     outer_div.classList.remove("logfile-outer-shown");
   }
+
+  cell = document.getElementById(cell_id);
+  cell.classList.toggle("test-cell-selected");
 }
 
 function hideLog(div_id) {

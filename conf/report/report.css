@@ -48,7 +48,8 @@ table.dataTable tfoot th {
 }
 
 .test-cell-selected {
-  border: 2px solid black;
+  border: 1px solid black;
+  filter: brightness(95%);
   font-weight: bold;
 }
 
