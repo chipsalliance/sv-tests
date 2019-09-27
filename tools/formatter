@@ -15,7 +15,7 @@ parser.add_argument("files", metavar='file',
 args = parser.parse_args()
 
 lex = lexers.get_lexer_by_name("systemverilog")
-formatter = HtmlFormatter(full=True, linenos=True)
+formatter = HtmlFormatter(full=True, linenos=True, anchorlinenos=True, lineanchors='l')
 
 for fname in args.files:
     with open(fname, 'rb') as f:
