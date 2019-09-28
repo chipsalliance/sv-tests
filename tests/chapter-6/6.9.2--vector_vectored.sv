@@ -5,7 +5,6 @@
 :tags: 6.9.2
 */
 module top();
-	logic vectored [15:0] a;
+	tri1 vectored [15:0] a;
 
-	a = 12;
 endmodule
