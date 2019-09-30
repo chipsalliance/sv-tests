@@ -1,5 +1,7 @@
 #!/usr/bin/env python3
 
+from pygments.formatters import HtmlFormatter
+from pygments import lexers, highlight
 from glob import glob
 import argparse
 import logging
@@ -61,27 +63,49 @@ else:
 
 tag_usage = {}
 
+lex = lexers.get_lexer_by_name("systemverilog")
 
-def logToHTML(path):
+
+def formatSrc(ifile, ofile):
+    formatter = HtmlFormatter(full=True, linenos=True,
+                              anchorlinenos=True, lineanchors='l',
+                              filename=os.path.relpath(ifile))
+    with open(ifile, 'rb') as f:
+        code = f.read()
+        os.makedirs(os.path.dirname(ofile), exist_ok=True)
+        with open(ofile, 'w') as out:
+            highlight(code, lex, formatter, outfile=out)
+
+
+def logToHTML(path, tags):
     depth = path.count('/') - 1
-    link_pat = r'[^ ]*/(tests/[^ ]+\.sv)'
     src_relative = '../' * depth
-    link_sub = r'<a href="{}\1.html" target="file-frame">\1</a>'
-    with open(path, 'r') as log:
-        try:
-            first_file = re.findall(link_pat, log.read())[0] + ".html"
-        except IndexError:
-            first_file = "about:blank"
+    files = tags['files'].split()
+    log = tags['log']
+    tag_list = ['name', 'description', 'should_fail',
+                'tags', 'incdirs', 'top_module']
+    html_pat_ln = r'{}:(\d+)'
+    html_sub_ln = r'<a href="{0}{1}.html#l-\1" target="file-frame">{1}:\1</a>'
+    with open(path + '.html', 'w') as html:
+        html.write('<pre>')
+        for tag in tag_list:
+            html.write('{}: {}\n'.format(tag, tags[tag]))
+        html.write('files:')
+        for f in files:
+            f_rel = os.path.relpath(f)
+            f_html = ('<a href="{0}{1}.html" target="file-frame">{1}</a>'
+                      .format(src_relative, f_rel))
+            log = re.sub(html_pat_ln.format(f),
+                         html_sub_ln.format(src_relative, f_rel), log)
+            log = re.sub(f, f_html, log)
+            formatSrc(f, os.path.join(os.path.dirname(args.out),
+                      f_rel + '.html'))
+            html.write(' ' + f_html)
+        html.write('\n')
+        html.write(log)
+        html.write('</pre>')
 
-        log.seek(0)
-
-        with open(path + '.html', 'w') as html:
-            html.write('<pre>')
-            for l in log:
-                html.write(re.sub(link_pat, link_sub.format(src_relative), l))
-            html.write('</pre>')
-
-    return first_file
+    return os.path.relpath(files[0]) + '.html'
 
 
 def getRelativePaths(paths):
@@ -167,10 +191,9 @@ for r in [os.path.dirname(r) for r in glob(args.logs + "/*/")]:
                 del tests[t_id]
                 continue
 
-            f.seek(0)
             tests[t_id]["log"] = f.read()
             tests[t_id]["fname"] = os.path.join('logs', t_id + '.html')
-            tests[t_id]["first_file"] = logToHTML(t)
+            tests[t_id]["first_file"] = logToHTML(t, tests[t_id])
 
         # check if test was skipped
         if t_id not in tests:
