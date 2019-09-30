@@ -4,6 +4,7 @@ from glob import glob
 import argparse
 import logging
 import jinja2
+import csv
 import sys
 import os
 import re
@@ -35,6 +36,10 @@ parser.add_argument("-t", "--template",
 parser.add_argument("-o", "--out",
                     help="Path to the html file with the report",
                     default="out/report.html")
+
+parser.add_argument("-c", "--csv",
+                    help="Path to the csv file with the report",
+                    default="out/report.csv")
 
 # parse args
 args = parser.parse_args()
@@ -77,6 +82,13 @@ def logToHTML(path):
             html.write('</pre>')
 
     return first_file
+
+
+def getRelativePaths(paths):
+    paths = paths.split(' ')
+    paths = list(map(lambda x: os.path.realpath(x), paths))
+
+    return ' '.join(paths)
 
 
 # generate input database first
@@ -219,6 +231,37 @@ for tag in tag_usage:
     if tag_usage[tag] == 0:
         del database[tag]
 
+csv_header = ['name', 'files', 'tags']
+csv_output = {}
+duplicates = []
+
+for r in data:
+    csv_header.append(r)
+    for test in data[r]["tests"]:
+        test_handle = data[r]["tests"][test]
+        name = test_handle["name"]
+        files = getRelativePaths(test_handle["files"])
+
+        try:
+            if csv_output[name]["files"] != files:
+                logger.error("Duplicate test: {}, first use: {}, second: {}"
+                             .format(name, csv_output[name]["files"],
+                                     files))
+                if name not in duplicates:
+                    duplicates.append(name)
+            else:
+                csv_output[name][r] = test_handle["status"] == "test-passed"
+        except KeyError:
+            csv_output[name] = {}
+            csv_output[name]["name"] = test_handle["name"]
+            csv_output[name]["files"] = files
+            csv_output[name]["tags"] = test_handle["tags"]
+            csv_output[name][r] = test_handle["status"] == "test-passed"
+
+if len(duplicates) > 0:
+    logger.critical("Unable to generate report, duplicate test names")
+    sys.exit(1)
+
 try:
     for r in data:
         for tag in data[r]["tags"]:
@@ -255,6 +298,12 @@ try:
 
     with open(args.out, 'w') as f:
         f.write(report.render(report=data, database=database))
+
+    with open(args.csv, 'w', newline='') as csvfile:
+        writer = csv.DictWriter(csvfile, fieldnames=csv_header)
+        writer.writeheader()
+        for test in csv_output:
+            writer.writerow(csv_output[test])
 except KeyError:
     logger.critical("Unable to generate report, not enough logs")
 except Exception as e:

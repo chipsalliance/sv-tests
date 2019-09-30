@@ -1,5 +1,5 @@
 /*
-:name: operations-on-arrays-equality
+:name: operations-on-packed-arrays-equality
 :description: Test packed arrays operations support (equality)
 :should_fail: 0
 :tags: 7.4.3

@@ -1,5 +1,5 @@
 /*
-:name: operations-on-arrays-one-bit
+:name: operations-on-unpacked-arrays-one-bit
 :description: Test unpacked arrays operations support (one bit)
 :should_fail: 0
 :tags: 7.4.3

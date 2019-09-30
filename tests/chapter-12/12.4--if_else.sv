@@ -1,5 +1,5 @@
 /*
-:name: if
+:name: if_else
 :description: A module testing if-else statement
 :should_fail: 0
 :tags: 12.4

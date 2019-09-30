@@ -1,5 +1,5 @@
 /*
-:name: operations-on-arrays-equality
+:name: operations-on-unpacked-arrays-equality
 :description: Test unpacked arrays operations support (equality)
 :should_fail: 0
 :tags: 7.4.3

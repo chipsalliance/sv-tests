@@ -1,5 +1,5 @@
 /*
-:name: insert
+:name: insert-assign
 :description: Update queue by assignment (insert)
 :should_fail: 0
 :tags: 7.10.4

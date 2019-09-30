@@ -1,5 +1,5 @@
 /*
-:name: operations-on-arrays-variable-slice-rw
+:name: operations-on-packed-arrays-variable-slice-rw
 :description: Test packed arrays operations support (Variable slice)
 :should_fail: 0
 :tags: 7.4.3 7.4.6

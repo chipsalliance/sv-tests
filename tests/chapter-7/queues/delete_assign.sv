@@ -1,5 +1,5 @@
 /*
-:name: delete
+:name: delete-assign
 :description: Update queue by assignment (delete)
 :should_fail: 0
 :tags: 7.10.4

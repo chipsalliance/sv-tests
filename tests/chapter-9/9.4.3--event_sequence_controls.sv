@@ -1,5 +1,5 @@
 /*
-:name: event_sequence
+:name: event_sequence_controls
 :description: event sequence
 :should_fail: 0
 :tags: 9.4.3

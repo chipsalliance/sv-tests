@@ -56,6 +56,7 @@ jobs:
         - "cp out/report.html out/deploy/index.html"
         - "cp out/report.css out/deploy/report.css"
         - "cp out/report.js out/deploy/report.js"
+        - "cp out/report.csv out/deploy/report.csv"
         - "cp -rf out/logs out/deploy/logs"
         - "cp -rf out/tests out/deploy/tests"
         - "touch out/deploy/.nojekyll"

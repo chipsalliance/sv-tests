@@ -1,5 +1,5 @@
 /*
-:name: operations-on-arrays-slice-equality
+:name: operations-on-packed-arrays-slice-equality
 :description: Test packed arrays operations support (slice equality)
 :should_fail: 0
 :tags: 7.4.3

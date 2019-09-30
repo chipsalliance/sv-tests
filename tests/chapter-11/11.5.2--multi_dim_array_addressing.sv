@@ -1,6 +1,6 @@
 /*
-:name: array_addressing
-:description: array addressing test
+:name: multi_dim_array_addressing
+:description: multi-dimensional array addressing test
 :should_fail: 0
 :tags: 11.5.2
 */
