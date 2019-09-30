@@ -5,7 +5,6 @@
 :tags: 6.9.2
 */
 module top();
-	logic scalared [15:0] a = 0;
+	tri1 scalared [15:0] a = 0;
 
-	a[1] = 1;
 endmodule
