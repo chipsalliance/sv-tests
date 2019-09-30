@@ -15,9 +15,10 @@ parser.add_argument("files", metavar='file',
 args = parser.parse_args()
 
 lex = lexers.get_lexer_by_name("systemverilog")
-formatter = HtmlFormatter(full=True, linenos=True, anchorlinenos=True, lineanchors='l')
 
 for fname in args.files:
+    formatter = HtmlFormatter(full=True, linenos=True, anchorlinenos=True,
+                              lineanchors='l', filename=fname)
     with open(fname, 'rb') as f:
         code = f.read()
         path = os.path.join(args.outdir, fname + '.html')
