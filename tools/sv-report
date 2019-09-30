@@ -63,11 +63,20 @@ def logToHTML(path):
     src_relative = '../' * depth
     link_sub = r'<a href="{}\1.html" target="file-frame">\1</a>'
     with open(path, 'r') as log:
+        try:
+            first_file = re.findall(link_pat, log.read())[0] + ".html"
+        except IndexError:
+            first_file = "about:blank"
+
+        log.seek(0)
+
         with open(path + '.html', 'w') as html:
             html.write('<pre>')
             for l in log:
                 html.write(re.sub(link_pat, link_sub.format(src_relative), l))
             html.write('</pre>')
+
+    return first_file
 
 
 # generate input database first
@@ -149,7 +158,7 @@ for r in [os.path.dirname(r) for r in glob(args.logs + "/*/")]:
             f.seek(0)
             tests[t_id]["log"] = f.read()
             tests[t_id]["fname"] = os.path.join('logs', t_id + '.html')
-            logToHTML(t)
+            tests[t_id]["first_file"] = logToHTML(t)
 
         # check if test was skipped
         if t_id not in tests:
@@ -226,6 +235,7 @@ try:
                     inner["status"] = test_handle["status"]
                     inner["name"] = test_handle["name"]
                     inner["fname"] = test_handle["fname"]
+                    inner["first_file"] = test_handle["first_file"]
         data[r]["total"] = {}
 
         # find the number of tests that passed
