@@ -84,6 +84,8 @@ def logToHTML(path, tags):
     log = tags['log']
     tag_list = ['name', 'description', 'should_fail',
                 'tags', 'incdirs', 'top_module']
+    html_pat_ln = r'{}:(\d+)'
+    html_sub_ln = r'<a href="{0}{1}.html#l-\1" target="file-frame">{1}:\1</a>'
     with open(path + '.html', 'w') as html:
         html.write('<pre>')
         for tag in tag_list:
@@ -93,7 +95,9 @@ def logToHTML(path, tags):
             f_rel = os.path.relpath(f)
             f_html = ('<a href="{0}{1}.html" target="file-frame">{1}</a>'
                       .format(src_relative, f_rel))
-            log = log.replace(f, f_html)
+            log = re.sub(html_pat_ln.format(f),
+                         html_sub_ln.format(src_relative, f_rel), log)
+            log = re.sub(f, f_html, log)
             formatSrc(f, os.path.join(os.path.dirname(args.out),
                       f_rel + '.html'))
             html.write(' ' + f_html)
