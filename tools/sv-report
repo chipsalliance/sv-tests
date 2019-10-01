@@ -72,8 +72,7 @@ lex = lexers.get_lexer_by_name("systemverilog")
 
 def formatSrc(ifile, ofile):
     formatter = HtmlFormatter(full=False, linenos=True,
-                              anchorlinenos=True, lineanchors='l',
-                              filename=os.path.relpath(ifile))
+                              anchorlinenos=True, lineanchors='l')
     with open(ifile, 'rb') as f:
         raw_code = f.read()
         os.makedirs(os.path.dirname(ofile), exist_ok=True)
@@ -88,8 +87,11 @@ def formatSrc(ifile, ofile):
         with open(ofile, 'w') as out:
             src_rel = "../" * (ofile.count('/') - 1)
             csspath = os.path.join(src_rel, "code.css")
+            filename = os.path.relpath(ifile)
 
-            out.write(template.render(csspath=csspath, code=code))
+            out.write(template.render(csspath=csspath,
+                                      filename=filename,
+                                      code=code))
 
 
 def logToHTML(path, tags):
