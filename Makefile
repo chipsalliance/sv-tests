@@ -73,7 +73,8 @@ generate-tests:
 
 report: init info tests
 	./tools/sv-report
-	cp ./conf/report/report.* ./out/.
+	cp ./conf/report/*.css ./out/.
+	cp ./conf/report/*.js ./out/.
 
 $(foreach g, $(GENERATORS), $(eval $(call generator_gen,$(g))))
 $(foreach r, $(RUNNERS),$(foreach t, $(TESTS),$(eval $(call runner_gen,$(r),$(t)))))
