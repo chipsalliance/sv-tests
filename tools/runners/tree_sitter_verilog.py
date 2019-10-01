@@ -9,13 +9,23 @@ class tree_sitter_verilog(BaseRunner):
     def __init__(self):
         super().__init__("tree-sitter-verilog")
 
-    def walk(self, node):
-        if node.has_error != 0:
-            self.log += str(node.start_point) + ' ' + str(node.type) + '\n'
-            self.ret = 1
+    def log_error(self, fname, row, col, err):
+        self.log += '{}:{}:{}: error: {}\n'.format(fname, row, col, err)
+
+    def walk(self, node, fname):
+        if not node.has_error:
+            return False
+
+        last_err = True
 
         for child in node.children:
-            self.walk(child)
+            if self.walk(child, fname):
+                last_err = False
+
+        if last_err:
+            self.log_error(fname, *node.start_point, 'node type: ' + node.type)
+
+        return True
 
     def run(self, tmp_dir, params):
         self.ret = 0
@@ -35,13 +45,21 @@ class tree_sitter_verilog(BaseRunner):
         parser.set_language(lang)
 
         for src in params['files']:
-            with open(src, 'rb') as f:
-                try:
-                    tree = parser.parse(f.read())
-                    self.walk(tree.root_node)
-                except Exception as e:
-                    self.log += str(e)
+            f = None
+            try:
+                f = open(src, 'rb')
+            except IOError:
+                self.ret = 1
+                self.log_error(src, '', '', 'failed to open file')
+                continue
+
+            try:
+                tree = parser.parse(f.read())
+                if self.walk(tree.root_node, src):
                     self.ret = 1
+            except Exception as e:
+                self.log_error(src, '', '', 'unknown error: ' + str(e))
+                self.ret = 1
 
         return (self.log, self.ret)
 
