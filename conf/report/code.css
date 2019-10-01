@@ -56,3 +56,17 @@
 .highlight .vg { color: #00688B } /* Name.Variable.Global */
 .highlight .vi { color: #00688B } /* Name.Variable.Instance */
 .highlight .il { color: #B452CD } /* Literal.Number.Integer.Long */
+
+.highlight pre {
+  margin: 0;
+}
+
+.linenodiv a {
+  color: #000000;
+  text-decoration: none;
+}
+
+.linenodiv a:hover {
+  text-decoration: underline;
+}
+
