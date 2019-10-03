@@ -41,11 +41,11 @@ parser.add_argument("-T", "--code-template",
 
 parser.add_argument("-o", "--out",
                     help="Path to the html file with the report",
-                    default="out/report.html")
+                    default="out/deploy/index.html")
 
 parser.add_argument("-c", "--csv",
                     help="Path to the csv file with the report",
-                    default="out/report.csv")
+                    default="out/deploy/report.csv")
 
 # parse args
 args = parser.parse_args()
@@ -85,17 +85,17 @@ def formatSrc(ifile, ofile):
         code = highlight(raw_code, lex, formatter)
 
         with open(ofile, 'w') as out:
-            src_rel = "../" * (ofile.count('/') - 1)
-            csspath = os.path.join(src_rel, "code.css")
             filename = os.path.relpath(ifile)
+            src_rel = "../" * filename.count('/')
+            csspath = os.path.join(src_rel, "code.css")
 
             out.write(template.render(csspath=csspath,
                                       filename=filename,
                                       code=code))
 
 
-def logToHTML(path, tags):
-    depth = path.count('/') - 1
+def logToHTML(path_in, path_out, tags):
+    depth = path_in.count('/') - 1
     src_relative = '../' * depth
     files = tags['files'].split()
     log = tags['log']
@@ -103,7 +103,7 @@ def logToHTML(path, tags):
                 'tags', 'incdirs', 'top_module']
     html_pat_ln = r'{}:(\d+)'
     html_sub_ln = r'<a href="{0}{1}.html#l-\1" target="file-frame">{1}:\1</a>'
-    with open(path + '.html', 'w') as html:
+    with open(path_out + '.html', 'w') as html:
         html.write('<pre>')
         for tag in tag_list:
             html.write('{}: {}\n'.format(tag, tags[tag]))
@@ -210,7 +210,12 @@ for r in [os.path.dirname(r) for r in glob(args.logs + "/*/")]:
 
             tests[t_id]["log"] = f.read()
             tests[t_id]["fname"] = os.path.join('logs', t_id + '.html')
-            tests[t_id]["first_file"] = logToHTML(t, tests[t_id])
+
+            t_html = t.replace(args.logs,
+                               os.path.join(os.path.dirname(args.out), "logs"))
+            os.makedirs(os.path.dirname(t_html), exist_ok=True)
+
+            tests[t_id]["first_file"] = logToHTML(t, t_html, tests[t_id])
 
         # check if test was skipped
         if t_id not in tests:
