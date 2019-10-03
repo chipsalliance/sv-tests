@@ -6,10 +6,31 @@ from BaseRunner import BaseRunner
 
 
 class tree_sitter_verilog(BaseRunner):
+    libname = 'tree-sitter-verilog.so'
+    locpath = ['runners', 'lib', libname]
+    conpath = ['lib', libname]
+
     def __init__(self):
         super().__init__("tree-sitter-verilog")
 
         self.url = "https://github.com/tree-sitter/tree-sitter-verilog"
+
+    def find_lib(self):
+        local_lib = ''
+        conda_lib = ''
+        try:
+            out = os.environ['OUT_DIR']
+            local_lib = os.path.abspath(os.path.join(out, *self.locpath))
+        except KeyError:
+            pass
+
+        try:
+            prefix = os.environ['CONDA_PREFIX']
+            conda_lib = os.path.abspath(os.path.join(prefix, *self.conpath))
+        except KeyError:
+            pass
+
+        return local_lib if os.path.isfile(local_lib) else conda_lib
 
     def log_error(self, fname, row, col, err):
         self.log += '{}:{}:{}: error: {}\n'.format(fname, row, col, err)
@@ -32,16 +53,9 @@ class tree_sitter_verilog(BaseRunner):
     def run(self, tmp_dir, params):
         self.ret = 0
         self.log = ''
-        sv_lib = ''
-        try:
-            out = os.environ['OUT_DIR']
-            sv_lib = os.path.abspath(
-                os.path.join(out, 'runners', 'lib', 'verilog.so'))
-        except KeyError as e:
-            print(str(e))
-            sys.exit(1)
+        lib = self.find_lib()
 
-        lang = Language(sv_lib, 'verilog')
+        lang = Language(lib, 'verilog')
 
         parser = Parser()
         parser.set_language(lang)
@@ -66,12 +80,4 @@ class tree_sitter_verilog(BaseRunner):
         return (self.log, self.ret)
 
     def can_run(self):
-        try:
-            return os.path.isfile(
-                os.path.abspath(
-                    os.path.join(
-                        os.environ['OUT_DIR'], 'runners', 'lib',
-                        'verilog.so')))
-        except KeyError as e:
-            print(str(e))
-            return False
+        return os.path.isfile(self.find_lib())

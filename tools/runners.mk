@@ -58,9 +58,9 @@ $(INSTALL_DIR)/bin/zachjs-sv2v:
 	install -D $(RDIR)/zachjs-sv2v/bin/sv2v $@
 
 # tree-sitter-verilog
-tree-sitter-verilog: $(INSTALL_DIR)/lib/verilog.so
+tree-sitter-verilog: $(INSTALL_DIR)/lib/tree-sitter-verilog.so
 
-$(INSTALL_DIR)/lib/verilog.so:
+$(INSTALL_DIR)/lib/tree-sitter-verilog.so:
 	mkdir -p $(INSTALL_DIR)/lib
 	cd $(RDIR)/tree-sitter-verilog && npm install
 	/usr/bin/env python3 -c "from tree_sitter import Language; Language.build_library(\"$@\", [\"$(abspath $(RDIR)/tree-sitter-verilog)\"])"
