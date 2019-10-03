@@ -28,3 +28,6 @@
 [submodule "third_party/cores/fx68k"]
 	path = third_party/cores/fx68k
 	url = https://github.com/ijor/fx68k
+[submodule "third_party/tests/hdlconvertor"]
+	path = third_party/tests/hdlconvertor
+	url = https://github.com/Nic30/hdlConvertor
