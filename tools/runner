@@ -122,6 +122,8 @@ try:
     output, rc = runner_obj.run(tmp_dir, test_params)
 
     test_params['rc'] = rc
+    test_params['runner'] = runner_obj.name
+    test_params['runner_url'] = runner_obj.url
 
     tool_should_fail = test_params["should_fail"] == "1"
     tool_failed = test_params["rc"] != 0

@@ -9,6 +9,8 @@ class tree_sitter_verilog(BaseRunner):
     def __init__(self):
         super().__init__("tree-sitter-verilog")
 
+        self.url = "https://github.com/tree-sitter/tree-sitter-verilog"
+
     def log_error(self, fname, row, col, err):
         self.log += '{}:{}:{}: error: {}\n'.format(fname, row, col, err)
 

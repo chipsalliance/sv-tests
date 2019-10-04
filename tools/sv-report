@@ -114,8 +114,6 @@ def logToHTML(path_in, path_out, tags):
     src_relative = '../' * depth
     files = tags['files'].split()
     log = tags['log']
-    tag_list = ['name', 'description', 'should_fail',
-                'tags', 'incdirs', 'top_module']
     html_pat_ln = r'{}:(\d+)'
     html_sub_ln = r'<a href="{0}{1}.html#l-\1" target="file-frame">{1}:\1</a>'
 
@@ -123,7 +121,6 @@ def logToHTML(path_in, path_out, tags):
     tags['tool_url'] = "toolname.pl"
 
     tags['file_urls'] = []
-
 
     for f in files:
         f_rel = os.path.relpath(f)
@@ -203,7 +200,7 @@ for r in [os.path.dirname(r) for r in glob(args.logs + "/*/")]:
 
         test_tags = ["name", "tags", "should_fail", "rc",
                      "description", "files", "incdirs",
-                     "top_module"]
+                     "top_module", "runner", "runner_url"]
         with open(t, "r") as f:
             try:
                 for l in f:

@@ -24,6 +24,8 @@ class BaseRunner:
         self.name = name
         self.executable = executable
 
+        self.url = "https://github.com/symbiflow/sv-tests"
+
     def run(self, tmp_dir, params):
         """Run the provided test case
         This method is called by the main runner script (tools/runner).

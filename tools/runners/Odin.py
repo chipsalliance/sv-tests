@@ -5,6 +5,8 @@ class Odin(BaseRunner):
     def __init__(self):
         super().__init__("odin", "odin_II")
 
+        self.url = "https://verilogtorouting.org/"
+
     def prepare_run_cb(self, tmp_dir, params):
 
         self.cmd = [self.executable, '--permissive', '-o odin.blif', '-V']

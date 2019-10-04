@@ -7,6 +7,8 @@ class Yosys(BaseRunner):
     def __init__(self):
         super().__init__("yosys", "yosys")
 
+        self.url = "http://www.clifford.at/yosys/"
+
     def prepare_run_cb(self, tmp_dir, params):
         scr = os.path.join(tmp_dir, 'scr.ys')
 
