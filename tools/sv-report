@@ -31,13 +31,17 @@ parser.add_argument("-l", "--logs",
                     help="Directory with all the individual test results",
                     default="out/logs")
 
-parser.add_argument("-t", "--template",
+parser.add_argument("--template",
                     help="Path to the html report template",
                     default="conf/report/report-template.html")
 
-parser.add_argument("-T", "--code-template",
+parser.add_argument("--code-template",
                     help="Path to the html code preview template",
                     default="conf/report/code-template.html")
+
+parser.add_argument("--log-template",
+                    help="Path to the html log template",
+                    default="conf/report/log-template.html")
 
 parser.add_argument("-o", "--out",
                     help="Path to the html file with the report",
@@ -114,24 +118,35 @@ def logToHTML(path_in, path_out, tags):
                 'tags', 'incdirs', 'top_module']
     html_pat_ln = r'{}:(\d+)'
     html_sub_ln = r'<a href="{0}{1}.html#l-\1" target="file-frame">{1}:\1</a>'
-    with open(path_out + '.html', 'w') as html:
-        html.write('<pre>')
-        for tag in tag_list:
-            html.write('{}: {}\n'.format(tag, tags[tag]))
-        html.write('files:')
-        for f in files:
-            f_rel = os.path.relpath(f)
-            f_html = ('<a href="{0}{1}.html" target="file-frame">{1}</a>'
-                      .format(src_relative, f_rel))
-            log = re.sub(html_pat_ln.format(f),
-                         html_sub_ln.format(src_relative, f_rel), log)
-            log = re.sub(f, f_html, log)
-            formatSrc(f, os.path.join(os.path.dirname(args.out),
-                      f_rel + '.html'))
-            html.write(' ' + f_html)
-        html.write('\n')
-        html.write(log)
-        html.write('</pre>')
+
+    tags['tool'] = "toolname"
+    tags['tool_url'] = "toolname.pl"
+
+    tags['file_urls'] = []
+
+
+    for f in files:
+        f_rel = os.path.relpath(f)
+        f_html = ('<a href="{0}{1}.html" target="file-frame">{1}</a>'
+                  .format(src_relative, f_rel))
+        log = re.sub(html_pat_ln.format(f),
+                     html_sub_ln.format(src_relative, f_rel), log)
+        log = re.sub(f, f_html, log)
+        formatSrc(f, os.path.join(os.path.dirname(args.out),
+                  f_rel + '.html'))
+
+        tags['file_urls'].append(f_html)
+
+    tags['file_urls'] = " ".join(tags['file_urls'])
+    tags['log_urls'] = log
+
+    with open(args.log_template, "r") as templ:
+        logf = jinja2.Template(templ.read(),
+                               trim_blocks=True,
+                               lstrip_blocks=True)
+
+    with open(path_out + ".html", 'w') as html:
+        html.write(logf.render(**tags))
 
     return os.path.relpath(files[0]) + '.html'
 
