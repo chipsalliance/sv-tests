@@ -149,3 +149,7 @@ table.dataTable tfoot th {
 
 button:focus {outline:0;}
 
+footer {
+  text-align: center;
+  font-size: 10px;
+}
