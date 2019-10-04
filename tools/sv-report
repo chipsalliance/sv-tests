@@ -47,6 +47,10 @@ parser.add_argument("-c", "--csv",
                     help="Path to the csv file with the report",
                     default="out/deploy/report.csv")
 
+parser.add_argument("-r", "--revision",
+                    help="Report revision",
+                    default="unknown")
+
 # parse args
 args = parser.parse_args()
 
@@ -342,7 +346,9 @@ try:
                                  lstrip_blocks=True)
 
     with open(args.out, 'w') as f:
-        f.write(report.render(report=data, database=database))
+        f.write(report.render(report=data,
+                              database=database,
+                              revision=args.revision))
 
     with open(args.csv, 'w', newline='') as csvfile:
         writer = csv.DictWriter(csvfile, fieldnames=csv_header)
