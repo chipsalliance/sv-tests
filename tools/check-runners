@@ -3,6 +3,8 @@
 import os
 import sys
 import argparse
+import logging
+
 from importlib import import_module
 
 parser = argparse.ArgumentParser()
@@ -11,6 +13,7 @@ parser.add_argument("runners", metavar='runner',
                     type=str, nargs='+')
 
 args = parser.parse_args()
+logger = logging.getLogger()
 
 runner_obj = None
 
@@ -32,4 +35,4 @@ for runner in args.runners:
     if runner_obj.can_run():
         print(runner)
     else:
-        print('Runner {} not found'.format(runner), file=sys.stderr)
+        logger.debug('Runner {} not found'.format(runner))
