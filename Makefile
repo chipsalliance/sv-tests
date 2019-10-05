@@ -42,7 +42,7 @@ endef
 
 define generator_gen
 generate-$(1):
-	@$(GENERATORS_DIR)/$(1) $(1)
+	$(GENERATORS_DIR)/$(1) $(1)
 
 generate-tests: generate-$(1)
 endef
