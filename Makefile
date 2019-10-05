@@ -71,7 +71,7 @@ tests:
 
 generate-tests:
 
-report: init info tests
+report: init tests
 	./tools/sv-report --revision $(shell git rev-parse --short HEAD)
 	cp $(CONF_DIR)/report/*.css $(OUT_DIR)/deploy/
 	cp $(CONF_DIR)/report/*.js $(OUT_DIR)/deploy/
