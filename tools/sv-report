@@ -73,8 +73,13 @@ tag_usage = {}
 
 lex = lexers.get_lexer_by_name("systemverilog")
 
+def exists_and_is_newer_than(b, a):
+    return os.path.exists(b) and os.path.getctime(b) > os.path.getctime(a)
 
 def formatSrc(ifile, ofile):
+    if exists_and_is_newer_than(ofile, ifile):
+        return
+
     formatter = HtmlFormatter(full=False, linenos=True,
                               anchorlinenos=True, lineanchors='l')
     with open(ifile, 'rb') as f:
