@@ -31,3 +31,6 @@
 [submodule "third_party/tests/hdlconvertor"]
 	path = third_party/tests/hdlconvertor
 	url = https://github.com/Nic30/hdlConvertor
+[submodule "third_party/tools/sv-parser"]
+	path = third_party/tools/sv-parser
+	url = https://github.com/dalance/sv-parser
