@@ -1,5 +1,5 @@
 version: 1
 update_configs:
   - package_manager: "submodules"
-    directory: "/third_party"
+    directory: "/"
     update_schedule: "weekly"
