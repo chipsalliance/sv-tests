@@ -3,6 +3,7 @@
 import os
 import re
 import sys
+import time
 import shutil
 import logging
 import argparse
@@ -126,11 +127,14 @@ except (PermissionError, FileExistsError) as e:
 try:
     logger.info("Running {}/{}".format(args.runner, args.test))
 
+    started = time.time()
     output, rc = runner_obj.run(tmp_dir, test_params)
+    finished = time.time()
 
     test_params['rc'] = rc
     test_params['runner'] = runner_obj.name
     test_params['runner_url'] = runner_obj.url
+    test_params['time_elapsed'] = str(finished - started)
 
     tool_should_fail = test_params["should_fail"] == "1"
     tool_failed = test_params["rc"] != 0

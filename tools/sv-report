@@ -233,6 +233,7 @@ def collect_logs(runner_name):
     # all tests info
     runner_data["tests"] = {}
     tests = runner_data["tests"]
+    runner_data["time_elapsed"] = 0
 
     for t in glob(os.path.join(args.logs, runner_name, "**/*.log"),
                   recursive=True):
@@ -243,7 +244,7 @@ def collect_logs(runner_name):
 
         test_tags = [
             "name", "tags", "should_fail", "rc", "description", "files",
-            "incdirs", "top_module", "runner", "runner_url"
+            "incdirs", "top_module", "runner", "runner_url", "time_elapsed"
         ]
         with open(t, "r") as f:
             try:
@@ -284,6 +285,8 @@ def collect_logs(runner_name):
             os.makedirs(os.path.dirname(t_html), exist_ok=True)
 
             tests[t_id]["first_file"] = logToHTML(t, t_html, tests[t_id])
+
+            runner_data["time_elapsed"] += float(tests[t_id]["time_elapsed"])
 
         # check if test was skipped
         if t_id not in tests:
