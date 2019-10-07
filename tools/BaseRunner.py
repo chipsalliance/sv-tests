@@ -2,9 +2,10 @@ import resource
 import shutil
 import subprocess
 
+
 def set_process_limits():
     """Make sure processes behave. Limit memory to 4GiB"""
-    resource.setrlimit(resource.RLIMIT_DATA, (4<<30, 4<<30))
+    resource.setrlimit(resource.RLIMIT_DATA, (4 << 30, 4 << 30))
 
 
 class BaseRunner:
@@ -31,7 +32,6 @@ class BaseRunner:
 
         self.url = "https://github.com/symbiflow/sv-tests"
 
-
     def run(self, tmp_dir, params):
         """Run the provided test case
         This method is called by the main runner script (tools/runner).
@@ -53,7 +53,6 @@ class BaseRunner:
         log, _ = proc.communicate()
 
         return (log.decode('utf-8'), proc.returncode)
-
 
     def can_run(self):
         """Check if runner can be used
