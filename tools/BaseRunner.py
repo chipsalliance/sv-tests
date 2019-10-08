@@ -1,5 +1,11 @@
-import subprocess
+import resource
 import shutil
+import subprocess
+
+
+def set_process_limits():
+    """Make sure processes behave. Limit memory to 4GiB"""
+    resource.setrlimit(resource.RLIMIT_DATA, (4 << 30, 4 << 30))
 
 
 class BaseRunner:
@@ -40,6 +46,7 @@ class BaseRunner:
         self.prepare_run_cb(tmp_dir, params)
 
         proc = subprocess.Popen(self.cmd, cwd=tmp_dir,
+                                preexec_fn=set_process_limits,
                                 stdout=subprocess.PIPE,
                                 stderr=subprocess.STDOUT)
 
