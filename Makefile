@@ -14,8 +14,6 @@ export TESTS_DIR
 export RUNNERS_DIR
 export GENERATORS_DIR
 
-USE_ALL_RUNNERS?=0
-
 include tools/runners.mk
 
 .PHONY: clean init info tests generate-tests report
@@ -58,12 +56,15 @@ GENERATORS := $(GENERATORS:$(GENERATORS_DIR)/%=%)
 
 space := $(subst ,, )
 
-info:
-ifneq ($(USE_ALL_RUNNERS), 0)
+ifneq ($(USE_ALL_RUNNERS),)
 ifneq ($(RUNNERS), $(RUNNERS_FOUND))
-	$(error Some runners are missing)
+$(warning Runners found: $(RUNNERS))
+$(warning Runners defined: $(RUNNERS_FOUND))
+$(error Some runners are missing)
 endif
 endif
+
+info:
 	@echo -e "Found the following runners:$(subst $(space),"\\n \* ", $(RUNNERS))\n"
 	@echo -e "Found the following tests:$(subst $(space),"\\n \* ", $(TESTS))\n"
 
