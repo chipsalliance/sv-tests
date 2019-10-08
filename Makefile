@@ -66,7 +66,6 @@ endif
 
 info:
 	@echo -e "Found the following runners:$(subst $(space),"\\n \* ", $(RUNNERS))\n"
-	@echo -e "Found the following tests:$(subst $(space),"\\n \* ", $(TESTS))\n"
 
 tests:
 
