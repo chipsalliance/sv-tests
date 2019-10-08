@@ -23,7 +23,7 @@ jobs:
       install:
         - pip install -r conf/requirements.txt
       script:
-        - "flake8 tools/*.py tools/runners/*.py $(file generators/* tools/* | sed -ne 's/:.*python.*//pI')"
+        - "make format"
 
     - name: "Generate report.hml"
       install:

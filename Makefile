@@ -67,6 +67,13 @@ endif
 	@echo -e "Found the following runners:$(subst $(space),"\\n \* ", $(RUNNERS))\n"
 	@echo -e "Found the following tests:$(subst $(space),"\\n \* ", $(TESTS))\n"
 
+PY_FILES := $(shell file generators/* tools/* | sed -ne 's/:.*python.*//pI')
+PY_FILES += $(wildcard tools/*.py)
+PY_FILES += $(wildcard tools/runners/*.py)
+
+format:
+	flake8 $(PY_FILES)
+
 tests:
 
 generate-tests:
