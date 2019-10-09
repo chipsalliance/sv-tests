@@ -1,3 +1,13 @@
+url_tool = ''
+url_tag = ''
+url_test = ''
+
+function updateUrl() {
+  window.history.pushState(null, null,
+	  location.protocol + '//' + location.host + location.pathname + '#' +
+	  [url_tool, url_tag, url_test].join('|'))
+};
+
 function isChapterNumber(a) {
   var parts = a.split(".");
 
@@ -74,8 +84,17 @@ $.fn.dataTable.ext.order['test-status'] = function ( settings, col ) {
   });
 };
 
-function toggleLog(tool, tag, test_id, file) {
+function toggleLog(tool, tag, test) {
   all_logs = document.getElementsByClassName("logfile-shown");
+
+  url_tool = tool;
+  if(url_tag === tag){
+    test = url_test;
+  } else {
+    url_tag = tag;
+    url_test = test;
+  };
+  updateUrl();
 
   var div_id = [tool, tag, "logfile"].join("-");
   var cell_id = [tool, tag, "cell"].join("-");
@@ -89,12 +108,12 @@ function toggleLog(tool, tag, test_id, file) {
   log_div = document.getElementById(div_id);
   outer_div = document.getElementById('logfile-outer');
 
-  if (test_id === null) {
+  if (test === null) {
     window.open('about:blank', 'log-frame')
   } else {
-    selectTab("logs/" + test_id + ".html",
-              ["logtab-btn", tool, tag, test_id].join("-"),
-              file);
+    test_btn = document.getElementById(
+      ['logtab', 'btn', tool, tag, test].join('-'));
+    test_btn.onclick();
   }
 
   if (log_div.classList.toggle("logfile-shown")) {
@@ -117,7 +136,9 @@ function hideLog(div_id) {
   }
 }
 
-function selectTab(path, btn_id, file) {
+function selectTab(path, btn_id, file, test_name) {
+  url_test = test_name;
+  updateUrl();
   all_btns = document.getElementsByClassName("logtab-btn-selected");
   for (var i=0; i < all_btns.length; i++) {
     all_btns[i].classList.remove("logtab-btn-selected");
@@ -141,4 +162,22 @@ $(function() {
     show: 0,
     hide: 0
   });
+});
+
+$(document).ready(function() {
+  var hash = location.hash.substr(1).split('|');
+
+  console.log(hash);
+
+  tool = hash[0];
+  tag = hash[1];
+  test = hash[2];
+
+  chap_btn = document.getElementById(
+    [tool, tag, 'cell'].join('-'));
+  chap_btn.onclick();
+
+  test_btn = document.getElementById(
+    ['logtab', 'btn', tool, tag, test].join('-'));
+  test_btn.onclick();
 });
