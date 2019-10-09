@@ -45,11 +45,11 @@ parser.add_argument("--log-template",
 
 parser.add_argument("-o", "--out",
                     help="Path to the html file with the report",
-                    default="out/deploy/index.html")
+                    default="out/report/index.html")
 
 parser.add_argument("-c", "--csv",
                     help="Path to the csv file with the report",
-                    default="out/deploy/report.csv")
+                    default="out/report/report.csv")
 
 parser.add_argument("-r", "--revision",
                     help="Report revision",

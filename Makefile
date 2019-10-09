@@ -80,8 +80,8 @@ generate-tests:
 
 report: init tests
 	./tools/sv-report --revision $(shell git rev-parse --short HEAD)
-	cp $(CONF_DIR)/report/*.css $(OUT_DIR)/deploy/
-	cp $(CONF_DIR)/report/*.js $(OUT_DIR)/deploy/
+	cp $(CONF_DIR)/report/*.css $(OUT_DIR)/report/
+	cp $(CONF_DIR)/report/*.js $(OUT_DIR)/report/
 
 $(foreach g, $(GENERATORS), $(eval $(call generator_gen,$(g))))
 $(foreach r, $(RUNNERS),$(foreach t, $(TESTS),$(eval $(call runner_gen,$(r),$(t)))))

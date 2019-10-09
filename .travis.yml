@@ -55,13 +55,13 @@ jobs:
         - "make sv-parser"
         - "make generate-tests"
         - "make report USE_ALL_RUNNERS=1"
-        - "touch out/deploy/.nojekyll"
+        - "touch out/report/.nojekyll"
       deploy:
         provider: pages
         github_token: $GH_TOKEN
         skip_cleanup: true
         keep_history: true
-        local_dir: out/deploy
+        local_dir: out/report
         verbose: true
         on:
           branch: master
