@@ -45,11 +45,14 @@ jobs:
         - mkdir -p ~/.local/bin
         - export PATH=$HOME/.local/bin:$PATH
         - travis_retry curl -L https://get.haskellstack.org/stable/linux-x86_64.tar.gz | tar xz --wildcards --strip-components=1 -C ~/.local/bin '*/stack'
+        - curl https://sh.rustup.rs -sSf | sh -s -- -y
+        - source $HOME/.cargo/env
       script:
         - "make slang"
         - "make odin"
         - "make zachjs-sv2v"
         - "make tree-sitter-verilog"
+        - "make sv-parser"
         - "make generate-tests"
         - "make report USE_ALL_RUNNERS=1"
         - "touch out/deploy/.nojekyll"

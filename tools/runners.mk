@@ -65,7 +65,14 @@ $(INSTALL_DIR)/lib/verilog.so:
 	cd $(RDIR)/tree-sitter-verilog && npm install
 	/usr/bin/env python3 -c "from tree_sitter import Language; Language.build_library(\"$@\", [\"$(abspath $(RDIR)/tree-sitter-verilog)\"])"
 
+# sv-parser
+sv-parser: $(INSTALL_DIR)/bin/parse_sv
+
+$(INSTALL_DIR)/bin/parse_sv:
+	mkdir -p $(INSTALL_DIR)/bin
+	install -D $(RDIR)/sv-parser/bin/parse_sv $@
+
 # setup the dependencies
-RUNNERS_TARGETS := odin yosys icarus verilator slang zachjs-sv2v tree-sitter-verilog
+RUNNERS_TARGETS := odin yosys icarus verilator slang zachjs-sv2v tree-sitter-verilog sv-parser
 .PHONY: $(RUNNERS_TARGETS)
 runners: $(RUNNERS_TARGETS)
