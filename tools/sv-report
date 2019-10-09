@@ -113,7 +113,7 @@ def logToHTML(path_in, path_out, tags):
     depth = path_in.count('/') - 1
     src_relative = '../' * depth
     files = tags['files'].split()
-    log = tags['log']
+    log = str(jinja2.escape(tags['log']))
     html_pat_ln = r'{}:(\d+)'
     html_sub_ln = r'<a href="{0}{1}.html#l-\1" target="file-frame">{1}:\1</a>'
 
