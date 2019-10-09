@@ -8,8 +8,7 @@ from importlib import import_module
 
 parser = argparse.ArgumentParser()
 
-parser.add_argument("runners", metavar='runner',
-                    type=str, nargs='+')
+parser.add_argument("runners", metavar='runner', type=str, nargs='+')
 
 args = parser.parse_args()
 logger = logging.getLogger()
@@ -26,8 +25,10 @@ for runner in args.runners:
     except Exception:
         continue
 
-    new_path = [os.path.abspath(os.environ['OUT_DIR'] + "/runners/bin/"),
-                os.environ['PATH']]
+    new_path = [
+        os.path.abspath(os.environ['OUT_DIR'] + "/runners/bin/"),
+        os.environ['PATH']
+    ]
 
     os.environ['PATH'] = ":".join(new_path)
 

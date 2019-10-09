@@ -34,13 +34,12 @@ swerv_flist = os.path.join(swerv_path, "testbench", "flist.verilator")
 sources = ''
 
 sources += os.path.join(
-           swerv_path, "configs", "snapshots",
-           "default", "common_defines.vh") + ' '
+    swerv_path, "configs", "snapshots", "default", "common_defines.vh") + ' '
 
 sources += os.path.join(swerv_path, "design", "include", "build.h") + ' '
 sources += os.path.join(swerv_path, "design", "include", "global.h") + ' '
 sources += os.path.join(
-           swerv_path, "design", "include", "swerv_types.sv") + ' '
+    swerv_path, "design", "include", "swerv_types.sv") + ' '
 
 with open(swerv_flist, "r") as f:
     for l in f:

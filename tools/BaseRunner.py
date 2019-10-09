@@ -19,7 +19,6 @@ class BaseRunner:
     Runners must be located in tools/runners subdirectory
     to be detected and launched by the Makefile.
     """
-
     def __init__(self, name, executable=None):
         """Base runner class constructor
         Arguments:
@@ -45,10 +44,12 @@ class BaseRunner:
         """
         self.prepare_run_cb(tmp_dir, params)
 
-        proc = subprocess.Popen(self.cmd, cwd=tmp_dir,
-                                preexec_fn=set_process_limits,
-                                stdout=subprocess.PIPE,
-                                stderr=subprocess.STDOUT)
+        proc = subprocess.Popen(
+            self.cmd,
+            cwd=tmp_dir,
+            preexec_fn=set_process_limits,
+            stdout=subprocess.PIPE,
+            stderr=subprocess.STDOUT)
 
         log, _ = proc.communicate()
 

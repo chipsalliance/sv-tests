@@ -28,8 +28,8 @@ should_fail = ''
 paths = [[]]
 matches = []
 
-for cfg in glob.glob(os.path.join(conf_dir, 'generators',
-                                  'meta-path', '*.json')):
+for cfg in glob.glob(os.path.join(conf_dir, 'generators', 'meta-path',
+                                  '*.json')):
     with open(cfg, 'r') as jf:
         data = json.load(jf)
         name = data['name']
@@ -52,5 +52,4 @@ for cfg in glob.glob(os.path.join(conf_dir, 'generators',
                 test_file = os.path.join(test_dir, fname + '.sv')
 
                 with open(test_file, "w") as sv:
-                    sv.write(templ.format(project, should_fail,
-                                          f, fname))
+                    sv.write(templ.format(project, should_fail, f, fname))

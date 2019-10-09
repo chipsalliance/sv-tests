@@ -11,17 +11,19 @@ from importlib import import_module
 
 parser = argparse.ArgumentParser()
 
-parser.add_argument("-r", "--runner",
-                    required=True)
+parser.add_argument("-r", "--runner", required=True)
 
-parser.add_argument("-t", "--test",
-                    required=True)
+parser.add_argument("-t", "--test", required=True)
 
-parser.add_argument("-o", "--out",
-                    required=True)
+parser.add_argument("-o", "--out", required=True)
 
-parser.add_argument("-q", "--quiet", dest='verbosity', action='store_const',
-                    const=logging.ERROR, default=logging.DEBUG)
+parser.add_argument(
+    "-q",
+    "--quiet",
+    dest='verbosity',
+    action='store_const',
+    const=logging.ERROR,
+    default=logging.DEBUG)
 
 args = parser.parse_args()
 
@@ -61,9 +63,10 @@ runner = os.path.abspath(os.path.join(dirs['runners'], args.runner))
 test = os.path.abspath(os.path.join(dirs['tests'], args.test))
 out = os.path.abspath(args.out)
 
-req_test_params = ["name", "tags", "description",
-                   "should_fail", "files", "incdirs",
-                   "top_module"]
+req_test_params = [
+    "name", "tags", "description", "should_fail", "files", "incdirs",
+    "top_module"
+]
 
 test_params = {}
 
@@ -80,8 +83,9 @@ try:
             param_value = param.group(2)
 
             if param_name not in req_test_params:
-                logger.warning("Unsupported test param found: {} - ignoring"
-                               .format(param_name))
+                logger.warning(
+                    "Unsupported test param found: {} - ignoring".format(
+                        param_name))
                 continue
 
             test_params[param_name] = param_value
@@ -98,8 +102,9 @@ try:
 
             if len(set(req_test_params) - set(test_params.keys())) != 0:
                 missing = list(set(req_test_params) - set(test_params.keys()))
-                logger.error("Required parameters missing ({}) in {}"
-                             .format(", ".join(missing), args.test))
+                logger.error(
+                    "Required parameters missing ({}) in {}".format(
+                        ", ".join(missing), args.test))
                 sys.exit(1)
 except Exception as e:
     logger.error("Unable to parse test file: {}".format(str(e)))
@@ -111,13 +116,12 @@ test_params['incdirs'] = test_params['incdirs'].split()
 try:
     tmp_dir = tempfile.mkdtemp()
 except (PermissionError, FileExistsError) as e:
-    logger.error("Unable to create a temporary directory for test: {}"
-                 .format(str(e)))
+    logger.error(
+        "Unable to create a temporary directory for test: {}".format(str(e)))
     sys.exit(1)
 
 try:
-    logger.info("Running {}/{}"
-                .format(args.runner, args.test))
+    logger.info("Running {}/{}".format(args.runner, args.test))
 
     output, rc = runner_obj.run(tmp_dir, test_params)
 
@@ -147,8 +151,9 @@ try:
         log.write("\n")
         log.write(output)
 except Exception as e:
-    logger.error("Unable to test {} using {}: {}"
-                 .format(args.runner, args.test, str(e)))
+    logger.error(
+        "Unable to test {} using {}: {}".format(
+            args.runner, args.test, str(e)))
     sys.exit(1)
 finally:
     shutil.rmtree(tmp_dir)
