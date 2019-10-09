@@ -34,3 +34,6 @@
 [submodule "third_party/tools/sv-parser"]
 	path = third_party/tools/sv-parser
 	url = https://github.com/dalance/sv-parser
+[submodule "third_party/cores/ariane"]
+	path = third_party/cores/ariane
+	url = https://github.com/pulp-platform/ariane
