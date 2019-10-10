@@ -29,8 +29,8 @@ except IndexError:
     sys.exit(1)
 
 ariane_path = os.path.abspath(os.path.join(third_party_dir, "cores", "ariane"))
-ariane_conf_path = os.path.abspath(os.path.join(conf_dir, "generators",
-                                                "ariane"))
+ariane_conf_path = os.path.abspath(
+    os.path.join(conf_dir, "generators", "ariane"))
 
 with open(os.path.join(ariane_conf_path, 'ar_pkg.src')) as f:
     pkg_files = f.read().split()

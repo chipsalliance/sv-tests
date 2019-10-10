@@ -375,8 +375,8 @@ try:
                     inner["first_file"] = test_handle["first_file"]
 
             # sort logs
-            tag_handle["logs_sorted"] = sorted(tag_handle["logs"].items(),
-                                               key=TestTupleComp)
+            tag_handle["logs_sorted"] = sorted(
+                tag_handle["logs"].items(), key=TestTupleComp)
             if len(tag_handle["logs_sorted"]) > 0:
                 tag_handle["head_test"] = tag_handle["logs_sorted"][0][0]
 
