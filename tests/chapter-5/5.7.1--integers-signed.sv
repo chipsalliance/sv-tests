@@ -17,7 +17,7 @@ module top();
                  // be interpreted as a two's-complement number,
                  // or '-1'. This is equivalent to -4'h 1
     c = -4'sd15; // this is equivalent to -(-4'd 1), or '0001'
-    d = 16'sd?;  // the same as 16'sbz
+    d = 16'sb?;  // the same as 16'sbz
   end
 
 endmodule
