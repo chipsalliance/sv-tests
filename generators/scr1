@@ -1,0 +1,60 @@
+#!/usr/bin/env python3
+
+import os
+import sys
+
+templ = """/*
+:name: scr1
+:description: Full scr1 core test
+:files: {0}
+:incdirs: {1}
+:should_fail: 0
+:tags: scr1
+:top_module: scr1_top_tb_axi
+*/
+"""
+
+try:
+    third_party_dir = os.environ['THIRD_PARTY_DIR']
+    tests_dir = os.environ['TESTS_DIR']
+    conf_dir = os.environ['CONF_DIR']
+except KeyError:
+    print("Export the THIRD_PARTY_DIR, TESTS_DIR and CONF_DIR variables first")
+    sys.exit(1)
+
+try:
+    tests_subdir = sys.argv[1]
+except IndexError:
+    print("Usage: ./generator <subdir>")
+    sys.exit(1)
+
+scr1_path = os.path.abspath(
+    os.path.join(third_party_dir, "cores", "scr1", "src"))
+
+flist = ['core.files', 'axi_top.files', 'axi_tb.files']
+
+sources = ''
+incdirs = ''
+
+files = []
+includes = ['includes']
+
+for fname in flist:
+    with open(os.path.join(scr1_path, fname)) as f:
+        for line in f:
+            files += [line.strip()]
+
+for sv in files:
+    sources += os.path.join(scr1_path, sv) + ' '
+for inc in includes:
+    incdirs += os.path.join(scr1_path, inc) + ' '
+
+test_dir = os.path.join(tests_dir, 'generated', tests_subdir)
+
+if not os.path.isdir(test_dir):
+    os.makedirs(test_dir, exist_ok=True)
+
+test_file = os.path.join(test_dir, "scr1.sv")
+
+with open(test_file, "w") as f:
+    f.write(templ.format(sources, incdirs))

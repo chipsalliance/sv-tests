@@ -37,3 +37,6 @@
 [submodule "third_party/cores/ariane"]
 	path = third_party/cores/ariane
 	url = https://github.com/pulp-platform/ariane
+[submodule "third_party/cores/scr1"]
+	path = third_party/cores/scr1
+	url = https://github.com/syntacore/scr1
