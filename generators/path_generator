@@ -9,6 +9,7 @@ templ = """/*
 :name: {3}
 :description: Tests imported from {0}
 :files: {2}
+:incdirs: {4}
 :should_fail: {1}
 :tags: {0}
 */
@@ -51,5 +52,8 @@ for cfg in glob.glob(os.path.join(conf_dir, 'generators', 'meta-path',
                 fname = name + '_' + os.path.basename(os.path.splitext(f)[0])
                 test_file = os.path.join(test_dir, fname + '.sv')
 
+                incdirs = os.path.abspath(os.path.join(third_party_dir, *path))
+
                 with open(test_file, "w") as sv:
-                    sv.write(templ.format(project, should_fail, f, fname))
+                    sv.write(
+                        templ.format(project, should_fail, f, fname, incdirs))
