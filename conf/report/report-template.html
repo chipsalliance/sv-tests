@@ -88,7 +88,7 @@
         <tr>
           <th>  </th>
           <th>  </th>
-          {% for tool in report %}
+          {% for tool, tooldata in report|dictsort %}
           <th> {{ tool.lower() }} </th>
           {% endfor %}
         </tr>
@@ -97,7 +97,7 @@
         <tr>
           <th class="report_table_info" title="{{info}}"> {{ info }} </th>
           <th class="report_table_tag" title="{{info}}"> {{ tag }} </th>
-          {% for tool, tooldata in report.items() %}
+          {% for tool, tooldata in report|dictsort %}
           <th class="report_table_result {{ tooldata["tags"][tag]["status"] }}
             {% if "test-na" not in tooldata["tags"][tag]["status"] %} test-cell {% endif %}"
             {% if "test-na" not in tooldata["tags"][tag]["status"] %}
@@ -117,13 +117,13 @@
         <tr>
           <th class="report_table_info" colspan="2"> Total tests passed: </th>
 
-          {% for tool in report %}
+          {% for tool, tooldata in report|dictsort %}
           <th class="report_table_result" title="{{ tool.lower() }}" > {{ report[tool]["total"]["tests"] }}/{{ report[tool]["tests"].keys()|length }}</th>
           {% endfor %}
         </tr>
         <tr>
           <th class="report_table_info" colspan="2"> Total tags passed: </th>
-          {% for tool in report %}
+          {% for tool, tooldata in report|dictsort %}
           <th class="report_table_result" title="{{ tool.lower() }}" > {{ report[tool]["total"]["tags"]}}/{{ database.keys()|length}}</th>
           {% endfor %}
         </tr>
