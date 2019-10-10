@@ -36,8 +36,8 @@ incdirs = ''
 
 groups = ['ibex', 'ibex_regfile_fpga']
 
-sources += os.path.join(ibex_path,
-                        'examples/sim/rtl/prim_clock_gating.sv') + ' '
+sources += os.path.join(
+    ibex_path, 'examples/sim/rtl/prim_clock_gating.sv') + ' '
 
 with open(ibex_yaml, "r") as f:
     y = yaml.safe_load(f)

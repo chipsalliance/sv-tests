@@ -15,45 +15,50 @@ parser = argparse.ArgumentParser()
 
 logger_args = parser.add_mutually_exclusive_group()
 
-logger_args.add_argument("-q", "--quiet",
-                         action="store_true",
-                         help="Disable all logs")
+logger_args.add_argument(
+    "-q", "--quiet", action="store_true", help="Disable all logs")
 
-logger_args.add_argument("-v", "--verbose",
-                         action="store_true",
-                         help="Verbose logging")
+logger_args.add_argument(
+    "-v", "--verbose", action="store_true", help="Verbose logging")
 
-parser.add_argument("-i", "--input",
-                    help="Input database/LRM",
-                    default="conf/lrm.conf")
+parser.add_argument(
+    "-i", "--input", help="Input database/LRM", default="conf/lrm.conf")
 
-parser.add_argument("-l", "--logs",
-                    help="Directory with all the individual test results",
-                    default="out/logs")
+parser.add_argument(
+    "-l",
+    "--logs",
+    help="Directory with all the individual test results",
+    default="out/logs")
 
-parser.add_argument("--template",
-                    help="Path to the html report template",
-                    default="conf/report/report-template.html")
+parser.add_argument(
+    "--template",
+    help="Path to the html report template",
+    default="conf/report/report-template.html")
 
-parser.add_argument("--code-template",
-                    help="Path to the html code preview template",
-                    default="conf/report/code-template.html")
+parser.add_argument(
+    "--code-template",
+    help="Path to the html code preview template",
+    default="conf/report/code-template.html")
 
-parser.add_argument("--log-template",
-                    help="Path to the html log template",
-                    default="conf/report/log-template.html")
+parser.add_argument(
+    "--log-template",
+    help="Path to the html log template",
+    default="conf/report/log-template.html")
 
-parser.add_argument("-o", "--out",
-                    help="Path to the html file with the report",
-                    default="out/report/index.html")
+parser.add_argument(
+    "-o",
+    "--out",
+    help="Path to the html file with the report",
+    default="out/report/index.html")
 
-parser.add_argument("-c", "--csv",
-                    help="Path to the csv file with the report",
-                    default="out/report/report.csv")
+parser.add_argument(
+    "-c",
+    "--csv",
+    help="Path to the csv file with the report",
+    default="out/report/report.csv")
 
-parser.add_argument("-r", "--revision",
-                    help="Report revision",
-                    default="unknown")
+parser.add_argument(
+    "-r", "--revision", help="Report revision", default="unknown")
 
 # parse args
 args = parser.parse_args()
@@ -86,16 +91,15 @@ def formatSrc(ifile, ofile):
     if exists_and_is_newer_than(ofile, ifile):
         return
 
-    formatter = HtmlFormatter(full=False, linenos=True,
-                              anchorlinenos=True, lineanchors='l')
+    formatter = HtmlFormatter(
+        full=False, linenos=True, anchorlinenos=True, lineanchors='l')
     with open(ifile, 'rb') as f:
         raw_code = f.read()
         os.makedirs(os.path.dirname(ofile), exist_ok=True)
 
         with open(args.code_template, "r") as tl:
-            template = jinja2.Template(tl.read(),
-                                       trim_blocks=True,
-                                       lstrip_blocks=True)
+            template = jinja2.Template(
+                tl.read(), trim_blocks=True, lstrip_blocks=True)
 
         code = highlight(raw_code, lex, formatter)
 
@@ -104,9 +108,8 @@ def formatSrc(ifile, ofile):
             src_rel = "../" * filename.count('/')
             csspath = os.path.join(src_rel, "code.css")
 
-            out.write(template.render(csspath=csspath,
-                                      filename=filename,
-                                      code=code))
+            out.write(
+                template.render(csspath=csspath, filename=filename, code=code))
 
 
 def logToHTML(path_in, path_out, tags):
@@ -124,13 +127,14 @@ def logToHTML(path_in, path_out, tags):
 
     for f in files:
         f_rel = os.path.relpath(f)
-        f_html = ('<a href="{0}{1}.html" target="file-frame">{1}</a>'
-                  .format(src_relative, f_rel))
-        log = re.sub(html_pat_ln.format(f),
-                     html_sub_ln.format(src_relative, f_rel), log)
+        f_html = (
+            '<a href="{0}{1}.html" target="file-frame">{1}</a>'.format(
+                src_relative, f_rel))
+        log = re.sub(
+            html_pat_ln.format(f), html_sub_ln.format(src_relative, f_rel),
+            log)
         log = re.sub(f, f_html, log)
-        formatSrc(f, os.path.join(os.path.dirname(args.out),
-                  f_rel + '.html'))
+        formatSrc(f, os.path.join(os.path.dirname(args.out), f_rel + '.html'))
 
         tags['file_urls'].append(f_html)
 
@@ -138,9 +142,8 @@ def logToHTML(path_in, path_out, tags):
     tags['log_urls'] = log
 
     with open(args.log_template, "r") as templ:
-        logf = jinja2.Template(templ.read(),
-                               trim_blocks=True,
-                               lstrip_blocks=True)
+        logf = jinja2.Template(
+            templ.read(), trim_blocks=True, lstrip_blocks=True)
 
     with open(path_out + ".html", 'w') as html:
         html.write(logf.render(**tags))
@@ -217,17 +220,19 @@ for r in [os.path.dirname(r) for r in glob(args.logs + "/*/")]:
 
         tests[t_id] = {}
 
-        test_tags = ["name", "tags", "should_fail", "rc",
-                     "description", "files", "incdirs",
-                     "top_module", "runner", "runner_url"]
+        test_tags = [
+            "name", "tags", "should_fail", "rc", "description", "files",
+            "incdirs", "top_module", "runner", "runner_url"
+        ]
         with open(t, "r") as f:
             try:
                 for l in f:
                     tag = re.search(r"^([a-zA-Z_-]+):(.+)", l)
 
                     if tag is None:
-                        raise KeyError("Could not find tags: {}"
-                                       .format(", ".join(test_tags)))
+                        raise KeyError(
+                            "Could not find tags: {}".format(
+                                ", ".join(test_tags)))
 
                     param = tag.group(1).lower()
                     value = tag.group(2).strip()
@@ -241,20 +246,20 @@ for r in [os.path.dirname(r) for r in glob(args.logs + "/*/")]:
                             break
                     else:
                         logger.warning(
-                                "Skipping unknown parameter: {} in {}"
-                                .format(param, t))
+                            "Skipping unknown parameter: {} in {}".format(
+                                param, t))
 
             except Exception as e:
-                logger.warning("Skipping {} on {}: {}"
-                               .format(t, r_name, str(e)))
+                logger.warning(
+                    "Skipping {} on {}: {}".format(t, r_name, str(e)))
                 del tests[t_id]
                 continue
 
             tests[t_id]["log"] = f.read()
             tests[t_id]["fname"] = os.path.join('logs', t_id + '.html')
 
-            t_html = t.replace(args.logs,
-                               os.path.join(os.path.dirname(args.out), "logs"))
+            t_html = t.replace(
+                args.logs, os.path.join(os.path.dirname(args.out), "logs"))
             os.makedirs(os.path.dirname(t_html), exist_ok=True)
 
             tests[t_id]["first_file"] = logToHTML(t, t_html, tests[t_id])
@@ -286,11 +291,13 @@ for r in [os.path.dirname(r) for r in glob(args.logs + "/*/")]:
             test["status"] = status
 
             if passed:
-                logger.debug("{} passed {} in {}"
-                             .format(r_name, test["tags"], test["name"]))
+                logger.debug(
+                    "{} passed {} in {}".format(
+                        r_name, test["tags"], test["name"]))
             else:
-                logger.debug("{} failed {} in {}"
-                             .format(r_name, test["tags"], test["name"]))
+                logger.debug(
+                    "{} failed {} in {}".format(
+                        r_name, test["tags"], test["name"]))
 
             for tag in test["tags"].split(" "):
                 try:
@@ -331,9 +338,9 @@ for r in data:
 
         try:
             if csv_output[name]["files"] != files:
-                logger.error("Duplicate test: {}, first use: {}, second: {}"
-                             .format(name, csv_output[name]["files"],
-                                     files))
+                logger.error(
+                    "Duplicate test: {}, first use: {}, second: {}".format(
+                        name, csv_output[name]["files"], files))
                 if name not in duplicates:
                     duplicates.append(name)
             else:
@@ -378,22 +385,21 @@ try:
         # find the number of tests that passed
         rts = data[r]["tests"]
         data[r]["total"]["tests"] = sum(
-                1 for t in rts if rts[t]["status"] in "test-passed")
+            1 for t in rts if rts[t]["status"] in "test-passed")
 
         # find the number of tags for which all the tests passed
         rtt = data[r]["tags"]
         data[r]["total"]["tags"] = sum(
-                1 for t in rtt if rtt[t]["status"] in "test-passed")
+            1 for t in rtt if rtt[t]["status"] in "test-passed")
 
     with open(args.template, "r") as f:
-        report = jinja2.Template(f.read(),
-                                 trim_blocks=True,
-                                 lstrip_blocks=True)
+        report = jinja2.Template(
+            f.read(), trim_blocks=True, lstrip_blocks=True)
 
     with open(args.out, 'w') as f:
-        f.write(report.render(report=data,
-                              database=database,
-                              revision=args.revision))
+        f.write(
+            report.render(
+                report=data, database=database, revision=args.revision))
 
     with open(args.csv, 'w', newline='') as csvfile:
         writer = csv.DictWriter(csvfile, fieldnames=csv_header)

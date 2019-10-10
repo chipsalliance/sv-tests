@@ -17,8 +17,8 @@ fname = ''
 templ = ''
 vals = []
 
-for cfg in glob.glob(os.path.join(conf_dir, 'generators',
-                                  'templates', '*.json')):
+for cfg in glob.glob(os.path.join(conf_dir, 'generators', 'templates',
+                                  '*.json')):
     with open(cfg, 'r') as jf:
         data = json.load(jf)
         name = data['name']

@@ -72,7 +72,7 @@ PY_FILES += $(wildcard tools/*.py)
 PY_FILES += $(wildcard tools/runners/*.py)
 
 format:
-	flake8 $(PY_FILES)
+	python3 -m yapf -p -i $(PY_FILES)
 
 tests:
 

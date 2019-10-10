@@ -35,8 +35,8 @@ class tree_sitter_verilog(BaseRunner):
         sv_lib = ''
         try:
             out = os.environ['OUT_DIR']
-            sv_lib = os.path.abspath(os.path.join(out,
-                                     'runners', 'lib', 'verilog.so'))
+            sv_lib = os.path.abspath(
+                os.path.join(out, 'runners', 'lib', 'verilog.so'))
         except KeyError as e:
             print(str(e))
             sys.exit(1)
@@ -67,9 +67,11 @@ class tree_sitter_verilog(BaseRunner):
 
     def can_run(self):
         try:
-            return os.path.isfile(os.path.abspath(os.path.join(
-                                  os.environ['OUT_DIR'], 'runners',
-                                  'lib', 'verilog.so')))
+            return os.path.isfile(
+                os.path.abspath(
+                    os.path.join(
+                        os.environ['OUT_DIR'], 'runners', 'lib',
+                        'verilog.so')))
         except KeyError as e:
             print(str(e))
             return False
