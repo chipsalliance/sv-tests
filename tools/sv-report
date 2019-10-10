@@ -2,6 +2,7 @@
 
 from pygments.formatters import HtmlFormatter
 from pygments import lexers, highlight
+import multiprocessing
 from glob import glob
 import argparse
 import logging
@@ -202,21 +203,25 @@ except KeyError as e:
 
 logger.info("Generating {} from log files in '{}'".format(args.out, args.logs))
 
+data = {}
+
 for tag in database:
     tag_usage[tag] = 0
 
-data = {}
 
-for r in [os.path.dirname(r) for r in glob(args.logs + "/*/")]:
-    r_name = os.path.basename(r)
-    logger.debug("Found Runner: " + r_name)
-    data[r_name] = {}
+def collect_logs(runner_name):
+    runner_data = {}
+    runner_tag_usage = {}
+
+    for tag in database:
+        runner_tag_usage[tag] = 0
 
     # all tests info
-    data[r_name]["tests"] = {}
-    tests = data[r_name]["tests"]
+    runner_data["tests"] = {}
+    tests = runner_data["tests"]
 
-    for t in glob(os.path.join(args.logs, r_name, "**/*.log"), recursive=True):
+    for t in glob(os.path.join(args.logs, runner_name, "**/*.log"),
+                  recursive=True):
         t_id = t[len(args.logs) + 1:]
         logger.debug("Found log: " + t_id)
 
@@ -253,7 +258,7 @@ for r in [os.path.dirname(r) for r in glob(args.logs + "/*/")]:
 
             except Exception as e:
                 logger.warning(
-                    "Skipping {} on {}: {}".format(t, r_name, str(e)))
+                    "Skipping {} on {}: {}".format(t, runner_name, str(e)))
                 del tests[t_id]
                 continue
 
@@ -271,8 +276,8 @@ for r in [os.path.dirname(r) for r in glob(args.logs + "/*/")]:
             continue
 
         # Initialize the tag-based side of the result dict
-        data[r_name]["tags"] = {}
-        tags = data[r_name]["tags"]
+        runner_data["tags"] = {}
+        tags = runner_data["tags"]
 
         for tag in database:
             tags[tag] = {}
@@ -295,20 +300,20 @@ for r in [os.path.dirname(r) for r in glob(args.logs + "/*/")]:
             if passed:
                 logger.debug(
                     "{} passed {} in {}".format(
-                        r_name, test["tags"], test["name"]))
+                        runner_name, test["tags"], test["name"]))
             else:
                 logger.debug(
                     "{} failed {} in {}".format(
-                        r_name, test["tags"], test["name"]))
+                        runner_name, test["tags"], test["name"]))
 
             for tag in test["tags"].split(" "):
                 try:
-                    tag_usage[tag] += 1
+                    runner_tag_usage[tag] += 1
                     tags[tag]["status"].append(status)
                 except KeyError:
                     logger.warning("Tag not present in the database: " + tag)
                     database[tag] = ''
-                    tag_usage[tag] = 1
+                    runner_tag_usage[tag] = 1
                     tags[tag] = {}
                     tags[tag]["status"] = [status]
                     continue
@@ -322,6 +327,25 @@ for r in [os.path.dirname(r) for r in glob(args.logs + "/*/")]:
                 tags[tag]["status"] = tags[tag]["status"][0]
             else:
                 tags[tag]["status"] = "test-varied"
+    return (runner_data, runner_tag_usage)
+
+
+pool = multiprocessing.Pool()
+runner_names = []
+
+for r in [os.path.dirname(r) for r in glob(args.logs + "/*/")]:
+    runner_name = os.path.basename(r)
+    logger.debug("Found Runner: " + runner_name)
+
+    runner_names.append(runner_name)
+
+results = pool.map(collect_logs, runner_names)
+
+for r, d in zip(runner_names, results):
+    data[r] = d[0]
+    tag_usage = {**tag_usage, **d[1]}
+
+pool.close()
 
 for tag in tag_usage:
     if tag_usage[tag] == 0:
