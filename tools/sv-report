@@ -155,6 +155,25 @@ def getRelativePaths(paths):
     return ' '.join(paths)
 
 
+# class used for sorting "test tabs" in the report
+class TestTupleComp(object):
+    def __init__(self, item):
+        self.item = item
+
+    def prepend_nums(self, s):
+        # prepend all number occurences with the length of the number
+        for m in re.findall(r'\d+', s):
+            s = s.replace(m, str(len(m)) + m)
+
+        return s
+
+    def __lt__(self, other):
+        s = self.prepend_nums(self.item[1]["name"])
+        o = self.prepend_nums(other.item[1]["name"])
+
+        return s < o
+
+
 # generate input database first
 database = {}
 try:
@@ -347,6 +366,13 @@ try:
                     inner["name"] = test_handle["name"]
                     inner["fname"] = test_handle["fname"]
                     inner["first_file"] = test_handle["first_file"]
+
+            # sort logs
+            tag_handle["logs_sorted"] = sorted(tag_handle["logs"].items(),
+                                               key=TestTupleComp)
+            if len(tag_handle["logs_sorted"]) > 0:
+                tag_handle["head_test"] = tag_handle["logs_sorted"][0][0]
+
         data[r]["total"] = {}
 
         # find the number of tests that passed
