@@ -3,6 +3,22 @@ INSTALL_DIR := $(abspath $(OUT_DIR)/runners/)
 RDIR := third_party/tools
 TDIR := tools
 
+# get number of available cores for the build parallelization
+# if not specified otherwise
+ifeq ($J,)
+	OS := $(shell uname)
+	ifeq ($(OS),Linux)
+		NPROCS := $(shell grep -c ^processor /proc/cpuinfo)
+	else ifeq ($(OS),Darwin)
+		NPROCS := $(shell system_profiler | awk '/Number of CPUs/ {print $$4}{next;}')
+	else
+		# can not resolve number of CPUs
+		NPROCS := 1
+	endif
+else
+	NPROCS := $J
+endif
+
 .PHONY: runners
 
 runners:
@@ -72,7 +88,22 @@ $(INSTALL_DIR)/bin/parse_sv:
 	mkdir -p $(INSTALL_DIR)/bin
 	install -D $(RDIR)/sv-parser/bin/parse_sv $@
 
+# hdlConvertor
+# @note "can not" check python path files directly
+#       as it's name and path is composed of arch dependent things
+hdlConvertor: $(INSTALL_DIR)/share/hdlConvertor/__build_done__
+
+$(INSTALL_DIR)/share/hdlConvertor/__build_done__:
+	mkdir -p $(INSTALL_DIR)/share/hdlConvertor
+	cd $(RDIR)/hdlConvertor/ && ./setup.py build -j $(NPROCS)
+	cd $(RDIR)/hdlConvertor/ && ./setup.py bdist
+	# note not using --prefix as it check PYTHONPATH and $(INSTALL_DIR)/lib/python*/... is not in
+	# [todo] use virtualenv 
+	cd $(RDIR)/hdlConvertor/dist/ && tar -xzf hdlConvertor-*.tar.gz -C $(INSTALL_DIR)
+	touch $(INSTALL_DIR)/share/hdlConvertor/__build_done__
+
+
 # setup the dependencies
-RUNNERS_TARGETS := odin yosys icarus verilator slang zachjs-sv2v tree-sitter-verilog sv-parser
+RUNNERS_TARGETS := odin yosys icarus verilator slang zachjs-sv2v tree-sitter-verilog sv-parser hdlConvertor
 .PHONY: $(RUNNERS_TARGETS)
 runners: $(RUNNERS_TARGETS)

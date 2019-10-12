@@ -40,3 +40,6 @@
 [submodule "third_party/cores/scr1"]
 	path = third_party/cores/scr1
 	url = https://github.com/syntacore/scr1
+[submodule "third_party/tools/hdlConvertor"]
+	path = third_party/tools/hdlConvertor
+	url = https://github.com/Nic30/hdlConvertor.git

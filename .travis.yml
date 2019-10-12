@@ -47,6 +47,11 @@ jobs:
         - export PATH=$HOME/.local/bin:$PATH
         - travis_retry curl -L https://get.haskellstack.org/stable/linux-x86_64.tar.gz | tar xz --wildcards --strip-components=1 -C ~/.local/bin '*/stack'
         - curl https://sh.rustup.rs -sSf | sh -s -- -y
+        - sudo cp .travis/disco.list /etc/apt/sources.list.d/disco.list
+        - sudo apt update
+        - sudo apt install libantlr4-runtime-dev antlr4 -y
+        - pip install virtualenv
+        - pip install -r third_party/tools/hdlConvertor/requirements.txt
         - source $HOME/.cargo/env
       script:
         - "make slang"
@@ -54,6 +59,7 @@ jobs:
         - "make zachjs-sv2v"
         - "make tree-sitter-verilog"
         - "make sv-parser"
+        - "make hdlConvertor" 
         - "make generate-tests"
         - "make report USE_ALL_RUNNERS=1"
         - "touch out/report/.nojekyll"
