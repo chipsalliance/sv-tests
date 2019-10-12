@@ -3,11 +3,7 @@ import os
 from BaseRunner import BaseRunner
 import sys
 
-ROOT = os.path.join(
-    os.path.dirname(__file__),
-    "..",
-    ".."
-)
+ROOT = os.path.join(os.path.dirname(__file__), "..", "..")
 
 
 class HdlConvertor_parse(BaseRunner):
