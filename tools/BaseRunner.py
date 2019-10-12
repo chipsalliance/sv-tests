@@ -1,6 +1,7 @@
 import resource
 import shutil
 import subprocess
+import os
 
 
 def set_process_limits():
@@ -30,6 +31,7 @@ class BaseRunner:
         self.executable = executable
 
         self.url = "https://github.com/symbiflow/sv-tests"
+        self.env_extra = {}
 
     def run(self, tmp_dir, params):
         """Run the provided test case
@@ -43,13 +45,18 @@ class BaseRunner:
         Returns a tuple containing command execution log and return code.
         """
         self.prepare_run_cb(tmp_dir, params)
+        env = None
+        if self.env_extra is not None:
+            env = os.environ.copy()
+            env.update(self.env_extra)
 
         proc = subprocess.Popen(
             self.cmd,
             cwd=tmp_dir,
             preexec_fn=set_process_limits,
             stdout=subprocess.PIPE,
-            stderr=subprocess.STDOUT)
+            stderr=subprocess.STDOUT,
+            env=env)
 
         log, _ = proc.communicate()
 
