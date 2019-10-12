@@ -42,3 +42,4 @@ make tests
 * [sv2v(zachjs)](https://github.com/zachjs/sv2v)
 * [tree-sitter-verilog](https://github.com/tree-sitter/tree-sitter-verilog)
 * [sv-parser](https://github.com/dalance/sv-parser)
+* [hdlConvertor](https://github.com/Nic30/hdlConvertor)
