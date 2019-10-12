@@ -10,7 +10,6 @@ class HdlConvertor_parse(BaseRunner):
     """
     Test part of HdlConvertor responsible for parsing from Python.
     """
-
     def __init__(self):
         exe = os.path.join(ROOT, "third_party", "tools", "hdlConvertor_exe.py")
         super().__init__("hdlConvertor_parse", exe)
