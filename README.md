@@ -8,8 +8,7 @@ The report generated from the last passing master build can be viewed [here](htt
 
 Initialize the submodules:
 ```
-$ git submodule init
-$ git submodule update
+$ git submodule update --init --recursive
 ```
 
 Build tools (optional, tools from `PATH` can be used):
