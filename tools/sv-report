@@ -82,6 +82,15 @@ tag_usage = {}
 
 lex = lexers.get_lexer_by_name("systemverilog")
 
+# Initialize templates
+with open(args.code_template, "r") as templ:
+    src_template = jinja2.Template(
+        templ.read(), trim_blocks=True, lstrip_blocks=True)
+
+with open(args.log_template, "r") as templ:
+    log_template = jinja2.Template(
+        templ.read(), trim_blocks=True, lstrip_blocks=True)
+
 
 def exists_and_is_newer_than(b, a):
     return os.path.exists(b) and os.path.getctime(b) > os.path.getctime(a)
@@ -97,10 +106,6 @@ def formatSrc(ifile, ofile):
         raw_code = f.read()
         os.makedirs(os.path.dirname(ofile), exist_ok=True)
 
-        with open(args.code_template, "r") as tl:
-            template = jinja2.Template(
-                tl.read(), trim_blocks=True, lstrip_blocks=True)
-
         code = highlight(raw_code, lex, formatter)
 
         with open(ofile, 'w') as out:
@@ -109,7 +114,8 @@ def formatSrc(ifile, ofile):
             csspath = os.path.join(src_rel, "code.css")
 
             out.write(
-                template.render(csspath=csspath, filename=filename, code=code))
+                src_template.render(
+                    csspath=csspath, filename=filename, code=code))
 
 
 def logToHTML(path_in, path_out, tags):
@@ -141,12 +147,8 @@ def logToHTML(path_in, path_out, tags):
     tags['file_urls'] = " ".join(tags['file_urls'])
     tags['log_urls'] = log
 
-    with open(args.log_template, "r") as templ:
-        logf = jinja2.Template(
-            templ.read(), trim_blocks=True, lstrip_blocks=True)
-
     with open(path_out + ".html", 'w') as html:
-        html.write(logf.render(**tags))
+        html.write(log_template.render(**tags))
 
     return os.path.relpath(files[0]) + '.html'
 
