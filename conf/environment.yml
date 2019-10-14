@@ -1,0 +1,13 @@
+name: sv-test-env
+channels:
+  - symbiflow
+  - pkgw-forge
+  - conda-forge
+dependencies:
+  - verilator
+  - yosys
+  - iverilog
+  - zachjs-sv2v
+  - odin_ii
+  - tree-sitter-verilog
+  - slang

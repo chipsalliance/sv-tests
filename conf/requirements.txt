@@ -1,4 +1,4 @@
-conan
+pyyaml
 jinja2
 tree_sitter
 pygments
