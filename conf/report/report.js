@@ -2,11 +2,21 @@ url_tool = ''
 url_tag = ''
 url_test = ''
 
+function getUrl() {
+  return location.protocol + '//' + location.host + location.pathname
+}
+
 function updateUrl() {
-  window.history.pushState(null, null,
-	  location.protocol + '//' + location.host + location.pathname + '#' +
+  window.history.pushState(null, null, getUrl() + '#' +
 	  [url_tool, url_tag, url_test].join('|'))
 };
+
+function clearUrl() {
+  url_tool = '';
+  url_tag = '';
+  url_test = '';
+  window.history.pushState(null, null, getUrl())
+}
 
 function isChapterNumber(a) {
   var parts = a.split(".");
@@ -87,15 +97,6 @@ $.fn.dataTable.ext.order['test-status'] = function ( settings, col ) {
 function toggleLog(tool, tag, test) {
   all_logs = document.getElementsByClassName("logfile-shown");
 
-  url_tool = tool;
-  if(url_tag === tag){
-    test = url_test;
-  } else {
-    url_tag = tag;
-    url_test = test;
-  };
-  updateUrl();
-
   var div_id = [tool, tag, "logfile"].join("-");
   var cell_id = [tool, tag, "cell"].join("-");
 
@@ -108,18 +109,27 @@ function toggleLog(tool, tag, test) {
   log_div = document.getElementById(div_id);
   outer_div = document.getElementById('logfile-outer');
 
-  if (test === null) {
-    window.open('about:blank', 'log-frame')
-  } else {
-    test_btn = document.getElementById(
-      ['logtab', 'btn', tool, tag, test].join('-'));
-    test_btn.onclick();
-  }
-
   if (log_div.classList.toggle("logfile-shown")) {
     outer_div.classList.add("logfile-outer-shown");
   } else {
     outer_div.classList.remove("logfile-outer-shown");
+    clearUrl();
+    test = null;
+  }
+
+  if (test === null) {
+    window.open('about:blank', 'log-frame')
+  } else {
+    url_tool = tool;
+    if (url_tag === tag){
+      test = url_test;
+    } else {
+      url_tag = tag;
+      url_test = test;
+    };
+    var test_btn = document.getElementById(
+      ['logtab', 'btn', tool, tag, test].join('-'));
+    test_btn.onclick();
   }
 
   cell = document.getElementById(cell_id);
@@ -165,19 +175,21 @@ $(function() {
 });
 
 $(document).ready(function() {
-  var hash = location.hash.substr(1).split('|');
+  var hash = decodeURIComponent(location.hash).substr(1).split('|');
 
-  console.log(hash);
+  var tool = hash[0];
+  var tag = hash[1];
+  var test = hash[2];
 
-  tool = hash[0];
-  tag = hash[1];
-  test = hash[2];
-
-  chap_btn = document.getElementById(
+  var chap_btn = document.getElementById(
     [tool, tag, 'cell'].join('-'));
-  chap_btn.onclick();
-
-  test_btn = document.getElementById(
+  var test_btn = document.getElementById(
     ['logtab', 'btn', tool, tag, test].join('-'));
-  test_btn.onclick();
+
+  if (chap_btn !== null) {
+    chap_btn.onclick();
+    if (test_btn !== null) {
+      test_btn.onclick();
+    };
+  };
 });
