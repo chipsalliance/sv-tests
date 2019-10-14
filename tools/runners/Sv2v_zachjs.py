@@ -11,6 +11,6 @@ class Sv2v_zachjs(BaseRunner):
         self.cmd = [self.executable]
 
         for incdir in params['incdirs']:
-            self.cmd.append('-i' + incdir)
+            self.cmd.append('-I' + incdir)
 
         self.cmd += params['files']
