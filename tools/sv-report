@@ -118,11 +118,24 @@ def formatSrc(ifile, ofile):
                     csspath=csspath, filename=filename, code=code))
 
 
+def fileRefToLink(src_rel, fname, link_pat, link_sub_pat, log):
+    f_rel = os.path.relpath(fname)
+    f_html = (
+        '<a href="{0}{1}.html" target="file-frame">{1}</a>'.format(
+            src_rel, f_rel))
+    log = re.sub(
+        link_pat.format(fname), link_sub_pat.format(src_rel, f_rel), log)
+    log = re.sub(fname, f_html, log)
+    formatSrc(fname, os.path.join(os.path.dirname(args.out), f_rel + '.html'))
+    return (f_html, log)
+
+
 def logToHTML(path_in, path_out, tags):
     depth = path_in.count('/') - 1
     src_relative = '../' * depth
     files = tags['files'].split()
     log = str(jinja2.escape(tags['log']))
+    log_files_pat = r'({}\S+):\d+'
     html_pat_ln = r'{}:(\d+)'
     html_sub_ln = r'<a href="{0}{1}.html#l-\1" target="file-frame">{1}:\1</a>'
 
@@ -131,18 +144,19 @@ def logToHTML(path_in, path_out, tags):
 
     tags['file_urls'] = []
 
-    for f in files:
-        f_rel = os.path.relpath(f)
-        f_html = (
-            '<a href="{0}{1}.html" target="file-frame">{1}</a>'.format(
-                src_relative, f_rel))
-        log = re.sub(
-            html_pat_ln.format(f), html_sub_ln.format(src_relative, f_rel),
-            log)
-        log = re.sub(f, f_html, log)
-        formatSrc(f, os.path.join(os.path.dirname(args.out), f_rel + '.html'))
+    log_files = re.findall(log_files_pat.format(os.getcwd()), log)
 
-        tags['file_urls'].append(f_html)
+    log_files = list(set(log_files) - set(files))
+
+    for f in log_files:
+        if os.path.isfile(f):
+            _, log = fileRefToLink(
+                src_relative, f, html_pat_ln, html_sub_ln, log)
+
+    for f in files:
+        url, log = fileRefToLink(
+            src_relative, f, html_pat_ln, html_sub_ln, log)
+        tags['file_urls'].append(url)
 
     tags['file_urls'] = " ".join(tags['file_urls'])
     tags['log_urls'] = log
