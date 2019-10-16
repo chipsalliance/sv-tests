@@ -97,7 +97,7 @@ try:
         else:
             # set default values for optional metadata entries
             test_params.setdefault('files', test)
-            test_params.setdefault('incdirs', '')
+            test_params.setdefault('incdirs', os.path.dirname(test))
             test_params.setdefault('top_module', '')
 
             if len(set(req_test_params) - set(test_params.keys())) != 0:
@@ -111,7 +111,10 @@ except Exception as e:
     sys.exit(1)
 
 test_params['files'] = test_params['files'].split()
-test_params['incdirs'] = test_params['incdirs'].split()
+test_params['incdirs'] = list(
+    map(
+        lambda x: os.path.abspath(os.path.join(dirs['tests'], x)),
+        test_params['incdirs'].split()))
 
 try:
     tmp_dir = tempfile.mkdtemp()
