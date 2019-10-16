@@ -40,3 +40,6 @@
 [submodule "third_party/cores/scr1"]
 	path = third_party/cores/scr1
 	url = https://github.com/syntacore/scr1
+[submodule "third_party/cores/taiga"]
+	path = third_party/cores/taiga
+	url = https://gitlab.com/sfu-rcl/Taiga.git
