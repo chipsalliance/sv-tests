@@ -1,7 +1,12 @@
-<pre>
-<h3>
-<a href="{{runner_url}}" target="_blank">{{runner}}</a>
-</h3>
+<head>
+  <style>
+    .test-failed { background-color: #ffaaaa; }
+    .test-passed { background-color: #aaffaa; }
+  </style>
+</head>
+<body>
+<h3><a href="{{runner_url}}" target="_blank">{{runner}}</a></h3>
+<pre class="{{status}}">
 description: {{description|e}}
 should_fail: {{should_fail|e}}
 tags: {{tags|e}}
@@ -9,7 +14,8 @@ incdirs: {{incdirs|e}}
 top_module: {{top_module|e}}
 files: {{file_urls}}
 time_elapsed: {{'%0.3f'| format(time_elapsed|float)}}s
-
-{{log_urls}}
-
 </pre>
+<pre>
+{{log_urls}}
+</pre>
+</body>

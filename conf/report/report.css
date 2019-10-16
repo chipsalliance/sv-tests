@@ -1,3 +1,7 @@
+body {
+  font-family: sans-serif;
+}
+
 table.dataTable {
   width: auto;
   table-layout: fixed;
@@ -10,16 +14,24 @@ table.dataTable tfoot th {
 
 .report_table_tag {
   text-align: left;
-  width: 50px;
+  width: 8em;
 }
 
 .report_table_info {
   text-overflow: ellipsis;
   white-space: nowrap;
-  text-align: left;
+  text-align: right;
   overflow: hidden;
-  max-width: 150px;
-  width: 150px;
+  width: 30em;
+  max-width: 30em;
+}
+
+.report_summary_row {
+  background-color: lightgray;
+}
+
+.report_summary_header {
+  text-align: right;
 }
 
 .ui-widget-shadow {
@@ -48,7 +60,7 @@ table.dataTable tfoot th {
 }
 
 .test-cell-selected {
-  border: 1px solid black;
+  outline: 3px solid blue;
   filter: brightness(95%);
   font-weight: bold;
 }
@@ -129,7 +141,7 @@ table.dataTable tfoot th {
   float: left;
 }
 .logtab-btn-selected {
-  border: 2px solid black;
+  border: 2px solid blue;
   font-weight: bold;
 }
 .logfile-tab {
