@@ -41,14 +41,13 @@ $(INSTALL_DIR)/bin/verilator:
 	$(MAKE) -C $(RDIR)/verilator install
 
 # slang
-slang: $(INSTALL_DIR)/bin/driver
+slang: $(INSTALL_DIR)/bin/slang-driver
 
-$(INSTALL_DIR)/bin/driver:
+$(INSTALL_DIR)/bin/slang-driver:
 	mkdir -p $(RDIR)/slang/build
 	cd $(RDIR)/slang/build && cmake .. -DSLANG_INCLUDE_TESTS=OFF
 	$(MAKE) -C $(RDIR)/slang/build
-	mkdir -p $(INSTALL_DIR)/bin
-	install $(RDIR)/slang/build/bin/* $(INSTALL_DIR)/bin/
+	install -D $(RDIR)/slang/build/bin/driver $@
 
 # zachjs-sv2v
 zachjs-sv2v: $(INSTALL_DIR)/bin/zachjs-sv2v
