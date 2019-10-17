@@ -38,6 +38,7 @@ for cfg in glob.glob(os.path.join(conf_dir, 'generators', 'meta-path',
         should_fail = data['should_fail']
         paths = data['paths']
         matches = data['matches']
+        blacklist = data.get('blacklist', [''])
 
     test_dir = os.path.join(tests_dir, 'generated', project)
 
@@ -48,6 +49,10 @@ for cfg in glob.glob(os.path.join(conf_dir, 'generators', 'meta-path',
         for match in matches:
             for f in glob.glob(os.path.abspath(os.path.join(third_party_dir,
                                                             *path, match))):
+
+                if blacklist.count(os.path.basename(f)) > 0:
+                    print("Skipping blacklisted file: {}".format(f))
+                    continue
 
                 fname = name + '_' + os.path.basename(os.path.splitext(f)[0])
                 test_file = os.path.join(test_dir, fname + '.sv')
