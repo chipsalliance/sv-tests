@@ -1,5 +1,6 @@
 <head>
   <style>
+    .log { font-family: "Courier New", Consolas, monospace; font-size: 80%; }
     .test-failed { background-color: #ffaaaa; }
     .test-passed { background-color: #aaffaa; }
   </style>
@@ -15,7 +16,7 @@ top_module: {{top_module|e}}
 files: {{file_urls}}
 time_elapsed: {{'%0.3f'| format(time_elapsed|float)}}s
 </pre>
-<pre>
+<pre class="log">
 {{log_urls}}
 </pre>
 </body>
