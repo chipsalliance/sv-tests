@@ -114,21 +114,21 @@
         </tr>
       {% endfor %}
       <tfoot>
-        <tr>
-          <th class="report_table_info" colspan="2"> Total tests passed: </th>
+        <tr class="report_summary_row">
+          <th class="report_summary_header" colspan="2"> Total tests passed: </th>
 
           {% for tool, tooldata in report|dictsort %}
           <th class="report_table_result" title="{{ tool.lower() }}" > {{ report[tool]["total"]["tests"] }}/{{ report[tool]["tests"].keys()|length }}</th>
           {% endfor %}
         </tr>
-        <tr>
-          <th class="report_table_info" colspan="2"> Total tags passed: </th>
+        <tr class="report_summary_row">
+          <th class="report_summary_header" colspan="2"> Total tags passed: </th>
           {% for tool, tooldata in report|dictsort %}
           <th class="report_table_result" title="{{ tool.lower() }}" > {{ report[tool]["total"]["tags"]}}/{{ database.keys()|length}}</th>
           {% endfor %}
         </tr>
-        <tr>
-          <th class="report_table_info" colspan="2"> Total time elapsed: </th>
+        <tr class="report_summary_row">
+          <th class="report_summary_header" colspan="2"> Total time elapsed: </th>
           {% for tool in report %}
           <th class="report_table_result" title="{{ tool.lower() }}" >
             {{'%0.2f'| format(report[tool]["time_elapsed"]|float)}}s </th>

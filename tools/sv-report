@@ -280,6 +280,14 @@ def collect_logs(runner_name):
             tests[t_id]["log"] = f.read()
             tests[t_id]["fname"] = os.path.join('logs', t_id + '.html')
 
+            tool_should_fail = tests[t_id]["should_fail"] == "1"
+            tool_rc = int(tests[t_id]["rc"])
+            tool_failed = (tool_rc != 0)
+            if tool_rc >= 126 or tool_should_fail != tool_failed:
+                tests[t_id]["status"] = "test-failed"
+            else:
+                tests[t_id]["status"] = "test-passed"
+
             t_html = t.replace(
                 args.logs, os.path.join(os.path.dirname(args.out), "logs"))
             os.makedirs(os.path.dirname(t_html), exist_ok=True)
@@ -302,37 +310,16 @@ def collect_logs(runner_name):
 
         # generate tags summary
         for _, test in tests.items():
-            # check if test has passed
-            passed = True
-
-            tool_should_fail = test["should_fail"] == "1"
-            tool_failed = test["rc"] != "0"
-
-            if int(test["rc"]) >= 126 or tool_should_fail != tool_failed:
-                passed = False
-
-            status = "test-" + ("passed" if passed else "failed")
-            test["status"] = status
-
-            if passed:
-                logger.debug(
-                    "{} passed {} in {}".format(
-                        runner_name, test["tags"], test["name"]))
-            else:
-                logger.debug(
-                    "{} failed {} in {}".format(
-                        runner_name, test["tags"], test["name"]))
-
             for tag in test["tags"].split(" "):
                 try:
                     runner_tag_usage[tag] += 1
-                    tags[tag]["status"].append(status)
+                    tags[tag]["status"].append(test["status"])
                 except KeyError:
                     logger.warning("Tag not present in the database: " + tag)
                     database[tag] = ''
                     runner_tag_usage[tag] = 1
                     tags[tag] = {}
-                    tags[tag]["status"] = [status]
+                    tags[tag]["status"] = test["status"]
                     continue
 
         for tag in tags:
