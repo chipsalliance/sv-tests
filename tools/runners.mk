@@ -41,14 +41,13 @@ $(INSTALL_DIR)/bin/verilator:
 	$(MAKE) -C $(RDIR)/verilator install
 
 # slang
-slang: $(INSTALL_DIR)/bin/driver
+slang: $(INSTALL_DIR)/bin/slang-driver
 
-$(INSTALL_DIR)/bin/driver:
+$(INSTALL_DIR)/bin/slang-driver:
 	mkdir -p $(RDIR)/slang/build
 	cd $(RDIR)/slang/build && cmake .. -DSLANG_INCLUDE_TESTS=OFF
 	$(MAKE) -C $(RDIR)/slang/build
-	mkdir -p $(INSTALL_DIR)/bin
-	install $(RDIR)/slang/build/bin/* $(INSTALL_DIR)/bin/
+	install -D $(RDIR)/slang/build/bin/driver $@
 
 # zachjs-sv2v
 zachjs-sv2v: $(INSTALL_DIR)/bin/zachjs-sv2v
@@ -58,9 +57,9 @@ $(INSTALL_DIR)/bin/zachjs-sv2v:
 	install -D $(RDIR)/zachjs-sv2v/bin/sv2v $@
 
 # tree-sitter-verilog
-tree-sitter-verilog: $(INSTALL_DIR)/lib/verilog.so
+tree-sitter-verilog: $(INSTALL_DIR)/lib/tree-sitter-verilog.so
 
-$(INSTALL_DIR)/lib/verilog.so:
+$(INSTALL_DIR)/lib/tree-sitter-verilog.so:
 	mkdir -p $(INSTALL_DIR)/lib
 	cd $(RDIR)/tree-sitter-verilog && npm install
 	/usr/bin/env python3 -c "from tree_sitter import Language; Language.build_library(\"$@\", [\"$(abspath $(RDIR)/tree-sitter-verilog)\"])"

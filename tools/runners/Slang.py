@@ -3,7 +3,7 @@ from BaseRunner import BaseRunner
 
 class Slang(BaseRunner):
     def __init__(self):
-        super().__init__("slang", "driver")
+        super().__init__("slang", "slang-driver")
 
         self.url = "https://github.com/MikePopoloski/slang"
 
