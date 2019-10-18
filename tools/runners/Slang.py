@@ -14,3 +14,8 @@ class Slang(BaseRunner):
             self.cmd.append('-I' + incdir)
 
         self.cmd += params['files']
+
+    def get_version(self):
+        version = super().get_version()
+
+        return " ".join([self.name, version.split()[2]])

@@ -18,3 +18,15 @@ class Odin(BaseRunner):
             self.cmd.append('--top_module ' + params['top_module'])
 
         self.cmd += params['files']
+
+    def get_version_cmd(self):
+        # get it from the help
+        return [self.executable, "-h"]
+
+    def get_version(self):
+        version = super().get_version()
+
+        # The version is the 6th word in the 2nd line
+        version = version.splitlines()[1].split()[5]
+
+        return " ".join([self.name, version])

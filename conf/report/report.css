@@ -43,6 +43,8 @@ table.dataTable tfoot th {
   font-family: "Courier New", Courier, monospace;
   font-size: 13px;
   font-weight: normal;
+  white-space: pre-wrap;
+  max-width: 100%;
 }
 
 .ui-corner-all {

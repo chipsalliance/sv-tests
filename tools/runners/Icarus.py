@@ -17,3 +17,14 @@ class Icarus(BaseRunner):
             self.cmd.append('-s ' + params['top_module'])
 
         self.cmd += params['files']
+
+    def get_version_cmd(self):
+        return [self.executable, "-V"]
+
+    def get_version(self):
+        version = super().get_version()
+
+        # The version is the 4th word in the 1st line
+        version = version.splitlines()[0].split()[3]
+
+        return " ".join([self.name, version])

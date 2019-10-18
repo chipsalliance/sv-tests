@@ -392,6 +392,9 @@ if len(duplicates) > 0:
 
 try:
     for r in data:
+        with open(os.path.join(args.logs, r, "version")) as version_file:
+            data[r]["version"] = version_file.read()
+
         for tag in data[r]["tags"]:
             tag_handle = data[r]["tags"][tag]
 

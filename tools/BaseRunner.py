@@ -64,3 +64,37 @@ class BaseRunner:
         Returns True when tool is installed and can be used, False otherwise.
         """
         return shutil.which(self.executable) is not None
+
+    def get_version_cmd(self):
+        """ Get version command
+
+        Returns a list containing the command and arguments needed to get the
+                version.
+        """
+
+        # assume sane defaults
+        return [self.executable, "--version"]
+
+    def get_version(self):
+        """Attempt to get the version of the tool
+
+        Returns a version string
+        """
+
+        try:
+            cmd = self.get_version_cmd()
+
+            proc = subprocess.Popen(
+                cmd,
+                preexec_fn=set_process_limits,
+                stdout=subprocess.PIPE,
+                stderr=subprocess.STDOUT)
+
+            log, _ = proc.communicate()
+
+            if proc.returncode != 0:
+                return self.name
+
+            return log.decode('utf-8')
+        except (TypeError, NameError, OSError):
+            return self.name
