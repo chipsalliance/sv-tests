@@ -3,7 +3,8 @@ from BaseRunner import BaseRunner
 
 class Sv2v_zachjs(BaseRunner):
     def __init__(self):
-        super().__init__("zachjs-sv2v", "zachjs-sv2v")
+        super().__init__(
+            "zachjs-sv2v", "zachjs-sv2v", {"preprocessing", "parsing"})
 
         self.url = "https://github.com/zachjs/sv2v"
 

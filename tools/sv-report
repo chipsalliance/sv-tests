@@ -4,6 +4,7 @@ from pygments.formatters import HtmlFormatter
 from pygments import lexers, highlight
 import multiprocessing
 from glob import glob
+from logparser import parseLog
 import argparse
 import logging
 import jinja2
@@ -245,7 +246,7 @@ def collect_logs(runner_name):
         test_tags = [
             "name", "tags", "should_fail", "rc", "description", "files",
             "incdirs", "top_module", "runner", "runner_url", "time_elapsed",
-            "timeout"
+            "timeout", "type", "mode"
         ]
         with open(t, "r") as f:
             try:
@@ -285,6 +286,9 @@ def collect_logs(runner_name):
             tool_rc = int(tests[t_id]["rc"])
             tool_failed = (tool_rc != 0)
             if tool_rc >= 126 or tool_should_fail != tool_failed:
+                tests[t_id]["status"] = "test-failed"
+            elif tests[t_id]["mode"] == 'simulation' and not parseLog(
+                    tests[t_id]["log"]):
                 tests[t_id]["status"] = "test-failed"
             else:
                 tests[t_id]["status"] = "test-passed"

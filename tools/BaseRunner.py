@@ -31,17 +31,37 @@ class BaseRunner:
     Runners must be located in tools/runners subdirectory
     to be detected and launched by the Makefile.
     """
-    def __init__(self, name, executable=None):
+    def __init__(
+            self,
+            name,
+            executable=None,
+            supported_features={'preprocessing', 'parsing', 'simulation'}):
         """Base runner class constructor
         Arguments:
         name -- runner name.
         executable -- name of an executable used by the particular runner
         can be omitted if default can_run method isn't used.
+        supported_features -- list of supported test types
         """
         self.name = name
         self.executable = executable
+        self.supported_features = supported_features
 
         self.url = "https://github.com/symbiflow/sv-tests"
+
+    def get_mode(self, test_features):
+        """Determine correct run mode or return None when incompatible
+        """
+        basic_features = ['parsing', 'preprocessing']
+        for feature in basic_features:
+            if feature in test_features and feature not in self.supported_features:
+                return None
+
+        features = ['simulation', *basic_features]
+
+        for feature in features:
+            if feature in test_features and feature in self.supported_features:
+                return feature
 
     def run(self, tmp_dir, params):
         """Run the provided test case

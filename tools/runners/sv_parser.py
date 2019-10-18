@@ -3,7 +3,7 @@ from BaseRunner import BaseRunner
 
 class sv_parser(BaseRunner):
     def __init__(self):
-        super().__init__("sv-parser", "parse_sv")
+        super().__init__("sv-parser", "parse_sv", {"preprocessing", "parsing"})
 
         self.url = "https://github.com/dalance/sv-parser"
 

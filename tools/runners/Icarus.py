@@ -1,4 +1,5 @@
 from BaseRunner import BaseRunner
+import os
 
 
 class Icarus(BaseRunner):
@@ -8,13 +9,29 @@ class Icarus(BaseRunner):
         self.url = "http://iverilog.icarus.com/"
 
     def prepare_run_cb(self, tmp_dir, params):
-        self.cmd = [self.executable, '-i', '-g2012', '-o iverilog.out']
+        mode = params['mode']
 
-        for incdir in params['incdirs']:
-            self.cmd.append('-I' + incdir)
+        scr = os.path.join(tmp_dir, 'scr.sh')
+        ofile = 'iverilog.out'
+
+        with open(scr, 'w') as f:
+            f.write('{} $@\n'.format(self.executable))
+            if mode == 'simulation':
+                f.write('vvp {}'.format(ofile))
+
+        self.cmd = ['sh', 'scr.sh', '-g2012']
+
+        if mode == 'preprocessing':
+            self.cmd += ['-E']
+
+        if mode == 'simulation' or mode == 'parsing':
+            self.cmd += ['-i', '-o ' + ofile]
 
         if params['top_module'] != '':
             self.cmd.append('-s ' + params['top_module'])
+
+        for incdir in params['incdirs']:
+            self.cmd.append('-I' + incdir)
 
         self.cmd += params['files']
 
