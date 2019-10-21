@@ -1,5 +1,9 @@
 body {
-    font-family: monospace;
+    font-family: "Courier New", Consolas, monospace;
+    font-size: 80%
+}
+pre {
+    font-family: "Courier New", Consolas, monospace;
 }
 
 .highlight .hll { background-color: #ffffcc }
