@@ -30,7 +30,7 @@ except IndexError:
 taiga_path = os.path.abspath(os.path.join(third_party_dir, "cores", "taiga"))
 
 dirs = [
-    ['core'], ['core', 'div_algorithms'], ['l2_arbiter'],
+    ['core'], ['core', 'div_algorithms'], ['l2_arbiter'], ['local_memory'],
     ['examples', 'zedboard']
 ]
 
