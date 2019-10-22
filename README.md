@@ -62,6 +62,27 @@ make tests
 
   Use tag that you added in the previous step.
 
+## Adding new test cases
+
+Adding a new test case is a two step process.
+First you create the test case itself which should use only a minimal required subset of SystemVerilog to test a particular feature.
+Additionally each test should cover only a single feature.
+If the test must use several features, each of those must be also covered in separate test cases.
+
+After creating a new test case it must be correctly tagged:
+
+* `name` - must be unique and should be directly related to what the test case covers.
+* `description` - should provide a short description that will be visible in the report page.
+* `should_fail` - must be used to specify whether this case is expected to fail or not.
+* `files` - is a list of files used by this test case, can be omitted to use only the main file with metadata. 
+* `incdirs` - can be used to provide a list of include directories, can be omitted to use only the default ones.
+* `top_module` - optional, allows to specify which module is the top one.
+* `tags` - tag must be used to specify which part of SystemVerilog specification this test case covers.
+  If the test case uses several SystemVerilog features, only the feature directly tested should be included in tags.
+  List of existing tags is located in `conf/lrm.conf`.
+
+Finally the file containing the test case and metadata should be placed in `tests/chapter-([0-9]+)/` subdirectory based on the `tags` fields specified earlier.
+
 ## Supported tools
 
 * [Yosys](http://www.clifford.at/yosys/)
