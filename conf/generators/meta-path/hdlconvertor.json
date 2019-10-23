@@ -3,7 +3,8 @@
 	"project": "hdlconv",
 	"should_fail": "0",
 	"paths": [
-		["tests", "hdlconvertor", "tests", "sv_test", "*"]
+		["tests", "hdlconvertor", "tests", "sv_test", "*"],
+		["tests", "hdlconvertor", "tests", "verilog"]
 	],
-	"matches": ["*.sv"]
+	"matches": ["*.sv", "*.v"]
 }
