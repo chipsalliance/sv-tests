@@ -57,7 +57,7 @@ for cfg in glob.glob(os.path.join(conf_dir, 'generators', 'meta-path',
                 fname = name + '_' + os.path.basename(os.path.splitext(f)[0])
                 test_file = os.path.join(test_dir, fname + '.sv')
 
-                incdirs = os.path.abspath(os.path.join(third_party_dir, *path))
+                incdirs = os.path.dirname(f)
 
                 with open(test_file, "w") as sv:
                     sv.write(
