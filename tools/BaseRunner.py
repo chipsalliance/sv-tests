@@ -1,7 +1,7 @@
 import resource
 import shutil
 import subprocess
-
+import time
 
 def set_process_limits():
     """Make sure processes behave. Limit memory to 4GiB"""
@@ -54,6 +54,15 @@ class BaseRunner:
         log, _ = proc.communicate()
 
         return (log.decode('utf-8'), proc.returncode)
+
+    def run_and_measure_time(self, tmp_dir, params):
+        """Wrapper around run method.
+        Adds elapsed time to the tuple returned by run
+        """
+        start_time = time.time()
+        run_result = self.run(tmp_dir, params)
+        elapsed_time = time.time() - start_time
+        return run_result + (elapsed_time,)
 
     def can_run(self):
         """Check if runner can be used
