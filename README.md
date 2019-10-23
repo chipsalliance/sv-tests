@@ -49,6 +49,19 @@ make tests
 
   If the new tool is a Python library, reimplement `run` and other supporting methods instead of implementing `prepare_run_cb`.
 
+## Importing existing tests from a test suite/core/tool
+* Add the tests as a submodule to this repository via `git submodule add <git_url> third_party/<category>/<name>`.
+  If you want to add tests from a tool that is already in `third_party/tools` you can skip this step.
+* Add a new tag named `<name>` to `conf/lrm.conf` together with a short description.
+* Generate wrapper `.sv` files by either:
+  * Adding a new config to `conf/generators/meta-path/` that will be used by `generators/path_generator`.
+  * Adding a new generator script to `generators/` that will create required wrappers.
+
+  First method works well with test suites in which each test case is contained in a separate Verilog file.
+  If the test suite provides metadata that must be processed or you are importing an IP core then you should create custom generator script.
+
+  Use tag that you added in the previous step.
+
 ## Supported tools
 
 * [Yosys](http://www.clifford.at/yosys/)
