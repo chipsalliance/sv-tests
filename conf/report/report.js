@@ -134,6 +134,13 @@ function toggleLog(tool, tag, test) {
 
   cell = document.getElementById(cell_id);
   cell.classList.toggle("test-cell-selected");
+
+  footer = document.getElementById("footer");
+  logs = document.getElementById("logfile-outer");
+
+  scroll = document.documentElement.scrollTop;
+  footer.style.marginBottom = logs.offsetHeight + "px";
+  document.documentElement.scrollTop = sroll;
 }
 
 function hideLog(div_id) {
