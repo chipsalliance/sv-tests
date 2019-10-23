@@ -6,5 +6,5 @@
 		["tests", "utd-sv"]
 	],
 	"matches": ["*.v"],
-	"blacklist": ["sparc_ffu_ctl_visctl.v", "operators.v"]
+	"blacklist": ["sparc_ffu_ctl_visctl.v", "operators.v", "pad_jbusl.v", "pad_jbusr.v", "fpu_in_ctl.v"]
 }
