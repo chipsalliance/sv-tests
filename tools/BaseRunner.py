@@ -53,9 +53,12 @@ class BaseRunner:
         """Determine correct run mode or return None when incompatible
         """
         basic_features = ['parsing', 'preprocessing']
+        previous_required = False
         for feature in basic_features:
-            if feature in test_features and feature not in self.supported_features:
+            if feature in test_features and feature not in self.supported_features and previous_required:
                 return None
+            if feature in test_features and feature in self.supported_features:
+                previous_required = True
 
         features = ['simulation', *basic_features]
 
