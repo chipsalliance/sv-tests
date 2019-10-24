@@ -126,12 +126,15 @@ except (PermissionError, FileExistsError) as e:
 try:
     logger.info("Running {}/{}".format(args.runner, args.test))
 
-    output, rc, elapsed_time = runner_obj.run_and_measure_time(tmp_dir, test_params)
+    output, rc, user_time, system_time, ram_usage = runner_obj.run_with_profiling(tmp_dir, test_params)
 
     test_params['rc'] = rc
     test_params['runner'] = runner_obj.name
     test_params['runner_url'] = runner_obj.url
-    test_params['time_elapsed'] = str(elapsed_time)
+    test_params['time_elapsed'] = str(user_time + system_time)
+    test_params['user_time'] = user_time
+    test_params['system_time'] = system_time
+    test_params['ram_usage'] = ram_usage
 
     tool_should_fail = test_params["should_fail"] == "1"
     tool_failed = test_params["rc"] != 0

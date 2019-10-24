@@ -55,14 +55,15 @@ class BaseRunner:
 
         return (log.decode('utf-8'), proc.returncode)
 
-    def run_and_measure_time(self, tmp_dir, params):
+    def run_with_profiling(self, tmp_dir, params):
         """Wrapper around run method.
-        Adds elapsed time to the tuple returned by run
+        Adds user time, system time and ram usage to the tuple returned by run
         """
-        start_time = time.time()
+
         run_result = self.run(tmp_dir, params)
-        elapsed_time = time.time() - start_time
-        return run_result + (elapsed_time,)
+        usage = resource.getrusage(resource.RUSAGE_CHILDREN)
+        profiling_data = (usage.ru_utime, usage.ru_stime, usage.ru_maxrss)
+        return run_result + profiling_data
 
     def can_run(self):
         """Check if runner can be used
