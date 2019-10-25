@@ -68,8 +68,8 @@ $(INSTALL_DIR)/lib/tree-sitter-verilog.so:
 sv-parser: $(INSTALL_DIR)/bin/parse_sv
 
 $(INSTALL_DIR)/bin/parse_sv:
-	mkdir -p $(INSTALL_DIR)/bin
-	install -D $(RDIR)/sv-parser/bin/parse_sv $@
+	cd $(RDIR)/sv-parser && cargo build --release --example parse_sv
+	install -D $(RDIR)/sv-parser/target/release/examples/parse_sv $@
 
 # setup the dependencies
 RUNNERS_TARGETS := odin yosys icarus verilator slang zachjs-sv2v tree-sitter-verilog sv-parser
