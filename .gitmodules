@@ -43,3 +43,6 @@
 [submodule "third_party/cores/taiga"]
 	path = third_party/cores/taiga
 	url = https://gitlab.com/sfu-rcl/Taiga.git
+[submodule "third_party/cores/basejump_stl"]
+	path = third_party/cores/basejump_stl
+	url = https://github.com/bespoke-silicon-group/basejump_stl
