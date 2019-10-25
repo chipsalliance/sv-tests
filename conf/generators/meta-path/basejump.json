@@ -27,6 +27,11 @@
 		"bsg_cache_to_axi_tx.v", "bsg_mul_array.v", "bsg_mul_array.v",
 		"bsg_muxi2_gatestack.v", "bsg_async_credit_counter.v",
 		"bsg_mux_segmented.v", "bsg_dff_gatestack.v",
-		"bsg_cache_to_dram_ctrl_tx.v"
+		"bsg_cache_to_dram_ctrl_tx.v", "bsg_mul_array_row.v",
+		"bsg_locking_arb_fixed.v", "bsg_fsb_murn_gateway.v",
+		"bsg_wormhole_router_input_control.v", "bsg_make_2D_array.v",
+		"bsg_mesh_stitch.v", "bsg_mux.v", "bsg_reduce.v",
+		"bsg_wormhole_router_output_control.v", "bsg_flatten_2D_array.v",
+		"bsg_mul.v"
 	]
 }
