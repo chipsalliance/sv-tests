@@ -40,7 +40,8 @@ class BaseRunner:
         params -- dictionary with all metadata from the test file.
                   All keys are used without colons, ie. :tags: becomes tags.
 
-        Returns a tuple containing command execution log and return code.
+        Returns a tuple containing command execution log, return code,
+        user time, system time and ram usage
         """
         self.prepare_run_cb(tmp_dir, params)
 
@@ -53,7 +54,10 @@ class BaseRunner:
 
         log, _ = proc.communicate()
 
-        return (log.decode('utf-8'), proc.returncode)
+        usage = resource.getrusage(resource.RUSAGE_CHILDREN)
+        profiling_data = (usage.ru_utime, usage.ru_stime, usage.ru_maxrss)
+
+        return (log.decode('utf-8'), proc.returncode) + profiling_data
 
     def can_run(self):
         """Check if runner can be used

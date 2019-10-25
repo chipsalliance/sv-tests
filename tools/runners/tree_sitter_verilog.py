@@ -1,5 +1,6 @@
 import os
 import sys
+import resource
 
 from tree_sitter import Language, Parser
 from BaseRunner import BaseRunner
@@ -76,8 +77,10 @@ class tree_sitter_verilog(BaseRunner):
             except Exception as e:
                 self.log_error(src, '', '', 'unknown error: ' + str(e))
                 self.ret = 1
+        usage = resource.getrusage(resource.RUSAGE_SELF)
+        profiling_data = (usage.ru_utime, usage.ru_stime, usage.ru_maxrss)
 
-        return (self.log, self.ret)
+        return (self.log, self.ret) + profiling_data
 
     def can_run(self):
         return os.path.isfile(self.find_lib())
