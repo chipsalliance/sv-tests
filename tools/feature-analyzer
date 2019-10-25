@@ -1,0 +1,71 @@
+#!/usr/bin/env python3
+
+import re
+import os
+import yaml
+import glob
+import argparse
+
+parser = argparse.ArgumentParser()
+
+parser.add_argument("-c", "--confdir")
+parser.add_argument("-d", "--srcdir")
+parser.add_argument("-f", "--files", nargs="+")
+parser.add_argument("-v", "--verbose", action="store_true")
+
+args = parser.parse_args()
+
+files_using_tags = {}
+found_keywords = {}
+
+keywords = {}
+
+exts = ['*.v', '*.sv', '*.vh']
+
+for f in glob.glob(os.path.join(args.confdir, '**', '*.yml'), recursive=True):
+    with open(f) as tag_file:
+        data = yaml.safe_load(tag_file)['tags']
+        for key in data:
+            try:
+                keywords[key].extend(data[key])
+            except KeyError:
+                keywords[key] = data[key]
+
+if args.files is not None:
+    files = args.files
+else:
+    files = []
+    for ext in exts:
+        files.extend(
+            glob.glob(os.path.join(args.srcdir, '**', ext), recursive=True))
+
+for f in files:
+    for tag in keywords:
+        try:
+            with open(os.path.realpath(f)) as src:
+                for line in src:
+                    for keyword in keywords[tag]:
+                        if re.search(re.escape(keyword), line) is not None:
+                            try:
+                                found_keywords[tag].add(keyword)
+                            except KeyError:
+                                found_keywords[tag] = {keyword}
+                            try:
+                                files_using_tags[tag].add(f)
+                            except KeyError:
+                                files_using_tags[tag] = {f}
+        except FileNotFoundError:
+            pass
+
+print('Detected tags: {}'.format(files_using_tags.keys()))
+
+if args.verbose:
+    print('Found keywords:')
+    for tag in found_keywords:
+        print('{}: {}'.format(tag, found_keywords[tag]))
+    for tag in files_using_tags:
+        print(
+            'Keywords from "{}" were found in the following files:'.format(
+                tag))
+        for f in files_using_tags[tag]:
+            print(f)
