@@ -35,7 +35,6 @@ jobs:
         - conda activate sv-test-env
         - pip install -r conf/requirements.txt
       script:
-        - "make sv-parser"
         - "make generate-tests"
         - "make report USE_ALL_RUNNERS=1"
         - "touch out/report/.nojekyll"
