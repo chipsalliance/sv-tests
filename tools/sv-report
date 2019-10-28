@@ -244,7 +244,8 @@ def collect_logs(runner_name):
 
         test_tags = [
             "name", "tags", "should_fail", "rc", "description", "files",
-            "incdirs", "top_module", "runner", "runner_url", "time_elapsed"
+            "incdirs", "top_module", "runner", "runner_url", "time_elapsed",
+            "timeout"
         ]
         with open(t, "r") as f:
             try:

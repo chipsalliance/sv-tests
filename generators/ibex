@@ -11,6 +11,7 @@ templ = """/*
 :incdirs: {1}
 :should_fail: 0
 :tags: ibex
+:timeout: 100
 */
 """
 

@@ -75,7 +75,7 @@ test = os.path.abspath(os.path.join(dirs['tests'], args.test))
 
 req_test_params = [
     "name", "tags", "description", "should_fail", "files", "incdirs",
-    "top_module"
+    "top_module", "timeout"
 ]
 
 test_params = {}
@@ -109,6 +109,7 @@ try:
             test_params.setdefault('files', test)
             test_params.setdefault('incdirs', os.path.dirname(test))
             test_params.setdefault('top_module', '')
+            test_params.setdefault('timeout', "10")
 
             if len(set(req_test_params) - set(test_params.keys())) != 0:
                 missing = list(set(req_test_params) - set(test_params.keys()))

@@ -11,6 +11,7 @@ templ = """/*
 :should_fail: 0
 :tags: swerv
 :top_module: swerv_wrapper
+:timeout: 100
 */
 """
 
