@@ -235,6 +235,9 @@ def collect_logs(runner_name):
     runner_data["tests"] = {}
     tests = runner_data["tests"]
     runner_data["time_elapsed"] = 0
+    runner_data["user_time"] = 0
+    runner_data["system_time"] = 0
+    runner_data["ram_usage"] = 0
 
     for t in glob(os.path.join(args.logs, runner_name, "**/*.log"),
                   recursive=True):
@@ -246,7 +249,7 @@ def collect_logs(runner_name):
         test_tags = [
             "name", "tags", "should_fail", "rc", "description", "files",
             "incdirs", "top_module", "runner", "runner_url", "time_elapsed",
-            "timeout", "type", "mode"
+            "type", "mode", "timeout", "user_time", "system_time", "ram_usage"
         ]
         with open(t, "r") as f:
             try:
@@ -300,6 +303,11 @@ def collect_logs(runner_name):
             tests[t_id]["first_file"] = logToHTML(t, t_html, tests[t_id])
 
             runner_data["time_elapsed"] += float(tests[t_id]["time_elapsed"])
+            runner_data["user_time"] += float(tests[t_id]["user_time"])
+            runner_data["system_time"] += float(tests[t_id]["system_time"])
+            current_ram_usage = float(tests[t_id]["ram_usage"]) / 1000
+            if runner_data["ram_usage"] < current_ram_usage:
+                runner_data["ram_usage"] = current_ram_usage
 
         # check if test was skipped
         if t_id not in tests:
