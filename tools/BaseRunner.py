@@ -3,6 +3,7 @@ import resource
 import shutil
 import signal
 import subprocess
+import re
 
 
 def set_process_limits():
@@ -145,3 +146,23 @@ class BaseRunner:
             return log.decode('utf-8')
         except (TypeError, NameError, OSError):
             return self.name
+
+    def get_top_module_or_guess(self, params):
+        """ Get the top-level module from the params, or guess it
+        """
+        return params['top_module'] or self.guess_top_module(params)
+
+    def guess_top_module(self, params):
+        """ Guess the top-level module
+
+        If the params do not contain a top-level module, guess it by grepping
+        for the first module in the first file. This works for single-module
+        tests, but is likely to give false results in more complex tests.
+        """
+        regex = re.compile(r'module\s+(\w+)\s*[#(;]')
+        for fn in params['files']:
+            with open(fn) as f:
+                m = regex.search(f.read())
+                if m:
+                    return m.group(1)
+        return None
