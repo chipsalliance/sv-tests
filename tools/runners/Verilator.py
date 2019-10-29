@@ -1,4 +1,5 @@
 import os
+import shutil
 
 from BaseRunner import BaseRunner
 
@@ -10,19 +11,41 @@ class Verilator(BaseRunner):
         self.url = "https://www.veripool.org/wiki/verilator"
 
     def prepare_run_cb(self, tmp_dir, params):
+        mode = params['mode']
+        conf = os.environ['CONF_DIR']
         scr = os.path.join(tmp_dir, 'scr.sh')
+
+        shutil.copy(os.path.join(conf, 'runners', 'vmain.cpp'), tmp_dir)
+
+        build_dir = 'vbuild'
+        build_exe = 'vmain'
 
         with open(scr, 'w') as f:
             f.write('{0} $@\n'.format(self.executable))
+            if mode == 'simulation':
+                f.write(
+                    'make -C {} -f Vtop.mk > /dev/null 2>&1\n'.format(
+                        build_dir))
+                f.write('./vbuild/{}'.format(build_exe))
 
         # verilator executable is a script but it doesn't
         # have shell shebang on the first line
-        self.cmd = ['sh', 'scr.sh', '-Wno-fatal', '--cc']
+        self.cmd = ['sh', 'scr.sh']
+
+        if mode == 'simulation' or mode == 'parsing':
+            self.cmd += ['-Wno-fatal', '--cc']
+
+        if params['top_module'] != '':
+            self.cmd.append('--top-module ' + params['top_module'])
+
+        if mode == 'preprocessing':
+            self.cmd += ['-P', '-E']
 
         for incdir in params['incdirs']:
             self.cmd.append('-I' + incdir)
 
-        if params['top_module'] != '':
-            self.cmd.append('--top-module ' + params['top_module'])
+        if mode == 'simulation':
+            self.cmd += ['--Mdir', build_dir, '--exe', '-o', build_exe]
+            self.cmd.append('vmain.cpp')
 
         self.cmd += params['files']

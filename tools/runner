@@ -8,6 +8,7 @@ import logging
 import argparse
 import tempfile
 from importlib import import_module
+from logparser import parseLog
 
 parser = argparse.ArgumentParser()
 
@@ -75,7 +76,7 @@ test = os.path.abspath(os.path.join(dirs['tests'], args.test))
 
 req_test_params = [
     "name", "tags", "description", "should_fail", "files", "incdirs",
-    "top_module", "timeout"
+    "top_module", "timeout", "type"
 ]
 
 test_params = {}
@@ -110,6 +111,7 @@ try:
             test_params.setdefault('incdirs', os.path.dirname(test))
             test_params.setdefault('top_module', '')
             test_params.setdefault('timeout', "10")
+            test_params.setdefault('type', 'parsing')
 
             if len(set(req_test_params) - set(test_params.keys())) != 0:
                 missing = list(set(req_test_params) - set(test_params.keys()))
@@ -126,6 +128,12 @@ test_params['incdirs'] = list(
     map(
         lambda x: os.path.abspath(os.path.join(dirs['tests'], x)),
         test_params['incdirs'].split()))
+
+test_params['mode'] = runner_obj.get_mode(test_params['type'].split())
+
+if test_params['mode'] is None:
+    logger.info("Skipping {}/{}".format(args.runner, args.test))
+    sys.exit(0)
 
 try:
     tmp_dir = tempfile.mkdtemp()
@@ -152,6 +160,9 @@ try:
     tool_failed = test_params["rc"] != 0
 
     test_passed = rc < 126 and tool_should_fail == tool_failed
+
+    if test_passed and test_params['mode'] == 'simulation':
+        test_passed = parseLog(output)
 
     if test_passed:
         logger.info("PASS: {}/{}".format(args.runner, args.test))

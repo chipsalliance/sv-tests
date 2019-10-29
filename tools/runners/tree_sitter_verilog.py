@@ -12,7 +12,7 @@ class tree_sitter_verilog(BaseRunner):
     conpath = ['lib', libname]
 
     def __init__(self):
-        super().__init__("tree-sitter-verilog")
+        super().__init__("tree-sitter-verilog", None, {"parsing"})
 
         self.url = "https://github.com/tree-sitter/tree-sitter-verilog"
 
