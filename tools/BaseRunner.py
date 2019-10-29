@@ -101,7 +101,15 @@ class BaseRunner:
         usage = resource.getrusage(resource.RUSAGE_CHILDREN)
         profiling_data = (usage.ru_utime, usage.ru_stime, usage.ru_maxrss)
 
-        return (log.decode('utf-8'), returncode) + profiling_data
+        return (self.transform_log(log.decode('utf-8')), returncode) + profiling_data
+
+    def transform_log(self, output):
+        """ Post-process the output log
+
+        Subclasses may choose to override this in order to transform the output
+        of the command.
+        """
+        return output
 
     def can_run(self):
         """Check if runner can be used
