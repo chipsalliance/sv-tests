@@ -79,6 +79,25 @@ class BaseRunner:
         Returns a tuple containing command execution log, return code,
         user time, system time and ram usage
         """
+        result = self.run_subprocess(tmp_dir, params)
+
+        usage = resource.getrusage(resource.RUSAGE_CHILDREN)
+        profiling_data = (usage.ru_utime, usage.ru_stime, usage.ru_maxrss)
+
+        return result + profiling_data
+
+    def run_subprocess(self, tmp_dir, params):
+        """ Run the test case's subprocess
+
+        This method is called by the run method and is expected to execute the
+        command prepared in `self.cmd`. Subclasses may choose to override this
+        in order to intercept the execution of the subprocess or inject custom
+        return codes.
+
+        Arguments are the same as for the run method.
+
+        Returns a tuple containing command execution log and return code.
+        """
         self.prepare_run_cb(tmp_dir, params)
 
         proc = subprocess.Popen(
@@ -98,10 +117,7 @@ class BaseRunner:
             log = "Timeout".encode('utf-8')
             returncode = 1
 
-        usage = resource.getrusage(resource.RUSAGE_CHILDREN)
-        profiling_data = (usage.ru_utime, usage.ru_stime, usage.ru_maxrss)
-
-        return (self.transform_log(log.decode('utf-8')), returncode) + profiling_data
+        return (self.transform_log(log.decode('utf-8')), returncode)
 
     def transform_log(self, output):
         """ Post-process the output log
