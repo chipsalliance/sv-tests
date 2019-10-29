@@ -134,21 +134,21 @@
             {{'%0.2f'| format(report[tool]["time_elapsed"]|float)}}s </th>
           {% endfor %}
         </tr>
-	<tr>
+	<tr class="report_summary_row">
           <th class="report_table_info" colspan="2"> User time elapsed: </th>
           {% for tool in report %}
           <th class="report_table_result" title="{{ tool.lower() }}" >
             {{'%0.2f'| format(report[tool]["user_time"]|float)}}s </th>
           {% endfor %}
         </tr>
-	<tr>
+	<tr class="report_summary_row">
           <th class="report_table_info" colspan="2"> System time elapsed: </th>
           {% for tool in report %}
           <th class="report_table_result" title="{{ tool.lower() }}" >
             {{'%0.2f'| format(report[tool]["system_time"]|float)}}s </th>
           {% endfor %}
         </tr>
-	<tr>
+	<tr class="report_summary_row">
           <th class="report_table_info" colspan="2"> Maximum ram usage: </th>
           {% for tool in report %}
           <th class="report_table_result" title="{{ tool.lower() }}" >
