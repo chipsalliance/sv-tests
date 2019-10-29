@@ -1,11 +1,23 @@
+import psutil
 import resource
 import shutil
+import signal
 import subprocess
 
 
 def set_process_limits():
     """Make sure processes behave. Limit memory to 4GiB"""
     resource.setrlimit(resource.RLIMIT_DATA, (4 << 30, 4 << 30))
+
+
+def kill_child_processes(parent_pid, sig=signal.SIGKILL):
+    try:
+        parent = psutil.Process(parent_pid)
+    except psutil.NoSuchProcess:
+        return
+    children = parent.children(recursive=True)
+    for process in children:
+        process.send_signal(sig)
 
 
 class BaseRunner:
@@ -52,12 +64,20 @@ class BaseRunner:
             stdout=subprocess.PIPE,
             stderr=subprocess.STDOUT)
 
-        log, _ = proc.communicate()
+        try:
+            log, _ = proc.communicate(timeout=int(params['timeout']))
+            returncode = proc.returncode
+        except subprocess.TimeoutExpired:
+            kill_child_processes(proc.pid)
+            proc.kill()
+            proc.communicate()
+            log = "Timeout".encode('utf-8')
+            returncode = 1
 
         usage = resource.getrusage(resource.RUSAGE_CHILDREN)
         profiling_data = (usage.ru_utime, usage.ru_stime, usage.ru_maxrss)
 
-        return (log.decode('utf-8'), proc.returncode) + profiling_data
+        return (log.decode('utf-8'), returncode) + profiling_data
 
     def can_run(self):
         """Check if runner can be used

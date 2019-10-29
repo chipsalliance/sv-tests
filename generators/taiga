@@ -10,6 +10,7 @@ templ = """/*
 :files: {0}
 :should_fail: 0
 :tags: taiga
+:timeout: 100
 */
 """
 
