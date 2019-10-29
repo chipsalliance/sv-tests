@@ -1,0 +1,41 @@
+{
+	"name": "assignment-strengths",
+	"filename": "10.3.4--assignment_{0}_{1}.sv",
+	"template": [
+		"/*",
+		":name: cont_assignment_strength_{0}_{1}",
+		":description: {0} {1} assignment test",
+		":should_fail: 0",
+		":tags: 10.3.4",
+		"*/",
+		"module top(input a, input b);",
+		"wire ({0}, {1}) w = a & b;",
+		"endmodule"
+	],
+	"values": [
+		["supply1", "supply0"],
+		["strong1", "supply0"],
+		["pull1", "supply0"],
+		["weak1", "supply0"],
+		["highz1", "supply0"],
+		["supply1", "strong0"],
+		["strong1", "strong0"],
+		["pull1", "strong0"],
+		["weak1", "strong0"],
+		["highz1", "strong0"],
+		["supply1", "pull0"],
+		["strong1", "pull0"],
+		["pull1", "pull0"],
+		["weak1", "pull0"],
+		["highz1", "pull0"],
+		["supply1", "weak0"],
+		["strong1", "weak0"],
+		["pull1", "weak0"],
+		["weak1", "weak0"],
+		["highz1", "weak0"],
+		["supply1", "highz0"],
+		["strong1", "highz0"],
+		["pull1", "highz0"],
+		["weak1", "highz0"]
+	]
+}
