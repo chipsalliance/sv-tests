@@ -3,7 +3,7 @@
 :description: Test packed arrays operations support (Variable slice)
 :should_fail: 1
 :tags: 7.4.3
-:type: simulation parsing
+:type: simulation
 */
 module top ();
 
