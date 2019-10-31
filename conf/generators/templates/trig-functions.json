@@ -1,0 +1,31 @@
+{
+	"name": "trig_functions",
+	"filename": "20.8--{0}.sv",
+	"template": [
+		"/*",
+		":name: {0}_function",
+		":description: ${0} test",
+		":should_fail: 0",
+		":tags: 20.8",
+		":type: simulation parsing",
+		"*/",
+		"module top();",
+		"initial",
+		"$display(\"%f\", ${0}(4));",
+		"endmodule"
+	],
+	"values": [
+		["sin"],
+		["cos"],
+		["tan"],
+		["asin"],
+		["acos"],
+		["atan"],
+		["sinh"],
+		["cosh"],
+		["tanh"],
+		["asinh"],
+		["acosh"],
+		["atanh"]
+	]
+}
