@@ -3,6 +3,7 @@ import resource
 import shutil
 import signal
 import subprocess
+import re
 
 
 def set_process_limits():
@@ -78,6 +79,25 @@ class BaseRunner:
         Returns a tuple containing command execution log, return code,
         user time, system time and ram usage
         """
+        result = self.run_subprocess(tmp_dir, params)
+
+        usage = resource.getrusage(resource.RUSAGE_CHILDREN)
+        profiling_data = (usage.ru_utime, usage.ru_stime, usage.ru_maxrss)
+
+        return result + profiling_data
+
+    def run_subprocess(self, tmp_dir, params):
+        """ Run the test case's subprocess
+
+        This method is called by the run method and is expected to execute the
+        command prepared in `self.cmd`. Subclasses may choose to override this
+        in order to intercept the execution of the subprocess or inject custom
+        return codes.
+
+        Arguments are the same as for the run method.
+
+        Returns a tuple containing command execution log and return code.
+        """
         self.prepare_run_cb(tmp_dir, params)
 
         proc = subprocess.Popen(
@@ -97,10 +117,15 @@ class BaseRunner:
             log = "Timeout".encode('utf-8')
             returncode = 1
 
-        usage = resource.getrusage(resource.RUSAGE_CHILDREN)
-        profiling_data = (usage.ru_utime, usage.ru_stime, usage.ru_maxrss)
+        return (self.transform_log(log.decode('utf-8')), returncode)
 
-        return (log.decode('utf-8'), returncode) + profiling_data
+    def transform_log(self, output):
+        """ Post-process the output log
+
+        Subclasses may choose to override this in order to transform the output
+        of the command.
+        """
+        return output
 
     def can_run(self):
         """Check if runner can be used
@@ -145,3 +170,23 @@ class BaseRunner:
             return log.decode('utf-8')
         except (TypeError, NameError, OSError):
             return self.name
+
+    def get_top_module_or_guess(self, params):
+        """ Get the top-level module from the params, or guess it
+        """
+        return params['top_module'] or self.guess_top_module(params)
+
+    def guess_top_module(self, params):
+        """ Guess the top-level module
+
+        If the params do not contain a top-level module, guess it by grepping
+        for the first module in the first file. This works for single-module
+        tests, but is likely to give false results in more complex tests.
+        """
+        regex = re.compile(r'module\s+(\w+)\s*[#(;]')
+        for fn in params['files']:
+            with open(fn) as f:
+                m = regex.search(f.read())
+                if m:
+                    return m.group(1)
+        return None

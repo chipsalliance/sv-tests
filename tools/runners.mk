@@ -71,7 +71,13 @@ $(INSTALL_DIR)/bin/parse_sv:
 	cd $(RDIR)/sv-parser && cargo build --release --example parse_sv
 	install -D $(RDIR)/sv-parser/target/release/examples/parse_sv $@
 
+# moore
+moore: $(INSTALL_DIR)/bin/moore
+
+$(INSTALL_DIR)/bin/moore:
+	cargo install --git "https://github.com/fabianschuiki/moore" --root $(INSTALL_DIR) --bin moore
+
 # setup the dependencies
-RUNNERS_TARGETS := odin yosys icarus verilator slang zachjs-sv2v tree-sitter-verilog sv-parser
+RUNNERS_TARGETS := odin yosys icarus verilator slang zachjs-sv2v tree-sitter-verilog sv-parser moore
 .PHONY: $(RUNNERS_TARGETS)
 runners: $(RUNNERS_TARGETS)

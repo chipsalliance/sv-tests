@@ -12,3 +12,4 @@ dependencies:
   - tree-sitter-verilog
   - slang
   - sv-parser
+  - moore
