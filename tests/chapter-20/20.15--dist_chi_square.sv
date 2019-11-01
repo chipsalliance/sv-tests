@@ -9,7 +9,7 @@
 module top();
 
 initial begin
-	integer seed = 1234
+	integer seed = 1234;
 	$display("%d", $dist_chi_square(seed, 3));
 end
 
