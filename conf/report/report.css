@@ -26,6 +26,11 @@ table.dataTable tfoot th {
   max-width: 30em;
 }
 
+tfoot .report_table_result {
+  font-weight: normal !important;
+  text-align: right;
+}
+
 .report_summary_row {
   background-color: lightgray;
 }
