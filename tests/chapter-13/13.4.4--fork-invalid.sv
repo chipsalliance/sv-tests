@@ -3,7 +3,7 @@
 :description: function invalid fork test
 :should_fail: 1
 :tags: 13.4.4
-:type: simulation parsing
+:type: simulation
 */
 module top();
 
