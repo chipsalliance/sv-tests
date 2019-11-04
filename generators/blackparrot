@@ -1,0 +1,84 @@
+#!/usr/bin/env python3
+
+import os
+import re
+import sys
+
+templ = """/*
+:name: {2}
+:description: blackparrot core test
+:files: {0}
+:incdirs: {1}
+:should_fail: 0
+:tags: blackparrot
+*/
+"""
+
+try:
+    third_party_dir = os.environ['THIRD_PARTY_DIR']
+    tests_dir = os.environ['TESTS_DIR']
+    conf_dir = os.environ['CONF_DIR']
+except KeyError:
+    print("Export the THIRD_PARTY_DIR, TESTS_DIR and CONF_DIR variables first")
+    sys.exit(1)
+
+try:
+    tests_subdir = sys.argv[1]
+except IndexError:
+    print("Usage: ./generator <subdir>")
+    sys.exit(1)
+
+bp_path = os.path.abspath(
+    os.path.join(third_party_dir, "cores", "blackparrot"))
+
+lists = [
+    {
+        'name': 'bp_top',
+        'flist': 'bp_top/syn/flist.verilator'
+    },
+    {
+        'name': 'bp_me',
+        'flist': 'bp_me/syn/flist.verilator'
+    },
+]
+
+dirs = {
+    '$BP_COMMON_DIR': 'bp_common',
+    '$BP_FE_DIR': 'bp_fe',
+    '$BP_BE_DIR': 'bp_be',
+    '$BP_ME_DIR': 'bp_me',
+    '$BP_TOP_DIR': 'bp_top',
+    '$BP_EXTERNAL_DIR': 'external',
+    '$BASEJUMP_STL_DIR': 'external/basejump_stl',
+}
+
+
+def expandPaths(p):
+    for d in dirs:
+        p = re.sub(re.escape(d), dirs[d], p)
+    return os.path.join(bp_path, p)
+
+
+test_dir = os.path.join(tests_dir, 'generated', tests_subdir)
+
+if not os.path.isdir(test_dir):
+    os.makedirs(test_dir, exist_ok=True)
+
+for l in lists:
+    sources = ''
+    incdirs = ''
+
+    with open(os.path.join(bp_path, l['flist'])) as f:
+        for line in f:
+            line = re.sub(r'^\+define\+.*?$', '', line)
+            line = re.sub(r'//.*?$', '', line)
+            res = re.match(r'^\+incdir\+(.*?)$', line)
+            if res is not None:
+                incdirs += expandPaths(res.group(1)) + ' '
+                continue
+            if len(line.strip()) > 0:
+                sources += expandPaths(line.strip()) + ' '
+
+    test_file = os.path.join(test_dir, l['name'] + '.sv')
+    with open(test_file, "w") as f:
+        f.write(templ.format(sources, incdirs, l['name']))
