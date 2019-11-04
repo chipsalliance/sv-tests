@@ -3,6 +3,7 @@
 :description: void function return value test
 :should_fail: 1
 :tags: 13.4.1
+:type: simulation
 */
 module top();
 
