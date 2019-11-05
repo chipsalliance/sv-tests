@@ -132,6 +132,14 @@ def fileRefToLink(src_rel, fname, link_pat, link_sub_pat, log):
     return (f_html, log)
 
 
+def totalSize(tags):
+    files = tags['files'].split()
+    size = 0
+    for f in files:
+        size += os.path.getsize(f)
+    return size
+
+
 def logToHTML(path_in, path_out, tags):
     depth = path_in.count('/') - 1
     src_relative = '../' * depth
@@ -238,6 +246,8 @@ def collect_logs(runner_name):
     runner_data["user_time"] = 0
     runner_data["system_time"] = 0
     runner_data["ram_usage"] = 0
+    runner_data["passed_time"] = 0
+    runner_data["passed_size"] = 0
 
     for t in glob(os.path.join(args.logs, runner_name, "**/*.log"),
                   recursive=True):
@@ -306,6 +316,11 @@ def collect_logs(runner_name):
 
             tests[t_id]["first_file"] = logToHTML(t, t_html, tests[t_id])
 
+            if tests[t_id]["status"] == "test-passed":
+                runner_data["passed_time"] += float(
+                    tests[t_id]["time_elapsed"])
+                runner_data["passed_size"] += float(totalSize(tests[t_id]))
+
             runner_data["time_elapsed"] += float(tests[t_id]["time_elapsed"])
             runner_data["user_time"] += float(tests[t_id]["user_time"])
             runner_data["system_time"] += float(tests[t_id]["system_time"])
@@ -348,6 +363,12 @@ def collect_logs(runner_name):
                 tags[tag]["status"] = tags[tag]["status"][0]
             else:
                 tags[tag]["status"] = "test-varied"
+
+    if runner_data["passed_time"] == 0:
+        runner_data["passed_throughput"] = 0
+    else:
+        runner_data["passed_throughput"] = runner_data[
+            "passed_size"] / runner_data["passed_time"] / 1024
     return (runner_data, runner_tag_usage)
 
 
