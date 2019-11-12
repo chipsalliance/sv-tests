@@ -77,7 +77,14 @@ moore: $(INSTALL_DIR)/bin/moore
 $(INSTALL_DIR)/bin/moore:
 	cargo install --git "https://github.com/fabianschuiki/moore" --root $(INSTALL_DIR) --bin moore
 
+# verible
+verible: $(INSTALL_DIR)/bin/verilog_syntax
+
+$(INSTALL_DIR)/bin/verilog_syntax:
+	cd $(RDIR)/verible/ && bazel build --cxxopt='-std=c++17' //...
+	install -D $(RDIR)/verible/bazel-bin/verilog/tools/syntax/verilog_syntax $@
+
 # setup the dependencies
-RUNNERS_TARGETS := odin yosys icarus verilator slang zachjs-sv2v tree-sitter-verilog sv-parser moore
+RUNNERS_TARGETS := odin yosys icarus verilator slang zachjs-sv2v tree-sitter-verilog sv-parser moore verible
 .PHONY: $(RUNNERS_TARGETS)
 runners: $(RUNNERS_TARGETS)
