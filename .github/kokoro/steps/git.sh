@@ -33,10 +33,7 @@ echo
 echo "========================================"
 echo "Using local version of submodules (if they exist)"
 echo "---------------------------------------------"
-git submodule status | while read SHA1 MODULE_PATH DESC
-do
-	"$PWD/.github/add-local-submodules.sh" "SymbiFlow/sv-tests" "$MODULE_PATH"
-done
+"$PWD/.github/add-local-submodules.sh" "SymbiFlow/sv-tests"
 echo "---------------------------------------------"
 git submodule foreach --recursive 'git remote -v; echo'
 echo "---------------------------------------------"
