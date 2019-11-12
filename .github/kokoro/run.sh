@@ -32,6 +32,10 @@ echo "========================================"
 echo "Running tests"
 echo "----------------------------------------"
 (
+	source "$HOME/miniconda/etc/profile.d/conda.sh"
+	hash -r
+	conda activate sv-test-env
+
         make generate-tests
         make report USE_ALL_RUNNERS=1
 )
