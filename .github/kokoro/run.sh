@@ -37,6 +37,7 @@ echo "----------------------------------------"
 	conda activate sv-test-env
 
         make generate-tests
+	make tests USE_ALL_RUNNERS=1 -j $CORES
         make report USE_ALL_RUNNERS=1
 )
 echo "----------------------------------------"
