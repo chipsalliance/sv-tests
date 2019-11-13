@@ -40,6 +40,7 @@ jobs:
         - pip install -r conf/requirements.txt
       script:
         - "make generate-tests"
+        - "make tests USE_ALL_RUNNERS=1 -j2"
         - "make report USE_ALL_RUNNERS=1"
         - "touch out/report/.nojekyll"
       deploy:
