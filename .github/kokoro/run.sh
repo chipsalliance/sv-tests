@@ -35,9 +35,9 @@ echo "----------------------------------------"
 	source "$HOME/miniconda/etc/profile.d/conda.sh"
 	hash -r
 	conda activate sv-test-env
-
+	set -x
         make generate-tests
-	make tests USE_ALL_RUNNERS=1 -j $CORES
+	make tests USE_ALL_RUNNERS=1 -j$CORES
         make report USE_ALL_RUNNERS=1
 )
 echo "----------------------------------------"
