@@ -1,46 +1,36 @@
 #! /bin/bash
 
-if [ "$(whoami)" == "root" ]
-then
-    echo "Please don't run this script as root!"
-    exit 1
-fi
 
 SCRIPT_SRC=$(realpath ${BASH_SOURCE[0]})
 
 set -e
 
-#cd $SCRIPT_DIR/..
+SM_PARENT="$1"
+SM_NAME="$2"
+SM_PATH="$3"
+SM_SHA1="$4"
+ORIGIN_URL="$5"
 
+DISPLAY_NAME="${SM_PARENT}/${SM_PATH}"
+if [ "$SM_NAME" != "$SM_PATH" ]; then
+	DISPLAY_NAME="$DISPLAY_NAME ($SM_NAME)"
+fi
 echo
-USER_SLUG="$1"
-SUBMODULE="$2"
-SHA1="$3"
-REV=$(git rev-parse HEAD)
-
-echo "Submodule $SUBMODULE @ '$SHA1'"
-
-# Get the pull request info
-REQUEST_USER="$(echo $USER_SLUG | perl -pe 's|^([^/]*)/.*|\1|')"
-REQUEST_REPO="$(echo $USER_SLUG | perl -pe 's|.*?/([^/]*)$|\1|')"
-
-echo "Request user is '$REQUEST_USER'".
-echo "Request repo is '$REQUEST_REPO'".
+echo "Submodule $DISPLAY_NAME @ '$SM_SHA1' ($ORIGIN_URL)"
+echo "---------------------------------------------------------"
 
 # Get current origin from git
-ORIGIN_URL="$(git config -f .gitmodules submodule.$SUBMODULE.url)"
-#ORIGIN_URL="$(git remote get-url origin)"
 if echo $ORIGIN_URL | grep -q "github.com"; then
-	echo "Found github"
+	echo -n "Found github - "
 
 	ORIGIN_SLUG=$(echo $ORIGIN_URL | perl -pe 's|.*github.com/(.*?)(.git)?$|\1|')
-	echo "Origin slug is '$ORIGIN_SLUG'"
+	#echo "Origin slug is '$ORIGIN_SLUG'"
 
 	ORIGIN_USER="$(echo $ORIGIN_SLUG | perl -pe 's|^([^/]*)/.*|\1|')"
 	ORIGIN_REPO="$(echo $ORIGIN_SLUG | perl -pe 's|.*?/([^/]*)$|\1|')"
 
-	echo "Origin user is '$ORIGIN_USER'"
-	echo "Origin repo is '$ORIGIN_REPO'"
+	#echo "Origin user is '$ORIGIN_USER'"
+	#echo "Origin repo is '$ORIGIN_REPO'"
 
 	USER_URL="https://github.com/$REQUEST_USER/$ORIGIN_REPO.git"
 
@@ -58,12 +48,12 @@ else
 fi
 
 # If submodule doesn't exist, clone directly from the users repo
-if [ ! -e $SUBMODULE/.git ]; then
-	echo "Cloning '$ORIGIN_REPO' from repo '$ORIGIN_URL'"
-	git clone $ORIGIN_URL $SUBMODULE --origin origin
+if [ ! -e $SM_PATH/.git ]; then
+	echo "Cloning '$SM_PATH' from repo '$ORIGIN_URL'"
+	git clone $ORIGIN_URL $SM_PATH --origin origin
 else
 	(
-		cd $SUBMODULE
+		cd $SM_PATH
 		git remote rm origin >/dev/null 2>&1 || true
 		git remote add origin $ORIGIN_URL
 	)
@@ -71,7 +61,7 @@ fi
 
 # Fetch origin and make sure the submodule isn't shallow.
 (
-	cd $SUBMODULE
+	cd $SM_PATH
 	if [ $(git rev-parse --is-shallow-repository) != "false" ]; then
 		git fetch origin --no-recurse-submodules --unshallow
 	fi
@@ -81,33 +71,47 @@ fi
 # Add the user remote and fetch it.
 if [ "$USER_URL" != "$ORIGIN_URL" ]; then
 	(
-		cd $SUBMODULE
+		cd $SM_PATH
 		git remote rm user >/dev/null 2>&1 || true
 		git remote add user $USER_URL
 		git fetch user --no-recurse-submodules
 	)
 fi
 
-# Checkout to the correct SHA1 value - which may come from origin or user.
+# Checkout to the correct SM_SHA1 value - which may come from origin or user.
 (
-	cd $SUBMODULE
-	git reset --hard "$SHA1" --recurse-submodules=no
+	cd $SM_PATH
+	git reset --hard "$SM_SHA1" --recurse-submodules=no
 )
 
 # Init the submodule
-git submodule update --init $SUBMODULE
+git submodule update --init $SM_PATH
 
 # Call ourselves recursively.
 (
-	cd $SUBMODULE
+	cd $SM_PATH
+	SM_PARENT="$SM_PARENT/$SM_PATH"
+
 	# Checkout the submodule at the right revision
-	git submodule sync
-	git submodule status
 	echo
-	git submodule status | sed -e's/^.//' | while read SHA1 MODULE_PATH DESC
-	do
-		"$SCRIPT_SRC" "$USER_SLUG" "$MODULE_PATH" "$SHA1"
-	done
+	if [ -e '.gitmodules' ]; then
+		echo "$SM_PARENT has submodules"
+		echo
+		echo "Sync submodules"
+		echo "----------------------"
+		git submodule sync
+		echo
+		echo "Status of submodules"
+		echo "----------------------"
+		git submodule status
+		echo
+		git_submodules | while read SM_NAME SM_PATH SM_SHA1 SM_ORIGIN
+		do
+			"$SCRIPT_SRC" "$SM_PARENT" "$SM_NAME" "$SM_PATH" "$SM_SHA1" "$SM_ORIGIN"
+		done
+	else
+		echo "$SM_PARENT has no submodules"
+	fi
 	exit 0
 ) || exit 1
 
