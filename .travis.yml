@@ -7,6 +7,9 @@ python:
 cache:
   pip: true
 
+git:
+  submodules: false
+
 env:
   global:
     - MAKEFLAGS="-j2"
@@ -23,6 +26,7 @@ jobs:
 
     - name: "Generate report.hml"
       install:
+        - .github/add-local-submodules.sh "${TRAVIS_PULL_REQUEST_SLUG:-$TRAVIS_REPO_SLUG}"
         - wget https://repo.continuum.io/miniconda/Miniconda3-latest-Linux-x86_64.sh -O miniconda.sh
         - bash miniconda.sh -b -p $HOME/miniconda
         - source "$HOME/miniconda/etc/profile.d/conda.sh"
@@ -36,6 +40,7 @@ jobs:
         - pip install -r conf/requirements.txt
       script:
         - "make generate-tests"
+        - "make tests USE_ALL_RUNNERS=1 -j2"
         - "make report USE_ALL_RUNNERS=1"
         - "touch out/report/.nojekyll"
       deploy:
