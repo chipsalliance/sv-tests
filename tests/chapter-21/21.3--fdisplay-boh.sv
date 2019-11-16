@@ -12,7 +12,9 @@ string str = "abc";
 
 initial begin
 	fd = $fopen("tmp.txt", "w");
-	$fdisplay(fd, str);
+	$fdisplayb(fd, str);
+	$fdisplayo(fd, str);
+	$fdisplayh(fd, str);
 end
 
 final

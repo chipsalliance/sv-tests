@@ -9,7 +9,9 @@ module top();
 
 initial begin
 	int val = 1234;
-	$display(val);
+	$displayb(val);
+	$displayo(val);
+	$displayh(val);
 end
 
 endmodule
