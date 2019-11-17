@@ -11,7 +11,6 @@ class Surelog(BaseRunner):
         self.cmd = [self.executable, '-nobuiltin']
 
         for incdir in params['incdirs']:
-            self.cmd.append('+incdir+')
-            self.cmd.append(incdir)
+            self.cmd.append('-I' + incdir)
 
         self.cmd += params['files']
