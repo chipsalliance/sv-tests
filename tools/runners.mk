@@ -49,6 +49,15 @@ $(INSTALL_DIR)/bin/slang-driver:
 	$(MAKE) -C $(RDIR)/slang/build
 	install -D $(RDIR)/slang/build/bin/driver $@
 
+# Surelog
+surelog: $(INSTALL_DIR)/bin/surelog
+
+$(INSTALL_DIR)/bin/surelog:
+	cd $(RDIR)/Surelog ; mkdir -p build/tests dist
+	cd $(RDIR)/Surelog/build && cmake -DCMAKE_BUILD_TYPE=Release ../
+	$(MAKE) -C $(RDIR)/Surelog/build
+	install -D $(RDIR)/Surelog/dist/Release/GNU-Linux/surelog $@
+
 # zachjs-sv2v
 zachjs-sv2v: $(INSTALL_DIR)/bin/zachjs-sv2v
 
