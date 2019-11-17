@@ -94,6 +94,6 @@ $(INSTALL_DIR)/bin/verilog_syntax:
 	install -D $(RDIR)/verible/bazel-bin/verilog/tools/syntax/verilog_syntax $@
 
 # setup the dependencies
-RUNNERS_TARGETS := odin yosys icarus verilator slang zachjs-sv2v tree-sitter-verilog sv-parser moore verible
+RUNNERS_TARGETS := odin yosys icarus verilator slang zachjs-sv2v tree-sitter-verilog sv-parser moore verible surelog
 .PHONY: $(RUNNERS_TARGETS)
 runners: $(RUNNERS_TARGETS)
