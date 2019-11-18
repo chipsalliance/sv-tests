@@ -8,7 +8,7 @@ class Surelog(BaseRunner):
         self.url = "https://github.com/alainmarcel/Surelog"
 
     def prepare_run_cb(self, tmp_dir, params):
-        self.cmd = [self.executable, '-nobuiltin']
+        self.cmd = [self.executable, '-nobuiltin', '-parse']
 
         for incdir in params['incdirs']:
             self.cmd.append('-I' + incdir)
