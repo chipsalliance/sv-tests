@@ -7,5 +7,5 @@
 		["tests", "hdlconvertor", "tests", "verilog"]
 	],
 	"matches": ["*.sv", "*.v"],
-	"blacklist": ["p12.sv", "p940.sv"]
+	"blacklist": ["p12.sv", "p940.sv", "p137.sv", "p552.sv"]
 }
