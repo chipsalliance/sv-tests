@@ -1,5 +1,5 @@
 /*
-:name: typedef_test_25
+:name: typedef_test_25__bad
 :description: Test
 :should_fail: 1
 :tags: 6.18

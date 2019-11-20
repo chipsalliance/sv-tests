@@ -1,5 +1,5 @@
 /*
-:name: write_task
+:name: write_boh
 :description: $write test
 :should_fail: 0
 :tags: 21.2

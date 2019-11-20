@@ -1,5 +1,5 @@
 /*
-:name: display_task
+:name: display_boh
 :description: $display test
 :should_fail: 0
 :tags: 21.2

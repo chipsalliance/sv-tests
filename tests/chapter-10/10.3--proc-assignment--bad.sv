@@ -1,5 +1,5 @@
 /*
-:name: cont_assignment_delay
+:name: proc_assignment__bad
 :description: continuous assignment with delay test
 :should_fail: 1
 :tags: 10.3

@@ -1,5 +1,5 @@
 /*
-:name: fdisplay_task
+:name: fdisplay_boh
 :description: $fdisplay test
 :should_fail: 0
 :tags: 21.3
