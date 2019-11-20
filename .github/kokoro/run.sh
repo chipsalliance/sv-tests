@@ -62,10 +62,13 @@ echo "----------------------------------------"
 
 echo
 echo "========================================"
-echo "Copying tests logs"
+echo "Compressing tests logs"
 echo "----------------------------------------"
 (
-	touch out/report/.nojekyll
+	tar -jcvf sv-tests-out.tar.bz2 out/
+	rm -rf out/
+	mkdir out/
+	mv sv-tests-out.tar.bz2 out/
 	true
 )
 echo "----------------------------------------"
