@@ -32,6 +32,7 @@ echo "========================================"
 echo "Running tests"
 echo "----------------------------------------"
 (
+	export USE_CGROUP=sv-tests
 	source "$HOME/miniconda/etc/profile.d/conda.sh"
 	hash -r
 	conda activate sv-test-env

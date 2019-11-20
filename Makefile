@@ -7,6 +7,8 @@ RUNNERS_DIR=./tools/runners
 THIRD_PARTY_DIR=./third_party
 GENERATORS_DIR=./generators
 
+USE_CGROUP := ${USE_CGROUP}
+
 export OUT_DIR
 export CONF_DIR
 export THIRD_PARTY_DIR
@@ -31,11 +33,36 @@ runners:
 
 # $(1) - runner name
 # $(2) - test
-define runner_gen
-$(OUT_DIR)/logs/$(1)/$(2).log: $(TESTS_DIR)/$(2)
-	./tools/runner --runner $(1) --test $(2) --out $(OUT_DIR)/logs/$(1)/$(2).log --quiet
+define runner_test_gen
+ifneq ($(USE_CGROUP),)
+RUNNER := cgexec -g memory,cpu:$(USE_CGROUP)/$(1) ./tools/runner
+else
+RUNNER := ./tools/runner
+endif
+
+$(OUT_DIR)/logs/$(1)/$(2).log: $(TESTS_DIR)/$(2) | $(1)-cg
+	$(RUNNER) --runner $(1) --test $(2) --out $(OUT_DIR)/logs/$(1)/$(2).log --quiet
 
 tests: $(OUT_DIR)/logs/$(1)/$(2).log
+endef
+
+# $(1) - runner name
+define runner_cg_gen
+ifneq ($(USE_CGROUP),)
+
+/sys/fs/cgroup/memory/$(USE_CGROUP)/$(1):
+	# Create a sub-cgroup for each runner under the sv-tests group.
+	cgcreate -g memory,cpu:sv-tests/$(1)
+	# Limit a single runner to using 2GB of memory
+	echo 2000000000 > /sys/fs/cgroup/memory/sv-tests/$(1)/memory.limit_in_bytes
+
+$(1)-cg: /sys/fs/cgroup/memory/$(USE_CGROUP)/$(1)
+
+endif
+
+$(1)-cg:
+	@true
+
 endef
 
 define runner_version_gen
@@ -91,5 +118,6 @@ report: init tests versions
 	cp $(CONF_DIR)/report/*.js $(OUT_DIR)/report/
 
 $(foreach g, $(GENERATORS), $(eval $(call generator_gen,$(g))))
-$(foreach r, $(RUNNERS),$(foreach t, $(TESTS),$(eval $(call runner_gen,$(r),$(t)))))
+$(foreach r, $(RUNNERS),$(foreach t, $(TESTS),$(eval $(call runner_test_gen,$(r),$(t)))))
+$(foreach r, $(RUNNERS),$(eval $(call runner_cg_gen,$(r))))
 $(foreach r, $(RUNNERS),$(eval $(call runner_version_gen,$(r))))
