@@ -1,5 +1,5 @@
 /*
-:name: display_task
+:name: display_boh
 :description: $display test
 :should_fail: 0
 :tags: 21.2
@@ -9,7 +9,9 @@ module top();
 
 initial begin
 	int val = 1234;
-	$display(val);
+	$displayb(val);
+	$displayo(val);
+	$displayh(val);
 end
 
 endmodule

@@ -1,13 +1,11 @@
 /*
-:name: typedef_test_25
+:name: typedef_test_25__bad
 :description: Test
-:should_fail: 0
+:should_fail: 1
 :tags: 6.18
 */
-parameter A = 5;
-parameter D = 32;
-parameter E = 7;
-parameter M = 4;
+
+// A/D/E/M are not defined, so bad test.
 
 typedef struct packed {
   reg  [A-1:0] addr;

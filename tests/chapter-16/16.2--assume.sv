@@ -4,9 +4,7 @@
 :should_fail: 0
 :tags: 16.2
 */
-module top(input a);
-
-logic a;
+module top(input logic a);
 
 assume (a != 0);
 

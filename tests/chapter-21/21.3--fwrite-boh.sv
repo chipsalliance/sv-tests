@@ -1,6 +1,6 @@
 /*
-:name: fdisplay_task
-:description: $fdisplay test
+:name: fwrite_boh
+:description: $fwrite test
 :should_fail: 0
 :tags: 21.3
 :type: simulation parsing
@@ -12,7 +12,9 @@ string str = "abc";
 
 initial begin
 	fd = $fopen("tmp.txt", "w");
-	$fdisplay(fd, str);
+	$fwriteb(fd, str);
+	$fwriteo(fd, str);
+	$fwriteh(fd, str);
 end
 
 final
