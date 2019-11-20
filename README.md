@@ -87,12 +87,12 @@ Finally the file containing the test case and metadata should be placed in `test
 
 ## Supported tools
 
-* [Yosys](http://www.clifford.at/yosys/)
-* [Odin II](https://verilogtorouting.org/)
-* [Verilator](https://www.veripool.org/wiki/verilator)
-* [Icarus](http://iverilog.icarus.com/)
+* [Yosys](http://www.clifford.at/yosys)
+* [Odin II](https://verilogtorouting.org)
+* [Verilator](https://verilator.org)
+* [Icarus](http://iverilog.icarus.com)
 * [slang](https://github.com/MikePopoloski/slang)
 * [sv2v(zachjs)](https://github.com/zachjs/sv2v)
 * [tree-sitter-verilog](https://github.com/tree-sitter/tree-sitter-verilog)
 * [sv-parser](https://github.com/dalance/sv-parser)
-* [moore](http://llhd.io/)
+* [moore](http://llhd.io)

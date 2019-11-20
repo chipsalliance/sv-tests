@@ -8,7 +8,7 @@ class Verilator(BaseRunner):
     def __init__(self):
         super().__init__("verilator", "verilator")
 
-        self.url = "https://www.veripool.org/wiki/verilator"
+        self.url = "https://verilator.org"
 
     def prepare_run_cb(self, tmp_dir, params):
         mode = params['mode']
