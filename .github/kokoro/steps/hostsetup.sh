@@ -25,10 +25,18 @@ sudo apt-get install -y \
         bison \
         build-essential \
         ca-certificates \
+        cgroup-tools \
         cmake \
         curl \
         flex \
         git \
-	wget \
+        wget \
 
+echo "----------------------------------------"
+echo
+echo "========================================"
+echo "Creating cgroup to bse used"
+echo "----------------------------------------"
+sudo cgcreate -a $(whoami) -t $(whoami) -g memory,cpu:sv-tests
+ls -l /sys/fs/cgroup/*/sv-tests
 echo "----------------------------------------"
