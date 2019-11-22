@@ -4,12 +4,13 @@ channels:
   - pkgw-forge
   - conda-forge
 dependencies:
-  - verilator
-  - yosys
   - iverilog
-  - zachjs-sv2v
+  - moore
   - odin_ii
-  - tree-sitter-verilog
   - slang
   - sv-parser
-  - moore
+  - tree-sitter-verilog
+  - verible
+  - verilator
+  - yosys
+  - zachjs-sv2v
