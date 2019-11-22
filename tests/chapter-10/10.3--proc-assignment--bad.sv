@@ -3,6 +3,7 @@
 :description: continuous assignment with delay test
 :should_fail: 1
 :tags: 10.3
+:type: simulation
 */
 module top(input a, input b);
 

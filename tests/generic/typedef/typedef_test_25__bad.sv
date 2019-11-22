@@ -3,6 +3,7 @@
 :description: Test
 :should_fail: 1
 :tags: 6.18
+:type: simulation
 */
 
 // A/D/E/M are not defined, so bad test.
