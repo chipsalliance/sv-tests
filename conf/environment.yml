@@ -10,6 +10,7 @@ dependencies:
   - slang
   - sv-parser
   - tree-sitter-verilog
+  - verible
   - verilator
   - yosys
   - zachjs-sv2v
