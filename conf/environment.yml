@@ -4,16 +4,16 @@ channels:
   - pkgw-forge
   - conda-forge
 dependencies:
-  - iverilog
-  - moore
-  - odin_ii
-  - slang
-  - sv-parser
-  - tree-sitter-verilog
-  - verible
-  - verilator
-  - yosys
-  - zachjs-sv2v
+#  - iverilog
+#  - moore
+#  - odin_ii
+#  - slang
+#  - sv-parser
+#  - tree-sitter-verilog
+#  - verible
+#  - verilator
+#  - yosys
+#  - zachjs-sv2v
   - pip
   - pip:                            # Packages installed from PyPI
     - -r file:requirements.txt

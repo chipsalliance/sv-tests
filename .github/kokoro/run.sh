@@ -21,6 +21,7 @@ echo "----------------------------------------"
 	conda install -q setuptools
 	conda update -q conda
 	conda info -a
+	sed -e"s/^#  -/  -/" -i conf/environment.yml
 	conda env create --file conf/environment.yml
 	conda activate sv-test-env
 )
