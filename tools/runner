@@ -65,6 +65,8 @@ os.environ['PATH'] = ":".join(new_path)
 runner = os.path.abspath(os.path.join(dirs['runners'], args.runner))
 out = os.path.abspath(args.out)
 
+os.makedirs(os.path.dirname(out), exist_ok=True)
+
 if args.version:
     version = runner_obj.get_version()
     with open(out, "w") as f:
