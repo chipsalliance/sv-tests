@@ -96,3 +96,4 @@ Finally the file containing the test case and metadata should be placed in `test
 * [tree-sitter-verilog](https://github.com/tree-sitter/tree-sitter-verilog)
 * [sv-parser](https://github.com/dalance/sv-parser)
 * [moore](http://llhd.io)
+* [verible](https://github.com/google/verible)
