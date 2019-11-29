@@ -39,6 +39,8 @@ for cfg in glob.glob(os.path.join(conf_dir, 'generators', 'meta-path',
         paths = data['paths']
         matches = data['matches']
         blacklist = data.get('blacklist', [''])
+        commons = data.get('commons', [])
+        incdirs = data.get('incdirs', [])
 
     test_dir = os.path.join(tests_dir, 'generated', project)
 
@@ -57,8 +59,16 @@ for cfg in glob.glob(os.path.join(conf_dir, 'generators', 'meta-path',
                 fname = name + '_' + os.path.basename(os.path.splitext(f)[0])
                 test_file = os.path.join(test_dir, fname + '.sv')
 
-                incdirs = os.path.dirname(f)
+                incs = os.path.dirname(f)
+
+                for common in commons:
+                    f = os.path.abspath(
+                        os.path.join(third_party_dir, common)) + " " + f
+
+                for incdir in incdirs:
+                    incs = os.path.abspath(
+                        os.path.join(third_party_dir, incdir)) + " " + incs
 
                 with open(test_file, "w") as sv:
                     sv.write(
-                        templ.format(project, should_fail, f, fname, incdirs))
+                        templ.format(project, should_fail, f, fname, incs))
