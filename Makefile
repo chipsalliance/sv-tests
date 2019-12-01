@@ -34,16 +34,19 @@ runners:
 # $(1) - runner name
 # $(2) - test
 define runner_test_gen
+
+# Set the runner value for the log target
 ifneq ($(USE_CGROUP),)
-RUNNER := cgexec -g memory,cpu:$(USE_CGROUP)/$(1) ./tools/runner
+$(OUT_DIR)/logs/$(1)/$(2).log : RUNNER = cgexec -g memory,cpu:$(USE_CGROUP)/$(1) ./tools/runner
 else
-RUNNER := ./tools/runner
+$(OUT_DIR)/logs/$(1)/$(2).log : RUNNER = ./tools/runner
 endif
 
 $(OUT_DIR)/logs/$(1)/$(2).log: $(TESTS_DIR)/$(2) | $(1)-cg
-	$(RUNNER) --runner $(1) --test $(2) --out $(OUT_DIR)/logs/$(1)/$(2).log --quiet
+	$$(RUNNER) --runner $(1) --test $(2) --out $(OUT_DIR)/logs/$(1)/$(2).log --quiet
 
 tests: $(OUT_DIR)/logs/$(1)/$(2).log
+
 endef
 
 # $(1) - runner name
