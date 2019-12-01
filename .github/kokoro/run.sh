@@ -23,7 +23,6 @@ echo "----------------------------------------"
 	conda info -a
 	conda env create --file conf/environment.yml
 	conda activate sv-test-env
-	pip install -r conf/requirements.txt
 )
 echo "----------------------------------------"
 
