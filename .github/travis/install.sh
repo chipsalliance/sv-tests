@@ -17,3 +17,6 @@ conda update -q conda
 conda info -a
 conda env create --file conf/environment.yml
 conda activate sv-test-env
+
+set +e
+set +x
