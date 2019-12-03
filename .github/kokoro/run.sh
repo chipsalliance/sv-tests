@@ -23,7 +23,9 @@ echo "----------------------------------------"
 	conda info -a
 	sed -e"s/^#  -/  -/" -i conf/environment.yml
 	conda env create --file conf/environment.yml
+
 	conda activate sv-test-env
+	make USE_ALL_RUNNERS=1 info
 )
 echo "----------------------------------------"
 
