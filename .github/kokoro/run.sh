@@ -34,7 +34,7 @@ echo "========================================"
 echo "Running tests"
 echo "----------------------------------------"
 (
-	set -x +e
+	set +x +e
 	export USE_CGROUP=sv-tests
 	source "$HOME/miniconda/etc/profile.d/conda.sh"
 	hash -r
@@ -55,6 +55,17 @@ echo "----------------------------------------"
 		echo "----------------------------------------"
 		echo "Successful test running."
 		echo "----------------------------------------"
+		make USE_ALL_RUNNERS=1 --question tests
+		TESTS_FINISHED=$?
+
+		if [[ $TESTS_FINISHED != 0 ]]; then
+			echo "----------------------------------------"
+			echo "Tasks still left to run after success?"
+			echo "----------------------------------------"
+			make USE_ALL_RUNNERS=1 -j1 tests
+			#exit 1
+		fi
+
 	fi
 	make report USE_ALL_RUNNERS=1
 )
