@@ -6,6 +6,6 @@
 */
 module top(input logic a);
 
-assume (a != 0);
+initial assume (a != 0);
 
 endmodule
