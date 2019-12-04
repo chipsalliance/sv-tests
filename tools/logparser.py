@@ -8,6 +8,9 @@ def parseLog(log):
         if pat:
             if pat.group(1) == 'assert':
                 expr = pat.group(2)
-                if not eval(expr):
+                try:
+                    if not eval(expr):
+                        res = False
+                except Exception:
                     res = False
     return res
