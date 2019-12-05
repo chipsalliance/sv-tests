@@ -45,7 +45,10 @@ class Verilator(BaseRunner):
             self.cmd.append('-I' + incdir)
 
         if mode == 'simulation':
-            self.cmd += ['--Mdir', build_dir, '--exe', '-o', build_exe]
+            self.cmd += [
+                '--Mdir', build_dir, '--prefix', 'Vtop', '--exe', '-o',
+                build_exe
+            ]
             self.cmd.append('vmain.cpp')
 
         self.cmd += params['files']
