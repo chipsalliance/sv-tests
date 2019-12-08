@@ -157,7 +157,8 @@ class BaseRunner:
             cmd = self.get_version_cmd()
 
             proc = subprocess.Popen(
-                cmd,
+                " ".join(cmd),  # Required to go via shell
+                shell=True,
                 preexec_fn=set_process_limits,
                 stdout=subprocess.PIPE,
                 stderr=subprocess.STDOUT)
