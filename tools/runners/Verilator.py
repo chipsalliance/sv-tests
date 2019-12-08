@@ -34,7 +34,9 @@ class Verilator(BaseRunner):
 
         if mode == 'simulation':
             self.cmd += ['--cc']
-        elif mode == 'parsing':
+        elif mode == 'preprocessing':
+            self.cmd += ['-E']
+        else:
             self.cmd += ['--lint-only']
 
         self.cmd += ['-Wno-fatal', '-Wno-UNOPTFLAT', '-Wno-BLKANDNBLK']
