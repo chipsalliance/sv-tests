@@ -32,8 +32,12 @@ class Verilator(BaseRunner):
         # have shell shebang on the first line
         self.cmd = ['sh', 'scr.sh']
 
-        if mode == 'simulation' or mode == 'parsing':
-            self.cmd += ['-Wno-fatal', '--cc']
+        if mode == 'simulation':
+            self.cmd += ['--cc']
+        elif mode == 'parsing':
+            self.cmd += ['--lint-only']
+
+        self.cmd += ['-Wno-fatal', '-Wno-UNOPTFLAT', '-Wno-BLKANDNBLK']
 
         if params['top_module'] != '':
             self.cmd.append('--top-module ' + params['top_module'])
