@@ -6,6 +6,15 @@
 		["cores", "basejump_stl", "*"]
 	],
 	"matches": ["*.v"],
+	"commons": [
+		"cores/basejump_stl/bsg_misc/bsg_defines.v",
+		"cores/basejump_stl/bsg_cache/bsg_cache_pkg.v",
+		"cores/basejump_stl/bsg_fpu/bsg_fpu_pkg.v"
+	],
+	"incdirs": [
+		"cores/basejump_stl/bsg_misc",
+		"cores/basejump_stl/bsg_noc"
+	],
 	"blacklist": [
 		"bsg_mesh_to_ring_stitch.v", "bsg_reduce_segmented.v",
 		"bsg_launch_sync_sync.v", "bsg_mem_multiport.v",
@@ -27,6 +36,9 @@
 		"bsg_cache_to_axi_tx.v", "bsg_mul_array.v", "bsg_mul_array.v",
 		"bsg_muxi2_gatestack.v", "bsg_async_credit_counter.v",
 		"bsg_mux_segmented.v", "bsg_dff_gatestack.v",
-		"bsg_cache_to_dram_ctrl_tx.v"
+		"bsg_cache_to_dram_ctrl_tx.v",
+		"test_bsg_clock_params.v", "bsg_nonsynth_mixin_motherboard.v",
+		"bsg_1_to_n_tagged_fifo_shared.v", "bsg_fifo_1r1w_large_banked.v",
+		"bsg_sbox_ctrl.v", "bsg_sort_4.v"
 	]
 }
