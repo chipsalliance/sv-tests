@@ -11,7 +11,7 @@ templ = """/*
 :files: {2}
 :incdirs: {4}
 :should_fail: {1}
-:tags: {0}
+:tags: {0}{5}
 */
 """
 
@@ -41,6 +41,7 @@ for cfg in glob.glob(os.path.join(conf_dir, 'generators', 'meta-path',
         blacklist = data.get('blacklist', [''])
         commons = data.get('commons', [])
         incdirs = data.get('incdirs', [])
+        timeouts = data.get('timeouts', {})
 
     test_dir = os.path.join(tests_dir, 'generated', project)
 
@@ -52,7 +53,8 @@ for cfg in glob.glob(os.path.join(conf_dir, 'generators', 'meta-path',
             for f in glob.glob(os.path.abspath(os.path.join(third_party_dir,
                                                             *path, match))):
 
-                if blacklist.count(os.path.basename(f)) > 0:
+                basename = os.path.basename(f)
+                if blacklist.count(basename) > 0:
                     print("Skipping blacklisted file: {}".format(f))
                     continue
 
@@ -69,6 +71,12 @@ for cfg in glob.glob(os.path.join(conf_dir, 'generators', 'meta-path',
                     incs = os.path.abspath(
                         os.path.join(third_party_dir, incdir)) + " " + incs
 
+                if basename in timeouts:
+                    timeout = "\n:timeout: {}".format(timeouts[basename])
+                else:
+                    timeout = ""
+
                 with open(test_file, "w") as sv:
                     sv.write(
-                        templ.format(project, should_fail, f, fname, incs))
+                        templ.format(
+                            project, should_fail, f, fname, incs, timeout))
