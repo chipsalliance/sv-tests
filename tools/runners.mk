@@ -81,7 +81,7 @@ $(INSTALL_DIR)/bin/moore:
 verible: $(INSTALL_DIR)/bin/verilog_syntax
 
 $(INSTALL_DIR)/bin/verilog_syntax:
-	cd $(RDIR)/verible/ && bazel build --cxxopt='-std=c++17' //...
+	cd $(RDIR)/verible/ && bazel build --noshow_progress --cxxopt='-std=c++17' //...
 	install -D $(RDIR)/verible/bazel-bin/verilog/tools/syntax/verilog_syntax $@
 
 # setup the dependencies
