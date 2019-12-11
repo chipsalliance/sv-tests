@@ -15,6 +15,9 @@
 		"cores/basejump_stl/bsg_misc",
 		"cores/basejump_stl/bsg_noc"
 	],
+	"timeouts": {
+		"bsg_scatter_gather.v": "60"
+	},
 	"blacklist": [
 		"bsg_mesh_to_ring_stitch.v", "bsg_reduce_segmented.v",
 		"bsg_launch_sync_sync.v", "bsg_mem_multiport.v",
