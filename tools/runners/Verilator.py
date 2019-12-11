@@ -10,6 +10,9 @@ class Verilator(BaseRunner):
 
         self.url = "https://verilator.org"
 
+    def get_version_cmd(self):
+        return [os.getenv("SHELL"), self.executable, "--version"]
+
     def prepare_run_cb(self, tmp_dir, params):
         mode = params['mode']
         conf = os.environ['CONF_DIR']
