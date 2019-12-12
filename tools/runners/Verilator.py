@@ -10,6 +10,10 @@ class Verilator(BaseRunner):
 
         self.url = "https://verilator.org"
 
+    def get_version_cmd(self):
+        # Scripts like Verilator require calling through SHELL
+        return [os.getenv("SHELL"), self.executable, "--version"]
+
     def prepare_run_cb(self, tmp_dir, params):
         mode = params['mode']
         conf = os.environ['CONF_DIR']
@@ -32,8 +36,14 @@ class Verilator(BaseRunner):
         # have shell shebang on the first line
         self.cmd = ['sh', 'scr.sh']
 
-        if mode == 'simulation' or mode == 'parsing':
-            self.cmd += ['-Wno-fatal', '--cc']
+        if mode == 'simulation':
+            self.cmd += ['--cc']
+        elif mode == 'preprocessing':
+            self.cmd += ['-E']
+        else:
+            self.cmd += ['--lint-only']
+
+        self.cmd += ['-Wno-fatal', '-Wno-UNOPTFLAT', '-Wno-BLKANDNBLK']
 
         if params['top_module'] != '':
             self.cmd.append('--top-module ' + params['top_module'])
