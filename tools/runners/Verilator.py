@@ -25,7 +25,7 @@ class Verilator(BaseRunner):
         build_exe = 'vmain'
 
         with open(scr, 'w') as f:
-            f.write('{0} $@\n'.format(self.executable))
+            f.write('{0} $@ || exit $?\n'.format(self.executable))
             if mode == 'simulation':
                 f.write(
                     'make -C {} -f Vtop.mk > /dev/null 2>&1\n'.format(
@@ -44,6 +44,8 @@ class Verilator(BaseRunner):
             self.cmd += ['--lint-only']
 
         self.cmd += ['-Wno-fatal', '-Wno-UNOPTFLAT', '-Wno-BLKANDNBLK']
+        # Flags for compliance testing:
+        self.cmd += ['-Wpedantic', '-Wno-context']
 
         if params['top_module'] != '':
             self.cmd.append('--top-module ' + params['top_module'])
