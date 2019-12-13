@@ -44,6 +44,8 @@ class Verilator(BaseRunner):
             self.cmd += ['--lint-only']
 
         self.cmd += ['-Wno-fatal', '-Wno-UNOPTFLAT', '-Wno-BLKANDNBLK']
+        # Flags for compliance testing:
+        self.cmd += ['-Wpedantic', '-Wno-context']
 
         if params['top_module'] != '':
             self.cmd.append('--top-module ' + params['top_module'])
