@@ -25,7 +25,7 @@ class Verilator(BaseRunner):
         build_exe = 'vmain'
 
         with open(scr, 'w') as f:
-            f.write('{0} $@\n'.format(self.executable))
+            f.write('{0} $@ || exit $?\n'.format(self.executable))
             if mode == 'simulation':
                 f.write(
                     'make -C {} -f Vtop.mk > /dev/null 2>&1\n'.format(
