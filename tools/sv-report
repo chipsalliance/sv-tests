@@ -246,7 +246,7 @@ def collect_logs(runner_name):
 
         # Tests that have not run will have an existing, but empty logfile.
         if os.path.getsize(t) == 0:
-          continue
+            continue
 
         tests[t_id] = {}
 
