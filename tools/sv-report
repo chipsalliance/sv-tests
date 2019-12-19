@@ -244,6 +244,10 @@ def collect_logs(runner_name):
         t_id = t[len(args.logs) + 1:]
         logger.debug("Found log: " + t_id)
 
+        # Tests that have not run will have an existing, but empty logfile.
+        if os.path.getsize(t) == 0:
+            continue
+
         tests[t_id] = {}
 
         test_tags = [

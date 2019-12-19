@@ -135,6 +135,9 @@ test_params['mode'] = runner_obj.get_mode(test_params['type'].split())
 
 if test_params['mode'] is None:
     logger.info("Skipping {}/{}".format(args.runner, args.test))
+    with open(out, "w") as f:
+        f.write("")  # runner does not support mode; just mark file as handled.
+
     sys.exit(0)
 
 try:
