@@ -12,11 +12,19 @@ bash miniconda.sh -b -p $HOME/miniconda
 source "$HOME/miniconda/etc/profile.d/conda.sh"
 hash -r
 conda config --set always_yes yes --set changeps1 no
-conda install -q setuptools
-conda update -q conda
-conda info -a
+
+# Uncomment the correct runner
+sed -e"s/^#  - $TRAVIS_JOB_NAME/  - $TRAVIS_JOB_NAME/" -i conf/environment.yml
+git diff
+
 conda env create --file conf/environment.yml
 conda activate sv-test-env
+hash -r
+conda info -a
+
+# Generate the tests
+make generate-tests
+make info
 
 set +e
 set +x

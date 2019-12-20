@@ -16,6 +16,9 @@ echo "----------------------------------------"
 sudo apt-get remove -y \
 	python-pytest \
 
+
+sudo apt-get autoremove -y
+
 echo "----------------------------------------"
 echo
 echo "========================================"
