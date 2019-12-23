@@ -8,6 +8,9 @@ source ./.github/kokoro/steps/hostsetup.sh
 source ./.github/kokoro/steps/hostinfo.sh
 source ./.github/kokoro/steps/git.sh
 
+export GIT_CHECKOUT=$PWD
+export GIT_DESCRIBE=$(git describe --match v*)
+
 echo
 echo "========================================"
 echo "Installing dependencies"
@@ -87,8 +90,46 @@ if [[ $KOKORO_TYPE = continuous ]]; then
 	echo "========================================"
 	echo "Deploying sv-tests report to GitHub pages"
 	echo "----------------------------------------"
-	make report USE_ALL_RUNNERS=1
-	touch out/report/.nojekyll
+	(
+		cd /tmp
+		echo
+		echo "Cloning the repo to deploy..."
+		git clone \
+			git+ssh://github.com/SymbiFlow/sv-tests.git \
+			--reference $GIT_CHECKOUT \
+			--single-branch \
+			--depth 1 \
+			--branch gh-pages \
+			output
+		cd output
+		echo
+		echo "Removing old content..."
+		rm -rf *
+		echo
+		echo "Copying new content..."
+		cp -a $GIT_CHECKOUT/out/report/* -t .
+		touch .nojekyll
+		echo
+		echo "Adding the content..."
+		git add .
+		echo
+
+		echo "Committing..."
+		GIT_MESSAGE_FILE=/tmp/git-message
+		cat > $GIT_MESSAGE_FILE <<EOF
+Deploy $GIT_DESCRIBE (build $KOKORO_BUILD_ID)
+
+Build from $KOKORO_GITHUB_COMMIT_URL
+EOF
+		git commit \
+			-F $GIT_MESSAGE_FILE \
+			--author "SymbiFlow Robot <foss-fpga-tools@google.com>"
+		echo
+		echo "Pushing..."
+		git push \
+			git+ssh://github.com/SymbiFlow/sv-tests.git \
+			gh-pages
+	)
 	echo "----------------------------------------"
 fi
 
