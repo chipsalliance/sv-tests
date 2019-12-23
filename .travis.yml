@@ -57,6 +57,13 @@ jobs:
         - ./.github/travis/run.sh
 
     - stage: "Run"
+      name: surelog
+      install:
+        - ./.github/travis/install.sh
+      script:
+        - ./.github/travis/run.sh
+
+    - stage: "Run"
       name: tree-sitter-verilog
       install:
         - ./.github/travis/install.sh

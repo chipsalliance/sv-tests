@@ -8,6 +8,7 @@ dependencies:
 #  - moore
 #  - odin_ii
 #  - slang
+#  - surelog
 #  - sv-parser
 #  - tree-sitter-verilog
 #  - verible

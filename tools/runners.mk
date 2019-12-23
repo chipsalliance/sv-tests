@@ -49,6 +49,14 @@ $(INSTALL_DIR)/bin/slang-driver:
 	$(MAKE) -C $(RDIR)/slang/build
 	install -D $(RDIR)/slang/build/bin/driver $@
 
+# Surelog
+surelog: $(INSTALL_DIR)/bin/surelog
+
+$(INSTALL_DIR)/bin/surelog:
+	cd $(RDIR)/Surelog ; mkdir -p build/tests dist
+	cd $(RDIR)/Surelog/build && cmake -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=$(INSTALL_DIR) ../
+	$(MAKE) -C $(RDIR)/Surelog/build install
+
 # zachjs-sv2v
 zachjs-sv2v: $(INSTALL_DIR)/bin/zachjs-sv2v
 
@@ -85,6 +93,6 @@ $(INSTALL_DIR)/bin/verilog_syntax:
 	install -D $(RDIR)/verible/bazel-bin/verilog/tools/syntax/verilog_syntax $@
 
 # setup the dependencies
-RUNNERS_TARGETS := odin yosys icarus verilator slang zachjs-sv2v tree-sitter-verilog sv-parser moore verible
+RUNNERS_TARGETS := odin yosys icarus verilator slang zachjs-sv2v tree-sitter-verilog sv-parser moore verible surelog
 .PHONY: $(RUNNERS_TARGETS)
 runners: $(RUNNERS_TARGETS)

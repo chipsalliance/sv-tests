@@ -49,3 +49,6 @@
 [submodule "third_party/tools/verible"]
 	path = third_party/tools/verible
 	url = https://github.com/google/verible.git
+[submodule "third_party/tools/Surelog"]
+	path = third_party/tools/Surelog
+	url = https://github.com/alainmarcel/Surelog.git
