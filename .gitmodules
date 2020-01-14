@@ -52,3 +52,6 @@
 [submodule "third_party/tools/Surelog"]
 	path = third_party/tools/Surelog
 	url = https://github.com/alainmarcel/Surelog.git
+[submodule "third_party/cores/rsd"]
+	path = third_party/cores/rsd
+	url = https://github.com/rsd-devel/rsd
