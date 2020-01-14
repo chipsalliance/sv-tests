@@ -5,4 +5,4 @@ update_configs:
     update_schedule: "weekly"
     automerged_updates:
     - match:
-      dependency_name: "*"
+        dependency_name: "*"
