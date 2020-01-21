@@ -186,7 +186,10 @@ class BaseRunner:
         regex = re.compile(r'module\s+(\w+)\s*[#(;]')
         for fn in params['files']:
             with open(fn) as f:
-                m = regex.search(f.read())
+                try:
+                    m = regex.search(f.read())
+                except UnicodeDecodeError:
+                    continue
                 if m:
                     return m.group(1)
         return None
