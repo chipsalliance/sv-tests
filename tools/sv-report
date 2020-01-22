@@ -446,6 +446,10 @@ try:
         data[r]["total"]["tags"] = sum(
             1 for t in rtt if rtt[t]["status"] in "test-passed")
 
+        # find the number of tested tags
+        data[r]["total"]["tested_tags"] = sum(
+            1 for t in rtt if rtt[t]["status"] not in "test-na")
+
     with open(args.template, "r") as f:
         report = jinja2.Template(
             f.read(), trim_blocks=True, lstrip_blocks=True)
