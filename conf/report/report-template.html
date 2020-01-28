@@ -124,7 +124,7 @@
         <tr class="report_summary_row">
           <th class="report_summary_header" colspan="2"> Total tags passed </th>
           {% for tool, tooldata in report|dictsort %}
-          <th class="report_table_result" title="{{ tool.lower() }}" > {{ report[tool]["total"]["tags"]}}/{{ database.keys()|length}}</th>
+          <th class="report_table_result" title="{{ tool.lower() }}" > {{ report[tool]["total"]["tags"]}}/{{ report[tool]["total"]["tested_tags"]}}</th>
           {% endfor %}
         </tr>
         <tr class="report_summary_row">
