@@ -19,6 +19,7 @@ action.add_argument("-t", "--test")
 action.add_argument("-v", "--version", action="store_true")
 
 parser.add_argument("-o", "--out", required=True)
+parser.add_argument("-k", "--keep-tmp", action="store_true")
 
 parser.add_argument(
     "-q",
@@ -191,4 +192,9 @@ except Exception as e:
             args.runner, args.test, str(e)))
     sys.exit(1)
 finally:
-    shutil.rmtree(tmp_dir)
+    if args.keep_tmp:
+        logger.info(
+            "{}/{} work directory was left for inspection {}".format(
+                args.runner, args.test, tmp_dir))
+    else:
+        shutil.rmtree(tmp_dir)
