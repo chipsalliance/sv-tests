@@ -7,7 +7,7 @@
 		":description: encapsulation test",
 		":should_fail: {1}",
 		":tags: 8.18",
-		":type: {3}",
+		":type: {4}",
 		"*/",
 		"module top();",
 		"class a_cls;",
