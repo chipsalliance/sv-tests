@@ -13,6 +13,7 @@ templ = """/*
 :should_fail: {2}
 :tags: ivtest
 {3}
+{5}
 */
 """
 
@@ -140,6 +141,8 @@ ivtest_blacklist = [
     'sv_darray_args2b',  # '{} is invalid
     'sv_darray_args3',  # '{} is invalid
     'sv_darray_args4',  # '{} is invalid
+    'sv_wildcard_import2',  # event_trigger can't have package_scope
+    'sv_wildcard_import3',  # event_trigger can't have package_scope
     'test_va_math',  # constants.vams is not found
     'tern7',  # ref is keyword
     'urand',  # var is keyword
@@ -151,6 +154,8 @@ ivtest_blacklist = [
     'z1',  # parameter_value_assignment must have paren
     'z2'  # parameter_value_assignment must have paren
 ]
+
+ivtest_long = ['comp1000', 'comp1001']
 
 ivtest_dir = os.path.abspath(os.path.join(third_party_dir, "tests", "ivtest"))
 ivtest_exclude = set(
@@ -200,8 +205,14 @@ for l in ivtest_lists:
                     should_fail = 1
                     type_ = ':type: simulation'
 
+            timeout = ''
+            if name in ivtest_long:
+                timeout = ':timeout: 30'
+
             tests.append(
-                (name + '_iv', path, should_fail, type_, ' '.join(incdirs)))
+                (
+                    name + '_iv', path, should_fail, type_, ' '.join(incdirs),
+                    timeout))
 
 test_dir = os.path.join(tests_dir, 'generated', tests_subdir)
 
