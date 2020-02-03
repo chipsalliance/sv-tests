@@ -9,8 +9,7 @@
 	"commons": [
 		"cores/basejump_stl/bsg_misc/bsg_defines.v",
 		"cores/basejump_stl/bsg_cache/bsg_cache_pkg.v",
-		"cores/basejump_stl/bsg_cache/bsg_cache_non_blocking_pkg.v",
-		"cores/basejump_stl/bsg_fpu/bsg_fpu_pkg.v"
+		"cores/basejump_stl/bsg_cache/bsg_cache_non_blocking_pkg.v"
 	],
 	"incdirs": [
 		"cores/basejump_stl/bsg_misc",
