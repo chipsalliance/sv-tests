@@ -145,6 +145,7 @@ ivtest_blacklist = [
     'sv_wildcard_import3',  # event_trigger can't have package_scope
     'test_va_math',  # constants.vams is not found
     'tern7',  # ref is keyword
+    'undef',  # undefined macro behaviour is ambiguous
     'urand',  # var is keyword
     'urand_r2',  # var is keyword
     'urand_r3',  # var is keyword
