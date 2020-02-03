@@ -42,8 +42,14 @@ else
 $(OUT_DIR)/logs/$(1)/$(2).log : RUNNER = ./tools/runner
 endif
 
+ifneq ($(RUNNER_KEEP_TMP),)
+RUNNER_PARAM := --keep-tmp
+else
+RUNNER_PARAM := --quiet
+endif
+
 $(OUT_DIR)/logs/$(1)/$(2).log: $(TESTS_DIR)/$(2) | $(1)-cg
-	$$(RUNNER) --runner $(1) --test $(2) --out $(OUT_DIR)/logs/$(1)/$(2).log --quiet
+	$$(RUNNER) --runner $(1) --test $(2) --out $(OUT_DIR)/logs/$(1)/$(2).log $(RUNNER_PARAM)
 
 tests: $(OUT_DIR)/logs/$(1)/$(2).log
 
