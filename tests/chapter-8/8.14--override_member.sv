@@ -8,7 +8,7 @@ module class_tb ();
 	class super_cls;
 		int s = 2;
 		function int incs();
-			++s
+			++s;
 			incs = s;
 		endfunction
 		function new(int def = 3);
