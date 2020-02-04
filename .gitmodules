@@ -58,3 +58,6 @@
 [submodule "third_party/tests/ivtest"]
 	path = third_party/tests/ivtest
 	url = https://github.com/steveicarus/ivtest.git
+[submodule "third_party/cores/opentitan"]
+	path = third_party/cores/opentitan
+	url = https://github.com/lowRISC/opentitan.git
