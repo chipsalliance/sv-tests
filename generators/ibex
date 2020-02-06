@@ -9,6 +9,7 @@ templ = """/*
 :description: Full ibex core test
 :files: {0}
 :incdirs: {1}
+:top_module: ibex_core
 :should_fail: 0
 :tags: ibex
 :timeout: 100
