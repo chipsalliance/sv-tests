@@ -33,10 +33,10 @@ class BaseRunner:
     to be detected and launched by the Makefile.
     """
     def __init__(
-        self,
-        name,
-        executable=None,
-        supported_features={'preprocessing', 'parsing', 'simulation'}):
+            self,
+            name,
+            executable=None,
+            supported_features={'preprocessing', 'parsing', 'simulation'}):
         """Base runner class constructor
         Arguments:
         name -- runner name.
