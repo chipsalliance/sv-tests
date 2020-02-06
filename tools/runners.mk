@@ -47,7 +47,7 @@ $(INSTALL_DIR)/bin/slang-driver:
 	mkdir -p $(RDIR)/slang/build
 	cd $(RDIR)/slang/build && cmake .. -DSLANG_INCLUDE_TESTS=OFF -DCMAKE_BUILD_TYPE=Release
 	$(MAKE) -C $(RDIR)/slang/build
-	install -D $(RDIR)/slang/build/bin/driver $@
+	install -D $(RDIR)/slang/build/bin/slang $@
 
 # Surelog
 surelog: $(INSTALL_DIR)/bin/surelog
