@@ -62,6 +62,11 @@ parser.add_argument(
 parser.add_argument(
     "-r", "--revision", help="Report revision", default="unknown")
 
+# We only consider tests with minimum this size for the throughput
+# calculation, so that we skip the super-tiny few-line tests that are
+# not a true reflection of a common usage.
+minimum_throughput_file_size = 1024
+
 # parse args
 args = parser.parse_args()
 
@@ -317,9 +322,11 @@ def collect_logs(runner_name):
             tests[t_id]["first_file"] = logToHTML(t, t_html, tests[t_id])
 
             if tests[t_id]["status"] == "test-passed":
-                runner_data["passed_time"] += float(
-                    tests[t_id]["time_elapsed"])
-                runner_data["passed_size"] += float(totalSize(tests[t_id]))
+                test_file_size = float(totalSize(tests[t_id]))
+                if test_file_size > minimum_throughput_file_size:
+                    runner_data["passed_time"] += float(
+                        tests[t_id]["time_elapsed"])
+                    runner_data["passed_size"] += test_file_size
 
             runner_data["time_elapsed"] += float(tests[t_id]["time_elapsed"])
             runner_data["user_time"] += float(tests[t_id]["user_time"])
