@@ -1,3 +1,4 @@
+../../../third_party/tests/uvm/src/uvm_pkg.sv
 hw/ip/prim/rtl/prim_assert.sv
 hw/ip/alert_handler/rtl/alert_handler_esc_timer.sv
 hw/ip/alert_handler/rtl/alert_handler_accu.sv
