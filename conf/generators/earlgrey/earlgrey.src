@@ -1,3 +1,5 @@
+../../../third_party/tests/uvm/src/uvm_pkg.sv
+hw/ip/prim/rtl/prim_assert.sv
 hw/ip/alert_handler/rtl/alert_handler_esc_timer.sv
 hw/ip/alert_handler/rtl/alert_handler_accu.sv
 hw/ip/alert_handler/rtl/alert_pkg.sv
@@ -92,7 +94,6 @@ hw/ip/usb_fs_nb_pe/rtl/usb_fs_rx.sv
 hw/ip/usb_fs_nb_pe/rtl/usb_fs_nb_in_pe.sv
 hw/ip/usb_fs_nb_pe/rtl/usb_fs_nb_out_pe.sv
 hw/ip/usb_fs_nb_pe/rtl/usb_fs_tx.sv
-hw/ip/prim/rtl/prim_assert.sv
 hw/ip/prim_generic/rtl/prim_generic_rom.sv
 hw/ip/prim/rtl/prim_arbiter_ppc.sv
 hw/ip/prim/rtl/prim_esc_sender.sv
