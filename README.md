@@ -2,7 +2,7 @@
 
 The purpose of this project is to find all the supported and missing SystemVerilog features in various Verilog tools.
 
-The report generated from the last passing master build can be viewed [here](https://symbiflow.github.io/sv-tests/).
+The report generated from the last passing master build can be viewed [here](https://symbiflow.github.io/sv-tests/) <a href="https://symbiflow.github.io/sv-tests/"><img src="./img/sv-test-grid.png" width="64"/></a>
 
 # Running
 
