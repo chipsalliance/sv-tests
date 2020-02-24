@@ -117,7 +117,11 @@ class BaseRunner:
             log = "Timeout".encode('utf-8')
             returncode = 1
 
-        return (self.transform_log(log.decode('utf-8')), returncode)
+        invocation_log = " ".join(self.cmd) + "\n"
+
+        return (
+            invocation_log + self.transform_log(log.decode('utf-8')),
+            returncode)
 
     def transform_log(self, output):
         """ Post-process the output log
