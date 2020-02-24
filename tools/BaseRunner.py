@@ -114,7 +114,7 @@ class BaseRunner:
             kill_child_processes(proc.pid)
             proc.kill()
             proc.communicate()
-            log = "Timeout".encode('utf-8')
+            log = ("Timeout: > " + params['timeout'] + "s").encode('utf-8')
             returncode = 1
 
         return (self.transform_log(log.decode('utf-8')), returncode)
