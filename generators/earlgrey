@@ -11,7 +11,7 @@ templ = """/*
 :incdirs: {1}
 :should_fail: 0
 :tags: earlgrey
-:timeout: 100
+:timeout: 180
 :top_module: top_earlgrey_nexysvideo
 */
 """

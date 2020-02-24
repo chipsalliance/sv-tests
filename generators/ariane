@@ -11,7 +11,7 @@ templ = """/*
 :should_fail: 0
 :tags: ariane
 :top_module: ariane_testharness
-:timeout: 100
+:timeout: 180
 */
 """
 
