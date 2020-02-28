@@ -268,7 +268,8 @@ def collect_logs(runner_name):
         test_tags = [
             "name", "tags", "should_fail", "rc", "description", "files",
             "incdirs", "top_module", "runner", "runner_url", "time_elapsed",
-            "type", "mode", "timeout", "user_time", "system_time", "ram_usage"
+            "type", "mode", "timeout", "user_time", "system_time", "ram_usage",
+            "tool_success"
         ]
         with open(t, "r") as f:
             try:
@@ -306,8 +307,9 @@ def collect_logs(runner_name):
 
             tool_should_fail = tests[t_id]["should_fail"] == "1"
             tool_rc = int(tests[t_id]["rc"])
-            tool_failed = (tool_rc != 0)
-            if tool_rc >= 126 or tool_should_fail != tool_failed:
+            tool_crashed = tool_rc >= 126
+            tool_failed = tests[t_id]["tool_success"] == "0"
+            if tool_crashed or tool_should_fail != tool_failed:
                 tests[t_id]["status"] = "test-failed"
             elif tests[t_id]["mode"] == 'simulation' and not parseLog(
                     tests[t_id]["log"]):

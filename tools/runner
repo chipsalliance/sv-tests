@@ -154,7 +154,9 @@ try:
     output, rc, user_time, system_time, ram_usage = runner_obj.run(
         tmp_dir, test_params)
 
+    tool_success = runner_obj.is_success_returncode(rc, test_params)
     test_params['rc'] = rc
+    test_params['tool_success'] = "1" if tool_success else "0"
     test_params['runner'] = runner_obj.name
     test_params['runner_url'] = runner_obj.url
     test_params['time_elapsed'] = str(user_time + system_time)
@@ -163,9 +165,10 @@ try:
     test_params['ram_usage'] = ram_usage
 
     tool_should_fail = test_params["should_fail"] == "1"
-    tool_failed = test_params["rc"] != 0
+    tool_failed = not tool_success
+    tool_crashed = rc >= 126
 
-    test_passed = rc < 126 and tool_should_fail == tool_failed
+    test_passed = not tool_crashed and tool_should_fail == tool_failed
 
     if test_passed and test_params['mode'] == 'simulation':
         test_passed = parseLog(output)
