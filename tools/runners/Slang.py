@@ -3,7 +3,7 @@ from BaseRunner import BaseRunner
 
 class Slang(BaseRunner):
     def __init__(self):
-        super().__init__("slang", "slang-driver")
+        super().__init__("slang", "slang-driver", {"preprocessing", "parsing"})
 
         self.url = "https://github.com/MikePopoloski/slang"
 
@@ -13,6 +13,10 @@ class Slang(BaseRunner):
         self.cmd = [self.executable]
         if mode == 'preprocessing':
             self.cmd += ['-E']
+
+        # Some tests expect that all input files will be concatenated into
+        # a single compilation unit, so ask slang to do that.
+        self.cmd += ['--single-unit']
 
         for incdir in params['incdirs']:
             self.cmd.append('-I' + incdir)
