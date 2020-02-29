@@ -5,6 +5,6 @@
 :tags: 22.4
 :type: preprocessing parsing
 */
-`include <dummy_include.sv>
+`include "dummy_include.sv"
 module top ();
 endmodule

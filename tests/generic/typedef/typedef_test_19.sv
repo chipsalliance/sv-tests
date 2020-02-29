@@ -4,7 +4,7 @@
 :should_fail: 0
 :tags: 6.18
 */
-typedef enum logic {
-  Global = 4'h2,
-  Local = 4'h3
+typedef enum {
+  Global = 2,
+  Local = 3
 } myenum_fwd;
