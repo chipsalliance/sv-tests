@@ -2,11 +2,12 @@
 
 The purpose of this project is to find all the supported and missing SystemVerilog features in various Verilog tools.
 
-The report generated from the last passing master build can be viewed [here](https://symbiflow.github.io/sv-tests/) <a href="https://symbiflow.github.io/sv-tests/"><img src="./img/sv-test-grid.png" width="64"/></a>
+The report generated from the last passing master build can be viewed [on a dedicated dashboard:](https://symbiflow.github.io/sv-tests/) <a href="https://symbiflow.github.io/sv-tests/"><img src="./img/sv-test-grid.png" width="64"/></a>
 
 # Running
 
 Initialize the submodules:
+
 ```
 $ git submodule init
 $ git submodule update
@@ -72,9 +73,9 @@ Finally the file containing the test case and metadata should be placed in `test
 
 * Make the tool available from [Anaconda](https://anaconda.org/) by either:
   * Adding the tool to the [SymbiFlow/conda-packages](https://github.com/SymbiFlow/conda-packages) repository.
-  * Adding the tool any other `conda` channel.
+  * Adding the tool to any other `conda` channel.
 
-  If the tool is already avilable as a `conda` package you can skip this step.
+  If the tool is already available as a `conda` package you can skip this step.
 * Add the conda package as a dependency in `conf/environment.yml`.
 * Add the tool as a submodule to this repository via `git submodule add <git_url> third_party/tools/<name>`.
 * Add a target for building and installing the tool manually in `tools/runners.mk`
