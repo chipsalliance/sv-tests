@@ -89,8 +89,7 @@ $(INSTALL_DIR)/bin/moore:
 verible: $(INSTALL_DIR)/bin/verilog_syntax
 
 $(INSTALL_DIR)/bin/verilog_syntax:
-	cd $(RDIR)/verible/ && bazel build --noshow_progress --cxxopt='-std=c++17' //...
-	install -D $(RDIR)/verible/bazel-bin/verilog/tools/syntax/verilog_syntax $@
+	cd $(RDIR)/verible/ && bazel run :install --noshow_progress -c opt -- $(INSTALL_DIR)/bin
 
 # setup the dependencies
 RUNNERS_TARGETS := odin yosys icarus verilator slang zachjs-sv2v tree-sitter-verilog sv-parser moore verible surelog
