@@ -117,7 +117,11 @@ class BaseRunner:
             log = ("Timeout: > " + params['timeout'] + "s").encode('utf-8')
             returncode = 1
 
-        return (self.transform_log(log.decode('utf-8')), returncode)
+        invocation_log = " ".join(self.cmd) + "\n"
+
+        return (
+            invocation_log + self.transform_log(log.decode('utf-8')),
+            returncode)
 
     def is_success_returncode(self, rc, params):
         """ Returns a boolean if the given returncode is considered a success.
