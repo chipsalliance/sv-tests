@@ -16,3 +16,8 @@ class Surelog(BaseRunner):
             self.cmd.append('-I' + incdir)
 
         self.cmd += params['files']
+
+    def is_success_returncode(self, rc, params):
+        # 1 << 4 means semantic error, but we're only interested in
+        # syntax and fatal errors.
+        return rc & 0x03 == 0

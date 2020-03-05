@@ -119,6 +119,15 @@ class BaseRunner:
 
         return (self.transform_log(log.decode('utf-8')), returncode)
 
+    def is_success_returncode(self, rc, params):
+        """ Returns a boolean if the given returncode is considered a success.
+
+        This function determines if the tool was running successfully. Tools
+        might return more rich return codes, so not all non-zero codes might
+        mean failure.
+        """
+        return rc == 0
+
     def transform_log(self, output):
         """ Post-process the output log
 
