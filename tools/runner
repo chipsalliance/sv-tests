@@ -78,10 +78,11 @@ if args.version:
 test = os.path.abspath(os.path.join(dirs['tests'], args.test))
 
 req_test_params = [
-    "name", "tags", "description", "should_fail", "files", "incdirs",
-    "top_module", "timeout", "type"
+    "name", "tags", "description", "files", "incdirs", "top_module", "timeout",
+    "type"
 ]
 
+optional_test_params = ["should_fail", "should_fail_because"]
 test_params = {}
 
 # look for all required params
@@ -96,7 +97,8 @@ try:
             param_name = param.group(1).lower()
             param_value = param.group(2)
 
-            if param_name not in req_test_params:
+            if (param_name not in req_test_params) and (
+                    param_name not in optional_test_params):
                 logger.warning(
                     "Unsupported test param found: {} - ignoring".format(
                         param_name))
@@ -104,8 +106,9 @@ try:
 
             test_params[param_name] = param_value
 
-            if len(set(req_test_params) - set(test_params.keys())) == 0:
-                # all parameters found
+            # check all items in the req_test_params exists in the test_params.
+            if len(set(req_test_params) - set(test_params.keys())) < 0:
+                # all required parameters found
                 break
 
         else:
@@ -116,7 +119,20 @@ try:
             test_params.setdefault('timeout', "10")
             test_params.setdefault('type', 'parsing')
 
-            if len(set(req_test_params) - set(test_params.keys())) != 0:
+            # it is an error if there is a contradictory should_fail: 0 \
+            # tag and also a should_fail_because: <msg> tag
+            if ("should_fail", "0") in test_params.keys(
+            ) and "should_fail_because" in test_params.keys():
+                logger.error(
+                    "contradictory params should_fail, should_fail_because.")
+                sys.exit(1)
+            # to keep the rest of the code backward compatiple, \
+            # if should_fails not present, add the parameter
+            elif "should_fail" not in test_params.keys():
+                test_params["should_fail"] = (
+                    "0", "1")["should_fail_because" in test_params.keys()]
+
+            if len(set(req_test_params) - set(test_params.keys())) > 0:
                 missing = list(set(req_test_params) - set(test_params.keys()))
                 logger.error(
                     "Required parameters missing ({}) in {}".format(
@@ -133,7 +149,6 @@ test_params['incdirs'] = list(
         test_params['incdirs'].split()))
 
 test_params['mode'] = runner_obj.get_mode(test_params['type'].split())
-
 if test_params['mode'] is None:
     logger.info("Skipping {}/{}".format(args.runner, args.test))
     with open(out, "w") as f:

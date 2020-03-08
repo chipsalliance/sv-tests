@@ -271,6 +271,7 @@ def collect_logs(runner_name):
             "type", "mode", "timeout", "user_time", "system_time", "ram_usage",
             "tool_success"
         ]
+        optional_test_tags = ["should_fail_because"]
         with open(t, "r") as f:
             try:
                 for l in f:
@@ -284,7 +285,10 @@ def collect_logs(runner_name):
                     param = tag.group(1).lower()
                     value = tag.group(2).strip()
 
-                    if param in test_tags:
+                    if param in optional_test_tags:
+                        optional_test_tags.remove(param)
+                        tests[t_id][param] = value
+                    elif param in test_tags:
                         test_tags.remove(param)
                         tests[t_id][param] = value
 
@@ -301,7 +305,6 @@ def collect_logs(runner_name):
                     "Skipping {} on {}: {}".format(t, runner_name, str(e)))
                 del tests[t_id]
                 continue
-
             tests[t_id]["log"] = f.read()
             tests[t_id]["fname"] = os.path.join('logs', t_id + '.html')
 
