@@ -269,7 +269,7 @@ def collect_logs(runner_name):
             "name", "tags", "should_fail", "rc", "description", "files",
             "incdirs", "top_module", "runner", "runner_url", "time_elapsed",
             "type", "mode", "timeout", "user_time", "system_time", "ram_usage",
-            "tool_success"
+            "tool_success", "should_fail_because"
         ]
         with open(t, "r") as f:
             try:
@@ -301,7 +301,6 @@ def collect_logs(runner_name):
                     "Skipping {} on {}: {}".format(t, runner_name, str(e)))
                 del tests[t_id]
                 continue
-
             tests[t_id]["log"] = f.read()
             tests[t_id]["fname"] = os.path.join('logs', t_id + '.html')
 

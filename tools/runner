@@ -77,14 +77,14 @@ if args.version:
 
 test = os.path.abspath(os.path.join(dirs['tests'], args.test))
 
-req_test_params = [
-    "name", "tags", "description", "should_fail", "files", "incdirs",
-    "top_module", "timeout", "type"
+supported_test_params = [
+    "name", "tags", "description", "files", "incdirs", "top_module", "timeout",
+    "type", "should_fail", "should_fail_because"
 ]
 
 test_params = {}
 
-# look for all required params
+# look for all supported params
 try:
     with open(test) as f:
         for l in f:
@@ -96,7 +96,7 @@ try:
             param_name = param.group(1).lower()
             param_value = param.group(2)
 
-            if param_name not in req_test_params:
+            if param_name not in supported_test_params:
                 logger.warning(
                     "Unsupported test param found: {} - ignoring".format(
                         param_name))
@@ -104,8 +104,9 @@ try:
 
             test_params[param_name] = param_value
 
-            if len(set(req_test_params) - set(test_params.keys())) == 0:
-                # all parameters found
+            # check all items in the supported_test_params exists in the test_params.
+            if len(set(supported_test_params) - set(test_params.keys())) == 0:
+                # all supported parameters found
                 break
 
         else:
@@ -115,9 +116,14 @@ try:
             test_params.setdefault('top_module', '')
             test_params.setdefault('timeout', "10")
             test_params.setdefault('type', 'parsing')
+            test_params.setdefault(
+                'should_fail',
+                ("0", "1")["should_fail_because" in test_params.keys()])
+            test_params.setdefault('should_fail_because', "")
 
-            if len(set(req_test_params) - set(test_params.keys())) != 0:
-                missing = list(set(req_test_params) - set(test_params.keys()))
+            if len(set(supported_test_params) - set(test_params.keys())) != 0:
+                missing = list(
+                    set(supported_test_params) - set(test_params.keys()))
                 logger.error(
                     "Required parameters missing ({}) in {}".format(
                         ", ".join(missing), args.test))
@@ -126,6 +132,17 @@ except Exception as e:
     logger.error("Unable to parse test file: {}".format(str(e)))
     sys.exit(1)
 
+# if the string is not empty and should_fail is 0
+# then set it to 1 and issue a warning
+if test_params["should_fail"] == "0" and test_params["should_fail_because"]:
+    test_params["should_fail"] = "1"
+    logger.warning("contradictory params should_fail, should_fail_because.")
+# if string is empty and should_fail is 1
+elif test_params[
+        "should_fail"] == "1" and not test_params["should_fail_because"]:
+    logger.warning(
+        "should_fail tag should be replaced with should_fail_because.")
+
 test_params['files'] = test_params['files'].split()
 test_params['incdirs'] = list(
     map(
@@ -133,7 +150,6 @@ test_params['incdirs'] = list(
         test_params['incdirs'].split()))
 
 test_params['mode'] = runner_obj.get_mode(test_params['type'].split())
-
 if test_params['mode'] is None:
     logger.info("Skipping {}/{}".format(args.runner, args.test))
     with open(out, "w") as f:
