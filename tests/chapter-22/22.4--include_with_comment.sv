@@ -5,6 +5,6 @@
 :tags: 22.4
 :type: preprocessing parsing
 */
-`include <dummy_include.sv> // comments after `include are perfectly legal
+`include "dummy_include.sv" // comments after `include are perfectly legal
 module top ();
 endmodule
