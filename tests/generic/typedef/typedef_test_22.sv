@@ -6,6 +6,6 @@
 */
 typedef enum uvec8_t;
 typedef enum {
-  Global = 4'h2,
-  Local = 4'h3
+  Global = 2,
+  Local = 3
 } uvec8_t;

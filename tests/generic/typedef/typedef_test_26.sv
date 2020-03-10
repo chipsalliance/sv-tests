@@ -6,9 +6,9 @@
 */
 typedef enum {
 `ifdef TWO
-  Global = 4'h2,
+  Global = 2,
 `else
-  Global = 4'h1,
+  Global = 1,
 `endif
-  Local = 4'h3
+  Local = 3
 } myenum_fwd;
