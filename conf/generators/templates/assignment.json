@@ -5,7 +5,6 @@
 		"/*",
 		":name: {1}_assignment",
 		":description: {0} assignment test",
-		":should_fail: 0",
 		":tags: 11.4.1",
 		"*/",
 		"module top();",

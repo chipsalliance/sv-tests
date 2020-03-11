@@ -9,7 +9,6 @@ templ = """/*
 :description: blackparrot core test
 :files: {0}
 :incdirs: {1}
-:should_fail: 0
 :tags: blackparrot
 :timeout: 100
 */

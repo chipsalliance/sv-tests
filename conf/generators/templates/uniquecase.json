@@ -5,7 +5,6 @@
 		"/*",
 		":name: {1}_{0}",
 		":description: {0} statement with {1}",
-		":should_fail: 0",
 		":tags: 12.5.3",
 		"*/",
 		"module top();",

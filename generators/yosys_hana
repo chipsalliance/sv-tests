@@ -8,7 +8,6 @@ templ = """/*
 :name: {1}
 :description: Tests imported from yosys
 :files: {0}
-:should_fail: 0
 :tags: yosys
 */
 """

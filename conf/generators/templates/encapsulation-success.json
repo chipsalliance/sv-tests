@@ -1,0 +1,38 @@
+{
+	"name": "encapsulation",
+	"filename": "8.18--{0}.sv",
+	"template": [
+		"/*",
+		":name: {0}",
+		":description: encapsulation test",
+		":tags: 8.18",
+		":type: simulation parsing",
+		"*/",
+		"module top();",
+		"class a_cls;",
+		"    local int a_loc = 21;",
+		"    protected int a_prot = 22;",
+		"    int a = 23;",
+		"endclass",
+		"class b_cls extends a_cls;",
+		"    local int b_loc = 31;",
+		"    protected int b_prot = 32;",
+		"    int b = 33;",
+		"    function void fun();",
+		"        $display({1});",
+		"    endfunction",
+		"endclass",
+		"b_cls b_obj;",
+		"initial begin",
+		"    b_obj = new;",
+		"    $display(b_obj.{2});",
+		"    b_obj.fun();",
+		"end",
+		"endmodule"
+	],
+	"values": [
+		["local_from_inside", "b_loc", "b"],
+		["inherited_prot_from_inside", "a_prot", "b"],
+		["prot_from_inside", "b_prot", "b"]
+	]
+}
