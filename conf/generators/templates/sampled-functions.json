@@ -5,7 +5,6 @@
 		"/*",
 		":name: {0}_function",
 		":description: ${0} test",
-		":should_fail: 0",
 		":tags: {1}",
 		":type: simulation parsing",
 		"*/",

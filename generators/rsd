@@ -9,7 +9,6 @@ templ = """/*
 :description: Full RSD core test
 :files: {0}
 :incdirs: {1}
-:should_fail: 0
 :tags: rsd
 :timeout: 100
 */

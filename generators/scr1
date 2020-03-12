@@ -8,7 +8,6 @@ templ = """/*
 :description: Full scr1 core test
 :files: {0}
 :incdirs: {1}
-:should_fail: 0
 :tags: scr1
 :top_module: scr1_top_tb_axi
 :timeout: 100

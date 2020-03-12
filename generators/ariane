@@ -8,7 +8,6 @@ templ = """/*
 :description: Full ariane core test
 :files: {0}
 :incdirs: {1}
-:should_fail: 0
 :tags: ariane
 :top_module: ariane_testharness
 :timeout: 180

@@ -7,7 +7,6 @@ templ = """/*
 :name: fx68k
 :description: Full fx68k core test
 :files: {0}
-:should_fail: 0
 :tags: fx68k
 :timeout: 100
 */

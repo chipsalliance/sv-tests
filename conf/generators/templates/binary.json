@@ -5,7 +5,6 @@
 		"/*",
 		":name: binary_op_{1}",
 		":description: {0} operator test",
-		":should_fail: 0",
 		":tags: {2}",
 		"*/",
 		"module top();",

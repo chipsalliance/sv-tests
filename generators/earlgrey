@@ -9,7 +9,6 @@ templ = """/*
 :description: Earlgrey design from opentitan
 :files: {0}
 :incdirs: {1}
-:should_fail: 0
 :tags: earlgrey
 :timeout: 180
 :top_module: top_earlgrey_nexysvideo

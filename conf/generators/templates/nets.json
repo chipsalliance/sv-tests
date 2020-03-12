@@ -5,7 +5,6 @@
 		"/*",
 		":name: net_{0}",
 		":description: {0} net test",
-		":should_fail: 0",
 		":tags: {1}",
 		"*/",
 		"module top();",

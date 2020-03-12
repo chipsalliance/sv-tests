@@ -8,7 +8,6 @@ templ = """/*
 :description: Full swerv core test
 :files: {0}
 :incdirs: {1}
-:should_fail: 0
 :tags: swerv
 :top_module: swerv_wrapper
 :timeout: 100
