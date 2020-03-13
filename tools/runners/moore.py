@@ -3,9 +3,9 @@ from BaseRunner import BaseRunner
 
 
 class moore(BaseRunner):
-    def __init__(self):
+    def __init__(self, name="moore"):
         super().__init__(
-            "moore",
+            name,
             executable="moore",
             supported_features={'preprocessing', 'parsing'})
 
