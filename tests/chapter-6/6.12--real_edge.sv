@@ -1,7 +1,7 @@
 /*
 :name: real_edge
 :description: real edge event tests
-:should_fail: 1
+:should_fail_because: it is illegal to use edge event controls on real type
 :tags: 6.12
 :type: simulation
 */

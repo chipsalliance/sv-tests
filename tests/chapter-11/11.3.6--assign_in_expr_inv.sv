@@ -1,7 +1,7 @@
 /*
 :name: assign_in_expr_inv
 :description: invalid assignment in expression test
-:should_fail: 1
+:should_fail_because: blocking assignments within expression must be enclosed in parentheses
 :tags: 11.3.6
 */
 module top();

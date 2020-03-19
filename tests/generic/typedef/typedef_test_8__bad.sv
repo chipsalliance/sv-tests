@@ -1,7 +1,7 @@
 /*
 :name: typedef_test_8__bad
 :description: Test
-:should_fail: 1
+:should_fail_because: defining a type using an undefined type
 :tags: 6.18
 :type: simulation
 */

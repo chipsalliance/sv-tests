@@ -1,7 +1,7 @@
 /*
 :name: function_fork_invalid
 :description: function invalid fork test
-:should_fail: 1
+:should_fail_because: only fork-join_none is permitted inside a function
 :tags: 13.4.4
 :type: simulation
 */

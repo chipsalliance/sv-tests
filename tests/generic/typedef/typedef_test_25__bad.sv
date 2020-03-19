@@ -1,7 +1,7 @@
 /*
 :name: typedef_test_25__bad
 :description: Test
-:should_fail: 1
+:should_fail_because: Using undefined parameters
 :tags: 6.18
 :type: simulation
 */
