@@ -1,7 +1,7 @@
 /*
 :name: enum_type_checking_inv
 :description: invalid enum assignment tests
-:should_fail_because: invalid enum assignment tests
+:should_fail_because: enum enforces strict type checking rules
 :tags: 6.19.3
 :type: simulation
 */

@@ -1,7 +1,7 @@
 /*
 :name: vector_vectored_inv
 :description: vectored vector invalid access tests
-:should_fail_because: vectored vector invalid access tests
+:should_fail_because: bit selects are not permitted on vectored vector nets
 :tags: 6.9.2
 */
 module top();

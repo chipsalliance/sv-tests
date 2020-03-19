@@ -7,7 +7,6 @@
 */
 
 // A/D/E/M are not defined, so bad test.
-//6.18 is for user-defined types, this test doesnot contain a user defined type? 
 
 typedef struct packed {
   reg  [A-1:0] addr;

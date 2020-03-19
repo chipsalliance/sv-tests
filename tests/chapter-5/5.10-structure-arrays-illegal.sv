@@ -1,7 +1,7 @@
 /*
 :name: structure-arrays-illegal
 :description: Structure array assignment tests
-:should_fail_because: Structure array assignment tests
+:should_fail_because: C-like assignment is illegal
 :tags: 5.10
 :type: simulation
 */
