@@ -45,7 +45,7 @@ After creating a new test case it must be correctly tagged:
 
 * `name` - must be unique and should be directly related to what the test case covers.
 * `description` - should provide a short description that will be visible in the report page.
-* `should_fail` - must be used to specify whether this case is expected to fail or not.
+* `should_fail_because` - must be used if the test is expected to fail and should containt the reason of failure.
 * `files` - is a list of files used by this test case, can be omitted to use only the main file with metadata. 
 * `incdirs` - can be used to provide a list of include directories, can be omitted to use only the default ones.
 * `top_module` - optional, allows to specify which module is the top one.
