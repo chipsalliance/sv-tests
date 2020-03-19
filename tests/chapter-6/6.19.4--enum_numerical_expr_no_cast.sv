@@ -1,7 +1,7 @@
 /*
 :name: enum_numerical_expr_no_cast
 :description: enum numerical expression without casting
-:should_fail: 1
+:should_fail_because: enum numerical expression without casting
 :tags: 6.19.4
 :type: simulation
 */

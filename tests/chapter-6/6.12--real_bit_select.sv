@@ -1,7 +1,7 @@
 /*
 :name: real_idx
 :description: real indexing tests
-:should_fail: 1
+:should_fail_because: real indexing tests
 :tags: 6.12
 :type: simulation
 */

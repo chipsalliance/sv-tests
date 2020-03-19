@@ -1,7 +1,7 @@
 /*
 :name: vector_vectored_inv
 :description: vectored vector invalid access tests
-:should_fail: 1
+:should_fail_because: vectored vector invalid access tests
 :tags: 6.9.2
 */
 module top();

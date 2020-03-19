@@ -1,7 +1,7 @@
 /*
 :name: name_conflict_unresolved
 :description: unresolved interface class method name conflict
-:should_fail: 1
+:should_fail_because: unresolved interface class method name conflict
 :tags: 8.26.6.1
 :type: simulation
 */

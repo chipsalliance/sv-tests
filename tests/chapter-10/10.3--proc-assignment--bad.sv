@@ -1,7 +1,7 @@
 /*
 :name: proc_assignment__bad
 :description: continuous assignment with delay test
-:should_fail: 1
+:should_fail_because: Illegal to procedurally assign to wire, IEEE Table 10-1
 :tags: 10.3
 :type: simulation
 */

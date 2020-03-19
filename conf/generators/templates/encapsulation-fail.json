@@ -5,7 +5,7 @@
 		"/*",
 		":name: {0}",
 		":description: encapsulation test",
-		":should_fail: 1",
+		":should_fail_because: {1}",
 		":tags: 8.18",
 		":type: simulation",
 		"*/",
@@ -20,22 +20,22 @@
 		"    protected int b_prot = 32;",
 		"    int b = 33;",
 		"    function void fun();",
-		"        $display({1});",
+		"        $display({2});",
 		"    endfunction",
 		"endclass",
 		"b_cls b_obj;",
 		"initial begin",
 		"    b_obj = new;",
-		"    $display(b_obj.{2});",
+		"    $display(b_obj.{3});",
 		"    b_obj.fun();",
 		"end",
 		"endmodule"
 	],
 	"values": [
-		["inherited_local_from_outside", "b", "a_loc"],
-		["local_from_outside", "b", "b_loc"],
-		["inherited_prot_from_outside", "b", "a_prot"],
-		["prot_from_outside", "b", "b_prot"],
-		["inherited_local_from_inside", "a_loc", "b"]
+		["inherited_local_from_outside", "It is illegal to access inherited local variable from subclass instance.", "b", "a_loc"],
+		["local_from_outside", "It is illegal to access local variable from class instance.", "b", "b_loc"],
+		["inherited_prot_from_outside", "It is illegal to access inherited protected variable from subclass instance.", "b", "a_prot"],
+		["prot_from_outside", "It is illegal to access protected variable from class instance.", "b", "b_prot"],
+		["inherited_local_from_inside", "It is illegal to access inherited local variable inside subclass.", "a_loc", "b"]
 	]
 }

@@ -1,7 +1,7 @@
 /*
 :name: enum_value_inv
 :description: Tests that tools diagnose invalid enum value assignments
-:should_fail: 1
+:should_fail_because: Tests that tools diagnose invalid enum value assignments
 :tags: 6.19
 */
 module top();

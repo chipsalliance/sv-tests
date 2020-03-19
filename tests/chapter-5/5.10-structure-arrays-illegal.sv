@@ -1,7 +1,7 @@
 /*
 :name: structure-arrays-illegal
 :description: Structure array assignment tests
-:should_fail: 1
+:should_fail_because: Structure array assignment tests
 :tags: 5.10
 :type: simulation
 */

@@ -5,7 +5,7 @@
 		"/*",
 		":name: keyword_{0}",
 		":description: The '{0}' keyword should be reserved",
-		":should_fail: 1",
+		":should_fail_because: The '{0}' keyword should be reserved",
 		":tags: 5.6.2",
 		"*/",
 		"module top();",

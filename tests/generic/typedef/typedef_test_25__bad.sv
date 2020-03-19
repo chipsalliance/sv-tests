@@ -1,12 +1,13 @@
 /*
 :name: typedef_test_25__bad
 :description: Test
-:should_fail: 1
+:should_fail_because: Using undefined parameters
 :tags: 6.18
 :type: simulation
 */
 
 // A/D/E/M are not defined, so bad test.
+//6.18 is for user-defined types, this test doesnot contain a user defined type? 
 
 typedef struct packed {
   reg  [A-1:0] addr;

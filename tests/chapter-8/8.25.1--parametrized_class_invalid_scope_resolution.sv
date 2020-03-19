@@ -1,7 +1,7 @@
 /*
 :name: parametrized_class_invalid_scope_resolution
 :description: parametrized class invalid scope resolution
-:should_fail: 1
+:should_fail_because: parametrized class invalid scope resolution
 :tags: 8.25.1
 :type: simulation
 */

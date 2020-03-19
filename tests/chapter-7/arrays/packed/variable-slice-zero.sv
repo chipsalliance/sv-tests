@@ -1,7 +1,7 @@
 /*
 :name: operations-on-arrays-variable-slice-zero-rw
 :description: Test packed arrays operations support (Variable slice)
-:should_fail: 1
+:should_fail_becasue: slicing array with zero part width
 :tags: 7.4.3
 :type: simulation
 */

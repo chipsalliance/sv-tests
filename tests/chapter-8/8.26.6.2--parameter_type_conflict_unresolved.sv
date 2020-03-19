@@ -1,7 +1,7 @@
 /*
 :name: parameter_type_conflict_unresolved
 :description: superclass type declaration conflicts must be resolved in subclass
-:should_fail: 1
+:should_fail_because: superclass type declaration conflicts must be resolved in subclass
 :tags: 8.26.6.2
 :type: simulation
 */

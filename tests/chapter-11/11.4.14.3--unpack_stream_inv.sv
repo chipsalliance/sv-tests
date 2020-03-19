@@ -1,7 +1,7 @@
 /*
 :name: unpack_stream_inv
 :description: invalid stream unpack test
-:should_fail: 1
+:should_fail_because: invalid stream unpack test
 :tags: 11.4.14.3
 :type: simulation
 */

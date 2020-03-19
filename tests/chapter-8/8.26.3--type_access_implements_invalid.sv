@@ -1,7 +1,7 @@
 /*
 :name: type_access_implements_invalid
 :description: access types from implemented class
-:should_fail: 1
+:should_fail_because: access types from implemented class
 :tags: 8.26.3
 :type: simulation
 */

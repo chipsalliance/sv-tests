@@ -1,7 +1,7 @@
 /*
 :name: enum_xx_inv
 :description: invalid enum with x tests
-:should_fail: 1
+:should_fail_because: invalid enum with x tests
 :tags: 6.19
 :type: simulation
 */

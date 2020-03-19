@@ -1,7 +1,7 @@
 /*
 :name: interface_instantiation
 :description: instantiating an interface class
-:should_fail: 1
+:should_fail_because: instantiating an interface class
 :tags: 8.26.5
 :type: simulation
 */
