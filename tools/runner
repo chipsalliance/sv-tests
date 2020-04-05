@@ -77,6 +77,7 @@ if args.version:
 
 test = os.path.abspath(os.path.join(dirs['tests'], args.test))
 
+# In addition to these fixed names, "runner_<tool>_flags" is allowed
 supported_test_params = [
     "name", "tags", "description", "files", "incdirs", "top_module", "timeout",
     "type", "should_fail", "should_fail_because"
@@ -97,10 +98,11 @@ try:
             param_value = param.group(2)
 
             if param_name not in supported_test_params:
-                logger.warning(
-                    "Unsupported test param found: {} - ignoring".format(
-                        param_name))
-                continue
+                if not re.match(r'runner_.*_flags$', param_name):
+                    logger.warning(
+                        "Unsupported test param found: {} - ignoring".format(
+                            param_name))
+                    continue
 
             test_params[param_name] = param_value
 
