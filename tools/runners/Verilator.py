@@ -21,11 +21,10 @@ class Verilator(BaseRunner):
         build_exe = 'vmain'
 
         with open(scr, 'w') as f:
+            f.write('set -x\n')
             f.write('{0} $@ || exit $?\n'.format(self.executable))
             if mode == 'simulation':
-                f.write(
-                    'make -C {} -f Vtop.mk > /dev/null 2>&1\n'.format(
-                        build_dir))
+                f.write('make -C {} -f Vtop.mk\n'.format(build_dir))
                 f.write('./vbuild/{}'.format(build_exe))
 
         # verilator executable is a script but it doesn't
