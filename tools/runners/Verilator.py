@@ -1,3 +1,5 @@
+#!/bin/false python3
+#
 # Copyright (C) 2020 The SymbiFlow Authors.
 #
 # Use of this source code is governed by a ISC-style
