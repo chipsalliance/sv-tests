@@ -2,5 +2,5 @@ pyyaml
 jinja2
 tree_sitter
 pygments
-yapf
+yapf==0.30.0
 psutil
