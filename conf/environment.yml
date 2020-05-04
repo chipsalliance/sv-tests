@@ -15,6 +15,7 @@ dependencies:
 #  - verilator
 #  - yosys
 #  - zachjs-sv2v
+  - python=3.7
   - pip
   - pip:                            # Packages installed from PyPI
     - -r file:requirements.txt
