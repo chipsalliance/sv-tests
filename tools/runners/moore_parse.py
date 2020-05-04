@@ -6,5 +6,5 @@ class moore_parse(moore):
         super().__init__("moore-parse")
 
     def prepare_run_cb(self, tmp_dir, params):
-        self.cmd = [self.executable, '--dump-ast']
+        self.cmd = [self.executable, '--syntax']
         self.cmd += params['files']
