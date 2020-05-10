@@ -14,7 +14,7 @@ initial begin
 	r = q[$-1];
 	q = q[0:$-1]; // void'(q.pop_back()) or q.delete(q.size-1)
 	$display(":assert: (%d == 2)", q.size);
-	$display(":assert: (%d == 4)", r);
+	$display(":assert: (%d == 3)", r);
 end
 
 endmodule
