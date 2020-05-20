@@ -61,3 +61,7 @@
 [submodule "third_party/cores/opentitan"]
 	path = third_party/cores/opentitan
 	url = https://github.com/lowRISC/opentitan.git
+[submodule "third_party/cores/black-parrot"]
+	path = third_party/cores/black-parrot
+    url = https://github.com/black-parrot/black-parrot
+    update = none

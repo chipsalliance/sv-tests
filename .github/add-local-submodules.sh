@@ -30,9 +30,10 @@ function git_submodules {
 	do
 		SM_PATH="$($GIT_CONFIG submodule.$SM_NAME.path || true)"
 		SM_ORIGIN="$($GIT_CONFIG submodule.$SM_NAME.url || true)"
+		SM_UPDATE="$($GIT_CONFIG submodule.$SM_NAME.update || true)"
 		git submodule status | grep -E ".$SM_PATH( |$)" | sed -e's/^.//' | while read SM_SHA1 SM_PATH2 SM_DESC
 		do
-			echo "$SM_NAME" "$SM_PATH" "$SM_SHA1" "$SM_ORIGIN"
+			echo "$SM_NAME" "$SM_PATH" "$SM_SHA1" "$SM_ORIGIN" "$SM_UPDATE"
 		done
 	done
 }
@@ -45,9 +46,11 @@ echo "- Using local version of submodules (if they exist)"
 echo "---------------------------------------------"
 git submodule status
 echo "---"
-git_submodules | while read SM_NAME SM_PATH SM_SHA1 SM_ORIGIN
+git_submodules | while read SM_NAME SM_PATH SM_SHA1 SM_ORIGIN SM_UPDATE
 do
-	"$PWD/.github/add-local-submodule-inner.sh" "." "$SM_NAME" "$SM_PATH" "$SM_SHA1" "$SM_ORIGIN"
+if [ z$SM_UPDATE != znone ]; then
+	$PWD/.github/add-local-submodule-inner.sh "." "$SM_NAME" "$SM_PATH" "$SM_SHA1" "$SM_ORIGIN"
+fi
 done
 echo "---"
 git submodule status --recursive
