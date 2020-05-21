@@ -229,7 +229,7 @@ try:
                 raise KeyError("Invalid entry: " + ls)
 
             database[entry[0]] = "\t".join(entry[1:])
-except KeyError as e:
+except (OSError, FileNotFoundError, KeyError) as e:
     criticalError("Unable to parse the database - " + str(e))
 
 logger.info("Generating {} from log files in '{}'".format(args.out, args.logs))
