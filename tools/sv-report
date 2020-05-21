@@ -213,24 +213,30 @@ class TestTupleComp(object):
         return s < o
 
 
+def readConfig(filename):
+    config = {}
+    try:
+        with open(filename) as f:
+            for l in f:
+                ls = l.strip()
+                # skip lines with comments
+                if re.search(r"^\s*#.*", ls) is not None:
+                    continue
+
+                entry = ls.split("\t")
+
+                if len(entry) < 2:
+                    raise KeyError("Invalid entry: " + ls)
+
+                config[entry[0]] = "\t".join(entry[1:])
+    except (OSError, FileNotFoundError, KeyError) as e:
+        criticalError(f"Unable to {config} file - {str(e)}")
+    return config
+
+
 # generate input database first
-database = {}
-try:
-    with open(args.input) as f:
-        for l in f:
-            ls = l.strip()
-            # skip lines with comments
-            if re.search(r"^\s*#.*", ls) is not None:
-                continue
+database = readConfig(args.input)
 
-            entry = ls.split("\t")
-
-            if len(entry) < 2:
-                raise KeyError("Invalid entry: " + ls)
-
-            database[entry[0]] = "\t".join(entry[1:])
-except (OSError, FileNotFoundError, KeyError) as e:
-    criticalError("Unable to parse the database - " + str(e))
 
 logger.info("Generating {} from log files in '{}'".format(args.out, args.logs))
 
