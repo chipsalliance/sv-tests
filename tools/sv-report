@@ -189,6 +189,11 @@ def getRelativePaths(paths):
     return ' '.join(paths)
 
 
+def criticalError(msg):
+    logger.critical(msg)
+    sys.exit(1)
+
+
 # class used for sorting "test tabs" in the report
 class TestTupleComp(object):
     def __init__(self, item):
@@ -225,9 +230,7 @@ try:
 
             database[entry[0]] = "\t".join(entry[1:])
 except KeyError as e:
-    # TODO: exit on error/critical handler
-    logger.critical("Unable to parse the database - " + str(e))
-    sys.exit(1)
+    criticalError("Unable to parse the database - " + str(e))
 
 logger.info("Generating {} from log files in '{}'".format(args.out, args.logs))
 
@@ -433,8 +436,7 @@ for r in data:
             csv_output[name][r] = test_handle["status"] == "test-passed"
 
 if len(duplicates) > 0:
-    logger.critical("Unable to generate report, duplicate test names")
-    sys.exit(1)
+    criticalError("Unable to generate report, duplicate test names")
 
 try:
     for r in data:
