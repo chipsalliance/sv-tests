@@ -27,6 +27,12 @@ parser.add_argument(
     "-i", "--input", help="Input database/LRM", default="conf/lrm.conf")
 
 parser.add_argument(
+    "-m",
+    "--meta-tags",
+    help="Meta-tags config file",
+    default="conf/meta-tags.conf")
+
+parser.add_argument(
     "-l",
     "--logs",
     help="Directory with all the individual test results",
@@ -189,6 +195,11 @@ def getRelativePaths(paths):
     return ' '.join(paths)
 
 
+def criticalError(msg):
+    logger.critical(msg)
+    sys.exit(1)
+
+
 # class used for sorting "test tabs" in the report
 class TestTupleComp(object):
     def __init__(self, item):
@@ -208,26 +219,32 @@ class TestTupleComp(object):
         return s < o
 
 
+def readConfig(filename):
+    config = {}
+    try:
+        with open(filename) as f:
+            for l in f:
+                ls = l.strip()
+                # skip lines with comments
+                if re.search(r"^\s*#.*", ls) is not None:
+                    continue
+
+                entry = ls.split("\t")
+
+                if len(entry) < 2:
+                    raise KeyError("Invalid entry: " + ls)
+
+                config[entry[0]] = "\t".join(entry[1:])
+    except (OSError, FileNotFoundError, KeyError) as e:
+        criticalError(f"Unable to {config} file - {str(e)}")
+    return config
+
+
 # generate input database first
-database = {}
-try:
-    with open(args.input) as f:
-        for l in f:
-            ls = l.strip()
-            # skip lines with comments
-            if re.search(r"^\s*#.*", ls) is not None:
-                continue
+database = readConfig(args.input)
 
-            entry = ls.split("\t")
-
-            if len(entry) < 2:
-                raise KeyError("Invalid entry: " + ls)
-
-            database[entry[0]] = "\t".join(entry[1:])
-except KeyError as e:
-    # TODO: exit on error/critical handler
-    logger.critical("Unable to parse the database - " + str(e))
-    sys.exit(1)
+# read meta-tags configuration
+meta_tags = readConfig(args.meta_tags)
 
 logger.info("Generating {} from log files in '{}'".format(args.out, args.logs))
 
@@ -286,6 +303,14 @@ def collect_logs(runner_name):
 
                     if param in test_tags:
                         test_tags.remove(param)
+
+                        # append all meta-tags
+                        if param in "tags":
+                            for mk in meta_tags:
+                                mv = meta_tags[mk].split()
+                                if any(x in mv for x in value.split()):
+                                    value += " " + mk
+
                         tests[t_id][param] = value
 
                         if len(test_tags) == 0:
@@ -433,8 +458,7 @@ for r in data:
             csv_output[name][r] = test_handle["status"] == "test-passed"
 
 if len(duplicates) > 0:
-    logger.critical("Unable to generate report, duplicate test names")
-    sys.exit(1)
+    criticalError("Unable to generate report, duplicate test names")
 
 try:
     for r in data:
