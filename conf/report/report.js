@@ -140,7 +140,7 @@ function toggleLog(tool, tag, test) {
 
   scroll = document.documentElement.scrollTop;
   footer.style.marginBottom = logs.offsetHeight + "px";
-  document.documentElement.scrollTop = sroll;
+  document.documentElement.scrollTop = scroll;
 }
 
 function hideLog(div_id) {
