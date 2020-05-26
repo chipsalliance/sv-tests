@@ -65,3 +65,6 @@
 	path = third_party/cores/black-parrot
     url = https://github.com/black-parrot/black-parrot
     update = none
+[submodule "third_party/tests/easyUVM"]
+	path = third_party/tests/easyUVM
+	url = https://github.com/antmicro/easyUVM.git
