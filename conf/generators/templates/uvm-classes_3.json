@@ -1,0 +1,42 @@
+{
+	"name": "uvm_classes_3",
+	"filename": "{0}_class_3.sv",
+	"template": [
+		"/*",
+		":name: {0}_3",
+		":description: ${0} class test",
+		":tags: uvm uvm-classes",
+		":type: simulation parsing",
+		"*/",
+		"import uvm_pkg::*;",
+		"`include \"uvm_macros.svh\"\n",
+
+		"class C extends {0};",
+		"\t`uvm_component_utils(C)\n",
+
+		"\tfunction new(string name, uvm_component parent = null);",
+		"\t\tsuper.new(name, parent);",
+		"\t\t`uvm_info(\"RESULT\", \"Created new {0}\", UVM_LOW);",
+		"\tendfunction\n",
+
+		"endclass\n",
+
+		"module top;",
+		"\tC obj;",
+
+		"\tinitial begin",
+		"\t\tobj = new(\"C\");",
+		"\tend",
+		"endmodule"
+	],
+	"values": [
+		["uvm_agent"],
+		["uvm_component"],
+		["uvm_driver"],
+		["uvm_env"],
+		["uvm_monitor"],
+		["uvm_sequencer"],
+		["uvm_scoreboard"],
+		["uvm_test"]
+	]
+}

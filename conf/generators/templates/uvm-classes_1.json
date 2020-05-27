@@ -1,0 +1,98 @@
+{
+	"name": "uvm_classes_1",
+	"filename": "{0}_class_1.sv",
+	"template": [
+		"/*",
+		":name: {0}_1",
+		":description: ${0} class test",
+		":tags: uvm uvm-classes",
+		":type: simulation parsing",
+		"*/",
+		"import uvm_pkg::*;",
+		"`include \"uvm_macros.svh\"\n",
+
+		"`define PATTERN 2\n",
+
+		"interface input_if(input clk);",
+		"\tlogic [7:0] data;",
+		"\tmodport port(input clk, data);",
+		"endinterface\n",
+
+		"interface output_if(input clk);",
+		"\tlogic [7:0] data;",
+		"\tmodport port(input clk, output data);",
+		"endinterface\n",
+
+		"module dut(input_if.port in, output_if.port out);",
+		"\talways @(posedge in.clk)",
+		"\t\tout.data <= in.data;",
+		"endmodule\n",
+
+		"class C extends {0};",
+		"\tvirtual output_if out_vif;",
+		"\tvirtual input_if in_vif;\n",
+
+		"\t`uvm_component_utils(C)\n",
+
+		"\tfunction new(string name, uvm_component parent = null);",
+		"\t\tsuper.new(name, parent);",
+		"\tendfunction\n",
+
+		"\tvirtual function void connect_phase(uvm_phase phase);",
+		"\t\tsuper.connect_phase(phase);",
+		"\t\tassert(uvm_resource_db#(virtual input_if)::read_by_name(",
+		"\t\t\t\"C\", \"input_if\", in_vif));",
+		"\t\tassert(uvm_resource_db#(virtual output_if)::read_by_name(",
+		"\t\t\t\"C\", \"output_if\", out_vif));",
+		"\tendfunction\n",
+
+		"\tvirtual function void build_phase(uvm_phase phase);",
+		"\t\tsuper.build_phase(phase);",
+		"\tendfunction\n",
+
+		"\ttask run_phase(uvm_phase phase);",
+		"\t\tphase.raise_objection(this);",
+		"\t\t`uvm_info(\"RESULT\", $sformatf(\"Writing %0d to input interface\", `PATTERN), UVM_LOW);",
+		"\t\tin_vif.data <= `PATTERN;",
+		"\t\trepeat(2) @(posedge out_vif.clk);",
+		"\t\tif(out_vif.data == `PATTERN) begin",
+		"\t\t\t`uvm_info(\"RESULT\", $sformatf(\"Match %d == %d\",",
+		"\t\t\t\tout_vif.data, `PATTERN), UVM_LOW);",
+		"\t\tend",
+		"\t\telse begin",
+		"\t\t\t`uvm_error(\"RESULT\", $sformatf(\"Mismatch %d != %d\",",
+		"\t\t\t\tout_vif.data, `PATTERN));",
+		"\t\tend",
+		"\t\tphase.drop_objection(this);",
+		"\tendtask",
+		"endclass\n",
+
+		"module top;",
+		"\tlogic clk;",
+		"\tC obj;",
+		"\tinput_if in(clk);",
+		"\toutput_if out(clk);",
+		"\tdut d(in, out);\n",
+
+		"\talways #5 clk = !clk;\n",
+
+		"\tinitial begin",
+		"\t\tobj = new(\"C\");",
+		"\t\tuvm_resource_db#(virtual input_if)::set(\"C\", \"input_if\", in);",
+		"\t\tuvm_resource_db#(virtual output_if)::set(\"C\",  \"output_if\", out);",
+		"\t\tclk = 0;",
+		"\t\trun_test();",
+		"\tend",
+		"endmodule"
+	],
+	"values": [
+		["uvm_agent"],
+		["uvm_component"],
+		["uvm_driver"],
+		["uvm_env"],
+		["uvm_monitor"],
+		["uvm_sequencer"],
+		["uvm_scoreboard"],
+		["uvm_test"]
+	]
+}
