@@ -27,7 +27,7 @@ class env extends uvm_env;
       if(obj.B.sum() == 25) begin
         `uvm_info("RESULT", $sformatf("sum = %0d SUCCESS", obj.B.sum()), UVM_LOW);
       end else begin
-        `uvm_info("RESULT", $sformatf("sum = %0d FAILED", obj.B.sum()), UVM_LOW);
+        `uvm_error("RESULT", $sformatf("sum = %0d FAILED", obj.B.sum()));
       end
     end
     phase.drop_objection(this);

@@ -33,7 +33,7 @@ class env extends uvm_env;
       if(obj.x > 0 && obj.x < y) begin
         `uvm_info("RESULT", $sformatf("obj.x = %0d y = %0d SUCCESS", obj.x, y), UVM_LOW);
       end else begin
-        `uvm_info("RESULT", $sformatf("obj.x = %0d y = %0d FAILED", obj.x, y), UVM_LOW);
+        `uvm_error("RESULT", $sformatf("obj.x = %0d y = %0d FAILED", obj.x, y));
       end
     end
     phase.drop_objection(this);

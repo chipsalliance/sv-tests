@@ -32,7 +32,7 @@ class env extends uvm_env;
       if(status == 0 && prev_value == obj.b) begin
         `uvm_info("RESULT", $sformatf("obj.b = %0d prev_value = %0d SUCCESS", obj.b, prev_value), UVM_LOW);
       end else begin
-        `uvm_info("RESULT", $sformatf("obj.b = %0d prev_value = %0d FAILED", obj.b, prev_value), UVM_LOW);
+        `uvm_error("RESULT", $sformatf("obj.b = %0d prev_value = %0d FAILED", obj.b, prev_value));
       end
     end
     phase.drop_objection(this);

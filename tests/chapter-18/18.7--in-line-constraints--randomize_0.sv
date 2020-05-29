@@ -27,7 +27,7 @@ class env extends uvm_env;
       if(obj.z == obj.x + obj.y && obj.x < obj.y) begin
         `uvm_info("RESULT", $sformatf("obj.x = %0d obj.y = %0d obj.z = %0d SUCCESS", obj.x, obj.y, obj.z), UVM_LOW);
       end else begin
-        `uvm_info("RESULT", $sformatf("obj.x = %0d obj.y = %0d obj.z = %0d FAILED", obj.x, obj.y, obj.z), UVM_LOW);
+        `uvm_error("RESULT", $sformatf("obj.x = %0d obj.y = %0d obj.z = %0d FAILED", obj.x, obj.y, obj.z));
       end
     end
     phase.drop_objection(this);

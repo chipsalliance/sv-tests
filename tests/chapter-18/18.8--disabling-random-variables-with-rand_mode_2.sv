@@ -31,7 +31,7 @@ class env extends uvm_env;
       if(ret1 == 1 && ret2 == 1 && obj.x > 0 && obj.x < 12) begin
         `uvm_info("RESULT", $sformatf("ret1 = %0d ret2 = %0d obj.x = %0d SUCCESS", ret1, ret2, obj.x), UVM_LOW);
       end else begin
-        `uvm_info("RESULT", $sformatf("ret1 = %0d ret2 = %0d obj.x = %0d FAILED", ret1, ret2, obj.x), UVM_LOW);
+        `uvm_error("RESULT", $sformatf("ret1 = %0d ret2 = %0d obj.x = %0d FAILED", ret1, ret2, obj.x));
       end
     end
     phase.drop_objection(this);

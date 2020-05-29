@@ -32,7 +32,7 @@ class env extends uvm_env;
       if(ret == 1) begin
         `uvm_info("RESULT", $sformatf("ret = %0d SUCCESS", ret), UVM_LOW);
       end else begin
-        `uvm_info("RESULT", $sformatf("ret = %0d FAILED", ret), UVM_LOW);
+        `uvm_error("RESULT", $sformatf("ret = %0d FAILED", ret));
       end
     end
     phase.drop_objection(this);

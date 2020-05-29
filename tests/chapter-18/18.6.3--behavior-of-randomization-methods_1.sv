@@ -28,14 +28,14 @@ class env extends uvm_env;
       if(obj1.b == obj2.b) begin
         `uvm_info("RESULT", $sformatf("obj1.b = %0d obj2.b = %0d SUCCESS", obj1.b, obj2.b), UVM_LOW);
       end else begin
-        `uvm_info("RESULT", $sformatf("obj1.b = %0d obj2.b = %0d FAILED", obj1.b, obj2.b), UVM_LOW);
+        `uvm_error("RESULT", $sformatf("obj1.b = %0d obj2.b = %0d FAILED", obj1.b, obj2.b));
       end
 
       obj2.randomize();
       if(obj1.b == obj2.b) begin
         `uvm_info("RESULT", $sformatf("obj1.b = %0d obj2.b = %0d SUCCESS", obj1.b, obj2.b), UVM_LOW);
       end else begin
-        `uvm_info("RESULT", $sformatf("obj1.b = %0d obj2.b = %0d FAILED", obj1.b, obj2.b), UVM_LOW);
+        `uvm_error("RESULT", $sformatf("obj1.b = %0d obj2.b = %0d FAILED", obj1.b, obj2.b));
       end
 
     end
