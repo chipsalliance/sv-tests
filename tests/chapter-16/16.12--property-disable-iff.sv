@@ -1,6 +1,6 @@
 /*
-:name: property_disable_iff_test
-:description: property disable iff test
+:name: property_disable_iff_min_test
+:description: minimal property disable iff test
 :tags: 16.12
 */
 module top();
