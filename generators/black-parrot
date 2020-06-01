@@ -5,10 +5,11 @@ import re
 import sys
 
 templ = """/*
-:name: {2}
+:name: {3}
 :description: black-parrot core test
 :files: {0}
 :incdirs: {1}
+:top_module: {2}
 :tags: black-parrot
 :timeout: 100
 */
@@ -43,15 +44,27 @@ print(cmd)
 lists = [
     {
         'name': 'bp_fe',
+        'top': 'bp_fe_top',
         'flist': 'bp_fe/syn/flist.vcs'
     }, {
         'name': 'bp_be',
+        'top': 'bp_be_top',
         'flist': 'bp_be/syn/flist.vcs'
     }, {
-        'name': 'bp_me',
+        'name': 'bp_cce',
+        'top': 'bp_cce',
         'flist': 'bp_me/syn/flist.vcs'
     }, {
-        'name': 'bp_top',
+        'name': 'bp_uce',
+        'top': 'bp_uce',
+        'flist': 'bp_me/syn/flist.vcs'
+    }, {
+        'name': 'bp_softcore',
+        'top': 'bp_softcore',
+        'flist': 'bp_top/syn/flist.vcs'
+    }, {
+        'name': 'bp_processor',
+        'top': 'bp_processor',
         'flist': 'bp_top/syn/flist.vcs'
     }
 ]
@@ -96,4 +109,4 @@ for l in lists:
 
     test_file = os.path.join(test_dir, l['name'] + '.sv')
     with open(test_file, "w") as f:
-        f.write(templ.format(sources, incdirs, l['name']))
+        f.write(templ.format(sources, incdirs, l['top'], l['name']))
