@@ -1,72 +1,7 @@
 {
 	"name": "uvm_classes_0",
 	"filename": "{0}_class_0.sv",
-	"template": [
-		"/*",
-		":name: {0}_0",
-		":description: ${0} class test",
-		":tags: uvm uvm-classes",
-		":type: simulation parsing",
-		"*/",
-		"import uvm_pkg::*;",
-		"`include \"uvm_macros.svh\"\n",
-
-		"class C extends {0};\n",
-
-		"function new(string name, uvm_component parent = null);",
-		"\tsuper.new(name, parent);",
-		"\t`uvm_info(\"RESULT\", \"new {0} created\", UVM_LOW);",
-		"endfunction\n",
-
-		"virtual function void build_phase(uvm_phase phase);",
-		"\tsuper.build_phase(phase);",
-		"\t`uvm_info(\"RESULT\", \"build phase completed\", UVM_LOW);",
-		"endfunction\n",
-
-		"virtual function void connect_phase(uvm_phase phase);",
-		"\tsuper.connect_phase(phase);",
-		"\t`uvm_info(\"RESULT\", \"connect phase completed\", UVM_LOW);",
-		"endfunction\n",
-
-		"virtual function void end_of_elaboration_phase(uvm_phase phase);",
-		"\tsuper.end_of_elaboration_phase(phase);",
-		"\t`uvm_info(\"RESULT\", \"end of elaboration phase completed\", UVM_LOW);",
-		"endfunction\n",
-
-		"virtual function void start_of_simulation_phase(uvm_phase phase);",
-		"\tsuper.start_of_simulation_phase(phase);",
-		"\t`uvm_info(\"RESULT\", \"start of simulation phase completed\", UVM_LOW);",
-		"endfunction\n",
-
-		"task run_phase(uvm_phase phase);",
-		"\t`uvm_info(\"RESULT\", \"run phase phase completed\", UVM_LOW);",
-		"endtask\n",
-
-		"virtual function void extract_phase(uvm_phase phase);",
-		"\tsuper.extract_phase(phase);",
-		"\t`uvm_info(\"RESULT\", \"extract phase completed\", UVM_LOW);",
-		"endfunction\n",
-
-		"virtual function void check_phase(uvm_phase phase);",
-		"\tsuper.check_phase(phase);",
-		"\t`uvm_info(\"RESULT\", \"check phase completed\", UVM_LOW);",
-		"endfunction\n",
-
-		"virtual function void report_phase(uvm_phase phase);",
-		"\tsuper.report_phase(phase);",
-		"\t`uvm_info(\"RESULT\", \"report phase completed\", UVM_LOW);",
-		"endfunction",
-
-		"endclass\n",
-
-		"module top;",
-		"\tC obj;",
-		"\tinitial begin",
-		"\t\tobj = new(\"C\");",
-		"\t\trun_test();",
-		"\tend",
-		"endmodule"
-	],
+	"template_file": "uvm-classes_0.sv",
 	"values": [
 		["uvm_agent"],
 		["uvm_component"],

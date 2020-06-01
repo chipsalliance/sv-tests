@@ -4,7 +4,7 @@
 	"template": [
 		"/*",
 		":name: {0}_2",
-		":description: ${0} class test",
+		":description: {0} class test",
 		":tags: uvm uvm-classes",
 		":type: parsing",
 		"*/",
@@ -12,7 +12,7 @@
 		"`include \"uvm_macros.svh\"\n",
 
 		"class C extends {0};",
-		"endclass\n"
+		"endclass"
 	],
 	"values": [
 		["uvm_agent"],
