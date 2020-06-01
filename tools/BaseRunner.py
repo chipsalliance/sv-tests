@@ -3,6 +3,7 @@ import resource
 import shutil
 import signal
 import subprocess
+import os
 import re
 
 
@@ -107,8 +108,12 @@ class BaseRunner:
             stdout=subprocess.PIPE,
             stderr=subprocess.STDOUT)
 
+        timeout = int(params['timeout'])
+        if 'DISABLE_TEST_TIMEOUTS' in os.environ:
+            timeout = None
+
         try:
-            log, _ = proc.communicate(timeout=int(params['timeout']))
+            log, _ = proc.communicate(timeout=timeout)
             returncode = proc.returncode
         except subprocess.TimeoutExpired:
             kill_child_processes(proc.pid)
