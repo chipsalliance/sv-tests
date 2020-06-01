@@ -1,0 +1,6 @@
+{
+    "uvm": {
+        "files": ["tests/uvm/src/uvm_pkg.sv"],
+        "incdirs": ["tests/uvm/src"]
+    }
+}

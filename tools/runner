@@ -3,6 +3,7 @@
 import os
 import re
 import sys
+import json
 import shutil
 import logging
 import argparse
@@ -53,8 +54,10 @@ dirs = {}
 
 try:
     dirs['out'] = os.environ['OUT_DIR']
+    dirs['conf'] = os.environ['CONF_DIR']
     dirs['tests'] = os.environ['TESTS_DIR']
     dirs['runners'] = os.environ['RUNNERS_DIR']
+    dirs['third_party'] = os.environ['THIRD_PARTY_DIR']
 except KeyError as e:
     logger.error("Required environment variables missing: {}".format(str(e)))
     sys.exit(1)
@@ -74,6 +77,14 @@ if args.version:
         f.write(version)
 
     sys.exit(0)
+
+libs_json = os.path.join(dirs['conf'], 'runners', 'libs.json')
+
+with open(libs_json, 'r') as jf:
+    try:
+        libs = json.load(jf)
+    except JSONDecodeError as e:
+        libs = {}
 
 test = os.path.abspath(os.path.join(dirs['tests'], args.test))
 
@@ -156,6 +167,17 @@ if test_params['mode'] is None:
         f.write("")  # runner does not support mode; just mark file as handled.
 
     sys.exit(0)
+
+for key in libs.keys():
+    if key in test_params['tags']:
+        test_params['files'] += [
+            os.path.abspath(os.path.join(dirs['third_party'], p))
+            for p in libs[key]['files']
+        ]
+        test_params['incdirs'] += [
+            os.path.abspath(os.path.join(dirs['third_party'], p))
+            for p in libs[key]['incdirs']
+        ]
 
 try:
     tmp_dir = tempfile.mkdtemp()
