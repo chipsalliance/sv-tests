@@ -16,6 +16,10 @@ export TESTS_DIR
 export RUNNERS_DIR
 export GENERATORS_DIR
 
+ifneq ($(DISABLE_TEST_TIMEOUTS),)
+export DISABLE_TEST_TIMEOUTS
+endif
+
 include tools/runners.mk
 
 .PHONY: clean init info tests generate-tests report
