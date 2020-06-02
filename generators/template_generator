@@ -23,7 +23,20 @@ for cfg in glob.glob(os.path.join(conf_dir, 'generators', 'templates',
         data = json.load(jf)
         name = data['name']
         fname = data['filename']
-        templ = '\n'.join(data['template'])
+        if 'template' in data.keys():
+            templ = '\n'.join(data['template'])
+        elif 'template_file' in data.keys():
+            try:
+                with open(os.path.join(conf_dir, 'generators', 'templates',
+                                       data['template_file']), 'r') as t:
+                    templ = t.read()
+            except FileNotFoundError:
+                print("Template file " + data['template_file'] + " not found")
+                sys.exit(1)
+        else:
+            print("No template or template_file specified ")
+            sys.exit(1)
+
         vals = data['values']
 
     test_dir = os.path.join(tests_dir, 'generated', name)

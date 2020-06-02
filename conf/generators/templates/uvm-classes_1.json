@@ -1,0 +1,15 @@
+{
+	"name": "uvm_classes_1",
+	"filename": "{0}_class_1.sv",
+	"template_file": "uvm-classes_1.sv",
+	"values": [
+		["uvm_agent"],
+		["uvm_component"],
+		["uvm_driver"],
+		["uvm_env"],
+		["uvm_monitor"],
+		["uvm_sequencer"],
+		["uvm_scoreboard"],
+		["uvm_test"]
+	]
+}
