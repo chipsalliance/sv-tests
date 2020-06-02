@@ -53,7 +53,7 @@ RUNNER_PARAM := --quiet
 endif
 
 $(OUT_DIR)/logs/$(1)/$(2).log: $(TESTS_DIR)/$(2) | $(1)-cg
-	$$(RUNNER) --runner $(1) --test $(2) --out $(OUT_DIR)/logs/$(1)/$(2).log $(RUNNER_PARAM)
+	RUNNERS_DIR=$(RUNNERS_DIR) $$(RUNNER) --runner $(1) --test $(2) --out $(OUT_DIR)/logs/$(1)/$(2).log $(RUNNER_PARAM)
 
 tests: $(OUT_DIR)/logs/$(1)/$(2).log
 
@@ -95,7 +95,7 @@ endef
 RUNNERS_FOUND := $(wildcard $(RUNNERS_DIR)/*.py)
 RUNNERS_FOUND := $(RUNNERS_FOUND:$(RUNNERS_DIR)/%=%)
 RUNNERS_FOUND := $(basename $(RUNNERS_FOUND))
-RUNNERS := $(shell OUT_DIR=$(OUT_DIR) ./tools/check-runners $(RUNNERS_FOUND))
+RUNNERS := $(shell OUT_DIR=$(OUT_DIR) RUNNERS_DIR=$(RUNNERS_DIR) ./tools/check-runners $(RUNNERS_FOUND))
 TESTS := $(shell find $(TESTS_DIR) -type f -iname *.sv)
 TESTS := $(TESTS:$(TESTS_DIR)/%=%)
 GENERATORS := $(wildcard $(GENERATORS_DIR)/*)

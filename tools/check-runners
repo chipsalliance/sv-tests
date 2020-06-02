@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 
 import os
+import sys
 import argparse
 import logging
 
@@ -17,9 +18,12 @@ runner_obj = None
 
 runners_ok = []
 
+if 'RUNNERS_DIR' in os.environ:
+    sys.path.insert(1, os.path.abspath(os.environ['RUNNERS_DIR']))
+
 for runner in args.runners:
     try:
-        module = import_module('runners.' + runner)
+        module = import_module(runner)
         runner_cls = getattr(module, runner)
         runner_obj = runner_cls()
     except Exception:

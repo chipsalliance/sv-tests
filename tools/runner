@@ -42,8 +42,11 @@ logger.addHandler(ch)
 
 runner_obj = None
 
+if 'RUNNERS_DIR' in os.environ:
+    sys.path.insert(1, os.path.abspath(os.environ['RUNNERS_DIR']))
+
 try:
-    module = import_module('runners.' + args.runner)
+    module = import_module(args.runner)
     runner_cls = getattr(module, args.runner)
     runner_obj = runner_cls()
 except Exception as e:
