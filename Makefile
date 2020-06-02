@@ -1,11 +1,11 @@
 all: report
 
-OUT_DIR=./out/
-CONF_DIR=./conf
-TESTS_DIR=./tests
-RUNNERS_DIR=./tools/runners
-THIRD_PARTY_DIR=./third_party
-GENERATORS_DIR=./generators
+OUT_DIR ?= ./out/
+CONF_DIR ?= ./conf
+TESTS_DIR ?= ./tests
+RUNNERS_DIR ?= ./tools/runners
+THIRD_PARTY_DIR ?= ./third_party
+GENERATORS_DIR ?= ./generators
 
 USE_CGROUP := ${USE_CGROUP}
 
