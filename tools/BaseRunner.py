@@ -111,6 +111,14 @@ class BaseRunner:
         timeout = int(params['timeout'])
         if 'DISABLE_TEST_TIMEOUTS' in os.environ:
             timeout = None
+        else:
+            try:
+                timeout = int(os.environ['OVERRIDE_TEST_TIMEOUTS'])
+            except KeyError:
+                # continue with timeout from params
+                pass
+            except ValueError:
+                return ("Invalid OVERRIDE_TEST_TIMEOUTS value", 1)
 
         try:
             log, _ = proc.communicate(timeout=timeout)
@@ -119,7 +127,7 @@ class BaseRunner:
             kill_child_processes(proc.pid)
             proc.kill()
             proc.communicate()
-            log = ("Timeout: > " + params['timeout'] + "s").encode('utf-8')
+            log = ("Timeout: > " + str(timeout) + "s").encode('utf-8')
             returncode = 1
 
         invocation_log = " ".join(self.cmd) + "\n"
