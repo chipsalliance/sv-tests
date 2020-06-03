@@ -7,7 +7,7 @@
 class a;
     function int do_randomize(int y);
         int x, success;
-        success = std::randomize(x) with {x > 0; x < y};
+        success = std::randomize(x) with {x > 0; x < y;};
         return success;
     endfunction
 endclass
