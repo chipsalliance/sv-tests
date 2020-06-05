@@ -11,6 +11,7 @@ dependencies:
 #  - surelog
 #  - sv-parser
 #  - tree-sitter-verilog
+#  - uhdm-integration-verilator
 #  - verible
 #  - verilator
 #  - yosys
