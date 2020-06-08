@@ -173,14 +173,14 @@ if test_params['mode'] is None:
 
 for key in libs.keys():
     if key in test_params['tags']:
-        test_params['files'] += [
+        test_params['files'] = [
             os.path.abspath(os.path.join(dirs['third_party'], p))
             for p in libs[key]['files']
-        ]
-        test_params['incdirs'] += [
+        ] + test_params['files']
+        test_params['incdirs'] = [
             os.path.abspath(os.path.join(dirs['third_party'], p))
             for p in libs[key]['incdirs']
-        ]
+        ] + test_params['incdirs']
 
 try:
     tmp_dir = tempfile.mkdtemp()
