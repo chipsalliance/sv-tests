@@ -72,6 +72,18 @@ $(INSTALL_DIR)/lib/tree-sitter-verilog.so:
 	cd $(RDIR)/tree-sitter-verilog && npm install
 	/usr/bin/env python3 -c "from tree_sitter import Language; Language.build_library(\"$@\", [\"$(abspath $(RDIR)/tree-sitter-verilog)\"])"
 
+# surelog-uhdm-yosys
+uhdm-yosys: $(INSTALL_DIR)/bin/uhdm-yosys
+
+# cannot use 'make -C uhdm-integration <target> as uhdm relies on $PWD
+$(INSTALL_DIR)/bin/uhdm-yosys:
+	mkdir -p $(INSTALL_DIR)/bin/
+	cd $(RDIR)/uhdm-integration && make uhdm/build
+	cd $(RDIR)/uhdm-integration && make surelog
+	cd $(RDIR)/uhdm-integration && make yosys/yosys
+	cp $(RDIR)/uhdm-integration/Surelog/build/bin/surelog $(INSTALL_DIR)/bin/uhdm-surelog
+	cp $(RDIR)/uhdm-integration/yosys/yosys $(INSTALL_DIR)/bin/uhdm-yosys
+
 # sv-parser
 sv-parser: $(INSTALL_DIR)/bin/parse_sv
 
