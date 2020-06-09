@@ -1,7 +1,7 @@
 INSTALL_DIR := $(abspath $(OUT_DIR)/runners/)
 
-RDIR := third_party/tools
-TDIR := tools
+RDIR := $(abspath third_party/tools)
+TDIR := $(abspath tools)
 
 .PHONY: runners
 
