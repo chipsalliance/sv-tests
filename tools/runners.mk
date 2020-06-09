@@ -72,16 +72,28 @@ $(INSTALL_DIR)/lib/tree-sitter-verilog.so:
 	cd $(RDIR)/tree-sitter-verilog && npm install
 	/usr/bin/env python3 -c "from tree_sitter import Language; Language.build_library(\"$@\", [\"$(abspath $(RDIR)/tree-sitter-verilog)\"])"
 
+uhdm-common:
+	mkdir -p $(INSTALL_DIR)/bin/
+	cd $(RDIR)/uhdm-integration && make uhdm/build
+	cd $(RDIR)/uhdm-integration && make surelog
+	cp $(RDIR)/uhdm-integration/Surelog/build/bin/surelog $(INSTALL_DIR)/bin/uhdm-surelog
+
+# surelog-uhdm-verilator
+uhdm-verilator: $(INSTALL_DIR)/bin/uhdm-verilator
+
+# cannot use 'make -C uhdm-integration <target> as uhdm relies on $PWD
+$(INSTALL_DIR)/bin/uhdm-verilator: uhdm-common
+	cd $(RDIR)/uhdm-integration && make uhdm/verilator/build
+	cp $(RDIR)/uhdm-integration/verilator/bin/verilator $(INSTALL_DIR)/bin/uhdm-verilator
+	sed -i 's/"verilator_bin"/"uhdm-verilator_bin"/g' $(INSTALL_DIR)/bin/uhdm-verilator
+	cp $(RDIR)/uhdm-integration/verilator/bin/verilator_bin $(INSTALL_DIR)/bin/uhdm-verilator_bin
+
 # surelog-uhdm-yosys
 uhdm-yosys: $(INSTALL_DIR)/bin/uhdm-yosys
 
 # cannot use 'make -C uhdm-integration <target> as uhdm relies on $PWD
-$(INSTALL_DIR)/bin/uhdm-yosys:
-	mkdir -p $(INSTALL_DIR)/bin/
-	cd $(RDIR)/uhdm-integration && make uhdm/build
-	cd $(RDIR)/uhdm-integration && make surelog
+$(INSTALL_DIR)/bin/uhdm-yosys: uhdm-common
 	cd $(RDIR)/uhdm-integration && make yosys/yosys
-	cp $(RDIR)/uhdm-integration/Surelog/build/bin/surelog $(INSTALL_DIR)/bin/uhdm-surelog
 	cp $(RDIR)/uhdm-integration/yosys/yosys $(INSTALL_DIR)/bin/uhdm-yosys
 
 # sv-parser
