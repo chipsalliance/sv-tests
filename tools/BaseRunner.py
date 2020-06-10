@@ -133,7 +133,7 @@ class BaseRunner:
         invocation_log = " ".join(self.cmd) + "\n"
 
         return (
-            invocation_log + self.transform_log(log.decode('utf-8')),
+            invocation_log + self.transform_log(log.decode('utf-8', 'ignore')),
             returncode)
 
     def is_success_returncode(self, rc, params):
