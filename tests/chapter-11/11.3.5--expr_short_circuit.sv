@@ -1,25 +1,24 @@
 /*
 :name: expr_short_circuit
 :description: expression short circuiting test
+:type: simulation parsing
 :tags: 11.3.5
 */
 module top();
 
-int a = 1;
-int b;
+logic a = 1;
+logic b = 1;
+logic c = 0;
+logic d;
 
-function int fun1();
-	$display("1");
-	return 1;
-endfunction
-
-function int fun2();
-	$display("2");
-	return 2;
+function int fun(logic a);
+    $display(":assert: (False)");
+	return a;
 endfunction
 
 initial begin
-	b = (a > 0) ? fun1() : fun2();
+    d = a && (b || fun(c));
+    $display(":assert: (1 == %d)", d);
 end
 
 endmodule

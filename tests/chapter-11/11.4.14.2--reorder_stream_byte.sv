@@ -1,5 +1,5 @@
 /*
-:name: reorder_stream
+:name: reorder_stream_byte
 :description: stream reordering test
 :tags: 11.4.14.2
 */
@@ -9,7 +9,7 @@ int a = {"A", "B", "C", "D"};
 int b;
 
 initial begin
-	b = {<< 8 {a}};
+	b = {<< byte {a}};
 end
 
 endmodule
