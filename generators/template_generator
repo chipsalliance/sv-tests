@@ -4,6 +4,7 @@ import os
 import sys
 import json
 import glob
+import itertools
 
 try:
     tests_dir = os.environ['TESTS_DIR']
@@ -38,6 +39,10 @@ for cfg in glob.glob(os.path.join(conf_dir, 'generators', 'templates',
             sys.exit(1)
 
         vals = data['values']
+
+        if data.get('cartesian_product', False):
+            prod = list(itertools.product(*vals))
+            vals = [x[0] + x[1] for x in prod]
 
     test_dir = os.path.join(tests_dir, 'generated', name)
 
