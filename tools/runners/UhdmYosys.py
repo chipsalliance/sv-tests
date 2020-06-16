@@ -6,7 +6,7 @@ from BaseRunner import BaseRunner
 
 class UhdmYosys(BaseRunner):
     def __init__(self):
-        super().__init__("uhdm-yosys", "uhdm-yosys", {"parsing"})
+        super().__init__("yosys-uhdm", "yosys-uhdm", {"parsing"})
 
         self.url = "https://github.com/alainmarcel/uhdm-integration"
 
@@ -38,7 +38,7 @@ class UhdmYosys(BaseRunner):
         with open(runner_scr, "w") as f:
             f.write("set -e\n")
             f.write("set -x\n")
-            f.write("uhdm-surelog -nopython -nobuiltin -parse -sverilog")
+            f.write("surelog-uhdm -nopython -nobuiltin -parse -sverilog")
             for i in params["incdirs"]:
                 f.write(f" -I{i}")
 

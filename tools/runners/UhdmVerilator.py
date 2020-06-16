@@ -6,7 +6,7 @@ from BaseRunner import BaseRunner
 
 class UhdmVerilator(BaseRunner):
     def __init__(self):
-        super().__init__("uhdm-verilator", "uhdm-verilator", {"simulation"})
+        super().__init__("verilator-uhdm", "verilator-uhdm", {"simulation"})
 
         self.url = "https://github.com/alainmarcel/uhdm-integration"
 
@@ -23,7 +23,7 @@ class UhdmVerilator(BaseRunner):
         with open(scr, 'w') as f:
             f.write("set -e\n")
             f.write('set -x\n')
-            f.write('uhdm-surelog -nopython -nobuiltin -parse -sverilog')
+            f.write('surelog-uhdm -nopython -nobuiltin -parse -sverilog')
             for i in params['incdirs']:
                 f.write(f' -I{i}')
 

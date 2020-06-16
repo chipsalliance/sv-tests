@@ -76,25 +76,25 @@ uhdm-common:
 	mkdir -p $(INSTALL_DIR)/bin/
 	cd $(RDIR)/uhdm-integration && make uhdm/build
 	cd $(RDIR)/uhdm-integration && make surelog
-	cp $(RDIR)/uhdm-integration/Surelog/build/bin/surelog $(INSTALL_DIR)/bin/uhdm-surelog
+	cp $(RDIR)/uhdm-integration/Surelog/build/bin/surelog $(INSTALL_DIR)/bin/surelog-uhdm
 
 # surelog-uhdm-verilator
-uhdm-verilator: $(INSTALL_DIR)/bin/uhdm-verilator
+verilator-uhdm: $(INSTALL_DIR)/bin/verilator-uhdm
 
 # cannot use 'make -C uhdm-integration <target> as uhdm relies on $PWD
-$(INSTALL_DIR)/bin/uhdm-verilator: uhdm-common
+$(INSTALL_DIR)/bin/verilator-uhdm: uhdm-common
 	cd $(RDIR)/uhdm-integration && make uhdm/verilator/build
-	cp $(RDIR)/uhdm-integration/verilator/bin/verilator $(INSTALL_DIR)/bin/uhdm-verilator
-	sed -i 's/"verilator_bin"/"uhdm-verilator_bin"/g' $(INSTALL_DIR)/bin/uhdm-verilator
-	cp $(RDIR)/uhdm-integration/verilator/bin/verilator_bin $(INSTALL_DIR)/bin/uhdm-verilator_bin
+	cp $(RDIR)/uhdm-integration/verilator/bin/verilator $(INSTALL_DIR)/bin/verilator-uhdm
+	sed -i 's/"verilator_bin"/"verilator_bin-uhdm"/g' $(INSTALL_DIR)/bin/verilator-uhdm
+	cp $(RDIR)/uhdm-integration/verilator/bin/verilator_bin $(INSTALL_DIR)/bin/verilator_bin-uhdm
 
 # surelog-uhdm-yosys
-uhdm-yosys: $(INSTALL_DIR)/bin/uhdm-yosys
+yosys-uhdm: $(INSTALL_DIR)/bin/yosys-uhdm
 
 # cannot use 'make -C uhdm-integration <target> as uhdm relies on $PWD
-$(INSTALL_DIR)/bin/uhdm-yosys: uhdm-common
+$(INSTALL_DIR)/bin/yosys-uhdm: uhdm-common
 	cd $(RDIR)/uhdm-integration && make yosys/yosys
-	cp $(RDIR)/uhdm-integration/yosys/yosys $(INSTALL_DIR)/bin/uhdm-yosys
+	cp $(RDIR)/uhdm-integration/yosys/yosys $(INSTALL_DIR)/bin/yosys-uhdm
 
 # sv-parser
 sv-parser: $(INSTALL_DIR)/bin/parse_sv
