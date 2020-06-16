@@ -1,0 +1,27 @@
+{
+	"name": "logical_equivalence_operator_sim",
+	"filename": "11.4.7--logical_equiv_operator_{2}.sv",
+	"template": [
+		"/*",
+		":name: logical_equiv_operator_sim_{2}",
+		":description: logical equivalence operator test in simulation",
+        ":type: simulation parsing",
+		":tags: 11.4.7",
+		"*/",
+		"module top();",
+		"logic a = {0};",
+		"logic b = {1};",
+		"logic c;",
+		"initial begin",
+		"    c = a <-> b;",
+		"    $display(\":assert: ((%s) == %d)\", \"(((not {0}) or {1}) and ((not {1}) or {0}))\", c);",
+		"end",
+		"endmodule"
+	],
+	"values": [
+        ["0", "0"],
+        ["0", "1"],
+        ["1", "0"],
+        ["1", "1"]
+	]
+}

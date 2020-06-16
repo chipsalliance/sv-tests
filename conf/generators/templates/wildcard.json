@@ -1,0 +1,31 @@
+{
+	"name": "wildcard_operators_sim",
+	"filename": "11.4.6--wildcard_operator_{4}.sv",
+	"template": [
+		"/*",
+		":name: wildcard_operator_sim_{4}",
+		":description: wildcard operator test in simulation",
+        ":type: simulation parsing",
+		":tags: 11.4.6",
+		"*/",
+		"module top();",
+		"logic [3:0] a = {0};",
+		"logic [3:0] b = {1};",
+		"logic c;",
+		"initial begin",
+		"    c = a {2} b;",
+		"    $display(\":assert: ('%s' == '%d')\", \"{3}\", c);",
+		"end",
+		"endmodule"
+	],
+	"values": [
+		["4'b1001", "4'bx001", "==?" , "1"],
+		["4'b1001", "4'bz001", "==?" , "1"],
+		["4'bx001", "4'b1001", "==?" , "0"],
+		["4'bz001", "4'b1001", "==?" , "0"],
+		["4'bz001", "4'bx001", "==?" , "1"],
+		["4'b1001", "4'bx001", "!=?" , "0"],
+		["4'bz001", "4'bx001", "!=?" , "0"],
+		["4'bz001", "4'b1001", "!=?" , "1"]
+	]
+}

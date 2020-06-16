@@ -1,0 +1,47 @@
+{
+	"name": "operators_sim",
+	"filename": "{2}--{1}_operator_sim_{5}.sv",
+	"template": [
+		"/*",
+		":name: {1}_operator_sim_{5}",
+		":description: {0} operator test in simulation",
+        ":type: simulation parsing",
+		":tags: {2}",
+		"*/",
+		"module top();",
+		"int a = {3};",
+		"int b = {4};",
+		"int c;",
+		"initial begin",
+		"    c = a {0} b;",
+		"    $display(\":assert: (int(%s) == %d)\", \"{3} {0} {4}\", c);",
+		"end",
+		"endmodule"
+	],
+    "cartesian_product": "true",
+	"values": [[
+		["+", "plus", "11.4.3"],
+		["-", "minus", "11.4.3"],
+		["*", "mul", "11.4.3"],
+		["/", "div", "11.4.3"],
+		["%", "mod", "11.4.3"],
+		["**", "exp", "11.4.3"],
+		["==", "log_eq", "11.4.5"],
+		["!=", "log_neq", "11.4.5"],
+		["<", "lt", "11.4.4"],
+		["<=", "le", "11.4.4"],
+		[">", "gt", "11.4.4"],
+		[">=", "ge", "11.4.4"],
+		["&", "bit_and", "11.4.8"],
+		["|", "bit_or", "11.4.8"],
+		["^", "bit_xor", "11.4.8"],
+        ["<<", "log_shl", "11.4.10"],
+        [">>", "log_shr", "11.4.10"]
+	],
+    [
+        ["12", "5", "0"],
+        ["1", "1", "1"],
+        ["5", "12", "2"],
+        ["0", "12", "3"]
+    ]]
+}

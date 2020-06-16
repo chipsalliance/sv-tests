@@ -1,8 +1,8 @@
 /*
 :name: string_compare
 :description: string comparison test
-:tags: 11.10.1
 :type: simulation parsing
+:tags: 11.10.1
 */
 module top();
 

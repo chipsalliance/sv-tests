@@ -1,6 +1,6 @@
 /*
-:name: dynamic_array_unpack_stream
-:description: stream unpack test with dynamic array
+:name: dynamic_array_unpack_stream_with
+:description: stream unpack test with dynamic array using with
 :tags: 11.4.14.4
 */
 module top();
@@ -25,7 +25,7 @@ initial begin
 
 	pkt = {<< 8 {i_header, i_len, i_data, i_crc}};
 
-	{<< 8 {o_header, o_len, o_data, o_crc}} = pkt;
+	{<< 8 {o_header, o_len, o_data with [0 +: o_len], o_crc}} = pkt;
 end
 
 endmodule
