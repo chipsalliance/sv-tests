@@ -73,4 +73,4 @@
 	url = https://github.com/SymbiFlow/uvm.git
 [submodule "third_party/tools/uhdm-integration"]
 	path = third_party/tools/uhdm-integration
-	url = git@github.com:alainmarcel/uhdm-integration.git
+	url = https://github.com/alainmarcel/uhdm-integration.git
