@@ -5,5 +5,5 @@
 */
 class myclass;
 pure virtual task pure_task1;
-pure virtual task pure_task2(arg_type arg);
+pure virtual task pure_task2(int arg);
 endclass
