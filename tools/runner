@@ -93,7 +93,7 @@ test = os.path.abspath(os.path.join(dirs['tests'], args.test))
 
 supported_test_params = [
     "name", "tags", "description", "files", "incdirs", "top_module", "timeout",
-    "type", "should_fail", "should_fail_because"
+    "type", "should_fail", "should_fail_because", "defines"
 ]
 
 test_params = {}
@@ -134,6 +134,7 @@ try:
                 'should_fail',
                 ("0", "1")["should_fail_because" in test_params.keys()])
             test_params.setdefault('should_fail_because', "")
+            test_params.setdefault('defines', "")
 
             if len(set(supported_test_params) - set(test_params.keys())) != 0:
                 missing = list(
@@ -182,6 +183,8 @@ for key in libs.keys():
             for p in libs[key]['incdirs']
         ] + test_params['incdirs']
 
+test_params['defines'] = test_params['defines'].split()
+
 try:
     tmp_dir = tempfile.mkdtemp()
 except (PermissionError, FileExistsError) as e:
@@ -223,6 +226,7 @@ try:
 
     test_params['files'] = ' '.join(test_params['files'])
     test_params['incdirs'] = ' '.join(test_params['incdirs'])
+    test_params['defines'] = ' '.join(test_params['defines'])
 
     with open(out, "w") as log:
         # start by writing params
