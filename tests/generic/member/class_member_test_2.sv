@@ -4,5 +4,5 @@
 :tags: 8.3
 */
 class myclass;
-extern task subtask(arg_type arg);
+extern task subtask(int arg);
 endclass
