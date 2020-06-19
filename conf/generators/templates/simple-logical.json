@@ -1,0 +1,21 @@
+{
+	"name": "simple_logical_operators_sim",
+	"filename": "11.4.7--simple_{1}_logical_operator.sv",
+	"template": [
+		"/*",
+		":name: simple_{1}_logical_operator_sim",
+		":description: minimal {0} operator simulation test (without result verification)",
+        ":type: simulation parsing",
+		":tags: 11.4.7",
+		"*/",
+		"module top(input a, input b, output c);",
+		"    assign c = a {0} b;",
+		"endmodule"
+	],
+	"values": [
+		["&&", "and"],
+		["||", "or"],
+        ["<->", "equiv"],
+        ["->", "impl"]
+    ]
+}

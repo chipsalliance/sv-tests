@@ -1,0 +1,27 @@
+{
+	"name": "unary_op",
+	"filename": "{2}--simple_unary_op_{1}.sv",
+	"template": [
+		"/*",
+		":name: simple_unary_op_{1}",
+		":description: minimal {0} operator simulation test (without result verification)",
+		":tags: {2}",
+		"*/",
+		"module top(input [3:0] a, output [3:0] b);",
+		"    assign b = {0}a;",
+		"endmodule"
+	],
+	"values": [
+		["+", "plus", "11.3"],
+		["-", "minus", "11.3"],
+		["!", "not_log", "11.3"],
+		["~", "not_bit", "11.4.8"],
+		["&", "and", "11.4.9"],
+		["~&", "nand", "11.4.9"],
+		["|", "or", "11.4.9"],
+		["~|", "nor", "11.4.9"],
+		["^", "xor", "11.4.9"],
+		["~^", "xnor_1", "11.4.9"],
+		["^~", "xnor_2", "11.4.9"]
+	]
+}
