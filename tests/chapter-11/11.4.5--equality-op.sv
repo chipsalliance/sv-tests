@@ -6,7 +6,7 @@
 */
 module top();
 
-logic [7:0] a, b, c, d, e, f;
+reg [7:0] a, b, c, d, e, f;
 
 initial begin
     a = 8'b1101x001;
