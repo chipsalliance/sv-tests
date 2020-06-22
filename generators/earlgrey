@@ -3,13 +3,15 @@
 import os
 import re
 import sys
+import subprocess
 
 templ = """/*
 :name: earlgrey
 :description: Earlgrey design from opentitan
 :files: {0}
 :incdirs: {1}
-:tags: earlgrey
+:tags: earlgrey uvm
+:defines: {2}
 :timeout: 180
 :top_module: top_earlgrey_nexysvideo
 */
@@ -34,16 +36,36 @@ earlgrey_path = os.path.abspath(
 
 sources = ''
 incdirs = ''
+defines = ''
 incs = []
 
-earlgrey_conf_path = os.path.abspath(
-    os.path.join(conf_dir, "generators", "earlgrey"))
+subprocess.call(
+    [
+        "fusesoc", "--cores-root", earlgrey_path, "sim",
+        "lowrisc:systems:top_earlgrey:0.1"
+    ],
+    stdout=subprocess.DEVNULL,
+    stderr=subprocess.DEVNULL)
 
-with open(os.path.join(earlgrey_conf_path, 'earlgrey.src'), "r") as f:
+earlgrey_conf_path = os.path.abspath(
+    os.path.join("build", "lowrisc_systems_top_earlgrey_0.1", "sim-icarus"))
+
+with open(os.path.join(earlgrey_conf_path,
+                       'lowrisc_systems_top_earlgrey_0.1.scr'), "r") as f:
     for line in f:
         line = line.strip()
-        incs.append(os.path.dirname(os.path.join(earlgrey_path, line)))
-        sources += os.path.join(earlgrey_path, line) + ' '
+        if "+incdir+" in line:
+            line = line.replace('+incdir+', '')
+            incs.append(
+                os.path.dirname(os.path.join(earlgrey_conf_path, line)))
+            continue
+        elif "+define+" in line:
+            line = line.replace('+define+', '')
+            defines += line + ' '
+            continue
+
+        incs.append(os.path.dirname(os.path.join(earlgrey_conf_path, line)))
+        sources += os.path.join(earlgrey_conf_path, line) + ' '
 
 incs = list(dict.fromkeys(incs))
 for line in incs:
@@ -57,4 +79,4 @@ if not os.path.isdir(test_dir):
 test_file = os.path.join(test_dir, "earlgrey.sv")
 
 with open(test_file, "w") as f:
-    f.write(templ.format(sources, incdirs))
+    f.write(templ.format(sources, incdirs, defines))

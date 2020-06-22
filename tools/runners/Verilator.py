@@ -58,4 +58,7 @@ class Verilator(BaseRunner):
             ]
             self.cmd.append('vmain.cpp')
 
+        for define in params['defines']:
+            self.cmd.append('-D' + define)
+
         self.cmd += params['files']
