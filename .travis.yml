@@ -92,6 +92,20 @@ jobs:
         - ./.github/travis/run.sh
 
     - stage: "Run"
+      name: uhdm-integration-verilator
+      install:
+        - ./.github/travis/install.sh
+      script:
+        - ./.github/travis/run.sh
+
+    - stage: "Run"
+      name: uhdm-integration-yosys
+      install:
+        - ./.github/travis/install.sh
+      script:
+        - ./.github/travis/run.sh
+
+    - stage: "Run"
       name: zachjs-sv2v
       install:
         - ./.github/travis/install.sh

@@ -1,7 +1,7 @@
 INSTALL_DIR := $(abspath $(OUT_DIR)/runners/)
 
-RDIR := third_party/tools
-TDIR := tools
+RDIR := $(abspath third_party/tools)
+TDIR := $(abspath tools)
 
 .PHONY: runners
 
@@ -71,6 +71,30 @@ $(INSTALL_DIR)/lib/tree-sitter-verilog.so:
 	mkdir -p $(INSTALL_DIR)/lib
 	cd $(RDIR)/tree-sitter-verilog && npm install
 	/usr/bin/env python3 -c "from tree_sitter import Language; Language.build_library(\"$@\", [\"$(abspath $(RDIR)/tree-sitter-verilog)\"])"
+
+uhdm-common:
+	mkdir -p $(INSTALL_DIR)/bin/
+	cd $(RDIR)/uhdm-integration && make uhdm/build
+	cd $(RDIR)/uhdm-integration && make surelog
+	cp $(RDIR)/uhdm-integration/Surelog/build/bin/surelog $(INSTALL_DIR)/bin/surelog-uhdm
+
+# surelog-uhdm-verilator
+verilator-uhdm: $(INSTALL_DIR)/bin/verilator-uhdm
+
+# cannot use 'make -C uhdm-integration <target> as uhdm relies on $PWD
+$(INSTALL_DIR)/bin/verilator-uhdm: uhdm-common
+	cd $(RDIR)/uhdm-integration && make uhdm/verilator/build
+	cp $(RDIR)/uhdm-integration/verilator/bin/verilator $(INSTALL_DIR)/bin/verilator-uhdm
+	sed -i 's/"verilator_bin"/"verilator_bin-uhdm"/g' $(INSTALL_DIR)/bin/verilator-uhdm
+	cp $(RDIR)/uhdm-integration/verilator/bin/verilator_bin $(INSTALL_DIR)/bin/verilator_bin-uhdm
+
+# surelog-uhdm-yosys
+yosys-uhdm: $(INSTALL_DIR)/bin/yosys-uhdm
+
+# cannot use 'make -C uhdm-integration <target> as uhdm relies on $PWD
+$(INSTALL_DIR)/bin/yosys-uhdm: uhdm-common
+	cd $(RDIR)/uhdm-integration && make yosys/yosys
+	cp $(RDIR)/uhdm-integration/yosys/yosys $(INSTALL_DIR)/bin/yosys-uhdm
 
 # sv-parser
 sv-parser: $(INSTALL_DIR)/bin/parse_sv
