@@ -10,7 +10,7 @@ templ = """/*
 :incdirs: {1}
 :tags: ariane
 :top_module: ariane_testharness
-:timeout: 180
+:timeout: 360
 */
 """
 
