@@ -12,7 +12,7 @@ templ = """/*
 :incdirs: {1}
 :tags: earlgrey uvm
 :defines: {2}
-:timeout: 180
+:timeout: 360
 :top_module: top_earlgrey_nexysvideo
 */
 """
