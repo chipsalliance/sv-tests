@@ -43,10 +43,7 @@ class UhdmVerilator(BaseRunner):
         self.cmd += ['--uhdm-ast -cc slpp_all/surelog.uhdm']
 
         # Flags for compliance testing:
-        self.cmd += [
-            '-Wno-fatal', '-Wno-UNOPTFLAT', '-Wno-BLKANDNBLK', '-Wpedantic',
-            '-Wno-context'
-        ]
+        self.cmd += ['-Wno-fatal', '-Wno-UNOPTFLAT', '-Wno-BLKANDNBLK']
 
         top = self.get_top_module_or_guess(params)
 
