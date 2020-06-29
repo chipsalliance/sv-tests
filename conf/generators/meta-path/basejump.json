@@ -1,7 +1,6 @@
 {
 	"name": "BaseJumpSTL",
 	"project": "basejump",
-	"should_fail": "0",
 	"paths": [
 		["cores", "basejump_stl", "*"]
 	],
