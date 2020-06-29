@@ -10,11 +10,7 @@
 <pre class="{{status}}">
 description: {{description|e}}
 rc: {{rc|e}} (means success: {{tool_success|e}})
-{% if should_fail_because|length %}
 should_fail_because: {{should_fail_because|e}}
-{% else %}
-should_fail: {{should_fail|e}}
-{% endif %}
 tags: {{tags|e}}
 incdirs: {{incdirs|e}}
 top_module: {{top_module|e}}
