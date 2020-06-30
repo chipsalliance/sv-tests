@@ -10,8 +10,8 @@ templ = """/*
 :description: Test imported from ivtest
 :files: {1}
 :incdirs: {4}
-:should_fail: {2}
 :tags: ivtest
+{2}
 {3}
 {5}
 */
@@ -207,7 +207,7 @@ for l in ivtest_lists:
 
             name = line[0]
             path = os.path.join(ivtest_dir, line[2], line[0] + '.v')
-            should_fail = 0
+            should_fail_because = ''
 
             # sanitize name
             name = re.sub(r'\W', '', name)
@@ -218,7 +218,7 @@ for l in ivtest_lists:
             type_ = ''
             for t in type_should_fail:
                 if re.match(t, line[1]):
-                    should_fail = 1
+                    should_fail_because = ':should_fail_because: this test was imported from ivtest and is designed to fail'
                     type_ = ':type: simulation'
 
             timeout = ''
@@ -227,8 +227,8 @@ for l in ivtest_lists:
 
             tests.append(
                 (
-                    name + '_iv', path, should_fail, type_, ' '.join(incdirs),
-                    timeout))
+                    name + '_iv', path, should_fail_because, type_,
+                    ' '.join(incdirs), timeout))
 
 test_dir = os.path.join(tests_dir, 'generated', tests_subdir)
 
