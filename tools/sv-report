@@ -106,7 +106,8 @@ with open(args.log_template, "r") as templ:
 
 
 def exists_and_is_newer_than(b, a):
-    return os.path.exists(b) and os.path.getctime(b) > os.path.getctime(a)
+    return os.path.exists(a) and os.path.exists(
+        b) and os.path.getctime(b) > os.path.getctime(a)
 
 
 def formatSrc(ifile, ofile):
@@ -115,20 +116,26 @@ def formatSrc(ifile, ofile):
 
     formatter = HtmlFormatter(
         full=False, linenos=True, anchorlinenos=True, lineanchors='l')
-    with open(ifile, 'rb') as f:
+
+    os.makedirs(os.path.dirname(ofile), exist_ok=True)
+
+    with open(ofile, 'w') as out:
+        try:
+            f = open(ifile, 'rb')
+        except IOError:
+            out.write('Error when opening file ' + ifile)
+            return
+
         raw_code = f.read()
-        os.makedirs(os.path.dirname(ofile), exist_ok=True)
 
         code = highlight(raw_code, lex, formatter)
 
-        with open(ofile, 'w') as out:
-            filename = os.path.relpath(ifile)
-            src_rel = "../" * filename.count('/')
-            csspath = os.path.join(src_rel, "code.css")
+        filename = os.path.relpath(ifile)
+        src_rel = "../" * filename.count('/')
+        csspath = os.path.join(src_rel, "code.css")
 
-            out.write(
-                src_template.render(
-                    csspath=csspath, filename=filename, code=code))
+        out.write(
+            src_template.render(csspath=csspath, filename=filename, code=code))
 
 
 def fileRefToLink(src_rel, fname, link_pat, link_sub_pat, log):
@@ -147,7 +154,8 @@ def totalSize(tags):
     files = tags['files'].split()
     size = 0
     for f in files:
-        size += os.path.getsize(f)
+        if (os.path.exists(f)):
+            size += os.path.getsize(f)
     return size
 
 
