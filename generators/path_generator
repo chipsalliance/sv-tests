@@ -10,8 +10,8 @@ templ = """/*
 :description: Tests imported from {0}
 :files: {2}
 :incdirs: {4}
-:should_fail: {1}
 :tags: {0}{5}
+{1}
 */
 """
 
@@ -25,7 +25,7 @@ except KeyError:
 
 name = ''
 project = ''
-should_fail = ''
+should_fail_because = ''
 paths = [[]]
 matches = []
 
@@ -35,7 +35,9 @@ for cfg in glob.glob(os.path.join(conf_dir, 'generators', 'meta-path',
         data = json.load(jf)
         name = data['name']
         project = data['project']
-        should_fail = data['should_fail']
+        if 'should_fail_because' in data:
+            should_fail_because = ':should_fail_because: ' + data[
+                'should_fail_because']
         paths = data['paths']
         matches = data['matches']
         blacklist = data.get('blacklist', [''])
@@ -79,4 +81,5 @@ for cfg in glob.glob(os.path.join(conf_dir, 'generators', 'meta-path',
                 with open(test_file, "w") as sv:
                     sv.write(
                         templ.format(
-                            project, should_fail, f, fname, incs, timeout))
+                            project, should_fail_because, f, fname, incs,
+                            timeout))

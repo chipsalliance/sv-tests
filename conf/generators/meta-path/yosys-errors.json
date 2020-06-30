@@ -1,7 +1,7 @@
 {
 	"name": "errors",
 	"project": "yosys",
-	"should_fail": "1",
+	"should_fail_because": "this test imported from yosys repository contains intentional syntax error",
 	"paths": [
 		["tools", "yosys", "tests", "errors"]
 	],
