@@ -8,6 +8,7 @@ THIRD_PARTY_DIR ?= ./third_party
 GENERATORS_DIR ?= ./generators
 
 USE_CGROUP := ${USE_CGROUP}
+CGROUP_MAX_MEMORY ?= 3221225472  # 3GiB
 
 export OUT_DIR
 export CONF_DIR
@@ -68,17 +69,17 @@ define runner_cg_gen
 ifneq ($(USE_CGROUP),)
 
 /sys/fs/cgroup/memory/$(USE_CGROUP)/$(1):
-	# Create a sub-cgroup for each runner under the sv-tests group.
-	cgcreate -g memory,cpu:sv-tests/$(1)
-	# Limit a single runner to using 2GB of memory
-	echo 2000000000 > /sys/fs/cgroup/memory/sv-tests/$(1)/memory.limit_in_bytes
+	# Create a sub-cgroup for each runner under the $(USE_CGROUP) group.
+	cgcreate -g memory,cpu:$(USE_CGROUP)/$(1)
 
 $(1)-cg: /sys/fs/cgroup/memory/$(USE_CGROUP)/$(1)
+	# Limit a single runner memory
+	echo $(CGROUP_MAX_MEMORY) > /sys/fs/cgroup/memory/$(USE_CGROUP)/$(1)/memory.limit_in_bytes
 
-endif
-
+else
 $(1)-cg:
 	@true
+endif
 
 endef
 
