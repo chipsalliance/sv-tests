@@ -9,7 +9,7 @@ int a = {"A", "B", "C", "D"};
 int b;
 
 initial begin
-	b = { << byte {a}};
+	b = {<< 8 {a}};
 end
 
 endmodule

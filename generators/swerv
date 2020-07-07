@@ -10,7 +10,7 @@ templ = """/*
 :incdirs: {1}
 :tags: swerv
 :top_module: swerv_wrapper
-:timeout: 100
+:timeout: 180
 */
 """
 

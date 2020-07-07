@@ -1,0 +1,39 @@
+{
+	"name": "assignment_sim",
+	"filename": "11.4.1--{1}_assignment-sim-{4}.sv",
+	"template": [
+		"/*",
+		":name: {1}_assignment_sim_{4}",
+		":description: {0}= assignment simulation test",
+        ":type: simulation parsing",
+		":tags: 11.4.1",
+		"*/",
+		"module top();",
+		"reg [31:0] a;",
+		"wire [31:0] b;",
+		"assign b = 32'd{3};",
+		"initial begin",
+		"    a = 32'd{2};",
+		"    a {0}= b;",
+		"    $display(\":assert: (int(%s) == %d)\", \"{2}{0}{3}\", a);",
+		"end",
+		"endmodule"
+	],
+    "cartesian_product": "true",
+	"values": [[
+		["+", "plus"],
+		["-", "minus"],
+		["*", "mul"],
+		["/", "div"],
+		["%", "mod"],
+		["&", "and"],
+		["|", "or"],
+		["^", "xor"],
+		["<<", "log_shl"],
+		[">>", "log_shr"]
+	],
+    [
+        ["4", "3", "0"],
+        ["4", "4", "1"]
+    ]]
+}

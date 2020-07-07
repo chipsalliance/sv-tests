@@ -4,5 +4,5 @@
 :tags: 8.3
 */
 class myclass;
-extern protected virtual task subtask(arg_type arg);
+extern protected virtual task subtask(int arg);
 endclass

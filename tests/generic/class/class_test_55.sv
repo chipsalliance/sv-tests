@@ -3,6 +3,9 @@
 :description: Test
 :tags: 6.15 8.3
 */
+class Packet;
+endclass
+
 class Driver;
   Packet pNP [*];
   Packet pNP1 [* ];

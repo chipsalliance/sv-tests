@@ -3,6 +3,8 @@
 :description: Test
 :tags: 6.15 8.3
 */
+typedef int data_type_or_module_type;
+
 class Driver;
   data_type_or_module_type foo1;
   data_type_or_module_type foo2 = 1'b1;

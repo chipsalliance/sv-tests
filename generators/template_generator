@@ -4,6 +4,7 @@ import os
 import sys
 import json
 import glob
+import itertools
 
 try:
     tests_dir = os.environ['TESTS_DIR']
@@ -23,15 +24,32 @@ for cfg in glob.glob(os.path.join(conf_dir, 'generators', 'templates',
         data = json.load(jf)
         name = data['name']
         fname = data['filename']
-        templ = '\n'.join(data['template'])
+        if 'template' in data.keys():
+            templ = '\n'.join(data['template'])
+        elif 'template_file' in data.keys():
+            try:
+                with open(os.path.join(conf_dir, 'generators', 'templates',
+                                       data['template_file']), 'r') as t:
+                    templ = t.read()
+            except FileNotFoundError:
+                print("Template file " + data['template_file'] + " not found")
+                sys.exit(1)
+        else:
+            print("No template or template_file specified ")
+            sys.exit(1)
+
         vals = data['values']
+
+        if data.get('cartesian_product', False):
+            prod = list(itertools.product(*vals))
+            vals = [x[0] + x[1] for x in prod]
 
     test_dir = os.path.join(tests_dir, 'generated', name)
 
     if not os.path.isdir(test_dir):
         os.makedirs(test_dir, exist_ok=True)
 
-    for val in vals:
-        test_file = os.path.join(test_dir, fname.format(*val))
+    for idx, val in enumerate(vals):
+        test_file = os.path.join(test_dir, fname.format(*val, idx))
         with open(test_file, "w") as wf:
-            wf.write(templ.format(*val))
+            wf.write(templ.format(*val, idx))

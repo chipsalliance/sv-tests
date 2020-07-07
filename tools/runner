@@ -3,6 +3,7 @@
 import os
 import re
 import sys
+import json
 import shutil
 import logging
 import argparse
@@ -41,8 +42,11 @@ logger.addHandler(ch)
 
 runner_obj = None
 
+if 'RUNNERS_DIR' in os.environ:
+    sys.path.insert(1, os.path.abspath(os.environ['RUNNERS_DIR']))
+
 try:
-    module = import_module('runners.' + args.runner)
+    module = import_module(args.runner)
     runner_cls = getattr(module, args.runner)
     runner_obj = runner_cls()
 except Exception as e:
@@ -53,8 +57,10 @@ dirs = {}
 
 try:
     dirs['out'] = os.environ['OUT_DIR']
+    dirs['conf'] = os.environ['CONF_DIR']
     dirs['tests'] = os.environ['TESTS_DIR']
     dirs['runners'] = os.environ['RUNNERS_DIR']
+    dirs['third_party'] = os.environ['THIRD_PARTY_DIR']
 except KeyError as e:
     logger.error("Required environment variables missing: {}".format(str(e)))
     sys.exit(1)
@@ -75,12 +81,20 @@ if args.version:
 
     sys.exit(0)
 
+libs_json = os.path.join(dirs['conf'], 'runners', 'libs.json')
+
+with open(libs_json, 'r') as jf:
+    try:
+        libs = json.load(jf)
+    except JSONDecodeError as e:
+        libs = {}
+
 test = os.path.abspath(os.path.join(dirs['tests'], args.test))
 
 # In addition to these fixed names, "runner_<tool>_flags" is allowed
 supported_test_params = [
     "name", "tags", "description", "files", "incdirs", "top_module", "timeout",
-    "type", "should_fail", "should_fail_because"
+    "type", "should_fail", "should_fail_because", "defines"
 ]
 
 test_params = {}
@@ -122,6 +136,7 @@ try:
                 'should_fail',
                 ("0", "1")["should_fail_because" in test_params.keys()])
             test_params.setdefault('should_fail_because', "")
+            test_params.setdefault('defines', "")
 
             if len(set(supported_test_params) - set(test_params.keys())) != 0:
                 missing = list(
@@ -158,6 +173,19 @@ if test_params['mode'] is None:
         f.write("")  # runner does not support mode; just mark file as handled.
 
     sys.exit(0)
+
+for key in libs.keys():
+    if key in test_params['tags']:
+        test_params['files'] = [
+            os.path.abspath(os.path.join(dirs['third_party'], p))
+            for p in libs[key]['files']
+        ] + test_params['files']
+        test_params['incdirs'] = [
+            os.path.abspath(os.path.join(dirs['third_party'], p))
+            for p in libs[key]['incdirs']
+        ] + test_params['incdirs']
+
+test_params['defines'] = test_params['defines'].split()
 
 try:
     tmp_dir = tempfile.mkdtemp()
@@ -200,6 +228,7 @@ try:
 
     test_params['files'] = ' '.join(test_params['files'])
     test_params['incdirs'] = ' '.join(test_params['incdirs'])
+    test_params['defines'] = ' '.join(test_params['defines'])
 
     with open(out, "w") as log:
         # start by writing params

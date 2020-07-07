@@ -10,10 +10,6 @@ class Verilator(BaseRunner):
 
         self.url = "https://verilator.org"
 
-    def get_version_cmd(self):
-        # Scripts like Verilator require calling through SHELL
-        return [os.getenv("SHELL"), self.executable, "--version"]
-
     def prepare_run_cb(self, tmp_dir, params):
         mode = params['mode']
         conf = os.environ['CONF_DIR']
@@ -25,11 +21,10 @@ class Verilator(BaseRunner):
         build_exe = 'vmain'
 
         with open(scr, 'w') as f:
+            f.write('set -x\n')
             f.write('{0} $@ || exit $?\n'.format(self.executable))
             if mode == 'simulation':
-                f.write(
-                    'make -C {} -f Vtop.mk > /dev/null 2>&1\n'.format(
-                        build_dir))
+                f.write('make -C {} -f Vtop.mk\n'.format(build_dir))
                 f.write('./vbuild/{}'.format(build_exe))
 
         # verilator executable is a script but it doesn't
@@ -63,7 +58,12 @@ class Verilator(BaseRunner):
             ]
             self.cmd.append('vmain.cpp')
 
+
         if 'runner_verilator_flags' in params:
             self.cmd += [params['runner_verilator_flags']]
+
+        for define in params['defines']:
+            self.cmd.append('-D' + define)
+
 
         self.cmd += params['files']

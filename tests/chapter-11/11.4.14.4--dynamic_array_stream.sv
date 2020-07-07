@@ -23,9 +23,9 @@ initial begin
 	i_data = new[5];
 	i_crc = 42;
 
-	pkt = {<< byte{i_header, i_len, i_data, i_crc}};
+	pkt = {<< 8 {i_header, i_len, i_data, i_crc}};
 
-	{<< byte{o_header, o_len, o_data with [0 +: o_len], o_crc}} = pkt;
+	{<< 8 {o_header, o_len, o_data, o_crc}} = pkt;
 end
 
 endmodule

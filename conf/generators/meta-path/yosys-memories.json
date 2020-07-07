@@ -1,7 +1,6 @@
 {
 	"name": "memories",
 	"project": "yosys",
-	"should_fail": "0",
 	"paths": [
 		["tools", "yosys", "tests", "memories"]
 	],

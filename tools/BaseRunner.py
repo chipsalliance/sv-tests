@@ -3,6 +3,7 @@ import resource
 import shutil
 import signal
 import subprocess
+import os
 import re
 
 
@@ -33,10 +34,10 @@ class BaseRunner:
     to be detected and launched by the Makefile.
     """
     def __init__(
-        self,
-        name,
-        executable=None,
-        supported_features={'preprocessing', 'parsing', 'simulation'}):
+            self,
+            name,
+            executable=None,
+            supported_features={'preprocessing', 'parsing', 'simulation'}):
         """Base runner class constructor
         Arguments:
         name -- runner name.
@@ -107,20 +108,32 @@ class BaseRunner:
             stdout=subprocess.PIPE,
             stderr=subprocess.STDOUT)
 
+        timeout = int(params['timeout'])
+        if 'DISABLE_TEST_TIMEOUTS' in os.environ:
+            timeout = None
+        else:
+            try:
+                timeout = int(os.environ['OVERRIDE_TEST_TIMEOUTS'])
+            except KeyError:
+                # continue with timeout from params
+                pass
+            except ValueError:
+                return ("Invalid OVERRIDE_TEST_TIMEOUTS value", 1)
+
         try:
-            log, _ = proc.communicate(timeout=int(params['timeout']))
+            log, _ = proc.communicate(timeout=timeout)
             returncode = proc.returncode
         except subprocess.TimeoutExpired:
             kill_child_processes(proc.pid)
             proc.kill()
             proc.communicate()
-            log = ("Timeout: > " + params['timeout'] + "s").encode('utf-8')
+            log = ("Timeout: > " + str(timeout) + "s").encode('utf-8')
             returncode = 1
 
         invocation_log = " ".join(self.cmd) + "\n"
 
         return (
-            invocation_log + self.transform_log(log.decode('utf-8')),
+            invocation_log + self.transform_log(log.decode('utf-8', 'ignore')),
             returncode)
 
     def is_success_returncode(self, rc, params):

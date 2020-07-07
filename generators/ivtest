@@ -10,8 +10,8 @@ templ = """/*
 :description: Test imported from ivtest
 :files: {1}
 :incdirs: {4}
-:should_fail: {2}
 :tags: ivtest
+{2}
 {3}
 {5}
 */
@@ -35,11 +35,10 @@ type_should_fail = ['CE', 'RE']
 
 ivtest_exclude = [
     'regress-vams.list', 'regress-vhdl.list', 'vhdl_regress.list',
-    'vpi_regress.list'
+    'vpi_regress.list', 'regress-ivl1.list'
 ]
 
 ivtest_blacklist = [
-    'sv_casting',
     'andnot1',  # ref is keyword
     'automatic_error11',  # local is keyword
     'automatic_error12',  # local is keyword
@@ -51,8 +50,9 @@ ivtest_blacklist = [
     'br937',  # expect is keyword
     'br974c',  # reg and logic is exclusive
     'br988',  # generate_item can't have begin/end
-    'br_gh72b',  # should_fail test
     'br_gh115',  # bit is keyword
+    'br_gh72b',  # should_fail test
+    'ca_time_iv',  # IV only $simtime
     'case3',  # '@ *' is invalid event_control ( '@*' or '@ (*)' is valid )
     'case5',  # bit is keyword
     'case5synfail',  # bit is keyword
@@ -60,8 +60,11 @@ ivtest_blacklist = [
     'case7',  # bit is keyword
     'compare_bool_reg',  # reg can't have type
     'condit1',  # bit is keyword
+    'constfunc6_iv',  # IV only $abs, $min, $max
     'constfunc8',  # reg can't have type
     'delay_var',  # int is keyword
+    'deposit_iv',  # IV only $deposit
+    'deposit_wire_iv',  # IV only $deposit
     'display_bug',  # [2] is invalid range
     'drive_strength3',  # bit is keyword
     'elsif_test',  # ifdef must have text_macro_identifier
@@ -71,12 +74,15 @@ ivtest_blacklist = [
     'fread',  # string is keyword
     'gencrc',  # bit is keyword
     'generate_multi_loop',  # bit is keyword
+    'ivlh_textio_iv',  # IV only $ivlh_file_open
     'macro_str_esc',  # `` is invalid macro usage
     'macro_with_args',  # `` is invalid macro usage
     'memsynth3',  # bit is keyword
     'nb_assign',  # var is keyword
     'nb_ec_pv2',  # bit is keyword
     'no_if_statement',  # var is keyword
+    'nonpolymorphicabs_iv',  # IV only AMS $abs
+    'plus_arg_string_iv',  # IV only $finish_and_return
     'pow_ca_signed',  # expect is keyword
     'pow_ca_unsigned',  # expect is keyword
     'pow_reg_signed',  # expect is keyword
@@ -87,6 +93,7 @@ ivtest_blacklist = [
     'pr639',  # `` is invalid macro usage
     'pr1467825',  # `suppress_faults is not valid directive
     'pr1478121',  # do is keyword
+    'pr1494799_iv',  # IV only $is_signed
     'pr1676071',  # bit is keyword
     'pr1698820',  # var is keyword
     'pr1716276',  # empty parameter is invalid
@@ -112,6 +119,8 @@ ivtest_blacklist = [
     'pr2305307',  # expect is keyword
     'pr2305307b',  # expect is keyword
     'pr2470181b',  # bit is keyword
+    'pr2509349a_iv',  # IV only $readmempath
+    'pr2509349b_iv',  # IV only $readmempath
     'pr2790236',  # non-ANSI port can't have assignment
     'pr2824189',  # var is keyword
     'pr2834340',  # pulldown can't have multiple terminal
@@ -121,6 +130,7 @@ ivtest_blacklist = [
     'pr2986497',  # var is keyword
     'pr3194155',  # parameter_value_assignment must have paren
     'pr3197861',  # var is keyword
+    'pr3270320_iv',  # IV only $abs
     'pr3477107',  # expect is keyword
     'pr3539372',  # empty initial
     'real8',  # reg can't have type
@@ -129,6 +139,7 @@ ivtest_blacklist = [
     'sf1289',  # foreach must have statement, not statement_or_null
     'signed13',  # var is keyword
     'signed_net_display',  # expect is keyword
+    'simparam_iv',  # IV only $simparam
     'size_cast2',  # reg and logic is exclusive
     'specify_01',  # parallel_path_description can't have multiple input terminal
     'sqrt32',  # bit is keyword
@@ -136,6 +147,8 @@ ivtest_blacklist = [
     'struct_packed_array',  # reg can't have type
     'sv2valnets',  # reg and bit is exclusive
     'sv_array_assign_pattern2',  # '{} is invalid
+    'sv_cast_darrayv10_iv',  # IV only $ivl_darray_method
+    'sv_casting',
     'sv_darray_args1',  # '{} is invalid
     'sv_darray_args2',  # '{} is invalid
     'sv_darray_args2b',  # '{} is invalid
@@ -143,13 +156,15 @@ ivtest_blacklist = [
     'sv_darray_args4',  # '{} is invalid
     'sv_wildcard_import2',  # event_trigger can't have package_scope
     'sv_wildcard_import3',  # event_trigger can't have package_scope
-    'test_va_math',  # constants.vams is not found
+    'swrite_iv',  # IV only $simtime
     'tern7',  # ref is keyword
+    'test_va_math',  # constants.vams is not found
     'undef',  # undefined macro behaviour is ambiguous
     'urand',  # var is keyword
+    'urand_r',  # var is keyword
     'urand_r2',  # var is keyword
     'urand_r3',  # var is keyword
-    'urand_r',  # var is keyword
+    'warn_opt_sys_tf_iv',  # IV only $getpattern
     'wildsense',  # '@ *' is invalid event_control ( '@*' or '@ (*)' is valid )
     'wiresl2',  # bit is keyword
     'z1',  # parameter_value_assignment must have paren
@@ -192,7 +207,7 @@ for l in ivtest_lists:
 
             name = line[0]
             path = os.path.join(ivtest_dir, line[2], line[0] + '.v')
-            should_fail = 0
+            should_fail_because = ''
 
             # sanitize name
             name = re.sub(r'\W', '', name)
@@ -203,7 +218,7 @@ for l in ivtest_lists:
             type_ = ''
             for t in type_should_fail:
                 if re.match(t, line[1]):
-                    should_fail = 1
+                    should_fail_because = ':should_fail_because: this test was imported from ivtest and is designed to fail'
                     type_ = ':type: simulation'
 
             timeout = ''
@@ -212,8 +227,8 @@ for l in ivtest_lists:
 
             tests.append(
                 (
-                    name + '_iv', path, should_fail, type_, ' '.join(incdirs),
-                    timeout))
+                    name + '_iv', path, should_fail_because, type_,
+                    ' '.join(incdirs), timeout))
 
 test_dir = os.path.join(tests_dir, 'generated', tests_subdir)
 

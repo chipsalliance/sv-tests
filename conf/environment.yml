@@ -11,10 +11,14 @@ dependencies:
 #  - surelog
 #  - sv-parser
 #  - tree-sitter-verilog
+#  - uhdm-integration-verilator
+#  - uhdm-integration-yosys
 #  - verible
 #  - verilator
 #  - yosys
 #  - zachjs-sv2v
+  - ccache
+  - python=3.7
   - pip
   - pip:                            # Packages installed from PyPI
     - -r file:requirements.txt

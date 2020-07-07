@@ -8,10 +8,10 @@
 module top();
 
 initial begin
-	logic [3:0] val0 = 32'b000x;
-	logic [3:0] val1 = 32'b000z;
-	logic [3:0] val2 = 32'b00xz;
-	logic [3:0] val3 = 32'b0000;
+	parameter [3:0] val0 = 4'b000x;
+	parameter [3:0] val1 = 4'b000z;
+	parameter [3:0] val2 = 4'b00xz;
+	parameter [3:0] val3 = 4'b0000;
 	$display(":assert: (%d == 1)", $isunknown(val0));
 	$display(":assert: (%d == 1)", $isunknown(val1));
 	$display(":assert: (%d == 1)", $isunknown(val2));

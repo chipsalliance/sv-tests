@@ -10,7 +10,7 @@ int b = {"E", "F", "G", "H"};
 logic [63:0] c;
 
 initial begin
-	c = {>> byte {a, b}};
+	c = {>> 8 {a, b}};
 end
 
 endmodule

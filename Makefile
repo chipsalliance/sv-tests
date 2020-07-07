@@ -1,11 +1,11 @@
 all: report
 
-OUT_DIR=./out/
-CONF_DIR=./conf
-TESTS_DIR=./tests
-RUNNERS_DIR=./tools/runners
-THIRD_PARTY_DIR=./third_party
-GENERATORS_DIR=./generators
+OUT_DIR ?= ./out/
+CONF_DIR ?= ./conf
+TESTS_DIR ?= ./tests
+RUNNERS_DIR ?= ./tools/runners
+THIRD_PARTY_DIR ?= ./third_party
+GENERATORS_DIR ?= ./generators
 
 USE_CGROUP := ${USE_CGROUP}
 
@@ -15,6 +15,14 @@ export THIRD_PARTY_DIR
 export TESTS_DIR
 export RUNNERS_DIR
 export GENERATORS_DIR
+
+ifneq ($(DISABLE_TEST_TIMEOUTS),)
+export DISABLE_TEST_TIMEOUTS
+endif
+
+ifneq ($(OVERRIDE_TEST_TIMEOUTS),)
+export OVERRIDE_TEST_TIMEOUTS
+endif
 
 include tools/runners.mk
 
@@ -49,7 +57,7 @@ RUNNER_PARAM := --quiet
 endif
 
 $(OUT_DIR)/logs/$(1)/$(2).log: $(TESTS_DIR)/$(2) | $(1)-cg
-	$$(RUNNER) --runner $(1) --test $(2) --out $(OUT_DIR)/logs/$(1)/$(2).log $(RUNNER_PARAM)
+	RUNNERS_DIR=$(RUNNERS_DIR) $$(RUNNER) --runner $(1) --test $(2) --out $(OUT_DIR)/logs/$(1)/$(2).log $(RUNNER_PARAM)
 
 tests: $(OUT_DIR)/logs/$(1)/$(2).log
 
@@ -91,7 +99,7 @@ endef
 RUNNERS_FOUND := $(wildcard $(RUNNERS_DIR)/*.py)
 RUNNERS_FOUND := $(RUNNERS_FOUND:$(RUNNERS_DIR)/%=%)
 RUNNERS_FOUND := $(basename $(RUNNERS_FOUND))
-RUNNERS := $(shell OUT_DIR=$(OUT_DIR) ./tools/check-runners $(RUNNERS_FOUND))
+RUNNERS := $(shell OUT_DIR=$(OUT_DIR) RUNNERS_DIR=$(RUNNERS_DIR) ./tools/check-runners $(RUNNERS_FOUND))
 TESTS := $(shell find $(TESTS_DIR) -type f -iname *.sv)
 TESTS := $(TESTS:$(TESTS_DIR)/%=%)
 GENERATORS := $(wildcard $(GENERATORS_DIR)/*)

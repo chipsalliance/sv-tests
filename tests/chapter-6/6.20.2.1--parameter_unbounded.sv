@@ -8,5 +8,5 @@ module top();
 	wire clk = 0;
 	wire [31:0] a;
 
-	always @(posedge clk) a[0:p] = 23;
+	always @(posedge clk) a[p:0] = 23;
 endmodule

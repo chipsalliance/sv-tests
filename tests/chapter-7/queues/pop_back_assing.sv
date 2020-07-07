@@ -11,7 +11,7 @@ int r;
 
 initial begin
 	q = { 2, 3, 4 };
-	r = q[$-1];
+	r = q[$];
 	q = q[0:$-1]; // void'(q.pop_back()) or q.delete(q.size-1)
 	$display(":assert: (%d == 2)", q.size);
 	$display(":assert: (%d == 4)", r);

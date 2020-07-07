@@ -10,17 +10,14 @@
 <pre class="{{status}}">
 description: {{description|e}}
 rc: {{rc|e}} (means success: {{tool_success|e}})
-{% if should_fail_because|length %}
 should_fail_because: {{should_fail_because|e}}
-{% else %}
-should_fail: {{should_fail|e}}
-{% endif %}
 tags: {{tags|e}}
 incdirs: {{incdirs|e}}
 top_module: {{top_module|e}}
 type: {{type|e}}
 mode: {{mode|e}}
 files: {{file_urls}}
+defines: {{defines|e}}
 time_elapsed: {{'%0.3f'| format(time_elapsed|float)}}s
 ram usage: {{'%d'| format(ram_usage|int)}} KB
 </pre>

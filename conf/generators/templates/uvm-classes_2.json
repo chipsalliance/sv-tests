@@ -1,0 +1,27 @@
+{
+	"name": "uvm_classes_2",
+	"filename": "{0}_class_2.sv",
+	"template": [
+		"/*",
+		":name: {0}_2",
+		":description: {0} class test",
+		":tags: uvm uvm-classes",
+		":type: parsing",
+		"*/",
+		"import uvm_pkg::*;",
+		"`include \"uvm_macros.svh\"\n",
+
+		"class C extends {0};",
+		"endclass"
+	],
+	"values": [
+		["uvm_agent"],
+		["uvm_component"],
+		["uvm_driver"],
+		["uvm_env"],
+		["uvm_monitor"],
+		["uvm_sequencer"],
+		["uvm_scoreboard"],
+		["uvm_test"]
+	]
+}

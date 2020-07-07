@@ -1,0 +1,51 @@
+/*
+:name: in-line_random_variable-control_0
+:description: in-line random variable control test
+:tags: 18.11 uvm
+*/
+
+import uvm_pkg::*;
+`include "uvm_macros.svh"
+
+class a;
+    rand int x = 0, y = 0;
+    int v = 0, w = 0;
+    constraint c { x < v && y > w; };
+endclass
+
+
+class env extends uvm_env;
+
+  a obj = new;
+
+  function new(string name, uvm_component parent = null);
+    super.new(name, parent);
+  endfunction
+  
+  task run_phase(uvm_phase phase);
+    phase.raise_objection(this);
+    begin
+      /* random variables: v, w state variables: x, y */
+      obj.randomize(v, w);
+
+      if(obj.x == 0 && obj.y == 0) begin
+        `uvm_info("RESULT", $sformatf("obj.x = %0d obj.v = %0d obj.y = %0d obj.w = %0d SUCCESS", obj.x, obj.v, obj.y, obj.w), UVM_LOW);
+      end else begin
+        `uvm_error("RESULT", $sformatf("obj.x = %0d obj.v = %0d obj.y = %0d obj.w = %0d FAILED", obj.x, obj.v, obj.y, obj.w));
+      end
+    end
+    phase.drop_objection(this);
+  endtask: run_phase
+  
+endclass
+
+module top;
+
+  env environment;
+
+  initial begin
+    environment = new("env");
+    run_test();
+  end
+  
+endmodule

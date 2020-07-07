@@ -1,0 +1,34 @@
+{
+	"name": "logical_operators_sim",
+	"filename": "11.4.7--logical_operator_{4}.sv",
+	"template": [
+		"/*",
+		":name: logical_operator_sim_{4}",
+		":description: logical operator test in simulation",
+        ":type: simulation parsing",
+		":tags: 11.4.7",
+		"*/",
+		"module top();",
+		"wire a;",
+		"wire b;",
+		"wire c;",
+		"assign a = {0};",
+		"assign b = {1};",
+		"assign c = a {2} b;",
+		"initial begin",
+		"    $display(\":assert: ((%s) == %d)\", \"{0} {3} {1}\", c);",
+		"end",
+		"endmodule"
+	],
+    "cartesian_product": "true",
+	"values": [[
+        ["0", "0"],
+        ["0", "1"],
+        ["1", "0"],
+        ["1", "1"]
+	],
+    [
+		["&&", "and"],
+		["||", "or"]
+    ]]
+}
