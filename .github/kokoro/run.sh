@@ -38,7 +38,8 @@ echo "Running tests"
 echo "----------------------------------------"
 (
 	set +x +e
-	export USE_CGROUP=sv-tests
+	#export USE_CGROUP=sv-tests
+	free -h   # Let's see how much memory we have
 	source "$HOME/miniconda/etc/profile.d/conda.sh"
 	hash -r
 	conda activate sv-test-env
