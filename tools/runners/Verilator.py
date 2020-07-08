@@ -58,6 +58,9 @@ class Verilator(BaseRunner):
             ]
             self.cmd.append('vmain.cpp')
 
+        if 'runner_verilator_flags' in params:
+            self.cmd += [params['runner_verilator_flags']]
+
         for define in params['defines']:
             self.cmd.append('-D' + define)
 
