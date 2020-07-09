@@ -38,8 +38,11 @@ echo "Running tests"
 echo "----------------------------------------"
 (
 	set +x +e
-	#export USE_CGROUP=sv-tests
-	free -h   # Let's see how much memory we have
+	# Limit per runner memory to a fraction of the physically available memory as
+	# there is no swap, but we don't want it to OOM the toplevel make process
+	export USE_CGROUP=sv-tests
+	export CGROUP_MAX_MEMORY=$(free -b | awk '/Mem:/ { printf("%.0f", $2 * 0.7);}')
+
 	source "$HOME/miniconda/etc/profile.d/conda.sh"
 	hash -r
 	conda activate sv-test-env
