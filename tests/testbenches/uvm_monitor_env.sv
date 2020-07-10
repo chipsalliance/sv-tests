@@ -3,6 +3,7 @@
 :description: uvm monitor + env test
 :tags: uvm uvm-classes
 :type: simulation parsing
+:timeout: 30
 */
 
 import uvm_pkg::*;

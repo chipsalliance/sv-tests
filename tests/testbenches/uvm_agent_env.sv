@@ -3,6 +3,7 @@
 :description: uvm agent + env test
 :tags: uvm uvm-agents
 :type: simulation parsing
+:timeout: 30
 */
 
 import uvm_pkg::*;

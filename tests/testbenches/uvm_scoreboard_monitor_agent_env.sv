@@ -3,6 +3,7 @@
 :description: uvm scoreboard + monitor + agent + env test
 :tags: uvm uvm-scoreboards
 :type: simulation parsing
+:timeout: 30
 */
 
 import uvm_pkg::*;
