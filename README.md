@@ -12,6 +12,12 @@ Initialize the submodules:
 $ git submodule update --init --recursive
 ```
 
+Install all the python dependencies:
+
+```
+pip3 install --user conf/requirements.txt
+```
+
 Build tools (optional, tools from `PATH` can be used):
 
 ```
