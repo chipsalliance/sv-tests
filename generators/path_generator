@@ -38,6 +38,8 @@ for cfg in glob.glob(os.path.join(conf_dir, 'generators', 'meta-path',
         if 'should_fail_because' in data:
             should_fail_because = ':should_fail_because: ' + data[
                 'should_fail_because']
+        else:
+            should_fail_because = ''
         paths = data['paths']
         matches = data['matches']
         blacklist = data.get('blacklist', [''])
