@@ -12,6 +12,10 @@ table.dataTable tfoot th {
   border-top: 0px;
 }
 
+.report_footer {
+  outline: 2px solid #505050;
+}
+
 .report_table_tag {
   text-align: left;
   width: 8em;
@@ -29,6 +33,9 @@ table.dataTable tfoot th {
 tfoot .report_table_result {
   font-weight: normal !important;
   text-align: right;
+  border: 1px;
+  border-color: #505050;
+  border-style: none none solid solid;
 }
 
 .report_summary_row {
