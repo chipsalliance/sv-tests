@@ -404,9 +404,12 @@ def collect_logs(runner_name):
             elif all(tags[tag]["status"][0] == x for x in tags[tag]["status"]):
                 tags[tag]["status"] = tags[tag]["status"][0]
             else:
-                passed_percentage = 100.0 * passed_count / len(tags[tag]["status"])
+                passed_percentage = 100.0 * passed_count / len(
+                    tags[tag]["status"])
                 tags[tag]["status"] = "test-varied"
-                tags[tag]["optional_style"] = " style='background-size: {}% 100%'".format(passed_percentage)
+                tags[tag][
+                    "optional_style"] = " style='background-size: {:.1f}% 100%'".format(
+                        passed_percentage)
 
     if runner_data["passed_time"] == 0:
         runner_data["passed_throughput"] = 0
