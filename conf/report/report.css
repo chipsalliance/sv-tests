@@ -79,7 +79,11 @@ tfoot .report_table_result {
   background-color: #89E894;
 }
 .test-varied {
-  background-color: #ffd761;
+  background-color: #ff6961;
+  /* a single green pixel with color #89e894 that we use to make a variable background 'bargraph' */
+  background-image:url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAIAAACQd1PeAAAADElEQVQI12PoejEFAAQGAgeVHl+AAAAAAElFTkSuQmCC');
+  background-repeat:no-repeat;
+  background-size: 100% 100%;
 }
 .test-na {
   background-color: #cfcece;
