@@ -3,6 +3,7 @@
 :description: passive uvm_agent (agent + monitor + env) test
 :tags: uvm uvm-agents
 :type: simulation parsing
+:timeout: 30
 */
 
 import uvm_pkg::*;
