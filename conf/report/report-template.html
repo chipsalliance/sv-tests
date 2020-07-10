@@ -119,13 +119,13 @@
           <th class="report_summary_header" colspan="2"> Total tests passed </th>
 
           {% for tool, tooldata in report|dictsort %}
-          <th class="report_table_result" title="{{ tool.lower() }}" > {{ report[tool]["total"]["tests"] }}/{{ report[tool]["tests"].keys()|length }}</th>
+          <th class="report_table_result test-varied" style='background-size: {{'%0.0f'| format(100.0 * report[tool]["total"]["tests"] / report[tool]["tests"].keys()|length)}}%;' title="{{ tool.lower() }} ({{'%0.0f'| format(100.0 * report[tool]["total"]["tests"] / report[tool]["tests"].keys()|length)}}%)" > {{ report[tool]["total"]["tests"] }}/{{ report[tool]["tests"].keys()|length }}</th>
           {% endfor %}
         </tr>
         <tr class="report_summary_row">
           <th class="report_summary_header" colspan="2"> Total tags passed </th>
           {% for tool, tooldata in report|dictsort %}
-          <th class="report_table_result" title="{{ tool.lower() }}" > {{ report[tool]["total"]["tags"]}}/{{ report[tool]["total"]["tested_tags"]}}</th>
+          <th class="report_table_result test-varied" style='background-size: {{'%0.0f'| format(100.0 * report[tool]["total"]["tags"] / report[tool]["total"]["tested_tags"])}}%;' title="{{ tool.lower() }} ({{'%0.0f'| format(100.0 * report[tool]["total"]["tags"] / report[tool]["total"]["tested_tags"])}}%)" > {{ report[tool]["total"]["tags"]}}/{{ report[tool]["total"]["tested_tags"]}}</th>
           {% endfor %}
         </tr>
         <tr class="report_summary_row">
