@@ -334,8 +334,10 @@ def collect_logs(runner_name):
                     "Skipping {} on {}: {}".format(t, runner_name, str(e)))
                 del tests[t_id]
                 continue
+
             tests[t_id]["log"] = f.read()
             tests[t_id]["fname"] = os.path.join('logs', t_id + '.html')
+            tests[t_id]["input_size"] = totalSize(tests[t_id])
 
             tool_should_fail = tests[t_id]["should_fail"] == "1"
             tool_rc = int(tests[t_id]["rc"])
@@ -356,7 +358,7 @@ def collect_logs(runner_name):
             tests[t_id]["first_file"] = logToHTML(t, t_html, tests[t_id])
 
             if tests[t_id]["status"] == "test-passed":
-                test_file_size = float(totalSize(tests[t_id]))
+                test_file_size = float(tests[t_id]["input_size"])
                 if test_file_size > minimum_throughput_file_size:
                     runner_data["passed_time"] += float(
                         tests[t_id]["time_elapsed"])
@@ -444,32 +446,48 @@ for tag in tag_usage:
     if not tag_usage[tag]:
         del database[tag]
 
-csv_header = ['name', 'files', 'tags']
+# CamelCase or undscore_separator csv headers ?
+# We use CamelCase so that gnuplot getting header from CSVdisplays them
+# as-is and doesn't print the post-underscore letter a subscript.
+csv_header = [
+    'TestName',
+    'Tool',  # Parser/Compiler/Tool processing it
+    'Pass',  # result facts
+    'Tags',
+    'InputBytes',  # test facts
+    'ExitCode',  # exit code
+    'AllowedTimeout',  # Some measurements
+    'TimeUser',
+    'TimeSystem',
+    'TimeWall',
+    'RamUsageMiB'
+]
+
 csv_output = {}
 duplicates = []
 
-for r in data:
-    csv_header.append(r)
-    for test in data[r]["tests"]:
-        test_handle = data[r]["tests"][test]
+for runner in data:
+    for test in data[runner]["tests"]:
+        test_handle = data[runner]["tests"][test]
         name = test_handle["name"]
-        files = getRelativePaths(test_handle["files"])
 
-        try:
-            if csv_output[name]["files"] != files:
-                logger.error(
-                    "Duplicate test: {}, first use: {}, second: {}".format(
-                        name, csv_output[name]["files"], files))
-                if name not in duplicates:
-                    duplicates.append(name)
-            else:
-                csv_output[name][r] = test_handle["status"] == "test-passed"
-        except KeyError:
-            csv_output[name] = {}
-            csv_output[name]["name"] = test_handle["name"]
-            csv_output[name]["files"] = files
-            csv_output[name]["tags"] = test_handle["tags"]
-            csv_output[name][r] = test_handle["status"] == "test-passed"
+        csv_output[name + runner] = {}
+        csv_output[name + runner]["TestName"] = test_handle["name"]
+        csv_output[name + runner]["Tool"] = runner
+        csv_output[name +
+                   runner]["Pass"] = test_handle["status"] == "test-passed"
+        csv_output[name + runner]["Tags"] = test_handle["tags"]
+        csv_output[name + runner]["InputBytes"] = test_handle["input_size"]
+        csv_output[name + runner]["ExitCode"] = test_handle["rc"]
+        csv_output[name + runner]["AllowedTimeout"] = test_handle["timeout"]
+        csv_output[name + runner]["TimeUser"] = round(
+            float(test_handle["user_time"]), 6)
+        csv_output[name + runner]["TimeSystem"] = round(
+            float(test_handle["system_time"]), 3)
+        csv_output[name + runner]["TimeWall"] = round(
+            float(test_handle["time_elapsed"]), 3)
+        csv_output[name + runner]["RamUsageMiB"] = round(
+            float(test_handle["ram_usage"]) / 1024, 3)
 
 if len(duplicates) > 0:
     criticalError("Unable to generate report, duplicate test names")
