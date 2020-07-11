@@ -12,10 +12,11 @@ Initialize the submodules:
 $ git submodule update --init --recursive
 ```
 
-Install all the python dependencies:
+Install all the python dependencies and make sure the installed binaries can be called.
 
-```
-pip3 install --user conf/requirements.txt
+```bash
+pip3 install --user -r conf/requirements.txt
+export PATH=~/.local/bin:$PATH
 ```
 
 Build tools (optional, tools from `PATH` can be used):
@@ -51,7 +52,7 @@ After creating a new test case it must be correctly tagged:
 * `name` - must be unique and should be directly related to what the test case covers.
 * `description` - should provide a short description that will be visible in the report page.
 * `should_fail_because` - must be used if the test is expected to fail and should contain the reason of failure.
-* `files` - is a list of files used by this test case, can be omitted to use only the main file with metadata. 
+* `files` - is a list of files used by this test case, can be omitted to use only the main file with metadata.
 * `incdirs` - can be used to provide a list of include directories, can be omitted to use only the default ones.
 * `top_module` - optional, allows to specify which module is the top one.
 * `tags` - tag must be used to specify which part of SystemVerilog specification this test case covers.
