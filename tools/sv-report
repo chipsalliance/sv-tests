@@ -447,7 +447,7 @@ for tag in tag_usage:
         del database[tag]
 
 # CamelCase or undscore_separator csv headers ?
-# We use CamelCase so that gnuplot getting header from CSVdisplays them
+# We use CamelCase so that gnuplot getting header from CSV displays them
 # as-is and doesn't print the post-underscore letter a subscript.
 csv_header = [
     'TestName',
