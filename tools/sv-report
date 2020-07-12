@@ -483,9 +483,9 @@ for runner in data:
         csv_output[unique_row]["TimeUser"] = round(
             float(test_handle["user_time"]), 6)
         csv_output[unique_row]["TimeSystem"] = round(
-            float(test_handle["system_time"]), 3)
+            float(test_handle["system_time"]), 6)
         csv_output[unique_row]["TimeWall"] = round(
-            float(test_handle["time_elapsed"]), 3)
+            float(test_handle["time_elapsed"]), 6)
         csv_output[unique_row]["RamUsageMiB"] = round(
             float(test_handle["ram_usage"]) / 1024, 3)
 
