@@ -452,10 +452,10 @@ for tag in tag_usage:
 csv_header = [
     'TestName',
     'Tool',  # Parser/Compiler/Tool processing it
-    'Pass',  # result facts
+    'Pass',  # result. True if we got expected result.
+    'ExitCode',  # Actual tool exit code
     'Tags',
     'InputBytes',  # test facts
-    'ExitCode',  # exit code
     'AllowedTimeout',  # Some measurements
     'TimeUser',
     'TimeSystem',
@@ -476,9 +476,9 @@ for runner in data:
         csv_output[name + runner]["Tool"] = runner
         csv_output[name +
                    runner]["Pass"] = test_handle["status"] == "test-passed"
+        csv_output[name + runner]["ExitCode"] = test_handle["rc"]
         csv_output[name + runner]["Tags"] = test_handle["tags"]
         csv_output[name + runner]["InputBytes"] = test_handle["input_size"]
-        csv_output[name + runner]["ExitCode"] = test_handle["rc"]
         csv_output[name + runner]["AllowedTimeout"] = test_handle["timeout"]
         csv_output[name + runner]["TimeUser"] = round(
             float(test_handle["user_time"]), 6)
