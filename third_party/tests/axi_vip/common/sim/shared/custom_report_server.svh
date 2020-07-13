@@ -137,109 +137,8 @@ class custom_report_server extends
     return {prefix, " ", message};
   endfunction// : compose_message
 
-  // Function: summarize
-  //
-  // See <uvm_report_object::report_summarize> method.
-
-/* -----\/----- EXCLUDED -----\/-----
-  virtual function void summarize(UVM_FILE file=0);
-    string id;
-    string name;
-    string output_str;
-`ifndef UVM_1p1d
-  uvm_report_catcher::summarize();
-`else     
-    uvm_report_catcher::summarize_report_catcher(file);
-`endif
-     
-    f_display(file, "");
-    f_display(file, "--- UVM Report Summary ---");
-    f_display(file, "");
-
-    if (enable_report_id_count_summary) begin
-
-      f_display(file, "** Report counts by id");
-      for(int found = id_count.first(id);
-           found;
-           found = id_count.next(id)) begin
-        int cnt;
-        cnt = id_count[id];
-        $sformat(output_str, "[%s] %5d", id, cnt);
-        f_display(file, output_str);
-      end
-
-    end
-
-    if(get_max_quit_count() != 0) begin
-      if ( get_quit_count() >= get_max_quit_count() ) f_display(file, "Quit count reached!");
-      if (get_quit_count() == 0 ) f_display(file, $sformatf("\nSIMULATION PASS : QUIT COUNT == 0!"));
-      $sformat(output_str, "\nQuit count : %5d of %5d", get_quit_count(), get_max_quit_count());
-      f_display(file, output_str);
-    end
-
-    f_display(file, "** Report counts by severity");
-    for(uvm_severity_type s = s.first(); 1; s = s.next()) begin
-      int cnt;
-      cnt = get_severity_count(s);
-      name = s.name();
-      $sformat(output_str, "%s :%5d", name, cnt);
-      f_display(file, output_str);
-      if(s == s.last()) break;
-    end
-
-  endfunction
- -----/\----- EXCLUDED -----/\----- */
 endclass //: testbench_report_server_c
 
-
-/* -----\/----- EXCLUDED -----\/-----
-
-        
-class small_report_server extends uvm_report_server;
-     `uvm_object_utils(small_report_server)
-
-  function new(string name="small_report_server");
-      super.new();
-   endfunction// : new
-   
-   virtual function string compose_message( uvm_severity severity,
-                                            string name,
-                                            string id,
-                                            string message,
-                                            string filename,
-                                            int line );
-      uvm_severity_type severity_type = uvm_severity_type'( severity );
-      return $psprintf( "%-8s | %16s | %2d | %0t | %-21s | %-7s | %s",
-             severity_type.name(), filename, line, $time, name, id, message );
-   endfunction: compose_message
-endclass//: small_report_server
- -----/\----- EXCLUDED -----/\----- */
-
-/* -----\/----- EXCLUDED -----\/-----
-`define my_info(MSG, VERBOSITY) \
-      begin \
-         if(uvm_report_enabled(VERBOSITY,UVM_INFO,get_full_name())) \
-            uvm_report_info(get_full_name(), $sformatf MSG, 0, `uvm_file, `uvm_line); \
-      end
-
-`define my_err(MSG)         \
-      begin \
-         if(uvm_report_enabled(UVM_NONE,UVM_ERROR,get_full_name())) \
-            uvm_report_error(get_full_name(), $sformatf MSG, UVM_NONE, `uvm_file, `uvm_line); \
-      end
-
- `define my_warn(MSG)        \
-      begin \
-         if(uvm_report_enabled(UVM_NONE,UVM_WARNING,get_full_name())) \
-            uvm_report_warning(get_full_name(), $sformatf MSG, UVM_NONE, `uvm_file, `uvm_line); \
-      end
-
- `define my_fatal(MSG)       \
-      begin \
-         if(uvm_report_enabled(UVM_NONE,UVM_FATAL,get_full_name())) \
-            uvm_report_fatal(get_full_name(), $sformatf MSG, UVM_NONE, `uvm_file, `uvm_line); \
-      end
- -----/\----- EXCLUDED -----/\----- */
 `else
 class custom_report_server extends uvm_report_server;
   `uvm_object_utils(custom_report_server)
@@ -391,31 +290,6 @@ class small_report_server extends uvm_report_server;
    endfunction: compose_message
 endclass//: small_report_server
 
-/* -----\/----- EXCLUDED -----\/-----
-`define my_info(MSG, VERBOSITY) \
-      begin \
-         if(uvm_report_enabled(VERBOSITY,UVM_INFO,get_full_name())) \
-            uvm_report_info(get_full_name(), $sformatf MSG, 0, `uvm_file, `uvm_line); \
-      end
-
-`define my_err(MSG)         \
-      begin \
-         if(uvm_report_enabled(UVM_NONE,UVM_ERROR,get_full_name())) \
-            uvm_report_error(get_full_name(), $sformatf MSG, UVM_NONE, `uvm_file, `uvm_line); \
-      end
-
- `define my_warn(MSG)        \
-      begin \
-         if(uvm_report_enabled(UVM_NONE,UVM_WARNING,get_full_name())) \
-            uvm_report_warning(get_full_name(), $sformatf MSG, UVM_NONE, `uvm_file, `uvm_line); \
-      end
-
- `define my_fatal(MSG)       \
-      begin \
-         if(uvm_report_enabled(UVM_NONE,UVM_FATAL,get_full_name())) \
-            uvm_report_fatal(get_full_name(), $sformatf MSG, UVM_NONE, `uvm_file, `uvm_line); \
-      end
- -----/\----- EXCLUDED -----/\----- */
 
 `endif // !`ifdef UVM_POST_VERSION_1_1
 
