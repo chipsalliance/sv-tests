@@ -128,7 +128,7 @@ class BaseRunner:
             proc.kill()
             proc.communicate()
             log = ("Timeout: > " + str(timeout) + "s").encode('utf-8')
-            returncode = 1
+            returncode = 71  # 71meout :) - something easy to grep for
 
         invocation_log = " ".join(self.cmd) + "\n"
 
