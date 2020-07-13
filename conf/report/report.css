@@ -2,6 +2,15 @@ body {
   font-family: sans-serif;
 }
 
+.headline {
+    text-align: center;
+}
+
+.headline a {  /* Only subtly hint that this is a link */
+    color: #00006f;
+    text-decoration: none;
+}
+
 table.dataTable {
   width: auto;
   table-layout: fixed;

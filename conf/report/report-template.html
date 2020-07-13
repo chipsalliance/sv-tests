@@ -42,47 +42,9 @@
     }
   </style>
 
-  <div id="logfile-outer">
-    <div class="iframe-wrap">
-      <iframe class="iframe-log" name="log-frame"></iframe>
-    </div>
-    <div class="iframe-wrap">
-      <iframe class="iframe-log" name="file-frame"></iframe>
-    </div>
-    {% for tag, info in database.items() %}
-    {% for tool, tooldata in report.items() %}
-    {% if "test-na" not in tooldata["tags"][tag]["status"] %}
-    <div class="logfile"
-         id="{{ tool }}-{{ tag }}-logfile">
-      <div class="logtab-bar"
-           id="logtab-{{tool}}-{{tag}}-bar">
-        <button class="logtab-btn logtab-close-btn"
-                onclick='toggleLog("{{tool}}", "{{tag}}", null)'>
-          close
-        </button>
-        {% for test, output in tooldata["tags"][tag]["logs_sorted"] %}
-        <button class="logtab-btn
-                       logtab-tab-btn
-                       {{output["status"]}}
-                       sorted
-                       "
-                onclick='selectTab("{{output["fname"]}}",
-                                   "logtab-btn-{{tool}}-{{tag}}-{{output["name"]}}",
-                                   "{{output["first_file"]}}",
-                                   "{{output["name"]}}")',
-                id="logtab-btn-{{tool}}-{{tag}}-{{output['name']}}"
-                >
-          {{ output["name"] }}
-        </button>
-        {% endfor %}
-      </div>
-    </div>
-    {% endif %}
-    {% endfor %}
-    {% endfor %}
-  </div>
-
   <body>
+    <h1 class="headline"><a href="https://github.com/SymbiFlow/sv-tests">SV-Tests</a></h1>
+    <p class="headline"><a href="https://github.com/SymbiFlow/sv-tests"><em>Test suite to check compliance with the SystemVerilog LRM by chapter as well as some real-world cores and test-cases.</em></a></p>
     <table id="report_table">
       <thead>
         <tr>
@@ -174,5 +136,45 @@
     Generated using <a href="https://github.com/SymbiFlow/sv-tests">sv-tests</a>,
     revision: <a href="https://github.com/SymbiFlow/sv-tests/commit/{{revision}}">{{revision}}</a>.
   </footer>
+
+  <div id="logfile-outer">
+    <div class="iframe-wrap">
+      <iframe class="iframe-log" name="log-frame"></iframe>
+    </div>
+    <div class="iframe-wrap">
+      <iframe class="iframe-log" name="file-frame"></iframe>
+    </div>
+    {% for tag, info in database.items() %}
+    {% for tool, tooldata in report.items() %}
+    {% if "test-na" not in tooldata["tags"][tag]["status"] %}
+    <div class="logfile"
+         id="{{ tool }}-{{ tag }}-logfile">
+      <div class="logtab-bar"
+           id="logtab-{{tool}}-{{tag}}-bar">
+        <button class="logtab-btn logtab-close-btn"
+                onclick='toggleLog("{{tool}}", "{{tag}}", null)'>
+          close
+        </button>
+        {% for test, output in tooldata["tags"][tag]["logs_sorted"] %}
+        <button class="logtab-btn
+                       logtab-tab-btn
+                       {{output["status"]}}
+                sorted
+                "
+                onclick='selectTab("{{output["fname"]}}",
+                                   "logtab-btn-{{tool}}-{{tag}}-{{output["name"]}}",
+                                   "{{output["first_file"]}}",
+                                   "{{output["name"]}}")',
+                id="logtab-btn-{{tool}}-{{tag}}-{{output['name']}}"
+        >
+          {{ output["name"] }}
+        </button>
+        {% endfor %}
+      </div>
+    </div>
+    {% endif %}
+    {% endfor %}
+    {% endfor %}
+  </div>
 
 </html>
