@@ -62,13 +62,13 @@
           {% for tool, tooldata in report|dictsort %}
           <th class="report_table_result {{ tooldata["tags"][tag]["status"] }}
             {% if "test-na" not in tooldata["tags"][tag]["status"] %} test-cell {% endif %}"
-            {{ tooldata["tags"][tag]["optional_style"] }}
+            {% if "test-varied" in tooldata["tags"][tag]["status"] %} style='background-size: {{'%0.0f' | format(100.0 * tooldata["tags"][tag]["passed-num"] / tooldata["tags"][tag]["logs"]|length) }}% 100%' {% endif %}
             {% if "test-na" not in tooldata["tags"][tag]["status"] %}
             id='{{tool}}-{{tag}}-cell'
             onclick='toggleLog("{{tool}}", "{{tag}}",
                                "{{tooldata["tags"][tag]["logs"][tooldata["tags"][tag]["head_test"]]["name"]}}")'
             {% endif %}
-            >
+          >
             {% if "test-na" not in tooldata["tags"][tag]["status"] %}
             {{ tooldata["tags"][tag]["passed-num"] }}/{{ tooldata["tags"][tag]["logs"]|length }}
             {% endif %}
