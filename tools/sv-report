@@ -159,11 +159,11 @@ def totalSize(tags):
     return size
 
 
-def logToHTML(path_in, path_out, tags):
+def logToHTML(path_in, path_out, tags, log_content):
     depth = path_in.count('/') - 1
     src_relative = '../' * depth
     files = tags['files'].split()
-    log = str(jinja2.escape(tags['log']))
+    log = str(jinja2.escape(log_content))
     log_files_pat = r'({}\S+):\d+'
     html_pat_ln = r'{}:(\d+)'
     html_sub_ln = r'<a href="{0}{1}.html#l-\1" target="file-frame">{1}:\1</a>'
@@ -335,7 +335,7 @@ def collect_logs(runner_name):
                 del tests[t_id]
                 continue
 
-            tests[t_id]["log"] = f.read()
+            log_content = f.read()
             tests[t_id]["fname"] = os.path.join('logs', t_id + '.html')
             tests[t_id]["input_size"] = totalSize(tests[t_id])
 
@@ -346,7 +346,7 @@ def collect_logs(runner_name):
             if tool_crashed or tool_should_fail != tool_failed:
                 tests[t_id]["status"] = "test-failed"
             elif tests[t_id]["mode"] == 'simulation' and not parseLog(
-                    tests[t_id]["log"]):
+                    log_content):
                 tests[t_id]["status"] = "test-failed"
             else:
                 tests[t_id]["status"] = "test-passed"
@@ -355,7 +355,8 @@ def collect_logs(runner_name):
                 args.logs, os.path.join(os.path.dirname(args.out), "logs"))
             os.makedirs(os.path.dirname(t_html), exist_ok=True)
 
-            tests[t_id]["first_file"] = logToHTML(t, t_html, tests[t_id])
+            tests[t_id]["first_file"] = logToHTML(
+                t, t_html, tests[t_id], log_content)
 
             if tests[t_id]["status"] == "test-passed":
                 test_file_size = float(tests[t_id]["input_size"])
@@ -406,12 +407,7 @@ def collect_logs(runner_name):
             elif all(tags[tag]["status"][0] == x for x in tags[tag]["status"]):
                 tags[tag]["status"] = tags[tag]["status"][0]
             else:
-                passed_percentage = 100.0 * passed_count / len(
-                    tags[tag]["status"])
                 tags[tag]["status"] = "test-varied"
-                tags[tag][
-                    "optional_style"] = " style='background-size: {:.1f}% 100%'".format(
-                        passed_percentage)
 
     if runner_data["passed_time"] == 0:
         runner_data["passed_throughput"] = 0
@@ -507,7 +503,6 @@ try:
                 if tag in test_handle["tags"].split():
                     tag_handle["logs"][test] = {}
                     inner = tag_handle["logs"][test]
-                    inner["log"] = test_handle["log"].replace("\n", "</br>")
                     inner["status"] = test_handle["status"]
                     inner["name"] = test_handle["name"]
                     inner["fname"] = test_handle["fname"]
