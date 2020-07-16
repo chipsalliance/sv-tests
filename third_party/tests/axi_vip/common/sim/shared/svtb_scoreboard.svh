@@ -27,7 +27,7 @@ class svtb_scoreboard#(type trans_type = uvm_sequence_item) extends uvm_scoreboa
 
    function new(string name, uvm_component parent);
       super.new(name, parent);
-     
+
       tID = get_name();
       tID = tID.toupper();
    endfunction
@@ -46,7 +46,7 @@ class svtb_scoreboard#(type trans_type = uvm_sequence_item) extends uvm_scoreboa
 
    function void connect_phase(uvm_phase phase);
       super.connect_phase(phase);
-   
+
       exp_ae.connect(exp_fifo.analysis_export);
       act_ae.connect(act_fifo.analysis_export);
    endfunction
@@ -134,11 +134,7 @@ class svtb_scoreboard#(type trans_type = uvm_sequence_item) extends uvm_scoreboa
          `uvm_error(tID, $sformatf("There were NO transactions sent to scoreboard"))
       else if ((match_cnt != act_cnt) || (match_cnt != exp_cnt))
          `uvm_error(tID, $sformatf("match_cnt = %0d, act_cnt = %0d, exp_cnt = %0d", match_cnt, act_cnt, exp_cnt))
-//      if (exp_q.size()) begin
-//         foreach(exp_q[i])
-//            `uvm_info(tID, $sformatf("exp_q[%0d]: %s", i, exp_q[i].convert2string()), UVM_NONE)
-//         `uvm_error(tID, $sformatf("There are %0d exp_txn left on the scoreboard", exp_q.size()))
-//      end
+
    endfunction
 
 endclass

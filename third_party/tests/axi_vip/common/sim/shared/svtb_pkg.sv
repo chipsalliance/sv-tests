@@ -13,7 +13,7 @@
 
   `include "svtb_scoreboard_config.svh"
   `include "svtb_scoreboard.svh"
-//  `include "custom_report_server.svh"      
+
 endpackage
 
-`endif 
+`endif

@@ -10,14 +10,6 @@
 package testbench_pkg;
    `include "uvm_macros.svh"
    import uvm_pkg::*;
-   
-//   import testbench_agent_pkg::*;
 
-//   `include "testbench_env_config.svh"
-//   `include "testbench_env.svh"
-//   `include "custom_report_server.svh"
-//   `include "testbench_base_test.svh"
-//   `include "cto_scoreboard_config.svh"
-//   `include "cto_scoreboard.svh"
      `include "cto_monitor.svh"
 endpackage
