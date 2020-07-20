@@ -9,7 +9,7 @@ module process_tb ();
 
 		foreach(job[i])
 			fork
-				automatic int k = j;
+				automatic int k = i;
 				begin
 					job[k] = process::self();
 					$display("process %d", k);
