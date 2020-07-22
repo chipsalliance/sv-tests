@@ -78,6 +78,13 @@ jobs:
         - ./.github/travis/run.sh
 
     - stage: "Run"
+      name: antmicro-yosys
+      install:
+        - ./.github/travis/install.sh
+      script:
+        - ./.github/travis/run.sh
+
+    - stage: "Run"
       name: verible
       install:
         - ./.github/travis/install.sh
