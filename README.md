@@ -8,8 +8,8 @@ The report generated from the last passing master build can be viewed [on a dedi
 
 Initialize the submodules:
 
-```
-$ git submodule update --init --recursive
+```bash
+git submodule update --init --recursive
 ```
 
 Install all the python dependencies and make sure the installed binaries can be called.
@@ -21,22 +21,22 @@ export PATH=~/.local/bin:$PATH
 
 Build tools (optional, tools from `PATH` can be used):
 
-```
+```bash
 make runners
 ```
 
 And then just run:
 
-```
-$ make generate-tests -j$(nproc)
-$ make -j$(nproc)
+```bash
+make generate-tests -j$(nproc)
+make -j$(nproc)
 ```
 
 This should generate many log files for all the tools/tests combinations and an `out/report.html` file with a summary of the tested features and tools.
 
 If you don't want to generate the report file, but are interested in just running all the tests, you can run:
 
-```
+```bash
 make tests
 ```
 
