@@ -6,3 +6,4 @@ yapf==0.30.0
 psutil
 mako
 git+https://github.com/lowRISC/fusesoc.git@ot
+css-html-js-minify

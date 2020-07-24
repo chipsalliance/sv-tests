@@ -78,6 +78,38 @@ echo "----------------------------------------"
 )
 echo "----------------------------------------"
 
+echo
+echo "========================================"
+echo "Obfuscating output"
+echo "----------------------------------------"
+(
+	source "$HOME/miniconda/etc/profile.d/conda.sh"
+	hash -r
+	conda activate sv-test-env
+
+	cd $GIT_CHECKOUT/out/report/
+	SIZE_PRE=$(du . -cs | head -n 1 | cut -f1)
+
+	set +x
+	# we have to rename html to htm for the time being as the obfuscator accepts
+	# htm and writes output as html
+	find . -name \*html | while read file; do mv ${file} ${file/html/htm} &> /dev/null; done
+
+	css-html-js-minify . > /dev/null
+
+	# remove the original htm files
+	find . -name \*htm -exec rm {} -f \;
+
+	# now rename the *.min.* files back
+	find . -name \*\.min\.\* | while read file; do mv ${file} ${file/.min}; done
+
+	SIZE_POST=$(du . -cs | head -n 1 | cut -f1)
+
+	echo "Saved $(echo $SIZE_PRE - $SIZE_POST | bc) bytes!"
+	echo "This is $(echo 100 - $SIZE_POST*100/$SIZE_PRE | bc)%"
+)
+echo "----------------------------------------"
+
 if [[ $KOKORO_TYPE = continuous ]]; then
 	#   - "make report USE_ALL_RUNNERS=1"
 	#   - "touch out/report/.nojekyll"
