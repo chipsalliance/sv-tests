@@ -88,22 +88,19 @@ echo "----------------------------------------"
 	conda activate sv-test-env
 
 	cd $GIT_CHECKOUT/out/report/
-	SIZE_PRE=$(du . -cs | head -n 1 | cut -f1)
+	SIZE_PRE=$(du -cs index.html *js *css| tail -n 1 | cut -f1)
+	mv index.html index.htm
 
 	set +x
-	# we have to rename html to htm for the time being as the obfuscator accepts
-	# htm and writes output as html
-	find . -name \*html | while read file; do mv ${file} ${file/html/htm} &> /dev/null; done
 
 	css-html-js-minify . > /dev/null
 
-	# remove the original htm files
-	find . -name \*htm -exec rm {} -f \;
+	rm index.htm
 
 	# now rename the *.min.* files back
 	find . -name \*\.min\.\* | while read file; do mv ${file} ${file/.min}; done
 
-	SIZE_POST=$(du . -cs | head -n 1 | cut -f1)
+	SIZE_POST=$(du -cs index.html *js *css| tail -n 1 | cut -f1)
 
 	echo "Saved $(echo $SIZE_PRE - $SIZE_POST | bc) bytes!"
 	echo "This is $(echo 100 - $SIZE_POST*100/$SIZE_PRE | bc)%"
