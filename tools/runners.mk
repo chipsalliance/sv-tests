@@ -21,6 +21,13 @@ $(INSTALL_DIR)/bin/yosys:
 	$(MAKE) -C $(RDIR)/yosys ENABLE_TCL=0 ENABLE_ABC=0 ENABLE_GLOB=0 ENABLE_PLUGINS=0 ENABLE_READLINE=0 ENABLE_COVER=0
 	install -D $(RDIR)/yosys/yosys $@
 
+# antmicro-yosys
+antmicro-yosys: $(INSTALL_DIR)/bin/antmicro-yosys
+
+$(INSTALL_DIR)/bin/antmicro-yosys:
+	$(MAKE) -C $(RDIR)/../cores/ibex-yosys-build/yosys ENABLE_TCL=0 ENABLE_ABC=0 ENABLE_GLOB=0 ENABLE_PLUGINS=0 ENABLE_READLINE=0 ENABLE_COVER=0
+	install -D $(RDIR)/../cores/ibex-yosys-build/yosys/yosys $@
+
 # icarus
 icarus: $(INSTALL_DIR)/bin/iverilog
 

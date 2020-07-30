@@ -74,3 +74,9 @@
 [submodule "third_party/tools/uhdm-integration"]
 	path = third_party/tools/uhdm-integration
 	url = https://github.com/alainmarcel/uhdm-integration.git
+[submodule "third_party/cores/ibex-yosys-build"]
+	path = third_party/cores/ibex-yosys-build
+	url = https://github.com/antmicro/ibex-yosys-build
+[submodule "third_party/tools/antmicro-yosys"]
+	path = third_party/tools/antmicro-yosys
+	url = https://github.com/antmicro/yosys
