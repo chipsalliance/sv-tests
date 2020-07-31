@@ -3,9 +3,9 @@ import os
 from BaseRunner import BaseRunner
 
 
-class Antmicro_yosys(BaseRunner):
+class YosysSv(BaseRunner):
     def __init__(self):
-        super().__init__("antmicro-yosys", "antmicro-yosys")
+        super().__init__("yosys-sv", "antmicro-yosys")
 
         self.url = "http://www.clifford.at/yosys/"
 
