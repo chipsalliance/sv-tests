@@ -1,6 +1,6 @@
 /*
 :name: localparam
-:description: localparam tests
+:description: localparam without type specifier
 :tags: 6.20.4
 */
 module top();
