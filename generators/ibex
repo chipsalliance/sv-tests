@@ -3,6 +3,7 @@
 import os
 import sys
 import yaml
+import subprocess
 
 templ = """/*
 :name: ibex
@@ -30,31 +31,35 @@ except IndexError:
     sys.exit(1)
 
 ibex_path = os.path.abspath(os.path.join(third_party_dir, "cores", "ibex"))
-ibex_yaml = os.path.join(ibex_path, "src_files.yml")
 
 sources = ''
 incdirs = ''
+incs = []
 
 groups = ['ibex', 'ibex_regfile_fpga']
 
-sources += os.path.join(ibex_path, 'shared/rtl/prim_clock_gating.sv') + ' '
+subprocess.call(
+    [
+        "fusesoc", "--cores-root", ibex_path, "run", "--target=synth",
+        "lowrisc:ibex:top_artya7"
+    ],
+    stdout=subprocess.DEVNULL,
+    stderr=subprocess.DEVNULL)
 
-with open(ibex_yaml, "r") as f:
-    y = yaml.safe_load(f)
-    files = []
-    includes = []
-    try:
-        for group in groups:
-            files.extend(y[group]['files'])
-            includes.extend(y[group]['incdirs'])
-    except KeyError as e:
-        print(str(e))
-        sys.exit(1)
+ibex_conf_path = os.path.abspath(
+    os.path.join("build", "lowrisc_ibex_top_artya7_0.1", "synth-vivado"))
 
-    for sv in files:
-        sources += os.path.join(ibex_path, sv) + ' '
-    for inc in includes:
-        incdirs += os.path.join(ibex_path, inc) + ' '
+with open(os.path.join(ibex_conf_path, 'core-deps.mk'), "r") as f:
+    for line in f:
+        line = line.strip()
+        line = line.rstrip(" \\")
+        if line.endswith('.sv'):
+            incs.append(os.path.dirname(os.path.join(ibex_conf_path, line)))
+            sources += os.path.join(ibex_conf_path, line) + ' '
+
+incs = list(dict.fromkeys(incs))
+for line in incs:
+    incdirs += line + ' '
 
 test_dir = os.path.join(tests_dir, 'generated', tests_subdir)
 
