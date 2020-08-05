@@ -41,7 +41,7 @@ incs = []
 
 subprocess.call(
     [
-        "fusesoc", "--cores-root", earlgrey_path, "sim",
+        "fusesoc", "--cores-root", earlgrey_path, "run", "--target=sim",
         "lowrisc:systems:top_earlgrey:0.1"
     ],
     stdout=subprocess.DEVNULL,
