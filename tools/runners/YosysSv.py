@@ -14,14 +14,17 @@ class YosysSv(BaseRunner):
         scr = os.path.join(tmp_dir, 'scr.ys')
 
         inc = ""
-
         for incdir in params['incdirs']:
-            inc += ' -I' + incdir
+            inc += ' -I {incdir}'
+
+        defs = ""
+        for define in params['defines']:
+            defs += f' -D {define}'
 
         # prepare yosys script
         with open(scr, 'w') as f:
             for svf in params['files']:
-                f.write('read_verilog -sv' + inc + ' ' + svf + '\n')
+                f.write(f'read_verilog -sv {inc} {defs} {svf}\n')
 
         # prepare wrapper script
         with open(run, 'w') as f:
