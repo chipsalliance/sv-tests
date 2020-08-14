@@ -77,7 +77,11 @@ $.fn.dataTable.ext.type.order['sv-id-desc'] = function (a, b) {
 
 $.fn.dataTable.ext.order['test-status'] = function ( settings, col ) {
   return this.api().column( col, {order:'index'} ).nodes().map( function ( td, i ) {
-    return 1 - eval(td.textContent);
+    p = eval(td.textContent)
+    if (typeof p !== 'undefined') {
+      return 1 - p;
+    }
+    return 2;
   });
 };
 
