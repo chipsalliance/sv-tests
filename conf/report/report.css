@@ -39,6 +39,10 @@ table.dataTable tfoot th {
   max-width: 30em;
 }
 
+.tag_link {
+  color: black;
+}
+
 tfoot .report_table_result {
   font-weight: normal !important;
   text-align: right;
