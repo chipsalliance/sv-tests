@@ -52,7 +52,9 @@
           <th>  </th>
           <th>  </th>
           {% for tool, tooldata in report|dictsort %}
-          <th title='{{ report[tool]["version"] }}'> {{ tool.lower() }} </th>
+          <th title='{{ report[tool]["version"] }}'>
+            <a class="tool_link" target=_blank href='{{ report[tool]["url"] }}'>{{ tool.lower() }}</a>
+          </th>
           {% endfor %}
         </tr>
       </thead>

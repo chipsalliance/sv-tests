@@ -197,6 +197,14 @@ class BaseRunner:
         except (TypeError, NameError, OSError):
             return self.name
 
+    def get_url(self):
+        """Get the URL to the homepage of the runner
+
+        Returns a string with the URL
+        """
+
+        return self.url
+
     def get_top_module_or_guess(self, params):
         """ Get the top-level module from the params, or guess it
         """
