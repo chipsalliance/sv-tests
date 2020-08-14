@@ -25,7 +25,8 @@
         paging: false,
         fixedHeader: true,
         "order": [[ 1, "asc" ]],
-        "columnDefs": [ { "type": "sv-id", targets: 1 } ],
+        "columnDefs": [ { "type": "sv-id", targets: 1 },
+                        { "orderable": false, targets: 0 }],
         "columns": [
           null,
           null,
@@ -57,7 +58,13 @@
       </thead>
         {% for tag, info in database.items() %}
         <tr>
-          <th class="report_table_info" title="{{info}}"> {{ info }} </th>
+          <th class="report_table_info" title="{{info}}">
+            {% if tag in database_urls %}
+            <a class="tag_link" target=_blank href="{{database_urls[tag]}}"> {{ info }} </a>
+            {% else %}
+            {{ info }}
+            {% endif %}
+          </th>
           <th class="report_table_tag" title="{{info}}"> {{ tag }} </th>
           {% for tool, tooldata in report|dictsort %}
           <th class="report_table_result {{ tooldata["tags"][tag]["status"] }}

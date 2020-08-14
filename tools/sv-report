@@ -229,6 +229,7 @@ class TestTupleComp(object):
 
 def readConfig(filename):
     config = {}
+    urls = {}
     try:
         with open(filename) as f:
             for l in f:
@@ -239,20 +240,26 @@ def readConfig(filename):
 
                 entry = ls.split("\t")
 
-                if len(entry) < 2:
+                if not 2 <= len(entry) <= 3:
                     raise KeyError("Invalid entry: " + ls)
 
-                config[entry[0]] = "\t".join(entry[1:])
+                config[entry[0]] = entry[1]
+
+                # check if we
+                if len(entry) == 3:
+                    urls[entry[0]] = entry[2]
     except (OSError, FileNotFoundError, KeyError) as e:
         criticalError(f"Unable to {config} file - {str(e)}")
-    return config
+    return config, urls
 
 
 # generate input database first
-database = readConfig(args.input)
+database, urls = readConfig(args.input)
 
 # read meta-tags configuration
-meta_tags = readConfig(args.meta_tags)
+meta_tags, meta_urls = readConfig(args.meta_tags)
+
+urls = {**urls, **meta_urls}
 
 logger.info("Generating {} from log files in '{}'".format(args.out, args.logs))
 
@@ -537,7 +544,10 @@ try:
     with open(args.out, 'w') as f:
         f.write(
             report.render(
-                report=data, database=database, revision=args.revision))
+                report=data,
+                database=database,
+                database_urls=urls,
+                revision=args.revision))
 
     with open(args.csv, 'w', newline='') as csvfile:
         writer = csv.DictWriter(csvfile, fieldnames=csv_header)
