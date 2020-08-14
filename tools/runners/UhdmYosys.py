@@ -42,6 +42,9 @@ class UhdmYosys(BaseRunner):
             for i in params["incdirs"]:
                 f.write(f" -I{i}")
 
+            for d in params["defines"]:
+                f.write(f" -D{d}")
+
             for fn in params["files"]:
                 f.write(f" {fn}")
 

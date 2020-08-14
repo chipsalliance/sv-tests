@@ -19,7 +19,10 @@ class Slang(BaseRunner):
         self.cmd += ['--single-unit']
 
         for incdir in params['incdirs']:
-            self.cmd.append('-I' + incdir)
+            self.cmd.append(f'-I {incdir}')
+
+        for define in params['defines']:
+            self.cmd.append(f'-D {define}')
 
         self.cmd += params['files']
 
