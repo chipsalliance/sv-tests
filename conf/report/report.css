@@ -39,7 +39,7 @@ table.dataTable tfoot th {
   max-width: 30em;
 }
 
-.tag_link {
+.tag_link, .tool_link {
   color: black;
 }
 

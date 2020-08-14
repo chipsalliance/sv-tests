@@ -90,6 +90,13 @@ $(OUT_DIR)/logs/$(1)/version:
 versions: $(OUT_DIR)/logs/$(1)/version
 endef
 
+define runner_url_gen
+$(OUT_DIR)/logs/$(1)/url:
+	./tools/runner --runner $(1) --url --out $(OUT_DIR)/logs/$(1)/url
+
+urls: $(OUT_DIR)/logs/$(1)/url
+endef
+
 define generator_gen
 generate-$(1):
 	$(GENERATORS_DIR)/$(1) $(1)
@@ -130,7 +137,7 @@ tests:
 
 generate-tests:
 
-report: init tests versions
+report: init tests versions urls
 	./tools/sv-report --revision $(shell git rev-parse --short HEAD)
 	cp $(CONF_DIR)/report/*.css $(OUT_DIR)/report/
 	cp $(CONF_DIR)/report/*.js $(OUT_DIR)/report/
@@ -139,3 +146,4 @@ $(foreach g, $(GENERATORS), $(eval $(call generator_gen,$(g))))
 $(foreach r, $(RUNNERS),$(foreach t, $(TESTS),$(eval $(call runner_test_gen,$(r),$(t)))))
 $(foreach r, $(RUNNERS),$(eval $(call runner_cg_gen,$(r))))
 $(foreach r, $(RUNNERS),$(eval $(call runner_version_gen,$(r))))
+$(foreach r, $(RUNNERS),$(eval $(call runner_url_gen,$(r))))

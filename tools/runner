@@ -18,6 +18,7 @@ parser.add_argument("-r", "--runner", required=True)
 action = parser.add_mutually_exclusive_group(required=True)
 action.add_argument("-t", "--test")
 action.add_argument("-v", "--version", action="store_true")
+action.add_argument("-u", "--url", action="store_true")
 
 parser.add_argument("-o", "--out", required=True)
 parser.add_argument("-k", "--keep-tmp", action="store_true")
@@ -78,6 +79,13 @@ if args.version:
     version = runner_obj.get_version()
     with open(out, "w") as f:
         f.write(version)
+
+    sys.exit(0)
+
+if args.url:
+    url = runner_obj.get_url()
+    with open(out, "w") as f:
+        f.write(url)
 
     sys.exit(0)
 
