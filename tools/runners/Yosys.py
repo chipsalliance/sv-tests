@@ -15,7 +15,7 @@ class Yosys(BaseRunner):
 
         inc = ""
         for incdir in params['incdirs']:
-            inc += ' -I {incdir}'
+            inc += f' -I {incdir}'
 
         defs = ""
         for define in params['defines']:
