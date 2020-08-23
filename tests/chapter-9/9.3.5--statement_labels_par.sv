@@ -5,12 +5,8 @@
 */
 module block_tb ();
 	reg a = 0;
-	reg b = 0;
-	reg c = 0;
 	initial
 		name: fork
 			a = 1;
-			b = 0;
-			c = 1;
 		join: name
 endmodule
