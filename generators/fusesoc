@@ -61,7 +61,9 @@ for fusesoc_conf_file in fusesoc_conf_files:
         print("No key", err, "in file", fusesoc_conf_file)
         continue
 
-    sources = ''
+    pkg_sources = []
+    sources = []
+    sources_ordered = ''
     incdirs = ''
     incs = []
     command_list = list(yml_conf["command"].split(" "))
@@ -78,7 +80,12 @@ for fusesoc_conf_file in fusesoc_conf_files:
             if line.endswith('.sv'):
                 incs.append(
                     os.path.dirname(os.path.join(ibex_conf_path, line)))
-                sources += os.path.join(ibex_conf_path, line) + ' '
+                if line.endswith('_pkg.sv'):
+                    pkg_sources.append(os.path.join(ibex_conf_path, line))
+                else:
+                    sources.append(os.path.join(ibex_conf_path, line))
+
+    sources_ordered = ' '.join(pkg_sources + sources)
 
     incs = list(dict.fromkeys(incs))
     for line in incs:
@@ -94,5 +101,6 @@ for fusesoc_conf_file in fusesoc_conf_files:
     with open(test_file, "w") as f:
         f.write(
             templ.format(
-                yml_conf["name"], yml_conf["description"], sources, incdirs,
-                yml_conf["top_module"], yml_conf["tags"], yml_conf["timeout"]))
+                yml_conf["name"], yml_conf["description"], sources_ordered,
+                incdirs, yml_conf["top_module"], yml_conf["tags"],
+                yml_conf["timeout"]))
