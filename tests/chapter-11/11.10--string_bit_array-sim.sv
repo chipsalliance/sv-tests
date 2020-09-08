@@ -10,7 +10,7 @@ bit [8*14:1] a;
 
 initial begin
 	a = "Test";
-    $display(":assert: ('Test' == %s)", a);
+    $display(":assert: ('Test' == '%0s')", a);
 end
 
 endmodule
