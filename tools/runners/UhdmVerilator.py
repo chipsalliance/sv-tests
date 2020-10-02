@@ -6,7 +6,7 @@ from BaseRunner import BaseRunner
 
 class UhdmVerilator(BaseRunner):
     def __init__(self):
-        super().__init__("verilator-uhdm", "verilator-uhdm", {"simulation"})
+        super().__init__("verilator-uhdm", "verilator-uhdm")
 
         self.url = "https://github.com/alainmarcel/uhdm-integration"
 
@@ -36,8 +36,11 @@ class UhdmVerilator(BaseRunner):
             f.write("\n")
 
             f.write(f'{self.executable} $@ || exit $?\n')
-            f.write(f'make -C {build_dir} -f Vtop.mk\n')
-            f.write(f'./vbuild/{build_exe}\n')
+
+            # compile and run the code only for simulation
+            if mode == 'simulation':
+                f.write(f'make -C {build_dir} -f Vtop.mk\n')
+                f.write(f'./vbuild/{build_exe}\n')
 
         # verilator executable is a script but it doesn't
         # have shell shebang on the first line
