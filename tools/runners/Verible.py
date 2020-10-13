@@ -3,7 +3,7 @@ from BaseRunner import BaseRunner
 
 class Verible(BaseRunner):
     def __init__(self):
-        super().__init__("verible", "verilog_syntax", {"parsing"})
+        super().__init__("verible", "verible-verilog-syntax", {"parsing"})
 
         self.url = "https://github.com/google/verible"
 
