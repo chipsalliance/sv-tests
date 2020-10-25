@@ -5,5 +5,5 @@
 		["tools", "yosys", "tests", "simple"]
 	],
 	"matches": ["*.v"],
-	"blacklist": ["hierdefparam.v", "memory.v"]
+	"blacklist": ["hierdefparam.v", "memory.v", "values.v"]
 }
