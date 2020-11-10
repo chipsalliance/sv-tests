@@ -63,8 +63,6 @@ src/cache_subsystem/cache_ctrl.sv
 src/cache_subsystem/miss_handler.sv
 src/cache_subsystem/wt_cache_subsystem.sv
 src/cache_subsystem/wt_dcache_missunit.sv
-src/cache_subsystem/wt_icache.sv
-src/cache_subsystem/std_icache.sv
 src/cache_subsystem/wt_dcache_wbuffer.sv
 src/cache_subsystem/wt_l15_adapter.sv
 src/cache_subsystem/wt_dcache_mem.sv
