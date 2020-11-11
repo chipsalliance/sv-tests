@@ -3,6 +3,7 @@
 :description: distribution test
 :should_fail_because: distribution shall not be applied to randc variables
 :tags: 18.5.4
+:type: simulation
 */
 
 class a;
