@@ -1,0 +1,29 @@
+{
+	"name": "sampled_functions",
+	"filename": "20.13--{0}.sv",
+	"template": [
+		"/*",
+		":name: {0}_function",
+		":description: ${0} test",
+		":tags: {1}",
+		":type: simulation parsing",
+		"*/",
+		"module top();",
+		"logic a, clk;",
+		"global clocking @(posedge clk); endclocking",
+		"assert property (@(posedge clk) ${0}(a)) else $info;",
+		"endmodule"
+	],
+	"values": [
+		["past_gclk", "20.13 16.9"],
+		["rose_gclk", "20.13 16.9"],
+		["fell_gclk", "20.13 16.9"],
+		["stable_gclk", "20.13 16.9"],
+		["changed_gclk", "20.13 16.9"],
+		["future_gclk", "20.13 16.9"],
+		["rising_gclk", "20.13 16.9"],
+		["falling_gclk", "20.13 16.9"],
+		["steady_gclk", "20.13 16.9"],
+		["changing_gclk", "20.13 16.9"]
+	]
+}

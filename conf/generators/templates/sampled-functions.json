@@ -10,8 +10,7 @@
 		"*/",
 		"module top();",
 		"logic a, clk;",
-		"always @(posedge clk)",
-		"$display(\"%d\", ${0}(a));",
+		"assert property (@(posedge clk) ${0}(a)) else $info;",
 		"endmodule"
 	],
 	"values": [
@@ -20,16 +19,6 @@
 		["fell", "20.13 16.9"],
 		["stable", "20.13 16.9"],
 		["changed", "20.13 16.9"],
-		["past", "20.13 16.9"],
-		["past_gclk", "20.13 16.9"],
-		["rose_gclk", "20.13 16.9"],
-		["fell_gclk", "20.13 16.9"],
-		["stable_gclk", "20.13 16.9"],
-		["changed_gclk", "20.13 16.9"],
-		["future_gclk", "20.13 16.9"],
-		["rising_gclk", "20.13 16.9"],
-		["falling_gclk", "20.13 16.9"],
-		["steady_gclk", "20.13 16.9"],
-		["changing_gclk", "20.13 16.9"]
+		["past", "20.13 16.9"]
 	]
 }
