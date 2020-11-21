@@ -1,6 +1,7 @@
 /*
 :name: class_member_test_5
 :description: Test
+:should_fail_because: pure virtual methods can only be declared in virtual classes
 :tags: 8.3
 */
 class myclass;

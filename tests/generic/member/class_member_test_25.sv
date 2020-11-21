@@ -6,3 +6,5 @@
 class myclass;
 extern virtual function integer subroutine;
 endclass
+
+function integer myclass::subroutine; endfunction
