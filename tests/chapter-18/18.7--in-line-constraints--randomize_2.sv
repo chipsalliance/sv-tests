@@ -1,7 +1,7 @@
 /*
 :name: in-line_constraints--randomize_2
 :description: in-line constraints test - randomize()
-:tags: 18.7 uvm
+:tags: uvm-18.7 uvm
 */
 
 import uvm_pkg::*;

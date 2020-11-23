@@ -1,7 +1,7 @@
 /*
 :name: urandom_range_3
 :description: urandom_range() test
-:tags: 18.13.2 uvm
+:tags: uvm-18.13.2 uvm
 */
 
 import uvm_pkg::*;

@@ -1,7 +1,7 @@
 /*
 :name: post_randomize_method_1
 :description: post_randomize() method test
-:tags: 18.6.2 uvm
+:tags: uvm-18.6.2 uvm
 */
 
 import uvm_pkg::*;

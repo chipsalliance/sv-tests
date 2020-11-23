@@ -1,7 +1,7 @@
 /*
 :name: soft_constraint_priorities_1
 :description: soft constraint priorities test
-:tags: 18.5.14.1 uvm
+:tags: uvm-18.5.14.1 uvm
 */
 
 import uvm_pkg::*;

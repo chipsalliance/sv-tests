@@ -1,7 +1,7 @@
 /*
 :name: urandom_1
 :description: urandom() test
-:tags: 18.13.1 uvm
+:tags: uvm-18.13.1 uvm
 */
 
 import uvm_pkg::*;

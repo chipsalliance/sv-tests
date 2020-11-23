@@ -1,7 +1,7 @@
 /*
 :name: random_stability_0
 :description: random stability - urandom_range test
-:tags: 18.14 uvm
+:tags: uvm-18.14 uvm
 */
 
 import uvm_pkg::*;

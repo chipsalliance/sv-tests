@@ -1,7 +1,7 @@
 /*
 :name: static_constraint_blocks_1
 :description: static constraint blocks test
-:tags: 18.5.11 uvm
+:tags: uvm-18.5.11 uvm
 */
 
 import uvm_pkg::*;

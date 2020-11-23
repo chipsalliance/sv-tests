@@ -1,7 +1,7 @@
 /*
 :name: if_else_constraints_4
 :description: if-else constraints test
-:tags: 18.5.7 uvm
+:tags: uvm-18.5.7 uvm
 */
 
 import uvm_pkg::*;

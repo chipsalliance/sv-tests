@@ -1,7 +1,7 @@
 /*
 :name: srandom_0
 :description: srandom() test
-:tags: 18.13.3 uvm
+:tags: uvm-18.13.3 uvm
 */
 
 import uvm_pkg::*;

@@ -1,7 +1,7 @@
 /*
 :name: implicit_external_constraint_2
 :description: implicit external constraint test
-:tags: 18.5.1 uvm
+:tags: uvm-18.5.1 uvm
 */
 
 import uvm_pkg::*;

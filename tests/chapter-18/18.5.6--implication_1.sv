@@ -1,7 +1,7 @@
 /*
 :name: implication_1
 :description: implication test
-:tags: 18.5.6 uvm
+:tags: uvm-18.5.6 uvm
 */
 
 import uvm_pkg::*;

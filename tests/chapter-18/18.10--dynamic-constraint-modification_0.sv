@@ -1,7 +1,7 @@
 /*
 :name: dynamic_constraint_modification_0
 :description: dynamic constraint modification test
-:tags: 18.10 uvm
+:tags: uvm-18.10 uvm
 */
 
 import uvm_pkg::*;

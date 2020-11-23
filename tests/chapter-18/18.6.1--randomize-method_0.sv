@@ -1,7 +1,7 @@
 /*
 :name: randomize_method_0
 :description: randomize() method test
-:tags: 18.6.1 uvm
+:tags: uvm-18.6.1 uvm
 */
 
 import uvm_pkg::*;

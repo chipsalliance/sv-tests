@@ -1,7 +1,7 @@
 /*
 :name: manually_seeding_randomize_1
 :description: manually seeding randomize test
-:tags: 18.15 uvm
+:tags: uvm-18.15 uvm
 */
 
 import uvm_pkg::*;

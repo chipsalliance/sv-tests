@@ -1,7 +1,7 @@
 /*
 :name: behavior_of_randomization_methods_2
 :description: If randomize() fails, the constraints are infeasible, and the random variables retain their previous values.
-:tags: 18.6.3 uvm
+:tags: uvm-18.6.3 uvm
 */
 
 import uvm_pkg::*;

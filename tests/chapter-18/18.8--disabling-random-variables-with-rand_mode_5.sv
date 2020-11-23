@@ -2,7 +2,7 @@
 :name: disabling-random-variables-with-rand_mode_5
 :description: rand_mode() test
 :should_fail_because: The rand_mode() method is built-in and cannot be overridden.
-:tags: 18.8 uvm
+:tags: uvm-18.8 uvm
 :type: simulation
 */
 

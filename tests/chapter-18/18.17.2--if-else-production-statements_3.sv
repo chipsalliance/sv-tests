@@ -1,7 +1,7 @@
 /*
 :name: if-else_production_statements_3
 :description: randcase if-else test
-:tags: 18.17.2 uvm
+:tags: uvm-18.17.2 uvm
 */
 
 import uvm_pkg::*;

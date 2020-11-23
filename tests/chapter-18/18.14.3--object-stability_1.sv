@@ -1,7 +1,7 @@
 /*
 :name: object_stability_1
 :description: object stability test
-:tags: 18.14.3 uvm
+:tags: uvm-18.14.3 uvm
 */
 
 import uvm_pkg::*;

@@ -1,7 +1,7 @@
 /*
 :name: randomization_of_scope_variables_1
 :description: Randomization of scope variables - std::randomize() test
-:tags: 18.12 uvm
+:tags: uvm-18.12 uvm
 */
 
 import uvm_pkg::*;

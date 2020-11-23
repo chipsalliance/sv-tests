@@ -1,7 +1,7 @@
 /*
 :name: set_membership_1
 :description: set membership test
-:tags: 18.5.3 uvm
+:tags: uvm-18.5.3 uvm
 */
 
 import uvm_pkg::*;

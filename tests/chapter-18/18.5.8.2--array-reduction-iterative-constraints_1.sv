@@ -1,7 +1,7 @@
 /*
 :name: array_reduction_iterative_constraints_1
 :description: array reduction iterative constraints test
-:tags: 18.5.8.2 uvm
+:tags: uvm-18.5.8.2 uvm
 */
 
 import uvm_pkg::*;

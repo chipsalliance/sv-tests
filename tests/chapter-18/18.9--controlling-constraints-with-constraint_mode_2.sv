@@ -2,7 +2,7 @@
 :name: controlling-constraints-with-constraint_mode_2
 :description: constraint_mode() test
 :should_fail_because: The constraint_mode() method is built-in and cannot be overridden.
-:tags: 18.9 uvm
+:tags: uvm-18.9 uvm
 :type: simulation
 */
 

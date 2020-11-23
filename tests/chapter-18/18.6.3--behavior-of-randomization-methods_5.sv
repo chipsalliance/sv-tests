@@ -2,7 +2,7 @@
 :name: behavior_of_randomization_methods_5
 :description:  behavior of randomization methods test
 :should_fail_because: The randomize() method is built-in and cannot be overridden.
-:tags: 18.6.3 uvm
+:tags: uvm-18.6.3 uvm
 :type: simulation
 */
 

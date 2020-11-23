@@ -1,7 +1,7 @@
 /*
 :name: random_sequence_generation_randsequence_1
 :description: randsequence test
-:tags: 18.17 uvm
+:tags: uvm-18.17 uvm
 */
 
 import uvm_pkg::*;
