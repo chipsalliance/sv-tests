@@ -6,3 +6,6 @@
 class myclass;
 extern task subtask(int arg);
 endclass
+
+task myclass::subtask(int arg);
+endtask
