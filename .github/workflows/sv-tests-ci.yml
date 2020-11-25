@@ -1,0 +1,60 @@
+name: sv-tests-ci
+
+on:
+   push:
+   pull_request:
+
+jobs:
+  Test:
+    name: "Python PEP8 checks"
+    runs-on: ubuntu-18.04
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+      - uses: actions/setup-python@v2
+        with:
+          python-version: 3.7
+      - name: Script
+        run:
+          pip install -r conf/requirements.txt
+      - name: Make
+        run:
+          make format
+      - name: Test
+        run:
+          test $(git status --porcelain | wc -l) -eq 0 || { git diff; false; }
+  Run:
+    strategy:
+      fail-fast: false
+      matrix:
+        env:
+          - { JOB_NAME: iverilog, MAKEFLAGS: -j2 }
+          - { JOB_NAME: moore, MAKEFLAGS: -j2 }
+          - { JOB_NAME: odin_ii, MAKEFLAGS: -j2 }
+          - { JOB_NAME: slang, MAKEFLAGS: -j2 }
+          - { JOB_NAME: sv-parser, MAKEFLAGS: -j2 }
+          - { JOB_NAME: surelog, MAKEFLAGS: -j2 }
+          - { JOB_NAME: tree-sitter-verilog, MAKEFLAGS: -j2 }
+          - { JOB_NAME: yosys, MAKEFLAGS: -j2 }
+          - { JOB_NAME: antmicro-yosys, MAKEFLAGS: -j2 }
+          - { JOB_NAME: verible, MAKEFLAGS: -j2 }
+          - { JOB_NAME: verilator, MAKEFLAGS: -j2 }
+          - { JOB_NAME: uhdm-integration-verilator, MAKEFLAGS: -j2 }
+          - { JOB_NAME: uhdm-integration-yosys, MAKEFLAGS: -j2 }
+          - { JOB_NAME: zachjs-sv2v, MAKEFLAGS: -j2 }
+
+    name: ${{ matrix.env.JOB_NAME }}
+    env: ${{ matrix.env }}
+    runs-on: ubuntu-18.04
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+      - uses: actions/setup-python@v2
+        with:
+          python-version: 3.7
+      - name: Install
+        run:
+          ./.github/workflows/install.sh
+      - name: Run
+        run:
+          ./.github/workflows/run.sh
