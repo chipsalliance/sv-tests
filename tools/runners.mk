@@ -117,10 +117,12 @@ $(INSTALL_DIR)/bin/moore:
 	cargo install --git "https://github.com/fabianschuiki/moore" --root $(INSTALL_DIR) --bin moore
 
 # verible
-verible: $(INSTALL_DIR)/bin/verilog_syntax
-
-$(INSTALL_DIR)/bin/verilog_syntax:
+verible:
 	cd $(RDIR)/verible/ && bazel run :install --noshow_progress -c opt -- $(INSTALL_DIR)/bin
+
+$(INSTALL_DIR)/bin/verible-verilog-kythe-extractor: verible
+
+$(INSTALL_DIR)/bin/verilog_syntax: verible
 
 # setup the dependencies
 RUNNERS_TARGETS := odin yosys icarus verilator slang zachjs-sv2v tree-sitter-verilog sv-parser moore verible surelog
