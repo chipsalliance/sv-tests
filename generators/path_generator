@@ -26,7 +26,6 @@ except KeyError:
 
 name = ''
 project = ''
-should_fail_because = ''
 paths = [[]]
 matches = []
 

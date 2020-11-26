@@ -25,5 +25,6 @@
 	"blacklist": [
 		"bsg_nonsynth_mixin_motherboard.v",
 		"test_bsg_clock_params.v"
-	]
+	],
+	"fake_topmodule": true
 }
