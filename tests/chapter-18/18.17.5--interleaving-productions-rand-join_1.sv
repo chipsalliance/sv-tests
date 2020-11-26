@@ -1,7 +1,7 @@
 /*
 :name: interleaving_productions_rand_join_1
 :description: rand join statement test
-:tags: 18.17.5 uvm
+:tags: uvm-18.17.5 uvm
 */
 
 import uvm_pkg::*;

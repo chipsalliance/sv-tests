@@ -1,7 +1,7 @@
 /*
 :name: thread_stability_1
 :description: thread stability test
-:tags: 18.14.2 uvm
+:tags: uvm-18.14.2 uvm
 */
 
 import uvm_pkg::*;

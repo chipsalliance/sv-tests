@@ -1,7 +1,7 @@
 /*
 :name: in-line_random_variable-control_1
 :description: in-line random variable control test
-:tags: 18.11 uvm
+:tags: uvm-18.11 uvm
 */
 
 import uvm_pkg::*;

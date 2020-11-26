@@ -1,7 +1,7 @@
 /*
 :name: set_randstate_0
 :description: set_randstate() test
-:tags: 18.13.5 uvm
+:tags: uvm-18.13.5 uvm
 */
 
 import uvm_pkg::*;

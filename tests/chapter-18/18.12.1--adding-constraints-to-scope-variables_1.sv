@@ -1,7 +1,7 @@
 /*
 :name: adding_constraints_to_scope_variables_1
 :description: Adding constraints to scope variables—std::randomize() with - test
-:tags: 18.12.1 uvm
+:tags: uvm-18.12.1 uvm
 */
 
 import uvm_pkg::*;

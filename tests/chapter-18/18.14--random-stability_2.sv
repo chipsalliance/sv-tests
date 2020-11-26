@@ -1,7 +1,7 @@
 /*
 :name: random_stability_2
 :description: random stability - randcase test
-:tags: 18.14 uvm
+:tags: uvm-18.14 uvm
 */
 
 import uvm_pkg::*;

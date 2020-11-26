@@ -1,7 +1,7 @@
 /*
 :name: functions_in_constraint_1
 :description: functions in constraint test
-:tags: 18.5.12 uvm
+:tags: uvm-18.5.12 uvm
 */
 
 import uvm_pkg::*;

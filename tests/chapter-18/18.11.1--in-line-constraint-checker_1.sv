@@ -1,7 +1,7 @@
 /*
 :name: in-line_constraint_checker_1
 :description: in-line constraint checker test
-:tags: 18.11.1 uvm
+:tags: uvm-18.11.1 uvm
 */
 
 import uvm_pkg::*;
