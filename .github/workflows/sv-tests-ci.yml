@@ -58,3 +58,9 @@ jobs:
       - name: Run
         run:
           ./.github/workflows/run.sh
+      - name: Upload artifacts
+        if: ${{ github.event_name == 'pull_request' }}
+        uses: actions/upload-artifact@v2
+        with:
+          name: ${{ matrix.env.JOB_NAME }}
+          path: out/report
