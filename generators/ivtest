@@ -48,18 +48,23 @@ ivtest_blacklist = [
     'bool1',  # reg can't have type
     'br930',  # type is keyword
     'br937',  # expect is keyword
+    'br943_944_iv.sv',  # missing submodule
     'br974c',  # reg and logic is exclusive
+    'br985_iv.sv',  # missing submodule
     'br988',  # generate_item can't have begin/end
     'br_gh115',  # bit is keyword
     'br_gh72b',  # should_fail test
+    'br_gh99c_iv.sv',  # vams only
     'ca_time_iv',  # IV only $simtime
     'case3',  # '@ *' is invalid event_control ( '@*' or '@ (*)' is valid )
     'case5',  # bit is keyword
     'case5synfail',  # bit is keyword
     'case6',  # bit is keyword
     'case7',  # bit is keyword
+    'cast_int_iv.sv',  # vams only
     'compare_bool_reg',  # reg can't have type
     'condit1',  # bit is keyword
+    'constfunc4_iv.sv',  # vams only
     'constfunc6_iv',  # IV only $abs, $min, $max
     'constfunc8',  # reg can't have type
     'delay_var',  # int is keyword
@@ -91,12 +96,14 @@ ivtest_blacklist = [
     'pr529',  # bit is keyword
     'pr622',  # `` is invalid macro usage
     'pr639',  # `` is invalid macro usage
+    'pr841_iv.sv',  # unresolved wires
     'pr1467825',  # `suppress_faults is not valid directive
     'pr1478121',  # do is keyword
     'pr1494799_iv',  # IV only $is_signed
     'pr1676071',  # bit is keyword
     'pr1698820',  # var is keyword
     'pr1716276',  # empty parameter is invalid
+    'pr1723367_iv.sv',  # scalar with vectored net
     'pr1741212',  # var is keyword
     'pr1745005',  # ref is keyword
     'pr1758122',  # instance is keyword
@@ -158,12 +165,17 @@ ivtest_blacklist = [
     'sv_wildcard_import3',  # event_trigger can't have package_scope
     'swrite_iv',  # IV only $simtime
     'tern7',  # ref is keyword
+    'test_enumsystem_iv.sv',  # missing submodule
+    'test_system_iv.sv',  # missing submodule
     'test_va_math',  # constants.vams is not found
+    'test_vams_math_iv.sv',  # vams only
+    'test_work14_iv.sv',  # missing submodule
     'undef',  # undefined macro behaviour is ambiguous
     'urand',  # var is keyword
     'urand_r',  # var is keyword
     'urand_r2',  # var is keyword
     'urand_r3',  # var is keyword
+    'vams_abs1_iv.sv',  # vams only
     'warn_opt_sys_tf_iv',  # IV only $getpattern
     'wildsense',  # '@ *' is invalid event_control ( '@*' or '@ (*)' is valid )
     'wiresl2',  # bit is keyword
@@ -213,6 +225,8 @@ for l in ivtest_lists:
             name = re.sub(r'\W', '', name)
 
             if name in ivtest_blacklist:
+                continue
+            if re.match("vhdl_", name):
                 continue
 
             type_ = ''
