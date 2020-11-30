@@ -76,6 +76,9 @@ for cfg in glob.glob(os.path.join(conf_dir, 'generators', 'meta-path',
                     f = os.path.abspath(
                         os.path.join(third_party_dir, common)) + " " + f
 
+                # add the test snippet do the beginning of the list
+                f = os.path.abspath(test_file) + " " + f
+
                 for incdir in incdirs:
                     incs = os.path.abspath(
                         os.path.join(third_party_dir, incdir)) + " " + incs
