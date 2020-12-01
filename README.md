@@ -1,8 +1,8 @@
 # SystemVerilog Tester
 
 [![License](https://img.shields.io/github/license/SymbiFlow/sv-tests.svg)](https://github.com/SymbiFlow/sv-tests/blob/master/LICENSE)
-[![Build Status](https://travis-ci.org/SymbiFlow/sv-tests.svg?branch=master)](https://travis-ci.com/github/SymbiFlow/sv-tests)
-[![Tests](http://storage.googleapis.com/symbiflow-badges/sv-tests/tests.svg)](http://storage.googleapis.com/symbiflow-badges/sv-tests/tests.html)
+[![Build Status](https://github.com/symbiflow/sv-tests/workflows/sv-tests-ci/badge.svg)](https://github.com/SymbiFlow/sv-tests/actions)
+[![Tests](http://storage.googleapis.com/symbiflow-badges/sv-tests/continuous.svg)](http://storage.googleapis.com/symbiflow-badges/sv-tests/continuous.html)
 
 The purpose of this project is to find all the supported and missing SystemVerilog features in various Verilog tools.
 
