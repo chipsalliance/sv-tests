@@ -1,5 +1,15 @@
 #!/bin/bash
 
+# Copyright (C) 2020  The SymbiFlow Authors.
+#
+# Use of this source code is governed by a ISC-style
+# license that can be found in the LICENSE file or at
+# https://opensource.org/licenses/ISC
+#
+# SPDX-License-Identifier:	ISC
+
+set -e
+
 echo
 echo "==========================="
 echo "Check SPDX identifier"
@@ -8,8 +18,14 @@ echo
 
 ERROR_FILES=""
 FILES_TO_CHECK=`find . \
-    -size +0 -type f \( -name '*.sh' -o -name '*.py' -o -name 'Makefile' \) \
-    \( -not -path "*/.*/*" -not -path "*/third_party/*" -not -path "*/env/*" -not -path "*/build/*" \)`
+    -type f \( -name '*.sh' -o -name '*.py' -o -name 'Makefile' -o -name '*.v' \) \
+    \( -not -path "*/.*/*" \) \
+    \( -not -path "*/build/*" \) \
+    \( -not -path "*/env/*" \) \
+    \( -not -path "*/src/*" \) \
+    \( -not -path "*/third_party/*" \) \
+    \( -not -path "*/*/__init__.py" \) \
+    \( -not -path "./miniconda.sh" \) | sort`
 
 for file in $FILES_TO_CHECK; do
     echo "Checking $file"
@@ -20,7 +36,14 @@ if [ ! -z "$ERROR_FILES" ]; then
     for file in $ERROR_FILES; do
         echo "ERROR: $file does not have license information."
     done
-    return 1
+    exit 1
+fi
+
+THIRD_PARTY_DIRS=$(shopt -s nullglob; echo third_party/*)
+ERROR_NO_LICENSE=""
+
+if [ -z "$THIRD_PARTY_DIRS" ]; then
+	exit 0
 fi
 
 echo
@@ -37,12 +60,6 @@ function check_if_submodule {
     done
 }
 
-THIRD_PARTY_DIRS=""
-if [[ -e third_party ]]; then
-    THIRD_PARTY_DIRS=`ls -d third_party/*`
-fi
-ERROR_NO_LICENSE=""
-
 for dir in $THIRD_PARTY_DIRS; do
     # Checks if we are not in a submodule
     if check_if_submodule $dir; then
@@ -55,19 +72,5 @@ if [ ! -z "$ERROR_NO_LICENSE" ]; then
     for dir in $ERROR_NO_LICENSE; do
         echo "ERROR: $dir does not have the LICENSE file."
     done
-    return 1
+    exit 1
 fi
-
-echo
-echo "==========================="
-echo "Check AUTHORS"
-echo "==========================="
-echo
-
-if [ ! -f ./AUTHORS ]; then
-    echo "ERROR: no AUTHORS file found."
-    return 1
-else
-    echo "AUTHORS file found"
-fi
-
