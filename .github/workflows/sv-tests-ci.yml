@@ -8,7 +8,7 @@ on:
 
 jobs:
   Test:
-    name: "Python PEP8 checks"
+    name: "Code Quality Checks"
     runs-on: ubuntu-18.04
     steps:
       - name: Checkout code
