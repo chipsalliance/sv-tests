@@ -39,7 +39,7 @@ if [ ! -z "$ERROR_FILES" ]; then
     exit 1
 fi
 
-THIRD_PARTY_DIRS=$(shopt -s nullglob; echo third_party/*)
+THIRD_PARTY_DIRS=$(shopt -s nullglob; echo third_party/{cores,tools,tests}/*)
 ERROR_NO_LICENSE=""
 
 if [ -z "$THIRD_PARTY_DIRS" ]; then
