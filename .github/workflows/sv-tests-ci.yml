@@ -25,6 +25,10 @@ jobs:
       - name: Test
         run:
           test $(git status --porcelain | wc -l) -eq 0 || { git diff; false; }
+      - name: License
+        run:
+          ./.github/workflows/check_license.sh
+
   Run:
     strategy:
       fail-fast: false
