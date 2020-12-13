@@ -8,6 +8,7 @@ import shutil
 import logging
 import argparse
 import tempfile
+from datetime import datetime
 from importlib import import_module
 from logparser import parseLog
 
@@ -217,6 +218,8 @@ try:
     test_params['user_time'] = user_time
     test_params['system_time'] = system_time
     test_params['ram_usage'] = ram_usage
+    test_params['date_completed'] = datetime.now().strftime(
+        "%Y-%m-%d %H:%M:%S")
 
     tool_should_fail = test_params["should_fail"] == "1"
     tool_failed = not tool_success
