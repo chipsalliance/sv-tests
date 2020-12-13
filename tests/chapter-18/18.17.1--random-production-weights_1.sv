@@ -1,7 +1,7 @@
 /*
 :name: random_production_weights_1
 :description: randsequence weights test
-:tags: uvm-18.17.1 uvm
+:tags: uvm-random uvm
 */
 
 import uvm_pkg::*;

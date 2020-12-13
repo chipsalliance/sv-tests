@@ -1,7 +1,7 @@
 /*
 :name: disabling-random-variables-with-rand_mode_0
 :description: rand_mode() test
-:tags: uvm-18.8 uvm
+:tags: uvm-random uvm
 */
 
 import uvm_pkg::*;

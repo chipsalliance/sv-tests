@@ -1,7 +1,7 @@
 /*
 :name: uniqueness_constraints_1
 :description: uniqueness constraints test
-:tags: uvm-18.5.5 uvm
+:tags: uvm-random uvm
 */
 
 import uvm_pkg::*;

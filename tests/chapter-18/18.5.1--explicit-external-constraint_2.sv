@@ -1,7 +1,7 @@
 /*
 :name: explicit_external_constraint_2
 :description: explicit external constraint test
-:tags: uvm-18.5.1 uvm
+:tags: uvm-random uvm
 */
 
 import uvm_pkg::*;

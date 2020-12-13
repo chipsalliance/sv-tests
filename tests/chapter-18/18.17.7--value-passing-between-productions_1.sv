@@ -1,7 +1,7 @@
 /*
 :name: value_passing_between_productions_1
 :description: value passing in randsequence test
-:tags: uvm-18.17.7 uvm
+:tags: uvm-random uvm
 */
 
 import uvm_pkg::*;

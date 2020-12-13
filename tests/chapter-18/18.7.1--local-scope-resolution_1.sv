@@ -1,7 +1,7 @@
 /*
 :name: local_scope_resolution_1
 :description: local:: scope resolution test
-:tags: uvm-18.7.1 uvm
+:tags: uvm-random uvm
 */
 
 import uvm_pkg::*;

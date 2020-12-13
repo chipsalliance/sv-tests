@@ -1,7 +1,7 @@
 /*
 :name: case_production_statements_1
 :description: randcase case statement test
-:tags: uvm-18.17.3 uvm
+:tags: uvm-random uvm
 */
 
 import uvm_pkg::*;

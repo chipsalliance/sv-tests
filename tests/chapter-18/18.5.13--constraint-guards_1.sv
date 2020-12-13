@@ -1,7 +1,7 @@
 /*
 :name: constraint_guards_1
 :description: constraint guards test
-:tags: uvm-18.5.13 uvm
+:tags: uvm-random uvm
 */
 
 import uvm_pkg::*;

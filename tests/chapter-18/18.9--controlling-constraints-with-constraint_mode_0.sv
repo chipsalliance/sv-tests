@@ -1,7 +1,7 @@
 /*
 :name: controlling-constraints-with-constraint_mode_0
 :description: constraint_mode() test
-:tags: uvm-18.9 uvm
+:tags: uvm-random uvm
 */
 
 import uvm_pkg::*;

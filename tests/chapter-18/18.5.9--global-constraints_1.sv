@@ -1,7 +1,7 @@
 /*
 :name: global_constraints_1
 :description: global constraints test
-:tags: uvm-18.5.9 uvm
+:tags: uvm-random uvm
 */
 
 import uvm_pkg::*;

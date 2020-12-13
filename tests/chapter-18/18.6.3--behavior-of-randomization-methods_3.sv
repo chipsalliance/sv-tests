@@ -1,7 +1,7 @@
 /*
 :name: behavior_of_randomization_methods_3
 :description: If randomize() fails, post_randomize() is not called.
-:tags: uvm-18.6.3 uvm
+:tags: uvm-random uvm
 */
 
 import uvm_pkg::*;

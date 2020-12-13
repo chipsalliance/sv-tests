@@ -1,7 +1,7 @@
 /*
 :name: aborting_productions_break_and_return_3
 :description: return statement test
-:tags: uvm-18.17.6 uvm
+:tags: uvm-random uvm
 */
 
 import uvm_pkg::*;
