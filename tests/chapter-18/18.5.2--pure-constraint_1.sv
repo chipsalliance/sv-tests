@@ -1,7 +1,7 @@
 /*
 :name: pure_constraint_1
 :description: pure constraint test
-:tags: uvm-18.5.2 uvm
+:tags: uvm-random uvm
 */
 
 import uvm_pkg::*;

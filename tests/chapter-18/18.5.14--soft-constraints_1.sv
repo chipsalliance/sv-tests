@@ -1,7 +1,7 @@
 /*
 :name: soft_constraints_1
 :description: soft constraints test
-:tags: uvm-18.5.14 uvm
+:tags: uvm-random uvm
 */
 
 import uvm_pkg::*;

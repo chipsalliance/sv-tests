@@ -1,7 +1,7 @@
 /*
 :name: constraint_blocks_1
 :description: constraint blocks test
-:tags: uvm-18.5 uvm
+:tags: uvm-random uvm
 */
 
 import uvm_pkg::*;

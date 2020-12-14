@@ -1,7 +1,7 @@
 /*
 :name: discarding_soft_constraints_1
 :description: discarding soft constraints test
-:tags: uvm-18.5.14.2 uvm
+:tags: uvm-random uvm
 */
 
 import uvm_pkg::*;

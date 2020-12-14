@@ -1,7 +1,7 @@
 /*
 :name: random_stability_1
 :description: random stability - shuffle test
-:tags: uvm-18.14 uvm
+:tags: uvm-random uvm
 */
 
 import uvm_pkg::*;

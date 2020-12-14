@@ -1,7 +1,7 @@
 /*
 :name: behavior_of_randomization_methods_1
 :description: static random variables test
-:tags: uvm-18.6.3 uvm
+:tags: uvm-random uvm
 */
 
 import uvm_pkg::*;

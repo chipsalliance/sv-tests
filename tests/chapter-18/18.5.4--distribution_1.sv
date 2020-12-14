@@ -1,7 +1,7 @@
 /*
 :name: distribution_1
 :description: distribution test
-:tags: uvm-18.5.4 uvm
+:tags: uvm-random uvm
 */
 
 import uvm_pkg::*;

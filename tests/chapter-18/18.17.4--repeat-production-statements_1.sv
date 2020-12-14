@@ -1,7 +1,7 @@
 /*
 :name: repeat_production_statements_1
 :description: repeat statement test
-:tags: uvm-18.17.4 uvm
+:tags: uvm-random uvm
 */
 
 import uvm_pkg::*;

@@ -1,7 +1,7 @@
 /*
 :name: random_weighted_case_randcase_1
 :description: randcase test
-:tags: uvm-18.16 uvm
+:tags: uvm-random uvm
 */
 
 import uvm_pkg::*;

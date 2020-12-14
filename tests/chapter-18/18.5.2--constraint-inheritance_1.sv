@@ -1,7 +1,7 @@
 /*
 :name: constraint_inheritance_1
 :description: contraint inheritance test
-:tags: uvm-18.5.2 uvm
+:tags: uvm-random uvm
 */
 
 import uvm_pkg::*;
