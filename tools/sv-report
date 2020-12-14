@@ -9,6 +9,7 @@ import argparse
 import logging
 import jinja2
 import csv
+import datetime
 import sys
 import os
 import re
@@ -279,6 +280,7 @@ def collect_logs(runner_name):
     # all tests info
     runner_data["tests"] = {}
     tests = runner_data["tests"]
+    runner_data["date_completed"] = ''
     runner_data["time_elapsed"] = 0
     runner_data["user_time"] = 0
     runner_data["system_time"] = 0
@@ -298,10 +300,11 @@ def collect_logs(runner_name):
         tests[t_id] = {}
 
         test_tags = [
-            "name", "tags", "should_fail", "rc", "description", "files",
-            "incdirs", "top_module", "runner", "runner_url", "time_elapsed",
-            "type", "mode", "timeout", "user_time", "system_time", "ram_usage",
-            "tool_success", "should_fail_because", "defines"
+            "name", "tags", "should_fail", "rc", "date_completed",
+            "description", "files", "incdirs", "top_module", "runner",
+            "runner_url", "time_elapsed", "type", "mode", "timeout",
+            "user_time", "system_time", "ram_usage", "tool_success",
+            "should_fail_because", "defines"
         ]
         with open(t, "r") as f:
             try:
