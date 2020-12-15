@@ -35,7 +35,7 @@ type_should_fail = ['CE', 'RE']
 
 ivtest_exclude = [
     'regress-vams.list', 'regress-vhdl.list', 'vhdl_regress.list',
-    'vpi_regress.list', 'regress-ivl1.list'
+    'vpi_regress.list', 'regress-ivl1.list', 'regress-v10.list'
 ]
 
 ivtest_blacklist = [
