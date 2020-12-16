@@ -39,118 +39,63 @@ ivtest_exclude = [
 ]
 
 ivtest_blacklist = [
-    'andnot1',  # ref is keyword
-    'automatic_error11',  # local is keyword
-    'automatic_error12',  # local is keyword
-    'automatic_error13',  # local is keyword
     'binary_nand',  # ~& is not binary operator
     'binary_nor',  # ~| is not binary operator
     'bool1',  # reg can't have type
-    'br930',  # type is keyword
-    'br937',  # expect is keyword
     'br943_944_iv.sv',  # missing submodule
     'br974c',  # reg and logic is exclusive
     'br985_iv.sv',  # missing submodule
     'br988',  # generate_item can't have begin/end
-    'br_gh115',  # bit is keyword
     'br_gh72b',  # should_fail test
     'br_gh99c_iv.sv',  # vams only
     'ca_time_iv',  # IV only $simtime
     'case3',  # '@ *' is invalid event_control ( '@*' or '@ (*)' is valid )
-    'case5',  # bit is keyword
-    'case5synfail',  # bit is keyword
-    'case6',  # bit is keyword
-    'case7',  # bit is keyword
     'cast_int_iv.sv',  # vams only
     'compare_bool_reg',  # reg can't have type
-    'condit1',  # bit is keyword
     'constfunc4_iv.sv',  # vams only
     'constfunc6_iv',  # IV only $abs, $min, $max
     'constfunc8',  # reg can't have type
-    'delay_var',  # int is keyword
     'deposit_iv',  # IV only $deposit
     'deposit_wire_iv',  # IV only $deposit
     'display_bug',  # [2] is invalid range
-    'drive_strength3',  # bit is keyword
     'elsif_test',  # ifdef must have text_macro_identifier
     'enum_ports',  # reg can't have type
-    'fifo',  # expect is keyword
-    'fileio',  # var is keyword
-    'fread',  # string is keyword
-    'gencrc',  # bit is keyword
-    'generate_multi_loop',  # bit is keyword
     'ivlh_textio_iv',  # IV only $ivlh_file_open
     'macro_str_esc',  # `` is invalid macro usage
     'macro_with_args',  # `` is invalid macro usage
-    'memsynth3',  # bit is keyword
-    'nb_assign',  # var is keyword
-    'nb_ec_pv2',  # bit is keyword
-    'no_if_statement',  # var is keyword
     'nonpolymorphicabs_iv',  # IV only AMS $abs
     'plus_arg_string_iv',  # IV only $finish_and_return
-    'pow_ca_signed',  # expect is keyword
-    'pow_ca_unsigned',  # expect is keyword
-    'pow_reg_signed',  # expect is keyword
-    'pow_reg_unsigned',  # expect is keyword
     'pr478',  # `protect is not valid directive
-    'pr529',  # bit is keyword
     'pr622',  # `` is invalid macro usage
     'pr639',  # `` is invalid macro usage
     'pr841_iv.sv',  # unresolved wires
     'pr1467825',  # `suppress_faults is not valid directive
-    'pr1478121',  # do is keyword
     'pr1494799_iv',  # IV only $is_signed
-    'pr1676071',  # bit is keyword
-    'pr1698820',  # var is keyword
     'pr1716276',  # empty parameter is invalid
     'pr1723367_iv.sv',  # scalar with vectored net
-    'pr1741212',  # var is keyword
-    'pr1745005',  # ref is keyword
-    'pr1758122',  # instance is keyword
     'pr1787423',  # pulldown can't have multiple terminal
     'pr1787423b',  # pulldown can't have multiple terminal
     'pr1787423bv09',  # pulldown can't have multiple terminal
-    'pr1792108',  # int is keyword
     'pr1861212a',  # reg can't have type
     'pr1861212c',  # reg can't have type
     'pr1877743',  # parallel_path_description can't have multiple input terminal
     'pr1912112',  # `` is invalid macro usage
     'pr1925360',  # `` is invalid macro usage
-    'pr1978358',  # var is keyword
-    'pr1978358b',  # var is keyword
-    'pr1978358c',  # var is keyword
-    'pr1978358d',  # var is keyword
-    'pr2172606b',  # bit is keyword
     'pr2257003',  # generate_item can't have begin/end
     'pr2257003b',  # generate_item can't have begin/end
-    'pr2305307',  # expect is keyword
-    'pr2305307b',  # expect is keyword
-    'pr2470181b',  # bit is keyword
     'pr2509349a_iv',  # IV only $readmempath
     'pr2509349b_iv',  # IV only $readmempath
     'pr2790236',  # non-ANSI port can't have assignment
-    'pr2824189',  # var is keyword
     'pr2834340',  # pulldown can't have multiple terminal
     'pr2834340b',  # pulldown can't have multiple terminal
-    'pr2930506',  # string is keyword
-    'pr2976242',  # var is keyword
-    'pr2986497',  # var is keyword
     'pr3194155',  # parameter_value_assignment must have paren
-    'pr3197861',  # var is keyword
     'pr3270320_iv',  # IV only $abs
-    'pr3477107',  # expect is keyword
     'pr3539372',  # empty initial
     'real8',  # reg can't have type
-    'scope5',  # bit is keyword
-    'sel_rval_bit_ob',  # bit is keyword
     'sf1289',  # foreach must have statement, not statement_or_null
-    'signed13',  # var is keyword
-    'signed_net_display',  # expect is keyword
     'simparam_iv',  # IV only $simparam
     'size_cast2',  # reg and logic is exclusive
     'specify_01',  # parallel_path_description can't have multiple input terminal
-    'sqrt32',  # bit is keyword
-    'sqrt32synth',  # bit is keyword
     'struct_packed_array',  # reg can't have type
     'sv2valnets',  # reg and bit is exclusive
     'sv_array_assign_pattern2',  # '{} is invalid
@@ -164,21 +109,15 @@ ivtest_blacklist = [
     'sv_wildcard_import2',  # event_trigger can't have package_scope
     'sv_wildcard_import3',  # event_trigger can't have package_scope
     'swrite_iv',  # IV only $simtime
-    'tern7',  # ref is keyword
     'test_enumsystem_iv.sv',  # missing submodule
     'test_system_iv.sv',  # missing submodule
     'test_va_math',  # constants.vams is not found
     'test_vams_math_iv.sv',  # vams only
     'test_work14_iv.sv',  # missing submodule
     'undef',  # undefined macro behaviour is ambiguous
-    'urand',  # var is keyword
-    'urand_r',  # var is keyword
-    'urand_r2',  # var is keyword
-    'urand_r3',  # var is keyword
     'vams_abs1_iv.sv',  # vams only
     'warn_opt_sys_tf_iv',  # IV only $getpattern
     'wildsense',  # '@ *' is invalid event_control ( '@*' or '@ (*)' is valid )
-    'wiresl2',  # bit is keyword
     'z1',  # parameter_value_assignment must have paren
     'z2'  # parameter_value_assignment must have paren
 ]
