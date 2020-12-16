@@ -60,9 +60,12 @@ ivtest_blacklist = [
     'display_bug',  # [2] is invalid range
     'elsif_test',  # ifdef must have text_macro_identifier
     'enum_ports',  # reg can't have type
+    'fileio',  # IV only $fopenr and $fopenw
+    'fread',  # $fread from invalid variable (per wsnyder)
     'ivlh_textio_iv',  # IV only $ivlh_file_open
     'macro_str_esc',  # `` is invalid macro usage
     'macro_with_args',  # `` is invalid macro usage
+    'memsynth3',  # bit is keyword
     'nonpolymorphicabs_iv',  # IV only AMS $abs
     'plus_arg_string_iv',  # IV only $finish_and_return
     'pr478',  # `protect is not valid directive
@@ -81,6 +84,10 @@ ivtest_blacklist = [
     'pr1877743',  # parallel_path_description can't have multiple input terminal
     'pr1912112',  # `` is invalid macro usage
     'pr1925360',  # `` is invalid macro usage
+    'pr1978358',  # select out of bound (per wsnyder)
+    'pr1978358b',  # select out of bound (per wsnyder)
+    'pr1978358c',  # select out of bound (per wsnyder)
+    'pr1978358d',  # select out of bound (per wsnyder)
     'pr2257003',  # generate_item can't have begin/end
     'pr2257003b',  # generate_item can't have begin/end
     'pr2509349a_iv',  # IV only $readmempath
@@ -92,6 +99,7 @@ ivtest_blacklist = [
     'pr3270320_iv',  # IV only $abs
     'pr3539372',  # empty initial
     'real8',  # reg can't have type
+    'sel_rval_bit_ob',  # select out of bound (per wsnyder)
     'sf1289',  # foreach must have statement, not statement_or_null
     'simparam_iv',  # IV only $simparam
     'size_cast2',  # reg and logic is exclusive
