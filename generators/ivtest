@@ -34,16 +34,16 @@ except IndexError:
 type_should_fail = ['CE', 'RE']
 
 ivtest_exclude = [
-    'blif.list',           # Skip the BLIF test list
-    'regress-ivl1.list',   # Skip the Icarus specific test list
+    'blif.list',  # Skip the BLIF test list
+    'regress-ivl1.list',  # Skip the Icarus specific test list
     'regress-msys2.list',  # Skip the msys2 override test list
-    'regress-v10.list',    # Skip the v10 override test list
-    'regress-v11.list',    # Skip the v11 override test list
-    'regress-vams.list',   # Skip the VAMS test list
-    'regress-vhdl.list',   # Skip the VHDL test list
-    'regress-vlog95.list', # Skip the vlog95 override test list
-    'vhdl_regress.list',   # Skip the VHDL side test list
-    'vpi_regress.list'     # Skip the VPI test list
+    'regress-v10.list',  # Skip the v10 override test list
+    'regress-v11.list',  # Skip the v11 override test list
+    'regress-vams.list',  # Skip the VAMS test list
+    'regress-vhdl.list',  # Skip the VHDL test list
+    'regress-vlog95.list',  # Skip the vlog95 override test list
+    'vhdl_regress.list',  # Skip the VHDL side test list
+    'vpi_regress.list'  # Skip the VPI test list
 ]
 
 ivtest_blacklist = [
