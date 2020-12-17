@@ -33,6 +33,9 @@ except IndexError:
 
 type_should_fail = ['CE', 'RE']
 
+# FIXME: this all needs to be updated to properly load the ivtest *.list
+#        files like is done with the ivtest driver along with the correct
+#        override of the various tests.
 ivtest_exclude = [
     'blif.list',  # Skip the BLIF test list
     'regress-ivl1.list',  # Skip the Icarus specific test list
