@@ -84,10 +84,10 @@ ivtest_blacklist = [
     'pr1877743',  # parallel_path_description can't have multiple input terminal
     'pr1912112',  # `` is invalid macro usage
     'pr1925360',  # `` is invalid macro usage
-    'pr1978358',  # select out of bound (per wsnyder)
-    'pr1978358b',  # select out of bound (per wsnyder)
-    'pr1978358c',  # select out of bound (per wsnyder)
-    'pr1978358d',  # select out of bound (per wsnyder)
+    'pr1978358',  # constant out of bound part select may be an error
+    'pr1978358b',  # constant out of bound part select may be an error
+    'pr1978358c',  # constant out of bound part select may be an error
+    'pr1978358d',  # constant out of bound part select may be an error
     'pr2257003',  # generate_item can't have begin/end
     'pr2257003b',  # generate_item can't have begin/end
     'pr2509349a_iv',  # IV only $readmempath
@@ -99,7 +99,7 @@ ivtest_blacklist = [
     'pr3270320_iv',  # IV only $abs
     'pr3539372',  # empty initial
     'real8',  # reg can't have type
-    'sel_rval_bit_ob',  # select out of bound (per wsnyder)
+    'sel_rval_bit_ob',  # constant out of bound bit select may be an error
     'sf1289',  # foreach must have statement, not statement_or_null
     'simparam_iv',  # IV only $simparam
     'size_cast2',  # reg and logic is exclusive
