@@ -65,7 +65,6 @@ ivtest_blacklist = [
     'enum_ports',  # reg can't have type
     'fileio',  # IV only $fopenr and $fopenw
     'fread',  # $fread from invalid variable (per wsnyder)
-    'ivlh_textio_iv',  # IV only $ivlh_file_open
     'macro_str_esc',  # `` is invalid macro usage
     'macro_with_args',  # `` is invalid macro usage
     'memsynth3',  # bit is keyword
