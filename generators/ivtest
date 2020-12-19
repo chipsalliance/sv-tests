@@ -57,7 +57,6 @@ ivtest_blacklist = [
     'ca_time_iv',  # IV only $simtime
     'case3',  # '@ *' is invalid event_control ( '@*' or '@ (*)' is valid )
     'compare_bool_reg',  # reg can't have type
-    'constfunc6_iv',  # IV only $abs, $min, $max
     'constfunc8',  # reg can't have type
     'deposit_iv',  # IV only $deposit
     'deposit_wire_iv',  # IV only $deposit
@@ -77,7 +76,6 @@ ivtest_blacklist = [
     'pr639',  # `` is invalid macro usage
     'pr841_iv.sv',  # unresolved wires
     'pr1467825',  # `suppress_faults is not valid directive
-    'pr1494799_iv',  # IV only $is_signed
     'pr1716276',  # empty parameter is invalid
     'pr1723367_iv.sv',  # scalar with vectored net
     'pr1787423',  # pulldown can't have multiple terminal
@@ -94,8 +92,6 @@ ivtest_blacklist = [
     'pr1978358d',  # constant out of bound part select may be an error
     'pr2257003',  # generate_item can't have begin/end
     'pr2257003b',  # generate_item can't have begin/end
-    'pr2509349a_iv',  # IV only $readmempath
-    'pr2509349b_iv',  # IV only $readmempath
     'pr2790236',  # non-ANSI port can't have assignment
     'pr2834340',  # pulldown can't have multiple terminal
     'pr2834340b',  # pulldown can't have multiple terminal
@@ -105,13 +101,11 @@ ivtest_blacklist = [
     'real8',  # reg can't have type
     'sel_rval_bit_ob',  # constant out of bound bit select may be an error
     'sf1289',  # foreach must have statement, not statement_or_null
-    'simparam_iv',  # IV only $simparam
     'size_cast2',  # reg and logic is exclusive
     'specify_01',  # parallel_path_description can't have multiple input terminal
     'struct_packed_array',  # reg can't have type
     'sv2valnets',  # reg and bit is exclusive
     'sv_array_assign_pattern2',  # '{} is invalid
-    'sv_cast_darrayv10_iv',  # IV only $ivl_darray_method
     'sv_casting',
     'sv_darray_args1',  # '{} is invalid
     'sv_darray_args2',  # '{} is invalid
@@ -120,8 +114,6 @@ ivtest_blacklist = [
     'sv_darray_args4',  # '{} is invalid
     'sv_wildcard_import2',  # event_trigger can't have package_scope
     'sv_wildcard_import3',  # event_trigger can't have package_scope
-    'swrite_iv',  # IV only $simtime
-    'test_va_math',  # constants.vams is not found
     'undef',  # undefined macro behaviour is ambiguous
     'warn_opt_sys_tf_iv',  # IV only $getpattern
     'wildsense',  # '@ *' is invalid event_control ( '@*' or '@ (*)' is valid )
