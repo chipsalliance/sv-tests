@@ -68,7 +68,6 @@ ivtest_blacklist = [
     'macro_str_esc',  # `` is invalid macro usage
     'macro_with_args',  # `` is invalid macro usage
     'memsynth3',  # bit is keyword
-    'nonpolymorphicabs_iv',  # IV only AMS $abs
     'plus_arg_string_iv',  # IV only $finish_and_return
     'pr478',  # `protect is not valid directive
     'pr622',  # `` is invalid macro usage
