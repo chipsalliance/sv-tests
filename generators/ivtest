@@ -50,8 +50,6 @@ ivtest_exclude = [
 ]
 
 ivtest_blacklist = [
-    'binary_nand',  # ~& is not binary operator
-    'binary_nor',  # ~| is not binary operator
     'bool1',  # reg can't have type
     'br943_944_iv.sv',  # missing submodule
     'br974c',  # reg and logic is exclusive
