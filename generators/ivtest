@@ -51,9 +51,7 @@ ivtest_exclude = [
 
 ivtest_blacklist = [
     'bool1',  # reg can't have type
-    'br943_944_iv.sv',  # missing submodule
     'br974c',  # reg and logic is exclusive
-    'br985_iv.sv',  # missing submodule
     'br988',  # generate_item can't have begin/end
     'br_gh72b',  # should_fail test
     'br_gh99c_iv.sv',  # vams only
@@ -126,11 +124,8 @@ ivtest_blacklist = [
     'sv_wildcard_import2',  # event_trigger can't have package_scope
     'sv_wildcard_import3',  # event_trigger can't have package_scope
     'swrite_iv',  # IV only $simtime
-    'test_enumsystem_iv.sv',  # missing submodule
-    'test_system_iv.sv',  # missing submodule
     'test_va_math',  # constants.vams is not found
     'test_vams_math_iv.sv',  # vams only
-    'test_work14_iv.sv',  # missing submodule
     'undef',  # undefined macro behaviour is ambiguous
     'vams_abs1_iv.sv',  # vams only
     'warn_opt_sys_tf_iv',  # IV only $getpattern
