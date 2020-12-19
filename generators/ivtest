@@ -50,75 +50,47 @@ ivtest_exclude = [
 ]
 
 ivtest_blacklist = [
-    'binary_nand',  # ~& is not binary operator
-    'binary_nor',  # ~| is not binary operator
-    'bool1',  # reg can't have type
-    'br943_944_iv.sv',  # missing submodule
     'br974c',  # reg and logic is exclusive
-    'br985_iv.sv',  # missing submodule
     'br988',  # generate_item can't have begin/end
     'br_gh72b',  # should_fail test
-    'br_gh99c_iv.sv',  # vams only
-    'ca_time_iv',  # IV only $simtime
+    'ca_time',  # IV only $simtime
     'case3',  # '@ *' is invalid event_control ( '@*' or '@ (*)' is valid )
-    'cast_int_iv.sv',  # vams only
-    'compare_bool_reg',  # reg can't have type
-    'constfunc4_iv.sv',  # vams only
-    'constfunc6_iv',  # IV only $abs, $min, $max
-    'constfunc8',  # reg can't have type
-    'deposit_iv',  # IV only $deposit
-    'deposit_wire_iv',  # IV only $deposit
+    'deposit',  # IV only $deposit
+    'deposit_wire',  # IV only $deposit
     'display_bug',  # [2] is invalid range
     'elsif_test',  # ifdef must have text_macro_identifier
     'enum_ports',  # reg can't have type
     'fileio',  # IV only $fopenr and $fopenw
     'fread',  # $fread from invalid variable (per wsnyder)
-    'ivlh_textio_iv',  # IV only $ivlh_file_open
-    'macro_str_esc',  # `` is invalid macro usage
-    'macro_with_args',  # `` is invalid macro usage
     'memsynth3',  # bit is keyword
-    'nonpolymorphicabs_iv',  # IV only AMS $abs
-    'plus_arg_string_iv',  # IV only $finish_and_return
+    'plus_arg_string',  # IV only $finish_and_return
     'pr478',  # `protect is not valid directive
-    'pr622',  # `` is invalid macro usage
-    'pr639',  # `` is invalid macro usage
-    'pr841_iv.sv',  # unresolved wires
+    'pr841',  # unresolved wires
     'pr1467825',  # `suppress_faults is not valid directive
-    'pr1494799_iv',  # IV only $is_signed
     'pr1716276',  # empty parameter is invalid
-    'pr1723367_iv.sv',  # scalar with vectored net
+    'pr1723367',  # scalar with vectored net
     'pr1787423',  # pulldown can't have multiple terminal
     'pr1787423b',  # pulldown can't have multiple terminal
-    'pr1787423bv09',  # pulldown can't have multiple terminal
     'pr1861212a',  # reg can't have type
-    'pr1861212c',  # reg can't have type
     'pr1877743',  # parallel_path_description can't have multiple input terminal
-    'pr1912112',  # `` is invalid macro usage
-    'pr1925360',  # `` is invalid macro usage
     'pr1978358',  # constant out of bound part select may be an error
     'pr1978358b',  # constant out of bound part select may be an error
     'pr1978358c',  # constant out of bound part select may be an error
     'pr1978358d',  # constant out of bound part select may be an error
     'pr2257003',  # generate_item can't have begin/end
     'pr2257003b',  # generate_item can't have begin/end
-    'pr2509349a_iv',  # IV only $readmempath
-    'pr2509349b_iv',  # IV only $readmempath
     'pr2790236',  # non-ANSI port can't have assignment
     'pr2834340',  # pulldown can't have multiple terminal
     'pr2834340b',  # pulldown can't have multiple terminal
     'pr3194155',  # parameter_value_assignment must have paren
-    'pr3270320_iv',  # IV only $abs
+    'pr3270320',  # IV only $abs
     'pr3539372',  # empty initial
-    'real8',  # reg can't have type
     'sel_rval_bit_ob',  # constant out of bound bit select may be an error
     'sf1289',  # foreach must have statement, not statement_or_null
-    'simparam_iv',  # IV only $simparam
     'size_cast2',  # reg and logic is exclusive
     'specify_01',  # parallel_path_description can't have multiple input terminal
     'struct_packed_array',  # reg can't have type
-    'sv2valnets',  # reg and bit is exclusive
     'sv_array_assign_pattern2',  # '{} is invalid
-    'sv_cast_darrayv10_iv',  # IV only $ivl_darray_method
     'sv_casting',
     'sv_darray_args1',  # '{} is invalid
     'sv_darray_args2',  # '{} is invalid
@@ -127,15 +99,8 @@ ivtest_blacklist = [
     'sv_darray_args4',  # '{} is invalid
     'sv_wildcard_import2',  # event_trigger can't have package_scope
     'sv_wildcard_import3',  # event_trigger can't have package_scope
-    'swrite_iv',  # IV only $simtime
-    'test_enumsystem_iv.sv',  # missing submodule
-    'test_system_iv.sv',  # missing submodule
-    'test_va_math',  # constants.vams is not found
-    'test_vams_math_iv.sv',  # vams only
-    'test_work14_iv.sv',  # missing submodule
     'undef',  # undefined macro behaviour is ambiguous
-    'vams_abs1_iv.sv',  # vams only
-    'warn_opt_sys_tf_iv',  # IV only $getpattern
+    'warn_opt_sys_tf',  # IV only $getpattern
     'wildsense',  # '@ *' is invalid event_control ( '@*' or '@ (*)' is valid )
     'z1',  # parameter_value_assignment must have paren
     'z2'  # parameter_value_assignment must have paren
