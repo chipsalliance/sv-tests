@@ -54,12 +54,9 @@ ivtest_blacklist = [
     'br974c',  # reg and logic is exclusive
     'br988',  # generate_item can't have begin/end
     'br_gh72b',  # should_fail test
-    'br_gh99c_iv.sv',  # vams only
     'ca_time_iv',  # IV only $simtime
     'case3',  # '@ *' is invalid event_control ( '@*' or '@ (*)' is valid )
-    'cast_int_iv.sv',  # vams only
     'compare_bool_reg',  # reg can't have type
-    'constfunc4_iv.sv',  # vams only
     'constfunc6_iv',  # IV only $abs, $min, $max
     'constfunc8',  # reg can't have type
     'deposit_iv',  # IV only $deposit
@@ -125,9 +122,7 @@ ivtest_blacklist = [
     'sv_wildcard_import3',  # event_trigger can't have package_scope
     'swrite_iv',  # IV only $simtime
     'test_va_math',  # constants.vams is not found
-    'test_vams_math_iv.sv',  # vams only
     'undef',  # undefined macro behaviour is ambiguous
-    'vams_abs1_iv.sv',  # vams only
     'warn_opt_sys_tf_iv',  # IV only $getpattern
     'wildsense',  # '@ *' is invalid event_control ( '@*' or '@ (*)' is valid )
     'z1',  # parameter_value_assignment must have paren
