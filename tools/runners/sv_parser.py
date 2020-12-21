@@ -14,4 +14,8 @@ class sv_parser(BaseRunner):
             self.cmd.append('--include')
             self.cmd.append(incdir)
 
+        for define in params['defines']:
+            self.cmd.append('--define')
+            self.cmd.append(define)
+
         self.cmd += params['files']
