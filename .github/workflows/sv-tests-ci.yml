@@ -8,11 +8,13 @@ on:
 
 jobs:
   Test:
-    name: "Python PEP8 checks"
+    name: "Code Quality Checks"
     runs-on: ubuntu-18.04
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
+        with:
+          submodules: true
       - uses: actions/setup-python@v2
         with:
           python-version: 3.7
@@ -25,6 +27,10 @@ jobs:
       - name: Test
         run:
           test $(git status --porcelain | wc -l) -eq 0 || { git diff; false; }
+      - name: License
+        run:
+          ./.github/workflows/check_license.sh
+
   Run:
     strategy:
       fail-fast: false
