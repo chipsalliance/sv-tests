@@ -83,6 +83,17 @@ ivtest_file_exclude = [
     'pr3194155',
     'z1',
     'z2',
+    # Empty parameter override
+    'pr1716276',
+    # Package scope event access
+    'sv_wildcard_import2',
+    'sv_wildcard_import3',
+    # Packed dims support [<dim>] for [0:<dim>-1] just like unpacked dims
+    'display_bug',
+    # `protect compiler directives
+    'pr478',
+    # `suppress_faults compiler directives
+    'pr1467825',
     # generate begin/end was valid when generate was initially defined
     'br988',
     'pr2257003',
@@ -96,19 +107,12 @@ ivtest_file_exclude = [
     # The following tests need to be looked at and verified
     'br_gh72b',  # should_fail test
     'case3',  # '@ *' is invalid event_control ( '@*' or '@ (*)' is valid )
-    'display_bug',  # [2] is invalid range
     'elsif_test',  # ifdef must have text_macro_identifier
     'fread',  # $fread from invalid variable (per wsnyder)
-    'pr478',  # `protect is not valid directive
     'pr841',  # unresolved wires
-    'pr1467825',  # `suppress_faults is not valid directive
-    'pr1716276',  # empty parameter is invalid
     'pr1723367',  # scalar with vectored net
     'pr2790236',  # non-ANSI port can't have assignment
     'sf1289',  # foreach must have statement, not statement_or_null
-    'sv_casting',
-    'sv_wildcard_import2',  # event_trigger can't have package_scope
-    'sv_wildcard_import3',  # event_trigger can't have package_scope
     'undef',  # undefined macro behaviour is ambiguous
     'wildsense'  # '@ *' is invalid event_control ( '@*' or '@ (*)' is valid )
 ]
