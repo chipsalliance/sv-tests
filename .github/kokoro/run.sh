@@ -99,7 +99,7 @@ if [[ $KOKORO_TYPE = continuous ]]; then
 		echo
 		echo "Cloning the repo to deploy..."
 		git clone \
-			git+ssh://github.com/SymbiFlow/sv-tests.git \
+			git+ssh://github.com/SymbiFlow/sv-tests-results.git \
 			--reference $GIT_CHECKOUT \
 			--single-branch \
 			--depth 1 \
@@ -131,7 +131,7 @@ EOF
 		echo
 		echo "Pushing..."
 		git push \
-			git+ssh://github.com/SymbiFlow/sv-tests.git \
+			git+ssh://github.com/SymbiFlow/sv-tests-results.git \
 			gh-pages
 	)
 	echo "----------------------------------------"
