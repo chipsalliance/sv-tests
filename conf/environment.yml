@@ -4,20 +4,20 @@ channels:
   - pkgw-forge
   - conda-forge
 dependencies:
-#  - iverilog
-#  - moore
-#  - odin_ii
-#  - slang
-#  - surelog
-#  - sv-parser
-#  - tree-sitter-verilog
-#  - uhdm-integration-verilator
-#  - uhdm-integration-yosys
-#  - verible
-#  - verilator
-#  - yosys
-#  - antmicro-yosys
-#  - zachjs-sv2v
+#  - symbiflow::iverilog
+#  - symbiflow::moore
+#  - symbiflow::odin_ii
+#  - symbiflow::slang
+#  - symbiflow::surelog
+#  - symbiflow::sv-parser
+#  - symbiflow::tree-sitter-verilog
+#  - symbiflow::uhdm-integration-verilator
+#  - symbiflow::uhdm-integration-yosys
+#  - symbiflow::verible
+#  - symbiflow::verilator
+#  - symbiflow::yosys
+#  - symbiflow::antmicro-yosys
+#  - symbiflow::zachjs-sv2v
   - ccache
   - python=3.8
   - pip
