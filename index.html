@@ -1,0 +1,14 @@
+<html>
+  <head>
+    <meta http-equiv="refresh" content="1;/sv-tests-results/">
+  </head>
+  <script>
+setTimeout(function() {
+	const re = new RegExp('/sv-tests/');
+	let newurl = window.location.href.replace(re, '/sv-tests-results/');
+	console.log(newurl)
+	window.location.replace(newurl);
+}, 100);
+</script>
+
+</html>
