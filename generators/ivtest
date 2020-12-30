@@ -45,7 +45,7 @@ type_should_fail = ['CE', 'RE']
 # FIXME: this all needs to be updated to properly load the ivtest *.list
 #        files like is done with the ivtest driver along with the correct
 #        override of the various tests.
-ivtest_exclude = [
+ivtest_list_exclude = [
     'blif.list',  # Skip the BLIF test list
     'regress-ivl1.list',  # Skip the Icarus specific test list
     'regress-msys2.list',  # Skip the msys2 override test list
@@ -58,70 +58,72 @@ ivtest_exclude = [
     'vpi_regress.list'  # Skip the VPI test list
 ]
 
-ivtest_blacklist = [
-    'br974c',  # reg and logic is exclusive
-    'br988',  # generate_item can't have begin/end
+ivtest_file_exclude = [
+    # The following are invalid per the latest standard, but are supported by
+    # commercial tools. For now exclude these tests in sv-tests.
+    # '{} (empty array)
+    'sv_array_assign_pattern2',
+    'sv_darray_args1',
+    'sv_darray_args2',
+    'sv_darray_args2b',
+    'sv_darray_args3',
+    'sv_darray_args4',
+    'sv_queue_real',
+    'sv_queue_string',
+    'sv_queue_vec',
+    # pullup/down with multiple terminals
+    'pr1787423',
+    'pr1787423b',
+    'pr2834340',
+    'pr2834340b',
+    # Parallel path '=>' with multiple input terminals
+    'pr1877743',
+    'specify_01',
+    # Parameter override without parens
+    'pr3194155',
+    'z1',
+    'z2',
+    # Empty parameter override
+    'pr1716276',
+    # Package scope event access
+    'sv_wildcard_import2',
+    'sv_wildcard_import3',
+    # Packed dims support [<dim>] for [0:<dim>-1] just like unpacked dims
+    'display_bug',
+    # `protect compiler directives
+    'pr478',
+    # `suppress_faults compiler directives
+    'pr1467825',
+    # generate begin/end was valid when generate was initially defined
+    'br988',
+    'pr2257003',
+    'pr2257003b',
+    # Constant out of bound selects may be flagged as an compile time error
+    'pr1978358',
+    'pr1978358b',
+    'pr1978358c',
+    'pr1978358d',
+    'sel_rval_bit_ob',
+    # The following tests need to be looked at and verified
     'br_gh72b',  # should_fail test
-    'ca_time',  # IV only $simtime
     'case3',  # '@ *' is invalid event_control ( '@*' or '@ (*)' is valid )
-    'deposit',  # IV only $deposit
-    'deposit_wire',  # IV only $deposit
-    'display_bug',  # [2] is invalid range
     'elsif_test',  # ifdef must have text_macro_identifier
-    'enum_ports',  # reg can't have type
-    'fileio',  # IV only $fopenr and $fopenw
     'fread',  # $fread from invalid variable (per wsnyder)
-    'memsynth3',  # bit is keyword
-    'plus_arg_string',  # IV only $finish_and_return
-    'pr478',  # `protect is not valid directive
     'pr841',  # unresolved wires
-    'pr1467825',  # `suppress_faults is not valid directive
-    'pr1716276',  # empty parameter is invalid
     'pr1723367',  # scalar with vectored net
-    'pr1787423',  # pulldown can't have multiple terminal
-    'pr1787423b',  # pulldown can't have multiple terminal
-    'pr1861212a',  # reg can't have type
-    'pr1877743',  # parallel_path_description can't have multiple input terminal
-    'pr1978358',  # constant out of bound part select may be an error
-    'pr1978358b',  # constant out of bound part select may be an error
-    'pr1978358c',  # constant out of bound part select may be an error
-    'pr1978358d',  # constant out of bound part select may be an error
-    'pr2257003',  # generate_item can't have begin/end
-    'pr2257003b',  # generate_item can't have begin/end
     'pr2790236',  # non-ANSI port can't have assignment
-    'pr2834340',  # pulldown can't have multiple terminal
-    'pr2834340b',  # pulldown can't have multiple terminal
-    'pr3194155',  # parameter_value_assignment must have paren
-    'pr3270320',  # IV only $abs
-    'pr3539372',  # empty initial
-    'sel_rval_bit_ob',  # constant out of bound bit select may be an error
     'sf1289',  # foreach must have statement, not statement_or_null
-    'size_cast2',  # reg and logic is exclusive
-    'specify_01',  # parallel_path_description can't have multiple input terminal
-    'struct_packed_array',  # reg can't have type
-    'sv_array_assign_pattern2',  # '{} is invalid
-    'sv_casting',
-    'sv_darray_args1',  # '{} is invalid
-    'sv_darray_args2',  # '{} is invalid
-    'sv_darray_args2b',  # '{} is invalid
-    'sv_darray_args3',  # '{} is invalid
-    'sv_darray_args4',  # '{} is invalid
-    'sv_wildcard_import2',  # event_trigger can't have package_scope
-    'sv_wildcard_import3',  # event_trigger can't have package_scope
     'undef',  # undefined macro behaviour is ambiguous
-    'warn_opt_sys_tf',  # IV only $getpattern
-    'wildsense',  # '@ *' is invalid event_control ( '@*' or '@ (*)' is valid )
-    'z1',  # parameter_value_assignment must have paren
-    'z2'  # parameter_value_assignment must have paren
+    'wildsense'  # '@ *' is invalid event_control ( '@*' or '@ (*)' is valid )
 ]
 
 ivtest_long = ['comp1000', 'comp1001']
 
 ivtest_dir = os.path.abspath(os.path.join(third_party_dir, "tests", "ivtest"))
-ivtest_exclude = set(
-    map(lambda x: os.path.join(ivtest_dir, x), ivtest_exclude))
+ivtest_list_exclude = set(
+    map(lambda x: os.path.join(ivtest_dir, x), ivtest_list_exclude))
 ivtest_lists = list(
-    set(glob.glob(os.path.join(ivtest_dir, '*.list'))) - ivtest_exclude)
+    set(glob.glob(os.path.join(ivtest_dir, '*.list'))) - ivtest_list_exclude)
 
 tests = []
 
@@ -156,9 +158,7 @@ for l in ivtest_lists:
             # sanitize name
             name = re.sub(r'\W', '', name)
 
-            if name in ivtest_blacklist:
-                continue
-            if re.match("vhdl_", name):
+            if name in ivtest_file_exclude:
                 continue
 
             type_ = ''
