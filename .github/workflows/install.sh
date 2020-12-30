@@ -14,7 +14,7 @@ hash -r
 conda config --set always_yes yes --set changeps1 no
 
 # Uncomment the correct runner
-sed -e"s/^#  - $JOB_NAME$/  - $JOB_NAME/" -i conf/environment.yml
+sed -e"/^#  - .*::$JOB_NAME$/ { s/^#// }" -i conf/environment.yml
 git diff
 
 conda env create --file conf/environment.yml
