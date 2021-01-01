@@ -50,12 +50,14 @@ fi
 # If submodule doesn't exist, clone directly from the users repo
 if [ ! -e $SM_PATH/.git ]; then
 	echo "Cloning '$SM_PATH' from repo '$ORIGIN_URL'"
-	git clone $ORIGIN_URL $SM_PATH --origin origin
+	git clone --filter=tree:0 "$ORIGIN_URL" "$SM_PATH" --origin origin
 else
 	(
 		cd $SM_PATH
 		git remote rm origin >/dev/null 2>&1 || true
-		git remote add origin $ORIGIN_URL
+		git remote add origin "$ORIGIN_URL"
+		git config --local remote.origin.promisor true
+		git config --local remote.origin.partialclonefilter 'tree:0'
 	)
 fi
 
@@ -73,7 +75,9 @@ if [ "$USER_URL" != "$ORIGIN_URL" ]; then
 	(
 		cd $SM_PATH
 		git remote rm user >/dev/null 2>&1 || true
-		git remote add user $USER_URL
+		git remote add user "$USER_URL"
+		git config --local remote.user.promisor true
+		git config --local remote.user.partialclonefilter 'tree:0'
 		git fetch user --no-recurse-submodules
 	)
 fi
