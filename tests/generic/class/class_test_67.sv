@@ -12,3 +12,6 @@ class pp_class;
 `endif
   int router_size;
 endclass
+
+module test;
+endmodule

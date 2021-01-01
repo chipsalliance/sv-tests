@@ -8,3 +8,6 @@ class Base; endclass
 interface class Bar; endclass
 
 class Foo extends Base implements Bar; endclass
+
+module test;
+endmodule

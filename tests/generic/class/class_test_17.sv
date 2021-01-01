@@ -5,3 +5,6 @@
 */
 class Foo #(type IFType=virtual x_if);
 endclass
+
+module test;
+endmodule

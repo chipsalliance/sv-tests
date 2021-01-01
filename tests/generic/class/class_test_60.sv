@@ -9,3 +9,6 @@ class pp_class;
 `endif
 `endif
 endclass
+
+module test;
+endmodule

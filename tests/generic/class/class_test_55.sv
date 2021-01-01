@@ -12,3 +12,6 @@ class Driver;
   Packet pNP2 [ *];
   Packet pNP3 [ * ];
 endclass
+
+module test;
+endmodule

@@ -22,3 +22,6 @@ class param_types_as_class_item;
   localparam type GT = mypkg::GlueType, GT2 = int;
   localparam type HT1 = int, HT2 = mypkg::ModuleType#(N+M);
 endclass
+
+module test;
+endmodule

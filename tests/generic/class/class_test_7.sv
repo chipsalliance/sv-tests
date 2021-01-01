@@ -8,3 +8,6 @@ package Package;
 endpackage
 
 class Foo extends Package::Bar; endclass
+
+module test;
+endmodule

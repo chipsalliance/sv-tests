@@ -9,3 +9,6 @@ package Package;
 endpackage
 
 class Foo implements Package::Bar#(1, 2); endclass
+
+module test;
+endmodule
