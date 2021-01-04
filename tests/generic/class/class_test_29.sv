@@ -12,3 +12,6 @@ class Base; endclass
 interface class Baz; endclass
 
 class Foo extends Base implements Pkg::Bar, Baz; endclass
+
+module test;
+endmodule

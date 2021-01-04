@@ -16,3 +16,6 @@ task print();
   end
 endtask
 endclass
+
+module test;
+endmodule

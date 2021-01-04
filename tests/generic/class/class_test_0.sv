@@ -4,3 +4,6 @@
 :tags: 6.15 8.3
 */
 class semicolon_classy; ; ;;; ; ; ;endclass
+
+module test;
+endmodule

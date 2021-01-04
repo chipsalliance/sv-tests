@@ -17,3 +17,6 @@ class params_as_class_item;
   parameter reg P = '1;
   localparam M = f(glb::arr[N]) + 1;
 endclass
+
+module test;
+endmodule

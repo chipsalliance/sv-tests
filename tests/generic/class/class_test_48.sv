@@ -6,3 +6,6 @@
 class pp_as_class_item;
  `undef EVIL_MACRO
 endclass
+
+module test;
+endmodule

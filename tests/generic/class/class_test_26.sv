@@ -7,3 +7,6 @@ interface class Bar #(parameter N); endclass
 
 parameter int N = 1;
 class Foo implements Bar#(N); endclass
+
+module test;
+endmodule

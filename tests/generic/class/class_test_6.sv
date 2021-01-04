@@ -5,3 +5,6 @@
 */
 class Bar; endclass
 class Foo extends Bar; endclass
+
+module test;
+endmodule

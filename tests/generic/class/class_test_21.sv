@@ -9,3 +9,6 @@ endpackage
 localparam x=3, y=4, z=5;
 
 class Foo extends Package::Bar #(x,y,z); endclass
+
+module test;
+endmodule

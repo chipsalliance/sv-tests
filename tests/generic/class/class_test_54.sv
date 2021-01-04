@@ -8,3 +8,6 @@ class event_calendar;
   event first_date, anniversary;
   event revolution[4:0], independence[2:0];
 endclass
+
+module test;
+endmodule

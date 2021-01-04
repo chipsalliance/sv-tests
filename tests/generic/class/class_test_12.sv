@@ -8,3 +8,6 @@ localparam x=3, y=4, z=5;
 
 class Foo #(int N=1, int P=2) extends Bar #(x,y,z);
 endclass
+
+module test;
+endmodule

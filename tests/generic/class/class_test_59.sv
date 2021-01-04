@@ -7,3 +7,6 @@ class pp_class;
 `ifdef DEBUGGER
 `endif
 endclass
+
+module test;
+endmodule

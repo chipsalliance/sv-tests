@@ -11,3 +11,6 @@ class Driver;
   data_type_or_module_type foo3, foo4;
   data_type_or_module_type foo5 = 5, foo6 = 6;
 endclass
+
+module test;
+endmodule
