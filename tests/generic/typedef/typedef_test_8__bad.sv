@@ -7,3 +7,6 @@
 */
 // some_other_type is not defined
 typedef some_other_type myalias;
+
+module test;
+endmodule

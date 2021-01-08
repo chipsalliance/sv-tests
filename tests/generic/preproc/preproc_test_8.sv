@@ -6,3 +6,6 @@
 */
 `define INCEPTION(xyz) \
   `define DEEPER (xyz)
+
+module test;
+endmodule

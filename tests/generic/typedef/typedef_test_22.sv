@@ -8,3 +8,6 @@ typedef enum {
   Global = 2,
   Local = 3
 } uvec8_t;
+
+module test;
+endmodule

@@ -9,3 +9,6 @@
 `else
 `define SANITY 1
 `endif
+
+module test;
+endmodule

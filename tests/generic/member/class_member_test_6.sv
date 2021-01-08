@@ -8,3 +8,6 @@ extern protected task subtask(int arg);
 endclass
 
 task myclass::subtask(int arg); endtask
+
+module test;
+endmodule

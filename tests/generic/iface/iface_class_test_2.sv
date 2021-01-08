@@ -5,3 +5,6 @@
 */
 interface class base_ic #(int N = 8, type T = string);
 endclass
+
+module test;
+endmodule

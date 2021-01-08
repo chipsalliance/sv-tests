@@ -6,3 +6,6 @@
 typedef union myunion_fwd;
 
 typedef union { logic a; logic b; } myunion_fwd;
+
+module test;
+endmodule

@@ -11,3 +11,6 @@ virtual function void starter(uvm_phase phase);
   report_server new_server = new;
 endfunction : starter
 endclass
+
+module test;
+endmodule

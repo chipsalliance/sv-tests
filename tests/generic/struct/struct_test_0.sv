@@ -6,3 +6,6 @@
 typedef struct mystruct_fwd;
 
 typedef struct { logic a; logic b; } mystruct_fwd;
+
+module test;
+endmodule

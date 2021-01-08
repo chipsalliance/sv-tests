@@ -9,3 +9,6 @@ typedef struct {
   rand bit i;
   randc integer b[K:0];
 } randstruct;
+
+module test;
+endmodule

@@ -8,3 +8,6 @@ typedef enum num_t {
   Global = 4'h2,
   Local = 4'h3
 } myenum_fwd;
+
+module test;
+endmodule

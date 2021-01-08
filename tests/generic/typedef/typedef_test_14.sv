@@ -8,3 +8,6 @@ package some_package;
 endpackage
 
 typedef some_package::some_type myalias;
+
+module test;
+endmodule

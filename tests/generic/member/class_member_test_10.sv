@@ -11,3 +11,6 @@ class outerclass;
     endclass
   endclass
 endclass
+
+module test;
+endmodule

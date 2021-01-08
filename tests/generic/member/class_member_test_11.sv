@@ -6,3 +6,6 @@
 class myclass;
   int buzz_count;
 endclass
+
+module test;
+endmodule

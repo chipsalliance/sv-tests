@@ -7,3 +7,6 @@ class constructible;
 function new ();
 endfunction : new
 endclass
+
+module test;
+endmodule

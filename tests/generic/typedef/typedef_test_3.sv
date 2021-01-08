@@ -4,3 +4,6 @@
 :tags: 6.18
 */
 typedef reg[1:0] quartet[1:0];
+
+module test;
+endmodule

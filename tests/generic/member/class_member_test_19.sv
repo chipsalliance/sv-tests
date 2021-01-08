@@ -10,3 +10,6 @@ extern function void subr(bool x[N]);
 endclass
 
 function void myclass::subr(bool x[N]); endfunction
+
+module test;
+endmodule

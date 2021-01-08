@@ -7,3 +7,6 @@ interface class base_ic;
 pure virtual function void pure_task1;
 pure virtual function string concatenator(string arg);
 endclass
+
+module test;
+endmodule

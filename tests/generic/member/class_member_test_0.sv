@@ -7,3 +7,6 @@ class myclass;
 task subtask;
 endtask
 endclass
+
+module test;
+endmodule

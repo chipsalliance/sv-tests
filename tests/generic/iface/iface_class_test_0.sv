@@ -5,3 +5,6 @@
 */
 interface class base_ic;
 endclass
+
+module test;
+endmodule

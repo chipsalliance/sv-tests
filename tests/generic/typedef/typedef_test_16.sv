@@ -6,3 +6,6 @@
 typedef struct packed {
   logic [4:0] some_member;
 } mystruct_t;
+
+module test;
+endmodule

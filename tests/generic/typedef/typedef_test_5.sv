@@ -4,3 +4,6 @@
 :tags: 6.18
 */
 typedef union { int i; bit b; } bint;
+
+module test;
+endmodule
