@@ -8,3 +8,6 @@ class myclass;
 pure virtual task pure_task1;
 pure virtual task pure_task2(int arg);
 endclass
+
+module test;
+endmodule

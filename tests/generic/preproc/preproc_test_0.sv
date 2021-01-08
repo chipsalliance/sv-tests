@@ -5,3 +5,6 @@
 :type: preprocessing
 */
 `define TRUTH
+
+module test;
+endmodule

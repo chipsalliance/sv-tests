@@ -12,3 +12,6 @@
 // error if the type_identifier does not resolve to a data type.
 
 typedef missing_forward_typedef;
+
+module test;
+endmodule

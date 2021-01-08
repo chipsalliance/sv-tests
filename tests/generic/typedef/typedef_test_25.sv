@@ -17,3 +17,6 @@ typedef struct packed {
   reg   [M-1:0] mask;
   reg         parity;
 } req_t;
+
+module test;
+endmodule

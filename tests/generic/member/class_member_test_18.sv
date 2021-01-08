@@ -9,3 +9,6 @@ extern function void subroutine(input bool x);
 endclass
 
 function void myclass::subroutine(input bool x); endfunction
+
+module test;
+endmodule

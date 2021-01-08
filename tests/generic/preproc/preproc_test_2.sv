@@ -11,3 +11,6 @@ Didn't successfully include preproc_test_2.svh!
 `ifndef SANITY
 `define SANITY
 `endif
+
+module test;
+endmodule

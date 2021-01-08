@@ -9,3 +9,6 @@ parameter j = 5;
 parameter l = 2;
 
 typedef data_t my_ar_t [bit[31:0][k:0]][bit[j:0][l:0]];
+
+module test;
+endmodule

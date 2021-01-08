@@ -9,3 +9,6 @@ function integer subroutine;
   subroutine = a+42;
 endfunction
 endclass
+
+module test;
+endmodule

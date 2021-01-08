@@ -7,3 +7,6 @@ typedef struct {
   int sample;
   int tile;
 } tuple_t;
+
+module test;
+endmodule

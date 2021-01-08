@@ -4,3 +4,6 @@
 :tags: 6.18
 */
 typedef struct { int i, j, k; bit b, c, d; } mystruct;
+
+module test;
+endmodule

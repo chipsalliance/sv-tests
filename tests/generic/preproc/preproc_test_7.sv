@@ -6,3 +6,6 @@
 */
 `define INCEPTION(a, b, c) \
   (a*b-c)
+
+module test;
+endmodule

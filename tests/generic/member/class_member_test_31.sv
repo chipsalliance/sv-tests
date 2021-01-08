@@ -14,3 +14,6 @@ function void shifter;
   end
 endfunction
 endclass
+
+module test;
+endmodule

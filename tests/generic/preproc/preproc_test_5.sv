@@ -5,3 +5,6 @@
 :type: preprocessing
 */
 `define INCEPTION(a, b, c)
+
+module test;
+endmodule

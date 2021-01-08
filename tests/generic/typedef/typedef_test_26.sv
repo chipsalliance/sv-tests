@@ -11,3 +11,6 @@ typedef enum {
 `endif
   Local = 3
 } myenum_fwd;
+
+module test;
+endmodule

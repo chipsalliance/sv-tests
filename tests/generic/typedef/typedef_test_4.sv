@@ -4,3 +4,6 @@
 :tags: 6.18
 */
 typedef enum { RED, GREEN, BLUE } colors;
+
+module test;
+endmodule
