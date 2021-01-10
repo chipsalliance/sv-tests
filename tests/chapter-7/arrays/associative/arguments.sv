@@ -9,7 +9,7 @@ module top ();
 string arraya[int];
 
 task fun (string arrayb[int]);
-	arrayb[ 2 ] = "d";
+	arrayb[ 1 ] = "d";
 	$display(":assert: (('%s' == 'a') and ('%s' == 'd') and ('%s' == 'c'))",
 		arrayb[0], arrayb[1], arrayb[2]);
 endtask
