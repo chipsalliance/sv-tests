@@ -12,6 +12,6 @@ module sub(test_bus iface);
 endmodule
 
 module top;
-   test_bus iface;
+   test_bus iface();
    sub sub (.iface);
 endmodule

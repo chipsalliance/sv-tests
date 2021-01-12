@@ -6,5 +6,5 @@
 
 class a;
     rand int B[5];
-    constraint c { A.sum() == 5; }
+    constraint c { B.sum() == 5; }
 endclass
