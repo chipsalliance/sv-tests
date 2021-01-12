@@ -105,9 +105,7 @@ ivtest_file_exclude = [
     'pr1978358d',
     'sel_rval_bit_ob',
     # The following tests need to be looked at and verified
-    'br_gh72b',  # should_fail test
     'case3',  # '@ *' is invalid event_control ( '@*' or '@ (*)' is valid )
-    'elsif_test',  # ifdef must have text_macro_identifier
     'fread',  # $fread from invalid variable (per wsnyder)
     'pr841',  # unresolved wires
     'pr1723367',  # scalar with vectored net
