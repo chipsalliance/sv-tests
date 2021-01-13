@@ -26,7 +26,7 @@ export PATH=~/.local/bin:$PATH
 Build tools (optional, tools from `PATH` can be used):
 
 ```bash
-make runners
+make -k runners
 ```
 
 And then just run:
