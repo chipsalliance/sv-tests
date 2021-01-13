@@ -89,8 +89,7 @@ $(INSTALL_DIR)/lib/tree-sitter-verilog.so:
 
 uhdm-common:
 	mkdir -p $(INSTALL_DIR)/bin/
-	cd $(RDIR)/uhdm-integration && make uhdm/build
-	cd $(RDIR)/uhdm-integration && make surelog
+	cd $(RDIR)/uhdm-integration && $(MAKE) image/bin/surelog
 	cp $(RDIR)/uhdm-integration/Surelog/build/bin/surelog $(INSTALL_DIR)/bin/surelog-uhdm
 
 # surelog-uhdm-verilator
@@ -98,18 +97,18 @@ verilator-uhdm: $(INSTALL_DIR)/bin/verilator-uhdm
 
 # cannot use 'make -C uhdm-integration <target> as uhdm relies on $PWD
 $(INSTALL_DIR)/bin/verilator-uhdm: uhdm-common
-	cd $(RDIR)/uhdm-integration && make uhdm/verilator/build
-	cp $(RDIR)/uhdm-integration/verilator/bin/verilator $(INSTALL_DIR)/bin/verilator-uhdm
+	cd $(RDIR)/uhdm-integration && $(MAKE) image/bin/verilator
+	cp $(RDIR)/uhdm-integration/image/bin/verilator $(INSTALL_DIR)/bin/verilator-uhdm
 	sed -i 's/"verilator_bin"/"verilator_bin-uhdm"/g' $(INSTALL_DIR)/bin/verilator-uhdm
-	cp $(RDIR)/uhdm-integration/verilator/bin/verilator_bin $(INSTALL_DIR)/bin/verilator_bin-uhdm
+	cp $(RDIR)/uhdm-integration/image/bin/verilator_bin $(INSTALL_DIR)/bin/verilator_bin-uhdm
 
 # surelog-uhdm-yosys
 yosys-uhdm: $(INSTALL_DIR)/bin/yosys-uhdm
 
 # cannot use 'make -C uhdm-integration <target> as uhdm relies on $PWD
 $(INSTALL_DIR)/bin/yosys-uhdm: uhdm-common
-	cd $(RDIR)/uhdm-integration && make yosys/yosys
-	cp $(RDIR)/uhdm-integration/yosys/yosys $(INSTALL_DIR)/bin/yosys-uhdm
+	cd $(RDIR)/uhdm-integration && $(MAKE) image/bin/yosys
+	cp $(RDIR)/uhdm-integration/image/bin/yosys $(INSTALL_DIR)/bin/yosys-uhdm
 
 # sv-parser
 sv-parser: $(INSTALL_DIR)/bin/parse_sv
@@ -133,6 +132,6 @@ $(INSTALL_DIR)/bin/verible-verilog-kythe-extractor: verible
 $(INSTALL_DIR)/bin/verilog_syntax: verible
 
 # setup the dependencies
-RUNNERS_TARGETS := odin yosys icarus verilator slang zachjs-sv2v tree-sitter-verilog sv-parser moore verible surelog
+RUNNERS_TARGETS := odin yosys icarus verilator slang zachjs-sv2v tree-sitter-verilog sv-parser moore verible surelog antmicro-yosys yosys-uhdm verilator-uhdm
 .PHONY: $(RUNNERS_TARGETS)
 runners: $(RUNNERS_TARGETS)
