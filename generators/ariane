@@ -26,9 +26,8 @@ templ = """/*
 try:
     third_party_dir = os.environ['THIRD_PARTY_DIR']
     tests_dir = os.environ['TESTS_DIR']
-    conf_dir = os.environ['CONF_DIR']
 except KeyError:
-    print("Export the THIRD_PARTY_DIR, TESTS_DIR and CONF_DIR variables first")
+    print("Export the THIRD_PARTY_DIR and TESTS_DIR variables first")
     sys.exit(1)
 
 try:
@@ -38,26 +37,22 @@ except IndexError:
     sys.exit(1)
 
 ariane_path = os.path.abspath(os.path.join(third_party_dir, "cores", "ariane"))
-ariane_conf_path = os.path.abspath(
-    os.path.join(conf_dir, "generators", "ariane"))
 
-with open(os.path.join(ariane_conf_path, 'ar_pkg.src')) as f:
-    pkg_files = f.read().split()
+with open(os.path.join(ariane_path, 'Flist.ariane')) as f:
+    src_files = f.read().splitlines()
 
-with open(os.path.join(ariane_conf_path, 'ar_src.src')) as f:
-    src_files = f.read().split()
-
-pkg_files += ['src/util/sram.sv']
-
-incs = ['src/common_cells/include', 'src/axi_node']
 sources = ''
 incdirs = ''
 
-for sv in pkg_files + src_files:
-    sources += os.path.join(ariane_path, sv) + ' '
-
-for inc in incs:
-    incdirs += os.path.join(ariane_path, inc) + ' '
+for source in src_files:
+    src = source.strip()
+    if not src.startswith("//") and src:
+        if src.startswith("+incdir+"):
+            incdirs += os.path.join(
+                ariane_path,
+                src.partition("+incdir+")[2]) + ' '
+        else:
+            sources += os.path.join(ariane_path, src) + ' '
 
 test_dir = os.path.join(tests_dir, 'generated', tests_subdir)
 
