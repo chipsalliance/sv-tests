@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 #
-# Copyright (C) 2020 The SymbiFlow Authors.
+# Copyright (C) 2020-2021 The SymbiFlow Authors.
 #
 # Use of this source code is governed by a ISC-style
 # license that can be found in the LICENSE file or at
@@ -48,9 +48,11 @@ type_should_fail = ['CE', 'RE']
 ivtest_list_exclude = [
     'blif.list',  # Skip the BLIF test list
     'regress-ivl1.list',  # Skip the Icarus specific test list
+    'regress-ivl2.list',  # Skip the Icarus strict test list
     'regress-msys2.list',  # Skip the msys2 override test list
     'regress-v10.list',  # Skip the v10 override test list
     'regress-v11.list',  # Skip the v11 override test list
+    'regress-v12.list',  # Skip the v12 override test list
     'regress-vams.list',  # Skip the VAMS test list
     'regress-vhdl.list',  # Skip the VHDL test list
     'regress-vlog95.list',  # Skip the vlog95 override test list
@@ -104,6 +106,12 @@ ivtest_file_exclude = [
     'pr1978358c',
     'pr1978358d',
     'sel_rval_bit_ob',
+    'sel_rval_part_ob',
+    # Varaibles used before they are declared
+    'pr1648365',
+    'pr1936363',
+    # This uses $abstime from Verilog-A
+    'pr2590274a',
     # The following tests need to be looked at and verified
     'case3',  # '@ *' is invalid event_control ( '@*' or '@ (*)' is valid )
     'fread',  # $fread from invalid variable (per wsnyder)
