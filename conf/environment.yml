@@ -16,11 +16,10 @@ dependencies:
 #  - LiteX-Hub::verible
 #  - LiteX-Hub::verilator
 #  - LiteX-Hub::yosys
-#  - LiteX-Hub::antmicro-yosys
+#  - LiteX-Hub::antmicro-yosys-complete
 #  - LiteX-Hub::zachjs-sv2v
   - ccache
   - python=3.8
   - pip
-  - symbiflow-yosys-plugins
   - pip:                            # Packages installed from PyPI
     - -r file:requirements.txt
