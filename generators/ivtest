@@ -100,6 +100,13 @@ ivtest_file_exclude = [
     'br988',
     'pr2257003',
     'pr2257003b',
+    # These are optional system tasks and functions and may not be supported
+    'countdrivers1',
+    'countdrivers2',
+    'countdrivers3',
+    'countdrivers4',
+    'countdrivers5',
+    'warn_opt_sys_tf',
     # The following tests need to be looked at and verified
     'case3',  # '@ *' is invalid event_control ( '@*' or '@ (*)' is valid )
     'fread',  # $fread from invalid variable (per wsnyder)
