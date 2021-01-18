@@ -100,18 +100,6 @@ ivtest_file_exclude = [
     'br988',
     'pr2257003',
     'pr2257003b',
-    # Constant out of bound selects may be flagged as an compile time error
-    'pr1978358',
-    'pr1978358b',
-    'pr1978358c',
-    'pr1978358d',
-    'sel_rval_bit_ob',
-    'sel_rval_part_ob',
-    # Varaibles used before they are declared
-    'pr1648365',
-    'pr1936363',
-    # This uses $abstime from Verilog-A
-    'pr2590274a',
     # The following tests need to be looked at and verified
     'case3',  # '@ *' is invalid event_control ( '@*' or '@ (*)' is valid )
     'fread',  # $fread from invalid variable (per wsnyder)
