@@ -198,7 +198,7 @@ for l in ivtest_lists:
                 continue
 
             # skip Not Implemented tests
-            if re.match('NI' line[1]):
+            if re.match('NI', line[1]):
                 continue
 
             name = line[0]
