@@ -107,6 +107,51 @@ ivtest_file_exclude = [
     'countdrivers4',
     'countdrivers5',
     'warn_opt_sys_tf',
+    # Icarus checks that always blocks have delay constructs to prevent
+    # infinite loops. For now exclude these. I would ideally like to make
+    # these marked as fails for Icarus and and correctly parsed for others.
+    'always4A',
+    'always4B',
+    'always311A',
+    'always311B',
+    'always312A',
+    'always312B',
+    'always312C',
+    'always312D',
+    'always312E',
+    'always312F',
+    'always312G',
+    'always312H',
+    'always312I',
+    'always313A',
+    'always313B',
+    'always313C',
+    'always313D',
+    'always313E',
+    'always313F',
+    'always313G',
+    'always313H',
+    'always313J',
+    'always319A',
+    'always319B',
+    'always3110A',
+    'br991b',
+    'pr1862744b',
+    # Icarus checks that the always_* processes do not contain delay
+    # constructs and that the always_ff has a sensitivity list. These should
+    # should fail in Icarus, but should parse correctly.
+    'always_comb_fail3',
+    'always_comb_fail4',
+    'always_comb_fail',
+    'always_ff_fail2',
+    'always_ff_fail3',
+    'always_ff_fail4',
+    'always_ff_fail',
+    'always_ff_no_sens',
+    'always_latch_fail3',
+    'always_latch_fail4',
+    'always_latch_fail',
+    'always_latch_no_sens',
     # The following tests need to be looked at and verified
     'case3',  # '@ *' is invalid event_control ( '@*' or '@ (*)' is valid )
     'fread',  # $fread from invalid variable (per wsnyder)
@@ -150,6 +195,10 @@ for l in ivtest_lists:
             line = line.split()
 
             if len(line) < 3:
+                continue
+
+            # skip Not Implemented tests
+            if re.match('NI' line[1]):
                 continue
 
             name = line[0]
