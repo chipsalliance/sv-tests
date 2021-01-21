@@ -11,6 +11,7 @@
 
 import sys
 import os
+from make_var import *
 
 templ = """/*
 :name: ariane
@@ -37,23 +38,35 @@ except IndexError:
     sys.exit(1)
 
 ariane_path = os.path.abspath(os.path.join(third_party_dir, "cores", "ariane"))
+main_path = os.path.abspath(os.getcwd())
+os.chdir(ariane_path)
 
-with open(os.path.join(ariane_path, 'Flist.ariane')) as f:
-    src_files = f.read().splitlines()
+os.environ['RISCV'] = "./"
+# retrieve only data defined in makefile
+M = make_vars(origin=['makefile'])
 
-sources = ''
+try:
+    ver_cmd = M['makefile']['verilate_command']
+    ariane_pkg = M['makefile']['ariane_pkg']
+    ariane_src = M['makefile']['src']
+    util = M['makefile']['util']
+except:
+    print("Ariane makefile was changed, unable to create source list")
+    sys.exit(1)
+
+ver_cmd_comp = ver_cmd.split()
+sources = ariane_pkg + ' ' + ariane_src + ' ' + util
+
 incdirs = ''
 
-for source in src_files:
-    src = source.strip()
-    if not src.startswith("//") and src:
-        if src.startswith("+incdir+"):
-            incdirs += os.path.join(
-                ariane_path,
-                src.partition("+incdir+")[2]) + ' '
-        else:
-            sources += os.path.join(ariane_path, src) + ' '
+for components in ver_cmd_comp:
+    args = components.strip()
+    if args.startswith("+incdir+"):
+        incdirs += os.path.join(
+            ariane_path,
+            args.partition("+incdir+")[2]) + ' '
 
+os.chdir(main_path)
 test_dir = os.path.join(tests_dir, 'generated', tests_subdir)
 
 if not os.path.isdir(test_dir):
