@@ -78,6 +78,25 @@ echo "----------------------------------------"
 )
 echo "----------------------------------------"
 
+echo
+echo "========================================"
+echo "Running Analysis"
+echo "----------------------------------------"
+{
+	ANALYZER=$GIT_CHECKOUT"/tools/report_analyzer.py"
+	OUT_DIR=$GIT_CHECKOUT"/out/report/"
+	COMPARE_REPORT=$OUT_DIR"/report.csv"
+	BASE_REPORT=$OUT_DIR"/base_report.csv"
+	CHANGES_SUMMARY_JSON=$OUT_DIR"/tests_summary.json"
+	CHANGES_SUMMARY_MD=$OUT_DIR"/tests_summary.md"
+
+	# Get base report from sv-tests master run
+	wget https://symbiflow.github.io/sv-tests-results/report.csv -O $BASE_REPORT
+
+	python $ANALYZER $COMPARE_REPORT $BASE_REPORT -o $CHANGES_SUMMARY_JSON -t $CHANGES_SUMMARY_MD
+}
+echo "----------------------------------------"
+
 if [[ $KOKORO_TYPE = continuous ]]; then
 	#   - "make report USE_ALL_RUNNERS=1"
 	#   - "touch out/report/.nojekyll"
