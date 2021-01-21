@@ -106,7 +106,6 @@ ivtest_file_exclude = [
     'countdrivers3',
     'countdrivers4',
     'countdrivers5',
-    'warn_opt_sys_tf',
     # Icarus checks that always blocks have delay constructs to prevent
     # infinite loops. For now exclude these. I would ideally like to make
     # these marked as fails for Icarus and and correctly parsed for others.
