@@ -5,4 +5,5 @@ pygments
 yapf==0.30.0
 psutil
 mako
+make_var
 git+https://github.com/lowRISC/fusesoc.git@ot
