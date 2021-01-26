@@ -45,7 +45,11 @@ bp_path = os.path.abspath(
 cmd = "git submodule update --init --checkout {}".format(bp_path)
 os.system(cmd)
 print(cmd)
-cmd = "cd {}; git submodule update --init external/basejump_stl".format(
+cmd = "cd {}; git submodule update --init --recursive external/basejump_stl".format(
+    bp_path)
+os.system(cmd)
+print(cmd)
+cmd = "cd {}; git submodule update --init --recursive external/HardFloat".format(
     bp_path)
 os.system(cmd)
 print(cmd)
@@ -64,16 +68,20 @@ lists = [
         'top': 'bp_cce',
         'flist': 'bp_me/syn/flist.vcs'
     }, {
+        'name': 'bp_lce',
+        'top': 'bp_lce',
+        'flist': 'bp_me/syn/flist.vcs'
+    }, {
         'name': 'bp_uce',
         'top': 'bp_uce',
         'flist': 'bp_me/syn/flist.vcs'
     }, {
-        'name': 'bp_softcore',
-        'top': 'bp_softcore',
+        'name': 'bp_unicore',
+        'top': 'bp_unicore',
         'flist': 'bp_top/syn/flist.vcs'
     }, {
-        'name': 'bp_processor',
-        'top': 'bp_processor',
+        'name': 'bp_multicore',
+        'top': 'bp_multicore',
         'flist': 'bp_top/syn/flist.vcs'
     }
 ]
@@ -86,6 +94,7 @@ dirs = {
     '$BP_TOP_DIR': 'bp_top',
     '$BP_EXTERNAL_DIR': 'external',
     '$BASEJUMP_STL_DIR': 'external/basejump_stl',
+    '$HARDFLOAT_DIR': 'external/HardFloat',
 }
 
 
