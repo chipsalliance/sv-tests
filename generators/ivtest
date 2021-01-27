@@ -100,6 +100,14 @@ ivtest_file_exclude = [
     'br988',
     'pr2257003',
     'pr2257003b',
+    # Using %v with a variable
+    'pr923',
+    # $itor(real) and $rtoi(self-determined integer)
+    'itor_rtoi',
+    # $printtimescale() can be passed more than a module identifier
+    'pr1701855b',
+    # Extra module instance parameters are a warning and then ignored
+    'param_test3',
     # These are optional system tasks and functions and may not be supported
     'countdrivers1',
     'countdrivers2',
