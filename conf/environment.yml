@@ -1,26 +1,25 @@
 name: sv-test-env
 channels:
-  - symbiflow
+  - LiteX-Hub
   - pkgw-forge
   - conda-forge
 dependencies:
-#  - symbiflow::iverilog
-#  - symbiflow::moore
-#  - symbiflow::odin_ii
-#  - symbiflow::slang
-#  - symbiflow::surelog
-#  - symbiflow::sv-parser
-#  - symbiflow::tree-sitter-verilog
-#  - symbiflow::uhdm-integration-verilator
-#  - symbiflow::uhdm-integration-yosys
-#  - symbiflow::verible
-#  - symbiflow::verilator
-#  - symbiflow::yosys
-#  - symbiflow::antmicro-yosys
-#  - symbiflow::zachjs-sv2v
+#  - LiteX-Hub::iverilog
+#  - LiteX-Hub::moore
+#  - LiteX-Hub::odin_ii
+#  - LiteX-Hub::slang
+#  - LiteX-Hub::surelog
+#  - LiteX-Hub::sv-parser
+#  - LiteX-Hub::tree-sitter-verilog
+#  - LiteX-Hub::uhdm-integration-verilator
+#  - LiteX-Hub::uhdm-integration-yosys
+#  - LiteX-Hub::verible
+#  - LiteX-Hub::verilator
+#  - LiteX-Hub::yosys
+#  - LiteX-Hub::antmicro-yosys-complete
+#  - LiteX-Hub::zachjs-sv2v
   - ccache
   - python=3.8
   - pip
-  - symbiflow-yosys-plugins
   - pip:                            # Packages installed from PyPI
     - -r file:requirements.txt
