@@ -3,7 +3,7 @@ description: Full ibex core test
 top_module: ibex_core
 tags: ibex
 path: third_party/cores/ibex
-command: fusesoc --cores-root third_party/cores/ibex run --target=synth --setup lowrisc:ibex:top_artya7
-conf_file: build/lowrisc_ibex_top_artya7_0.1/synth-vivado/core-deps.mk
+command: fusesoc --cores-root third_party/cores/ibex run --target=lint --setup lowrisc:ibex:ibex_core:0.1
+conf_file: build/lowrisc_ibex_ibex_core_0.1/lint-verilator/core-deps.mk
 test_file: ibex.sv
 timeout: 100
