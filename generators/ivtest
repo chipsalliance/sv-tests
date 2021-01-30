@@ -159,15 +159,16 @@ ivtest_file_exclude = [
     'always_latch_fail4',
     'always_latch_fail',
     'always_latch_no_sens',
+    # '@ *' is valid and supported by commercial tools
+    'case3',
+    'wildsense'
     # The following tests need to be looked at and verified
-    'case3',  # '@ *' is invalid event_control ( '@*' or '@ (*)' is valid )
     'fread',  # $fread from invalid variable (per wsnyder)
     'pr841',  # unresolved wires
     'pr1723367',  # scalar with vectored net
     'pr2790236',  # non-ANSI port can't have assignment
     'sf1289',  # foreach must have statement, not statement_or_null
     'undef',  # undefined macro behaviour is ambiguous
-    'wildsense'  # '@ *' is invalid event_control ( '@*' or '@ (*)' is valid )
 ]
 
 ivtest_long = ['comp1000', 'comp1001']
