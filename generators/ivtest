@@ -108,6 +108,10 @@ ivtest_file_exclude = [
     'pr1701855b',
     # Extra module instance parameters are a warning and then ignored
     'param_test3',
+    # Initialization can be used with non-ANSI port definitions
+    'pr2790236',
+    # A foreach can have statement_or_null
+    'sf1289',
     # These are optional system tasks and functions and may not be supported
     'countdrivers1',
     'countdrivers2',
@@ -163,11 +167,7 @@ ivtest_file_exclude = [
     'case3',
     'wildsense'
     # The following tests need to be looked at and verified
-    'fread',  # $fread from invalid variable (per wsnyder)
-    'pr841',  # unresolved wires
     'pr1723367',  # scalar with vectored net
-    'pr2790236',  # non-ANSI port can't have assignment
-    'sf1289',  # foreach must have statement, not statement_or_null
     'undef',  # undefined macro behaviour is ambiguous
 ]
 
