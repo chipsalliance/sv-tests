@@ -1,7 +1,7 @@
 #!/bin/false python3
 # -*- coding: utf-8 -*-
 #
-# Copyright (C) 2020 The SymbiFlow Authors.
+# Copyright (C) 2020-2021 The SymbiFlow Authors.
 #
 # Use of this source code is governed by a ISC-style
 # license that can be found in the LICENSE file or at
@@ -43,7 +43,9 @@ class Icarus(BaseRunner):
     def get_version(self):
         version = super().get_version()
 
-        # The version is the 4th word in the 1st line
-        version = version.splitlines()[0].split()[3]
+        # The full version is the 4th word to the end of 1st line
+        version = version.splitlines()[0].split()[3:]
 
-        return " ".join([self.name, version])
+        version.insert(0, self.name)
+
+        return " ".join(version)
