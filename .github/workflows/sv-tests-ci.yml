@@ -64,10 +64,78 @@ jobs:
       - name: Run
         run:
           ./.github/workflows/run.sh
-      - name: Analyze
+      - name: Prepare Report
         run:
-          ./.github/workflows/analyze.sh
+          ./.github/workflows/tool_report_prepare.sh
       - uses: actions/upload-artifact@v2
         with:
-          name: changes_summary_${{ matrix.env.JOB_NAME }}.json
-          path: ./out/report/changes_summary.json
+          name: report_${{ matrix.env.JOB_NAME }}
+          path: |
+            ./out/report/${{ matrix.env.JOB_NAME }}_report.csv
+
+  Summary:
+    name: Summary
+    runs-on: ubuntu-18.04
+    needs: Run
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+      - uses: actions/setup-python@v2
+        with:
+          python-version: 3.7
+      - name: Prepare output directories
+        run: mkdir -p out/report
+      - uses: actions/download-artifact@v2
+        with:
+          path: ./out/
+      - name: Summary
+        run:
+          ./.github/workflows/summary.sh
+      - uses: actions/upload-artifact@v2
+        with:
+          name: tests_summary
+          path: |
+            ./out/report/tests_summary.json
+            ./out/report/tests_summary.md
+            ./out/report/tests_report.csv
+            ./out/report/base_report.csv
+      - id: get-artifacts-to-delete
+        run: |
+          artifacts=$(find ./out -type d -name 'report_*' -exec basename {} \;)
+          echo $artifacts
+          artifacts="${artifacts//'%'/'%25'}"
+          artifacts="${artifacts//$'\n'/'%0A'}"
+          artifacts="${artifacts//$'\r'/'%0D'}"
+          echo ::set-output name=artifacts::$artifacts
+          echo $artifacts
+      - name: Delete Old Artifacts
+        uses: geekyeggo/delete-artifact@v1
+        with:
+          name: ${{ steps.get-artifacts-to-delete.outputs.artifacts }}
+
+  Comment:
+    if: github.event_name == 'pull_request'
+    name: Comment
+    runs-on: ubuntu-18.04
+    needs: Summary
+    steps:
+      - name: Prepare output directories
+        run: mkdir -p out/report
+      - uses: actions/download-artifact@v2
+        with:
+          name: tests_summary
+          path: ./out/report
+      - id: get-comment-body
+        run: |
+          body=$(cat ./out/report/tests_summary.md)
+          body="${body//'%'/'%25'}"
+          body="${body//$'\n'/'%0A'}"
+          body="${body//$'\r'/'%0D'}"
+          echo ::set-output name=body::$body
+      - name: Post comment
+        uses: KeisukeYamashita/create-comment@v1
+        with:
+          check-only-first-line: "true"
+          unique: "true"
+          token: ${{ secrets.GITHUB_TOKEN }}
+          comment: ${{ steps.get-comment-body.outputs.body }}
