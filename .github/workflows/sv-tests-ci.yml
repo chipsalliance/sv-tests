@@ -91,6 +91,9 @@ jobs:
       - name: Summary
         run:
           ./.github/workflows/summary.sh
+      - name: Save PR number
+        run: |
+          echo ${{ github.event.number }} > ./out/report/issue_num
       - uses: actions/upload-artifact@v2
         with:
           name: tests_summary
@@ -99,6 +102,7 @@ jobs:
             ./out/report/tests_summary.md
             ./out/report/tests_report.csv
             ./out/report/base_report.csv
+            ./out/report/issue_num
       - id: get-artifacts-to-delete
         run: |
           artifacts=$(find ./out -type d -name 'report_*' -exec basename {} \;)
@@ -112,30 +116,3 @@ jobs:
         uses: geekyeggo/delete-artifact@v1
         with:
           name: ${{ steps.get-artifacts-to-delete.outputs.artifacts }}
-
-  Comment:
-    if: github.event_name == 'pull_request'
-    name: Comment
-    runs-on: ubuntu-18.04
-    needs: Summary
-    steps:
-      - name: Prepare output directories
-        run: mkdir -p out/report
-      - uses: actions/download-artifact@v2
-        with:
-          name: tests_summary
-          path: ./out/report
-      - id: get-comment-body
-        run: |
-          body=$(cat ./out/report/tests_summary.md)
-          body="${body//'%'/'%25'}"
-          body="${body//$'\n'/'%0A'}"
-          body="${body//$'\r'/'%0D'}"
-          echo ::set-output name=body::$body
-      - name: Post comment
-        uses: KeisukeYamashita/create-comment@v1
-        with:
-          check-only-first-line: "true"
-          unique: "true"
-          token: ${{ secrets.GITHUB_TOKEN }}
-          comment: ${{ steps.get-comment-body.outputs.body }}
