@@ -64,3 +64,55 @@ jobs:
       - name: Run
         run:
           ./.github/workflows/run.sh
+      - name: Prepare Report
+        run:
+          ./.github/workflows/tool_report_prepare.sh
+      - uses: actions/upload-artifact@v2
+        with:
+          name: report_${{ matrix.env.JOB_NAME }}
+          path: |
+            ./out/report/${{ matrix.env.JOB_NAME }}_report.csv
+
+  Summary:
+    name: Summary
+    runs-on: ubuntu-18.04
+    needs: Run
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+      - uses: actions/setup-python@v2
+        with:
+          python-version: 3.7
+      - name: Prepare output directories
+        run: mkdir -p out/report
+      - uses: actions/download-artifact@v2
+        with:
+          path: ./out/
+      - name: Summary
+        run:
+          ./.github/workflows/summary.sh
+      - name: Save PR number
+        run: |
+          echo ${{ github.event.number }} > ./out/report/issue_num
+      - uses: actions/upload-artifact@v2
+        with:
+          name: tests_summary
+          path: |
+            ./out/report/tests_summary.json
+            ./out/report/tests_summary.md
+            ./out/report/tests_report.csv
+            ./out/report/base_report.csv
+            ./out/report/issue_num
+      - id: get-artifacts-to-delete
+        run: |
+          artifacts=$(find ./out -type d -name 'report_*' -exec basename {} \;)
+          echo $artifacts
+          artifacts="${artifacts//'%'/'%25'}"
+          artifacts="${artifacts//$'\n'/'%0A'}"
+          artifacts="${artifacts//$'\r'/'%0D'}"
+          echo ::set-output name=artifacts::$artifacts
+          echo $artifacts
+      - name: Delete Old Artifacts
+        uses: geekyeggo/delete-artifact@v1
+        with:
+          name: ${{ steps.get-artifacts-to-delete.outputs.artifacts }}
