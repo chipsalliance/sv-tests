@@ -1,4 +1,4 @@
-# SystemVerilog Tester
+# SystemVerilog Tester - testing report analyzer
 
 [![License](https://img.shields.io/github/license/SymbiFlow/sv-tests.svg)](https://github.com/SymbiFlow/sv-tests/blob/master/LICENSE)
 [![Build Status](https://github.com/symbiflow/sv-tests/workflows/sv-tests-ci/badge.svg)](https://github.com/SymbiFlow/sv-tests/actions)
