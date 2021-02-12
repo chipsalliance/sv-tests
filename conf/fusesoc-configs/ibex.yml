@@ -4,6 +4,6 @@ top_module: ibex_core
 tags: ibex
 path: third_party/cores/ibex
 command: fusesoc --cores-root third_party/cores/ibex run --target=lint --setup lowrisc:ibex:ibex_core:0.1
-conf_file: build/lowrisc_ibex_ibex_core_0.1/lint-verilator/core-deps.mk
+conf_file: build/lowrisc_ibex_ibex_core_0.1/lint-verilator/lowrisc_ibex_ibex_core_0.1.vc
 test_file: ibex.sv
 timeout: 100

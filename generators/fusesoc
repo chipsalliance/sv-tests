@@ -17,11 +17,10 @@ templ = """/*
 """
 
 try:
-    third_party_dir = os.environ['THIRD_PARTY_DIR']
     tests_dir = os.environ['TESTS_DIR']
     conf_dir = os.environ['CONF_DIR']
 except KeyError:
-    print("Export the THIRD_PARTY_DIR, TESTS_DIR and CONF_DIR variables first")
+    print("Export the TESTS_DIR and CONF_DIR variables first")
     sys.exit(1)
 
 try:
@@ -30,12 +29,13 @@ except IndexError:
     print("Usage: ./generator <subdir>")
     sys.exit(1)
 
+fusesoc_conf_subdir = "fusesoc-configs"
 fusesoc_conf_files = os.listdir(
-    os.path.abspath(os.path.join(conf_dir, "fusesoc-configs")))
+    os.path.abspath(os.path.join(conf_dir, fusesoc_conf_subdir)))
 
 for fusesoc_conf_file in fusesoc_conf_files:
     fusesoc_conf_file = os.path.abspath(
-        os.path.join(conf_dir, "fusesoc-configs", fusesoc_conf_file))
+        os.path.join(conf_dir, fusesoc_conf_subdir, fusesoc_conf_file))
 
     if not os.path.isfile(fusesoc_conf_file):
         continue
@@ -61,36 +61,6 @@ for fusesoc_conf_file in fusesoc_conf_files:
         print("No key", err, "in file", fusesoc_conf_file)
         continue
 
-    pkg_sources = []
-    sources = []
-    sources_ordered = ''
-    incdirs = ''
-    incs = []
-    command_list = list(yml_conf["command"].split(" "))
-
-    subprocess.call(
-        command_list, stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
-
-    ibex_conf_path = os.path.abspath(yml_conf["conf_file"])
-
-    with open(os.path.abspath(yml_conf["conf_file"]), "r") as f:
-        for line in f:
-            line = line.strip()
-            line = line.rstrip(" \\")
-            if line.endswith('.sv'):
-                incs.append(
-                    os.path.dirname(os.path.join(ibex_conf_path, line)))
-                if line.endswith('_pkg.sv'):
-                    pkg_sources.append(os.path.join(ibex_conf_path, line))
-                else:
-                    sources.append(os.path.join(ibex_conf_path, line))
-
-    sources_ordered = ' '.join(pkg_sources + sources)
-
-    incs = list(dict.fromkeys(incs))
-    for line in incs:
-        incdirs += line + ' '
-
     test_dir = os.path.join(tests_dir, 'generated', tests_subdir)
 
     if not os.path.isdir(test_dir):
@@ -98,9 +68,66 @@ for fusesoc_conf_file in fusesoc_conf_files:
 
     test_file = os.path.join(test_dir, yml_conf["test_file"])
 
-    with open(test_file, "w") as f:
-        f.write(
-            templ.format(
-                yml_conf["name"], yml_conf["description"], sources_ordered,
-                incdirs, yml_conf["top_module"], yml_conf["tags"],
-                yml_conf["timeout"]))
+    command_list = list(yml_conf["command"].split(" "))
+
+    subprocess.call(
+        command_list, stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
+
+    incdirs = ''
+    core_conf_path = os.path.abspath(yml_conf["conf_file"])
+    sources_path = os.path.dirname(core_conf_path)
+
+    # Parse fusesoc files dedicated for Verilator
+    if core_conf_path.endswith('.vc'):
+
+        sources = ''
+
+        with open(core_conf_path, "r") as f:
+            for line in f:
+                line = line.strip()
+                if line.startswith("+incdir+"):
+                    incdirs += os.path.join(
+                        sources_path,
+                        line.partition("+incdir+")[2]) + ' '
+                elif line.startswith("--top-module"):
+                    top_module = line.partition("--top-module ")[2]
+                elif not line.startswith("-") and line:
+                    sources += os.path.join(sources_path, line) + ' '
+
+        with open(test_file, "w") as f:
+            f.write(
+                templ.format(
+                    yml_conf["name"], yml_conf["description"], sources,
+                    incdirs, top_module, yml_conf["tags"],
+                    yml_conf["timeout"]))
+
+    else:
+
+        pkg_sources = []
+        sources = []
+        sources_ordered = ''
+        incs = []
+
+        with open(core_conf_path, "r") as f:
+            for line in f:
+                line = line.strip()
+                line = line.rstrip(" \\")
+                if line.endswith('.sv'):
+                    incs.append((os.path.join(sources_path, line)))
+                    if line.endswith('_pkg.sv'):
+                        pkg_sources.append(os.path.join(core_conf_path, line))
+                    else:
+                        sources.append(os.path.join(core_conf_path, line))
+
+        sources_ordered = ' '.join(pkg_sources + sources)
+
+        incs = list(dict.fromkeys(incs))
+        for line in incs:
+            incdirs += line + ' '
+
+        with open(test_file, "w") as f:
+            f.write(
+                templ.format(
+                    yml_conf["name"], yml_conf["description"], sources_ordered,
+                    incdirs, yml_conf["top_module"], yml_conf["tags"],
+                    yml_conf["timeout"]))
