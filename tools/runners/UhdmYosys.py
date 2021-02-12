@@ -35,7 +35,7 @@ class UhdmYosys(BaseRunner):
 
             # prep (without optimizations
             f.write(
-                f"hierarchy -check -top \\work_{top}\n"
+                f"hierarchy -check -top \\{top}\n"
                 "proc\n"
                 "check\n"
                 "memory_dff\n"
