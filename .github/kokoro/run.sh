@@ -90,6 +90,11 @@ echo "----------------------------------------"
 	CHANGES_SUMMARY_JSON=$OUT_DIR"/tests_summary.json"
 	CHANGES_SUMMARY_MD=$OUT_DIR"/tests_summary.md"
 
+	set +x +e
+	source "$HOME/miniconda/etc/profile.d/conda.sh"
+	hash -r
+	conda activate sv-test-env
+
 	# Get base report from sv-tests master run
 	wget https://symbiflow.github.io/sv-tests-results/report.csv -O $BASE_REPORT
 
