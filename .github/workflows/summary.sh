@@ -34,7 +34,7 @@ done
 cat $(find ./out/report_* -name "*.csv" -print) >> $COMPARE_REPORT
 
 # Insert header at the first line of concatenated report
-sed -i 1i\ $(cat $(find ./out/report_* -name "*.csv.backup" -print | head -1) | head -1) $COMPARE_REPORT
+sed -i 1i\ $(head -1 $(find ./out/report_* -name "*.csv.backup" -print -quit)) $COMPARE_REPORT
 
 python $ANALYZER $COMPARE_REPORT $BASE_REPORT -o $CHANGES_SUMMARY_JSON -t $CHANGES_SUMMARY_MD
 
