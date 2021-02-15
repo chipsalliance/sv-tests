@@ -11,6 +11,7 @@ all: report
 OUT_DIR ?= ./out/
 CONF_DIR ?= ./conf
 TESTS_DIR ?= ./tests
+BUILD_DIR ?= ./build
 RUNNERS_DIR ?= ./tools/runners
 THIRD_PARTY_DIR ?= ./third_party
 GENERATORS_DIR ?= ./generators
@@ -39,6 +40,7 @@ include tools/runners.mk
 
 clean:
 	rm -rf $(OUT_DIR)
+	rm -rf $(BUILD_DIR)
 	rm -rf $(TESTS_DIR)/generated/
 
 init:
