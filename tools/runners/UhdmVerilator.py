@@ -65,9 +65,9 @@ class UhdmVerilator(BaseRunner):
         top = self.get_top_module_or_guess(params)
 
         # surelog changes the name to work@<top>
-        # and then verilator changes @ -> _
+        # and then verilator changes work@<top> -> <top>
         if top is not None:
-            self.cmd.append(f'--top-module work_{top}')
+            self.cmd.append(f'--top-module {top}')
 
         self.cmd += [
             '--Mdir', build_dir, '--prefix', 'Vtop', '--exe', '-o', build_exe
