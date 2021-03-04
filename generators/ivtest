@@ -176,8 +176,10 @@ ivtest_long = ['comp1000', 'comp1001']
 ivtest_dir = os.path.abspath(os.path.join(third_party_dir, "tests", "ivtest"))
 ivtest_list_exclude = set(
     map(lambda x: os.path.join(ivtest_dir, x), ivtest_list_exclude))
-ivtest_lists = list(
-    set(glob.glob(os.path.join(ivtest_dir, '*.list'))) - ivtest_list_exclude)
+ivtest_lists = sorted(
+    list(
+        set(glob.glob(os.path.join(ivtest_dir, '*.list'))) -
+        ivtest_list_exclude))
 
 tests = []
 
@@ -186,6 +188,7 @@ skip = False
 incdirs = [ivtest_dir, os.path.join(ivtest_dir, 'ivltests')]
 
 for l in ivtest_lists:
+    list_filename = re.match(r'.*/([^/]*)\.list', l).group(1)
     with open(l, 'r') as f:
         for line in f:
             if skip:
@@ -231,8 +234,8 @@ for l in ivtest_lists:
 
             tests.append(
                 (
-                    name + '_iv', path, should_fail_because, type_,
-                    ' '.join(incdirs), timeout))
+                    list_filename + '_' + name + '_iv', path,
+                    should_fail_because, type_, ' '.join(incdirs), timeout))
 
 test_dir = os.path.join(tests_dir, 'generated', tests_subdir)
 
