@@ -7,5 +7,5 @@ conda activate sv-test-env
 hash -r
 set -x
 
-make info
-make -j2
+make $@ info
+make $@

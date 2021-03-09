@@ -47,8 +47,8 @@ jobs:
           - { JOB_NAME: antmicro-yosys-complete, MAKEFLAGS: -j2 }
           - { JOB_NAME: verible, MAKEFLAGS: -j2 }
           - { JOB_NAME: verilator, MAKEFLAGS: -j2 }
-          - { JOB_NAME: uhdm-integration-verilator, MAKEFLAGS: -j2 }
-          - { JOB_NAME: uhdm-integration-yosys, MAKEFLAGS: -j2 }
+          - { JOB_NAME: uhdm-integration-verilator, MAKEFLAGS: -j2 RUNNERS_FILTER=UhdmVerilator }
+          - { JOB_NAME: uhdm-integration-yosys, MAKEFLAGS: -j2 RUNNERS_FILTER=UhdmYosys }
           - { JOB_NAME: zachjs-sv2v, MAKEFLAGS: -j2 }
 
     name: ${{ matrix.env.JOB_NAME }}
@@ -62,10 +62,10 @@ jobs:
           python-version: 3.7
       - name: Install
         run:
-          ./.github/workflows/install.sh
+          ./.github/workflows/install.sh ${{ matrix.env.MAKEFLAGS }}
       - name: Run
         run:
-          ./.github/workflows/run.sh
+          ./.github/workflows/run.sh ${{ matrix.env.MAKEFLAGS }}
       - name: Prepare Report
         run:
           ./.github/workflows/tool_report_prepare.sh
