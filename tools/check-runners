@@ -19,6 +19,7 @@ from importlib import import_module
 parser = argparse.ArgumentParser()
 
 parser.add_argument("runners", metavar='runner', type=str, nargs='+')
+parser.add_argument("--filter", type=str, nargs='*')
 
 args = parser.parse_args()
 logger = logging.getLogger()
@@ -30,7 +31,14 @@ runners_ok = []
 if 'RUNNERS_DIR' in os.environ:
     sys.path.insert(1, os.path.abspath(os.environ['RUNNERS_DIR']))
 
-for runner in args.runners:
+if args.filter is not None:
+    runners = set(args.runners) & set(args.filter)
+else:
+    runners = set(args.runners)
+
+runners = list(sorted(runners))
+
+for runner in runners:
     try:
         module = import_module(runner)
         runner_cls = getattr(module, runner)

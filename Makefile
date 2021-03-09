@@ -117,7 +117,12 @@ endef
 RUNNERS_FOUND := $(wildcard $(RUNNERS_DIR)/*.py)
 RUNNERS_FOUND := $(RUNNERS_FOUND:$(RUNNERS_DIR)/%=%)
 RUNNERS_FOUND := $(basename $(RUNNERS_FOUND))
-RUNNERS := $(shell OUT_DIR=$(OUT_DIR) RUNNERS_DIR=$(RUNNERS_DIR) ./tools/check-runners $(RUNNERS_FOUND))
+
+ifdef RUNNERS_FILTER
+FILTER := --filter $(RUNNERS_FILTER)
+endif
+
+RUNNERS := $(shell OUT_DIR=$(OUT_DIR) RUNNERS_DIR=$(RUNNERS_DIR) ./tools/check-runners $(RUNNERS_FOUND) $(FILTER))
 TESTS := $(shell find $(TESTS_DIR) -type f -iname *.sv)
 TESTS := $(TESTS:$(TESTS_DIR)/%=%)
 GENERATORS := $(wildcard $(GENERATORS_DIR)/*)

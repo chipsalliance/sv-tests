@@ -23,8 +23,8 @@ hash -r
 conda info -a
 
 # Generate the tests
-make generate-tests
-make info
+make $@ generate-tests
+make $@ info
 
 set +e
 set +x
