@@ -65,12 +65,17 @@ class tree_sitter_verilog(BaseRunner):
     def run(self, tmp_dir, params):
         self.ret = 0
         self.log = ''
-        lib = self.find_lib()
 
-        lang = Language(lib, 'verilog')
+        try:
+            lib = self.find_lib()
 
-        parser = Parser()
-        parser.set_language(lang)
+            lang = Language(lib, 'verilog')
+
+            parser = Parser()
+            parser.set_language(lang)
+        except Exception as e:
+            self.log += f'{e}\n'
+            self.ret = 1
 
         for src in params['files']:
             f = None
