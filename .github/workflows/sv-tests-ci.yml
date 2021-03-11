@@ -36,20 +36,20 @@ jobs:
       fail-fast: false
       matrix:
         env:
-          - { JOB_NAME: iverilog, MAKEFLAGS: -j2 }
+          #- { JOB_NAME: iverilog, MAKEFLAGS: -j2 }
           - { JOB_NAME: moore, MAKEFLAGS: -j2 }
-          - { JOB_NAME: odin_ii, MAKEFLAGS: -j2 }
-          - { JOB_NAME: slang, MAKEFLAGS: -j2 }
-          - { JOB_NAME: sv-parser, MAKEFLAGS: -j2 }
-          - { JOB_NAME: surelog, MAKEFLAGS: -j2 }
-          - { JOB_NAME: tree-sitter-verilog, MAKEFLAGS: -j2 }
-          - { JOB_NAME: yosys, MAKEFLAGS: -j2 }
-          - { JOB_NAME: antmicro-yosys-complete, MAKEFLAGS: -j2 }
-          - { JOB_NAME: verible, MAKEFLAGS: -j2 }
+          #- { JOB_NAME: odin_ii, MAKEFLAGS: -j2 }
+          #- { JOB_NAME: slang, MAKEFLAGS: -j2 }
+          #- { JOB_NAME: sv-parser, MAKEFLAGS: -j2 }
+          #- { JOB_NAME: surelog, MAKEFLAGS: -j2 }
+          #- { JOB_NAME: tree-sitter-verilog, MAKEFLAGS: -j2 }
+          #- { JOB_NAME: yosys, MAKEFLAGS: -j2 }
+          #- { JOB_NAME: antmicro-yosys-complete, MAKEFLAGS: -j2 }
+          #- { JOB_NAME: verible, MAKEFLAGS: -j2 }
           - { JOB_NAME: verilator, MAKEFLAGS: -j2 }
-          - { JOB_NAME: uhdm-integration-verilator, MAKEFLAGS: -j2 RUNNERS_FILTER=UhdmVerilator }
-          - { JOB_NAME: uhdm-integration-yosys, MAKEFLAGS: -j2 RUNNERS_FILTER=UhdmYosys }
-          - { JOB_NAME: zachjs-sv2v, MAKEFLAGS: -j2 }
+          #- { JOB_NAME: uhdm-integration-verilator, MAKEFLAGS: -j2 RUNNERS_FILTER=UhdmVerilator }
+          #- { JOB_NAME: uhdm-integration-yosys, MAKEFLAGS: -j2 RUNNERS_FILTER=UhdmYosys }
+          #- { JOB_NAME: zachjs-sv2v, MAKEFLAGS: -j2 }
 
     name: ${{ matrix.env.JOB_NAME }}
     env: ${{ matrix.env }}
@@ -74,6 +74,7 @@ jobs:
           name: report_${{ matrix.env.JOB_NAME }}
           path: |
             ./out/report/${{ matrix.env.JOB_NAME }}_report.csv
+            ./out
 
   Summary:
     name: Summary
@@ -105,6 +106,7 @@ jobs:
             ./out/report/tests_report.csv
             ./out/report/base_report.csv
             ./out/report/issue_num
+            ./out
       - id: get-artifacts-to-delete
         run: |
           artifacts=$(find ./out -type d -name 'report_*' -exec basename {} \;)
