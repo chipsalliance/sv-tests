@@ -1,0 +1,37 @@
+{
+	"name": "hdlconvertor_std2017",
+	"project": "hdlconv_std2017",
+	"paths": [
+		["tests", "hdlconvertor", "tests", "sv_test", "std2017"]
+	],
+	"matches": ["*.sv", "*.v"],
+	"blacklist": [
+		"p137.sv",
+		"p174_2.sv",
+		"p176.sv",
+		"p180_2.sv",
+		"p229.sv",
+		"p335.sv",
+		"p342.sv",
+		"p504.sv",
+		"p524.sv",
+		"p552.sv",
+		"p711.sv",
+		"p713.sv",
+		"p714.sv",
+		"p731.sv",
+		"p732.sv",
+		"p734.sv",
+		"p735.sv",
+		"p736.sv",
+		"p755.sv",
+		"p782.sv",
+		"p793.sv",
+		"p794.sv",
+		"p795.sv",
+		"p802.sv",
+		"p825.sv",
+		"p836.sv",
+		"p940.sv"
+	]
+}
