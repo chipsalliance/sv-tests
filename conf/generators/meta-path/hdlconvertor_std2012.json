@@ -1,0 +1,13 @@
+{
+	"name": "hdlconvertor_std2012",
+	"project": "hdlconv_std2012",
+	"paths": [
+		["tests", "hdlconvertor", "tests", "sv_test", "std2012"]
+	],
+	"matches": ["*.sv", "*.v"],
+	"blacklist": [
+		"p12.sv",
+		"p138.sv",
+		"p77.sv"
+	]
+}
