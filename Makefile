@@ -116,13 +116,14 @@ endef
 
 RUNNERS_FOUND := $(wildcard $(RUNNERS_DIR)/*.py)
 RUNNERS_FOUND := $(RUNNERS_FOUND:$(RUNNERS_DIR)/%=%)
-RUNNERS_FOUND := $(basename $(RUNNERS_FOUND))
+RUNNERS_FOUND := $(sort $(basename $(RUNNERS_FOUND)))
 
 ifdef RUNNERS_FILTER
 FILTER := --filter $(RUNNERS_FILTER)
 endif
 
-RUNNERS := $(shell OUT_DIR=$(OUT_DIR) RUNNERS_DIR=$(RUNNERS_DIR) ./tools/check-runners $(RUNNERS_FOUND) $(FILTER))
+RUNNERS := $(sort $(shell OUT_DIR=$(OUT_DIR) RUNNERS_DIR=$(RUNNERS_DIR) \
+                          ./tools/check-runners $(RUNNERS_FOUND) $(FILTER)))
 TESTS := $(shell find $(TESTS_DIR) -type f -iname *.sv)
 TESTS := $(TESTS:$(TESTS_DIR)/%=%)
 GENERATORS := $(wildcard $(GENERATORS_DIR)/*)
@@ -132,8 +133,8 @@ space := $(subst ,, )
 
 ifneq ($(USE_ALL_RUNNERS),)
 ifneq ($(RUNNERS), $(RUNNERS_FOUND))
-$(warning Runners found: $(RUNNERS))
-$(warning Runners defined: $(RUNNERS_FOUND))
+$(warning Runners found: $(RUNNERS_FOUND))
+$(warning Runners defined: $(RUNNERS))
 $(error Some runners are missing)
 endif
 endif
