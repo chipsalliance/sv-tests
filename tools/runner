@@ -112,7 +112,8 @@ test = os.path.abspath(os.path.join(dirs['tests'], args.test))
 # In addition to these fixed names, "runner_<tool>_flags" is allowed
 supported_test_params = [
     "name", "tags", "description", "files", "incdirs", "top_module", "timeout",
-    "type", "should_fail", "should_fail_because", "defines"
+    "type", "should_fail", "should_fail_because", "defines",
+    "compatible-runners"
 ]
 
 test_params = {}
@@ -155,6 +156,7 @@ try:
                 ("0", "1")["should_fail_because" in test_params.keys()])
             test_params.setdefault('should_fail_because', "")
             test_params.setdefault('defines', "")
+            test_params.setdefault('compatible-runners', "all")
 
             if len(set(supported_test_params) - set(test_params.keys())) != 0:
                 missing = list(
@@ -184,7 +186,8 @@ test_params['incdirs'] = list(
         lambda x: os.path.abspath(os.path.join(dirs['tests'], x)),
         test_params['incdirs'].split()))
 
-test_params['mode'] = runner_obj.get_mode(test_params['type'].split())
+test_params['mode'] = runner_obj.get_mode(
+    test_params['type'].split(), test_params['compatible-runners'].split())
 if test_params['mode'] is None:
     logger.info("Skipping {}/{}".format(args.runner, args.test))
     with open(out, "w") as f:

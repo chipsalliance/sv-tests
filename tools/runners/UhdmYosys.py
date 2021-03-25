@@ -45,20 +45,27 @@ class UhdmYosys(BaseRunner):
                 "write_json\n"
                 "write_verilog\n")
 
-        uhdm_yosys_path = None
-        for path in os.environ["PATH"].split(os.pathsep):
-            exe_file = os.path.join(path, "uhdm-yosys")
-            if os.path.isfile(exe_file) and os.access(exe_file, os.X_OK):
-                uhdm_yosys_path = path
-                break
-        if uhdm_yosys_path is None:
-            print("Could not find uhdm-yosys in PATH, exiting")
-            sys.exit(1)
+        library_paths = ""
 
-        library_paths = "-v " + os.path.join(
-            uhdm_yosys_path, "../share/uhdm-yosys/xilinx/cells_xtra_surelog.v")
-        library_paths += " -v " + os.path.join(
-            uhdm_yosys_path, "../share/uhdm-yosys/xilinx/cells_sim.v")
+        # Surelog requires definition of all modules when parsing design
+        # in order to include correct parameters.
+        # Ibex design is using primitives directly, so we are including them here.
+        if "ibex" in params["tags"]:
+            uhdm_yosys_path = None
+            for path in os.environ["PATH"].split(os.pathsep):
+                exe_file = os.path.join(path, "uhdm-yosys")
+                if os.path.isfile(exe_file) and os.access(exe_file, os.X_OK):
+                    uhdm_yosys_path = path
+                    break
+            if uhdm_yosys_path is None:
+                print("Could not find uhdm-yosys in PATH, exiting")
+                sys.exit(1)
+
+            library_paths = "-v " + os.path.join(
+                uhdm_yosys_path,
+                "../share/uhdm-yosys/xilinx/cells_xtra_surelog.v")
+            library_paths += " -v " + os.path.join(
+                uhdm_yosys_path, "../share/uhdm-yosys/xilinx/cells_sim.v")
 
         # generate runner script
         with open(runner_scr, "w") as f:
