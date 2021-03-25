@@ -105,6 +105,8 @@ jobs:
             ./out/report/tests_report.csv
             ./out/report/base_report.csv
             ./out/report/issue_num
+            ./out/report/new_passes.csv
+            ./out/report/new_failures.csv
       - id: get-artifacts-to-delete
         run: |
           artifacts=$(find ./out -type d -name 'report_*' -exec basename {} \;)
