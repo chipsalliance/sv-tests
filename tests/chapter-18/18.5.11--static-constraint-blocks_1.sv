@@ -19,13 +19,12 @@ class env extends uvm_env;
   a obj1 = new;
   a obj2 = new;
 
-  /* shall affect all instances of constraint c2 */
-  obj1.c1.constraint_mode(0);
-
   function new(string name, uvm_component parent = null);
     super.new(name, parent);
+    /* shall affect all instances of constraint c2 */
+    obj1.c1.constraint_mode(0);
   endfunction
-  
+
   task run_phase(uvm_phase phase);
     phase.raise_objection(this);
     begin
@@ -39,7 +38,7 @@ class env extends uvm_env;
     end
     phase.drop_objection(this);
   endtask: run_phase
-  
+
 endclass
 
 module top;
@@ -50,5 +49,5 @@ module top;
     environment = new("env");
     run_test();
   end
-  
+
 endmodule
