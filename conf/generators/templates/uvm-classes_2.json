@@ -11,7 +11,7 @@
 		"import uvm_pkg::*;",
 		"`include \"uvm_macros.svh\"\n",
 
-		"class C extends {0};",
+		"class C extends {0}(\"\", null);",
 		"endclass"
 	],
 	"values": [
