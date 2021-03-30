@@ -7,3 +7,4 @@ command: fusesoc --cores-root third_party/cores/opentitan run --target=sim lowri
 conf_file: build/lowrisc_systems_top_earlgrey_0.1/sim-icarus/lowrisc_systems_top_earlgrey_0.1.scr
 test_file: earlgrey.sv
 timeout: 360
+compatible-runners: all

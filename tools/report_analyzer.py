@@ -165,12 +165,31 @@ def main():
         help=
         "path to output md file with summary, defaults to \"report_summary.md\""
     )
+    parser.add_argument(
+        "-c",
+        "--changes",
+        dest="changes_path",
+        default="./out/report",
+        help=
+        "path to output csv file with names of test that changed status, defaults to \"./out/report\""
+    )
     args = parser.parse_args()
 
     reportA = get_data(args.report_compare)
     reportB = get_data(args.report_base)
 
     summary = check_reports(reportA, reportB)
+
+    with open(args.changes_path + "/new_failures.csv", "w") as csv_file:
+        writer = csv.writer(csv_file)
+        for tool in summary["comparable_tools"]:
+            for test in summary["comparable_tools"][tool]["new_failures"]:
+                writer.writerow([tool, test])
+    with open(args.changes_path + "/new_passes.csv", "w") as csv_file:
+        writer = csv.writer(csv_file)
+        for tool in summary["comparable_tools"]:
+            for test in summary["comparable_tools"][tool]["new_passes"]:
+                writer.writerow([tool, test])
 
     prepare_comment(summary, args.table_path)
 

@@ -1,0 +1,10 @@
+name: ibex
+description: Full ibex core test
+top_module: ibex_simple_system
+tags: ibex
+path: third_party/cores/ibex
+command: fusesoc --cores-root third_party/cores/ibex run --target=sim --setup lowrisc:ibex:ibex_simple_system --RV32E=0 --RV32M=ibex_pkg::RV32MFast
+conf_file: build/lowrisc_ibex_ibex_simple_system_0/sim-verilator/lowrisc_ibex_ibex_simple_system_0.vc
+test_file: ibex-sim.sv
+timeout: 100
+compatible-runners: verilator-uhdm verilator

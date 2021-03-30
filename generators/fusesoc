@@ -13,6 +13,7 @@ templ = """/*
 :top_module: {4}
 :tags: {5}
 :timeout: {6}
+:compatible-runners: {7}
 */
 """
 
@@ -57,6 +58,7 @@ for fusesoc_conf_file in fusesoc_conf_files:
         yml_conf["conf_file"]
         yml_conf["test_file"]
         yml_conf["timeout"]
+        yml_conf["compatible-runners"]
     except KeyError as err:
         print("No key", err, "in file", fusesoc_conf_file)
         continue
@@ -79,18 +81,38 @@ for fusesoc_conf_file in fusesoc_conf_files:
     incdirs = ''
     sources = ''
 
-    with open(core_conf_path, "r") as f:
-        for line in f:
-            line = line.strip()
-            if line.startswith("+incdir+"):
-                incdirs += os.path.join(
-                    sources_path,
-                    line.partition("+incdir+")[2]) + ' '
-            elif (core_conf_path.endswith('.vc')
-                  and line.startswith("--top-module")):
-                top_module = line.partition("--top-module ")[2]
-            elif not line.startswith("-") and line:
-                sources += os.path.join(sources_path, line) + ' '
+    if core_conf_path.endswith(".vc") or core_conf_path.endswith(".scr"):
+        with open(core_conf_path, "r") as f:
+            for line in f:
+                line = line.strip()
+                if line.startswith("+incdir+"):
+                    incdirs += os.path.join(
+                        sources_path,
+                        line.partition("+incdir+")[2]) + ' '
+                elif (core_conf_path.endswith('.vc')
+                      and line.startswith("--top-module")):
+                    top_module = line.partition("--top-module ")[2]
+                elif not line.startswith("-") and line:
+                    sources += os.path.join(sources_path, line) + ' '
+    elif core_conf_path.endswith(".tcl"):
+        with open(core_conf_path, "r") as f:
+            for line in f:
+                line = line.strip()
+                if line.startswith("read_verilog -sv "):
+                    sources += os.path.join(
+                        sources_path, line.replace("read_verilog -sv ",
+                                                   "")) + " "
+                elif line.startswith("set_property include_dirs "):
+                    line.replace("set_property include_dirs ", "")
+                    # Skip unnecessary information here, leave only paths to include dirs
+                    split = line.split(" ")[3:-3]
+                    for s in split:
+                        incdirs += os.path.join(sources_path, s) + " "
+    else:
+        print(
+            f"Unsupported config file: {core_conf_path}, currently supports only .vc, .scr and .tcl files"
+        )
+        sys.exit(1)
 
     # Fusesoc files dedicated for Verilator contains top module
     if core_conf_path.endswith('.vc'):
@@ -99,8 +121,8 @@ for fusesoc_conf_file in fusesoc_conf_files:
             f.write(
                 templ.format(
                     yml_conf["name"], yml_conf["description"], sources,
-                    incdirs, top_module, yml_conf["tags"],
-                    yml_conf["timeout"]))
+                    incdirs, top_module, yml_conf["tags"], yml_conf["timeout"],
+                    yml_conf["compatible-runners"]))
 
     else:
 
@@ -109,4 +131,4 @@ for fusesoc_conf_file in fusesoc_conf_files:
                 templ.format(
                     yml_conf["name"], yml_conf["description"], sources,
                     incdirs, yml_conf["top_module"], yml_conf["tags"],
-                    yml_conf["timeout"]))
+                    yml_conf["timeout"], yml_conf["compatible-runners"]))
