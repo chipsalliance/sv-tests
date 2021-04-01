@@ -82,7 +82,6 @@ jobs:
       - name: Prepare Report
         run:
           ./.github/workflows/tool_report_prepare.sh
-          tree ./out/ -L 2
       - uses: actions/upload-artifact@v2
         with:
           name: report_${{ matrix.env.JOB_NAME }}
@@ -107,7 +106,6 @@ jobs:
       - name: Summary
         run:
           ./.github/workflows/summary.sh
-          tree ./out/ -L 2
       - name: Save PR number
         run: |
           echo ${{ github.event.number }} > ./out/report/issue_num

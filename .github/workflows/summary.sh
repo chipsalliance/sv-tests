@@ -2,7 +2,7 @@
 
 ANALYZER=$PWD"/tools/report_analyzer.py"
 OUT_DIR=$PWD"/out/report/"
-COMPARE_REPORT=$OUT_DIR"/tests_report.csv"
+COMPARE_REPORT=$OUT_DIR"/report.csv"
 BASE_REPORT=$OUT_DIR"/base_report.csv"
 CHANGES_SUMMARY_JSON=$OUT_DIR"/tests_summary.json"
 CHANGES_SUMMARY_MD=$OUT_DIR"/tests_summary.md"
