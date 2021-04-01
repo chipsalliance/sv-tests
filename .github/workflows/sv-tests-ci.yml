@@ -111,6 +111,7 @@ jobs:
       - name: Save PR number
         run: |
           echo ${{ github.event.number }} > ./out/report/issue_num
+          ./.github/workflows/compress.sh
       - uses: actions/upload-artifact@v2
         with:
           name: tests_summary
