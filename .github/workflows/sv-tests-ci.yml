@@ -106,6 +106,22 @@ jobs:
       - name: Summary
         run:
           ./.github/workflows/summary.sh
+      - name: Update sv-tests-results repository
+        if: github.ref == 'refs/heads/master'
+        run: |
+          echo "TODO: Uncomment pushing new report and generate token"
+        #uses: cpina/github-action-push-to-another-repository@master
+        #env:
+        #  API_TOKEN_GITHUB: ${{ secrets.API_TOKEN_GITHUB }}
+        #with:
+        #  source-directory: './out/report/'
+        #  destination-repository-name: 'sv-tests-results'
+        #  destination-repository-username: 'SymbiFlow'
+        #  destination-github-username: 'SymbiFlow Robot'
+        #  user-email: foss-fpga-tools@google.com
+        #  target-branch: 'gh-pages'
+        #  commit-message: 'Deploy $GITHUB_REF (build $GITHUB_RUN_ID)'
+        #  commit-message: 'Build from $GITHUB_SHA'
       - name: Save PR number
         run: |
           echo ${{ github.event.number }} > ./out/report/issue_num
