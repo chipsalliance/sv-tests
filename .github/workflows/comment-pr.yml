@@ -15,6 +15,12 @@ jobs:
           github.event.workflow_run.conclusion == 'success' &&
           github.ref != 'refs/heads/master' }}
     steps:
+      - name: test
+        run: |
+          echo ${{ github.event.workflow_run.event }}
+          echo ${{ github.event.workflow_run.conclusion }}
+          echo ${{ github.event.workflow_run.ref }}
+          false # fail early
       - name: Prepare output directories
         run: mkdir -p out/report
 
