@@ -22,6 +22,8 @@ class Surelog(BaseRunner):
         self.cmd = [
             self.executable, '-nopython', '-nobuiltin', '-parse', '-noelab'
         ]
+        if "black-parrot" in params["tags"]:
+            self.cmd.append('-sverilog')
 
         for incdir in params['incdirs']:
             self.cmd.append('-I' + incdir)
