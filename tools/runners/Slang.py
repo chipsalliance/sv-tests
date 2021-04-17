@@ -38,6 +38,12 @@ class Slang(BaseRunner):
         for define in params['defines']:
             self.cmd.extend(['-D', define])
 
+        # hdlconv and utd tests are not semantically valid SystemVerilog, so we
+        # can only expect to run parsing successfully.
+        tags = params["tags"]
+        if "hdlconv" in tags or "hdlconv_std2012" in tags or "hdlconv_std2017" in tags or "utd-sv" in tags:
+            self.cmd.append('--parse-only')
+
         self.cmd += params['files']
 
     def get_version(self):
