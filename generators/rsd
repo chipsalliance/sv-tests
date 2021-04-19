@@ -62,7 +62,8 @@ with open(rsd_tcl, "r") as f:
 
 # The compile.tcl file is missing some required sources for whatever reason.
 sources += os.path.join(rsd_path, "../../Src/Cache/CacheFlushManager.sv") + ' '
-sources += os.path.join(rsd_path, "../../Src/Cache/CacheFlushManagerIF.sv") + ' '
+sources += os.path.join(
+    rsd_path, "../../Src/Cache/CacheFlushManagerIF.sv") + ' '
 
 with open(test_file, "w") as f:
     f.write(templ.format(sources, incdirs))
