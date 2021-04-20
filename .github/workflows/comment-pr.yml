@@ -20,7 +20,6 @@ jobs:
           echo ${{ github.event.workflow_run.event }}
           echo ${{ github.event.workflow_run.conclusion }}
           echo ${{ github.event.workflow_run.ref }}
-          false # fail early
       - name: Prepare output directories
         run: mkdir -p out/report
 
