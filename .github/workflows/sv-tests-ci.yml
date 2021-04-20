@@ -86,7 +86,8 @@ jobs:
         with:
           name: report_${{ matrix.env.JOB_NAME }}
           path: |
-            ./out/
+            ./out/report/${{ matrix.env.JOB_NAME }}_report.csv
+            ./out/logs/
 
   Summary:
     name: Summary
@@ -104,8 +105,10 @@ jobs:
         with:
           path: ./out/
       - name: Summary
-        run:
+        run: |
           ./.github/workflows/summary.sh
+          ./.github/workflows/report.sh
+          ls -la ./out/report/
       - name: Update sv-tests-results repository
         if: github.ref == 'refs/heads/master'
         run: |
