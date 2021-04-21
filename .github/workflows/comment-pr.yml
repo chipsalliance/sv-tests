@@ -12,11 +12,6 @@ jobs:
     runs-on: ubuntu-18.04
     if: ${{ github.event.workflow_run.event == 'pull_request' && github.event.workflow_run.conclusion == 'success' }}
     steps:
-      - name: test
-        run: |
-          echo ${{ github.event.workflow_run.event }}
-          echo ${{ github.event.workflow_run.conclusion }}
-          echo ${{ github.event.workflow_run.ref }}
       - name: Prepare output directories
         run: mkdir -p out/report
 
