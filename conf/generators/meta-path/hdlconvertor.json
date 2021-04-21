@@ -7,8 +7,10 @@
 	],
 	"matches": ["*.sv", "*.v"],
 	"blacklist": [
+		"aes.v",
 		"adder_implicit.sv",
 		"directive_verilogpp.sv",
-		"fifo_rx.sv"
+		"fifo_rx.sv",
+		"parity_using_function2.v"
 	]
 }
