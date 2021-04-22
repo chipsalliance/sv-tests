@@ -14,6 +14,7 @@ templ = """/*
 :tags: {5}
 :timeout: {6}
 :compatible-runners: {7}
+:allow_elaboration: {8}
 */
 """
 
@@ -59,6 +60,7 @@ for fusesoc_conf_file in fusesoc_conf_files:
         yml_conf["test_file"]
         yml_conf["timeout"]
         yml_conf["compatible-runners"]
+        yml_conf["allow_elaboration"]
     except KeyError as err:
         print("No key", err, "in file", fusesoc_conf_file)
         continue
@@ -123,4 +125,4 @@ for fusesoc_conf_file in fusesoc_conf_files:
             templ.format(
                 yml_conf["name"], yml_conf["description"], sources, incdirs,
                 top_module, yml_conf["tags"], yml_conf["timeout"],
-                yml_conf["compatible-runners"]))
+                yml_conf["compatible-runners"], yml_conf["allow_elaboration"]))
