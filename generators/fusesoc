@@ -115,20 +115,12 @@ for fusesoc_conf_file in fusesoc_conf_files:
         sys.exit(1)
 
     # Fusesoc files dedicated for Verilator contains top module
-    if core_conf_path.endswith('.vc'):
+    if not core_conf_path.endswith('.vc'):
+        top_module = yml_conf["top_module"]
 
-        with open(test_file, "w") as f:
-            f.write(
-                templ.format(
-                    yml_conf["name"], yml_conf["description"], sources,
-                    incdirs, top_module, yml_conf["tags"], yml_conf["timeout"],
-                    yml_conf["compatible-runners"]))
-
-    else:
-
-        with open(test_file, "w") as f:
-            f.write(
-                templ.format(
-                    yml_conf["name"], yml_conf["description"], sources,
-                    incdirs, yml_conf["top_module"], yml_conf["tags"],
-                    yml_conf["timeout"], yml_conf["compatible-runners"]))
+    with open(test_file, "w") as f:
+        f.write(
+            templ.format(
+                yml_conf["name"], yml_conf["description"], sources, incdirs,
+                top_module, yml_conf["tags"], yml_conf["timeout"],
+                yml_conf["compatible-runners"]))
