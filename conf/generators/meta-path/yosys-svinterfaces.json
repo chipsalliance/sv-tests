@@ -4,5 +4,6 @@
 	"paths": [
 		["tools", "yosys", "tests", "svinterfaces"]
 	],
-	"matches": ["*.sv"]
+	"matches": ["*.sv"],
+	"blacklist": ["svinterface1.sv", "svinterface_at_top.sv"]
 }

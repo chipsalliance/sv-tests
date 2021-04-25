@@ -44,6 +44,10 @@ if not os.path.isdir(test_dir):
     os.makedirs(test_dir, exist_ok=True)
 
 for f in glob.glob(os.path.join(yosys_path, 'tests', 'hana', 'test*.v')):
+    # test_parser has invalid syntax
+    if 'test_parser.v' in f:
+        continue
+
     fname = 'hana_' + os.path.basename(os.path.splitext(f)[0])
     test_file = os.path.join(test_dir, fname + '.sv')
 
