@@ -15,6 +15,36 @@ body {
   height: 150px;
 }
 
+.report_table_info {
+  position: sticky;
+  left: 0;
+  z-index: 2;
+  background-color: white;
+}
+
+.report_table_tag {
+  position: sticky;
+  left: calc(30em + 20px);
+  z-index: 2;
+  background-color: white;
+}
+
+.fixedHeader-floating {
+  z-index: 4;
+  background-color: white;
+}
+
+.report_summary_header {
+  position: sticky;
+  left: 0;
+  z-index: 2;
+  background-color: lightgray;
+}
+
+.gray_header {
+  background-color: lightgray;
+}
+
 table.dataTable thead .sorting, table.dataTable thead .sorting_asc, 
 table.dataTable thead .sorting_desc, table.dataTable thead .sorting_asc_disabled, 
 table.dataTable thead .sorting_desc_disabled {
@@ -39,6 +69,10 @@ table.dataTable tfoot th {
 
 .report_footer {
   outline: 2px solid #505050;
+}
+
+.report_footer > tr:first-of-type > .report_summary_header {
+  box-shadow: 0 -2px 0 #505050;
 }
 
 .report_table_tag {
