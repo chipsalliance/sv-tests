@@ -313,7 +313,8 @@ def collect_logs(runner_name):
             "description", "files", "incdirs", "top_module", "runner",
             "runner_url", "time_elapsed", "type", "mode", "timeout",
             "user_time", "system_time", "ram_usage", "tool_success",
-            "should_fail_because", "defines", "compatible-runners"
+            "should_fail_because", "defines", "compatible-runners",
+            "allow_elaboration"
         ]
         with open(t, "r") as f:
             try:

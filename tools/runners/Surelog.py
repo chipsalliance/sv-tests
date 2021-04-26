@@ -10,6 +10,7 @@
 # SPDX-License-Identifier: ISC
 
 from BaseRunner import BaseRunner
+from distutils.util import strtobool
 
 
 class Surelog(BaseRunner):
@@ -19,9 +20,11 @@ class Surelog(BaseRunner):
         self.url = "https://github.com/alainmarcel/Surelog"
 
     def prepare_run_cb(self, tmp_dir, params):
-        self.cmd = [
-            self.executable, '-nopython', '-nobuiltin', '-parse', '-noelab'
-        ]
+        self.cmd = [self.executable, '-nopython', '-nobuiltin', '-parse']
+
+        if not strtobool(params['allow_elaboration']):
+            self.cmd.append('-noelab')
+
         if "black-parrot" in params["tags"]:
             self.cmd.append('-sverilog')
 
