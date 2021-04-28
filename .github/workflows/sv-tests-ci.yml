@@ -27,9 +27,22 @@ jobs:
       - name: Test
         run:
           test $(git status --porcelain | wc -l) -eq 0 || { git diff; false; }
-      - name: License
+      - name: Clone submodules
         run:
-          ./.github/workflows/check_license.sh
+          ./.github/add-local-submodules.sh "$GITHUB_REPOSITORY"
+      - name: License
+        uses: SymbiFlow/actions/checks@main
+        with:
+          exclude_directory: |
+            ./.git/
+            ./.github/
+            ./.dependabot/
+            ./miniconda.sh
+            ./build/
+          third_party: |
+            ./third_party/cores/
+            ./third_party/tests/
+            ./third_party/tools/
 
   Run:
     strategy:

@@ -1,4 +1,4 @@
-#!/bin/false python3
+#!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 #
 # Copyright (C) 2020-2021 The SymbiFlow Authors.
