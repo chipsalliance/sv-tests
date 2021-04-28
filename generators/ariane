@@ -19,7 +19,7 @@ templ = """/*
 :files: {0}
 :incdirs: {1}
 :tags: ariane
-:top_module: ariane_testharness
+:top_module: {2}
 :timeout: 360
 */
 """
@@ -47,17 +47,15 @@ M = make_vars(origin=['makefile'])
 
 try:
     ver_cmd = M['makefile']['verilate_command']
-    ariane_pkg = M['makefile']['ariane_pkg']
-    ariane_src = M['makefile']['src']
-    util = M['makefile']['util']
 except:
     print("Ariane makefile was changed, unable to create source list")
     sys.exit(1)
 
 ver_cmd_comp = ver_cmd.split()
-sources = ariane_pkg + ' ' + ariane_src + ' ' + util
-
 incdirs = ''
+sources = ''
+# flag for the next line with the top module name
+get_top_module = False
 
 for components in ver_cmd_comp:
     args = components.strip()
@@ -65,6 +63,13 @@ for components in ver_cmd_comp:
         incdirs += os.path.join(
             ariane_path,
             args.partition("+incdir+")[2]) + ' '
+    elif args.startswith("--top-module"):
+        get_top_module = True
+    elif get_top_module:
+        top_module = args
+        get_top_module = False
+    elif args.endswith('.sv'):
+        sources += os.path.join(ariane_path, args) + ' '
 
 os.chdir(main_path)
 test_dir = os.path.join(tests_dir, 'generated', tests_subdir)
@@ -75,4 +80,4 @@ if not os.path.isdir(test_dir):
 test_file = os.path.join(test_dir, "ariane.sv")
 
 with open(test_file, "w") as f:
-    f.write(templ.format(sources, incdirs))
+    f.write(templ.format(sources, incdirs, top_module))
