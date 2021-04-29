@@ -259,7 +259,7 @@ def readConfig(filename):
                 if len(entry) == 3:
                     urls[entry[0]] = entry[2]
     except (OSError, FileNotFoundError, KeyError) as e:
-        criticalError(f"Unable to {config} file - {str(e)}")
+        criticalError(f"Unable to parse {config} file - {str(e)}")
     return config, urls
 
 
