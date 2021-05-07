@@ -11,8 +11,8 @@ dependencies:
 #  - LiteX-Hub::surelog
 #  - LiteX-Hub::sv-parser
 #  - LiteX-Hub::tree-sitter-verilog
-#  - LiteX-Hub::uhdm-integration-verilator
-#  - LiteX-Hub::uhdm-integration-yosys
+#  - LiteX-Hub::verilator-uhdm
+#  - LiteX-Hub::yosys-uhdm
 #  - LiteX-Hub::verible
 #  - LiteX-Hub::verilator
 #  - LiteX-Hub::yosys

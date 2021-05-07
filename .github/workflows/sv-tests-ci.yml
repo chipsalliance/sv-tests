@@ -47,8 +47,8 @@ jobs:
           - { JOB_NAME: antmicro-yosys-complete, MAKEFLAGS: -j2 }
           - { JOB_NAME: verible, MAKEFLAGS: -j2 }
           - { JOB_NAME: verilator, MAKEFLAGS: -j2 }
-          - { JOB_NAME: uhdm-integration-verilator, MAKEFLAGS: -j2 RUNNERS_FILTER=UhdmVerilator }
-          - { JOB_NAME: uhdm-integration-yosys, MAKEFLAGS: -j2 RUNNERS_FILTER=UhdmYosys }
+          - { JOB_NAME: verilator-uhdm, MAKEFLAGS: -j2 RUNNERS_FILTER=UhdmVerilator }
+          - { JOB_NAME: yosys-uhdm, MAKEFLAGS: -j2 RUNNERS_FILTER=UhdmYosys }
           - { JOB_NAME: zachjs-sv2v, MAKEFLAGS: -j2 }
 
     name: ${{ matrix.env.JOB_NAME }}
