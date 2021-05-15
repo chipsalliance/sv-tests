@@ -38,7 +38,12 @@
 		"bsg_dramsim3_pkg.v",
 		"bsg_mesh_router_pkg.v",
 		"bsg_tag_pkg.v",
-		"bsg_wormhole_router_pkg.v"
+		"bsg_wormhole_router_pkg.v",
+		"bsg_1_to_n_tagged_fifo_shared.v",
+		"bsg_mem_multiport.v",
+		"bsg_sbox_ctrl.v",
+		"bsg_sbox_ctrl_concentrate.v",
+		"bsg_pg_tree.v"
 	],
 	"fake_topmodule": true
 }
