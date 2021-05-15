@@ -14,8 +14,6 @@
 */
 module top(input clk);
 
-wire clk;
-
 global clocking ck1 @(posedge clk); endclocking
 
 endmodule
