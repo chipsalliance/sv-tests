@@ -107,28 +107,28 @@
           {% endfor %}
         </tr>
         <tr class="report_summary_row">
-          <th class="report_table_info" colspan="2"> User time elapsed </th>
+          <th class="report_table_info gray_header" colspan="2"> User time elapsed </th>
           {% for tool, tooldata in report|dictsort %}
           <th class="report_table_result" title="{{ tool.lower() }}" >
             {{'%0.0f'| format(report[tool]["user_time"])}}s </th>
           {% endfor %}
         </tr>
         <tr class="report_summary_row">
-          <th class="report_table_info" colspan="2"> System time elapsed </th>
+          <th class="report_table_info gray_header" colspan="2"> System time elapsed </th>
           {% for tool, tooldata in report|dictsort %}
           <th class="report_table_result" title="{{ tool.lower() }}" >
             {{'%0.0f'| format(report[tool]["system_time"])}}s </th>
           {% endfor %}
         </tr>
         <tr class="report_summary_row">
-          <th class="report_table_info" colspan="2"> Maximum ram usage </th>
+          <th class="report_table_info gray_header" colspan="2"> Maximum ram usage </th>
           {% for tool, tooldata in report|dictsort %}
           <th class="report_table_result" title="{{ tool.lower() }}" >
             {{'%0.0f'| format(report[tool]["ram_usage"])}} MB </th>
           {% endfor %}
         </tr>
 	<tr class="report_summary_row">
-          <th class="report_table_info" colspan="2"> Average throughput passed for inputs &gt; 1KiB </th>
+          <th class="report_table_info gray_header" colspan="2"> Average throughput passed for inputs &gt; 1KiB </th>
           {% for tool, tooldata in report|dictsort %}
           <th class="report_table_result" title="{{ tool.lower() }}" >
             {{'%0.0f'| format(report[tool]["passed_throughput"]|float)}} KiB/s </th>
