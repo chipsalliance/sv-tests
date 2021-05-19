@@ -11,6 +11,22 @@ body {
     text-decoration: none;
 }
 
+#headline {
+  position: fixed;
+  width: 100%;
+  text-align: center;
+}
+
+.dataTables_filter {
+  position: fixed;
+  margin-left: 80%;
+  top: 100px;
+}
+
+.wrapper {
+  padding-top: 100px;
+}
+
 .fixed_header {
   height: 150px;
 }
