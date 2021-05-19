@@ -28,6 +28,12 @@ class Surelog(BaseRunner):
         if "black-parrot" in params["tags"]:
             self.cmd.append('-sverilog')
 
+        if "black-parrot" in params["tags"]:
+            self.cmd.append('-lowmem')
+
+        if "earlgrey" in params["tags"]:
+            self.cmd.append('-lowmem')
+
         for incdir in params['incdirs']:
             self.cmd.append('-I' + incdir)
 
