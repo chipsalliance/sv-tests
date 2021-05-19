@@ -14,11 +14,6 @@
 */
 module top(input clk, input a, output b, output c);
 
-wire clk;
-wire a;
-wire b;
-wire c;
-
 clocking ck1 @(posedge clk);
 	default input #10ns output #5ns;
 	input a;
