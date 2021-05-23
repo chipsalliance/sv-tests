@@ -16,5 +16,5 @@ command: fusesoc --cores-root third_party/cores/ibex run --target=sim --setup lo
 conf_file: build/lowrisc_ibex_ibex_simple_system_0/sim-verilator/lowrisc_ibex_ibex_simple_system_0.vc
 test_file: ibex-sim.sv
 timeout: 100
-compatible-runners: verilator-uhdm verilator
+compatible-runners: verilator-uhdm verilator slang
 allow_elaboration: True

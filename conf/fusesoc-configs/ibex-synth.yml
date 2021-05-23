@@ -16,5 +16,5 @@ command: fusesoc --cores-root third_party/cores/ibex run --target=synth --setup 
 conf_file: build/lowrisc_ibex_top_artya7_0.1/synth-vivado/lowrisc_ibex_top_artya7_0.1.tcl
 test_file: ibex-synth.sv
 timeout: 100
-compatible-runners: uhdm-yosys yosys yosys-sv zachjs-sv2v icarus moore moore-parse odin slang sv-parser tree-sitter-verilog verible verible_extractor Surelog
+compatible-runners: uhdm-yosys yosys yosys-sv zachjs-sv2v icarus moore moore-parse odin sv-parser tree-sitter-verilog verible verible_extractor Surelog
 allow_elaboration: True

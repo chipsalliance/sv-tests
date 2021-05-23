@@ -10,11 +10,12 @@ templ = """/*
 :description: {1}
 :files: {2}
 :incdirs: {3}
-:top_module: {4}
-:tags: {5}
-:timeout: {6}
-:compatible-runners: {7}
-:allow_elaboration: {8}
+:defines: {4}
+:top_module: {5}
+:tags: {6}
+:timeout: {7}
+:compatible-runners: {8}
+:allow_elaboration: {9}
 */
 """
 
@@ -82,6 +83,7 @@ for fusesoc_conf_file in fusesoc_conf_files:
 
     incdirs = ''
     sources = ''
+    defines = ''
 
     if core_conf_path.endswith(".vc") or core_conf_path.endswith(".scr"):
         with open(core_conf_path, "r") as f:
@@ -94,6 +96,8 @@ for fusesoc_conf_file in fusesoc_conf_files:
                 elif (core_conf_path.endswith('.vc')
                       and line.startswith("--top-module")):
                     top_module = line.partition("--top-module ")[2]
+                elif line.startswith("-D"):
+                    defines += line[2:] + ' '
                 elif not line.startswith("-") and line:
                     sources += os.path.join(sources_path, line) + ' '
     elif core_conf_path.endswith(".tcl"):
@@ -124,5 +128,5 @@ for fusesoc_conf_file in fusesoc_conf_files:
         f.write(
             templ.format(
                 yml_conf["name"], yml_conf["description"], sources, incdirs,
-                top_module, yml_conf["tags"], yml_conf["timeout"],
+                defines, top_module, yml_conf["tags"], yml_conf["timeout"],
                 yml_conf["compatible-runners"], yml_conf["allow_elaboration"]))
