@@ -76,3 +76,9 @@
 [submodule "third_party/tools/antmicro-yosys"]
 	path = third_party/tools/antmicro-yosys
 	url = https://github.com/antmicro/yosys
+[submodule "third_party/cores/tnoc"]
+	path = third_party/cores/tnoc
+	url = https://github.com/taichi-ishitani/tnoc.git
+[submodule "third_party/cores/tbcm"]
+	path = third_party/cores/tbcm
+	url = https://github.com/taichi-ishitani/tbcm.git
