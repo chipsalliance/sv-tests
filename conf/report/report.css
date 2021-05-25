@@ -1,9 +1,15 @@
 body {
   font-family: sans-serif;
+  margin: 0;
+  width: min-content;
+  min-width: 100%;
 }
 
 .headline {
     text-align: center;
+    position: sticky;
+    left: 32px;
+    width: calc(100vw - 64px);
 }
 
 .headline a {  /* Only subtly hint that this is a link */
@@ -15,16 +21,6 @@ body {
   position: fixed;
   width: 100%;
   text-align: center;
-}
-
-.dataTables_filter {
-  position: fixed;
-  margin-left: 80%;
-  top: 100px;
-}
-
-.wrapper {
-  padding-top: 100px;
 }
 
 .fixed_header {
