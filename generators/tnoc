@@ -87,7 +87,7 @@ for file_list in tnoc_file_lists:
 sources = sources.replace("${TBCM_HOME}", tbcm_path)
 sources = sources.replace("${TNOC_HOME}", tnoc_path)
 
-test_file = os.path.join(test_dir, "tnoc.sv")
+test_file = os.path.abspath(os.path.join(test_dir, "tnoc.sv"))
 sources += test_file
 
 with open(test_file, "w") as f:
