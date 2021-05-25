@@ -15,6 +15,8 @@
     <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
     <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/fixedheader/3.1.5/js/dataTables.fixedHeader.min.js"> </script>
     <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/fixedheader/3.1.5/css/fixedHeader.dataTables.min.css">
+    <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/select/1.3.3/js/dataTables.select.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/select/1.3.3/css/select.dataTables.min.css">
     <link rel="stylesheet" type="text/css" href="report.css">
     <script type="text/javascript" charset="utf8" src="report.js"></script>
   </head>
@@ -33,7 +35,47 @@
           {% for tool in report %}
           { "orderDataType": "test-status" },
           {% endfor %}
-        ]
+        ],
+          initComplete: function() {
+            this.api().columns([2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17]).every(function() {
+                var column = this;
+                var select = $('<select><option value="Select"></option></select>')
+                    .appendTo($(column.footer()).empty())
+                    .on('change', function() {
+                        var val = $(this).val();
+                        if(val.length > 1){
+                          val = parseFloat(val.slice(0, -1));
+                          } else {
+                            val = parseFloat(val);
+                          }
+                        column.data().each(function(d, j) {
+                          output = d.split('/');
+                          tests_passed = output[0];
+                          total_tests = output[1];
+                          percentage = (tests_passed/total_tests)*100;
+
+                          // 0 tests passed
+                          if(tests_passed == val && tests_passed == 0){
+                            column.draw();
+                          }
+                          // At least 1 test passed
+                          else if(tests_passed >= val && val == 1){
+                            column.draw();
+                          }
+                          // other cases
+                          else if(percentage >= val && val > 1) {
+                            column.draw();
+                          }
+                        })
+                    } );
+                select.append('<option value="0">0</option>');
+                select.append('<option value="1">1</option>');
+                select.append('<option value="25%">25%</option>');
+                select.append('<option value="50%">50%</option>');
+                select.append('<option value="75%">75%</option>');
+                select.append('<option value="100%">All</option>');
+            } );
+        }
       });
     } );
   </script>
