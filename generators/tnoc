@@ -42,10 +42,10 @@ module tnoc (
   };
 
   tnoc_types #(PACKET_CONFIG)   types();
-  tnoc_flit_if #(PACKET_CONFIG) receiver_if[9]();
-  tnoc_flit_if #(PACKET_CONFIG) sender_if[9]();
+  tnoc_flit_if #(PACKET_CONFIG) receiver_if[9](types);
+  tnoc_flit_if #(PACKET_CONFIG) sender_if[9](types);
 
-  tnoc_fablic #(PACKET_CONFIG) u_fablic (.*);
+  tnoc_fabric #(PACKET_CONFIG) u_fabric (.*);
 endmodule
 """
 
