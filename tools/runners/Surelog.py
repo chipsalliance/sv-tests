@@ -25,15 +25,24 @@ class Surelog(BaseRunner):
         if not strtobool(params['allow_elaboration']):
             self.cmd.append('-noelab')
 
+        # force sverilog mode for .v files
         if "black-parrot" in params["tags"]:
             self.cmd.append('-sverilog')
 
+        if "basejump" in params["tags"]:
+            self.cmd.append('-sverilog')
+
+        if "ivtest" in params["tags"]:
+            self.cmd.append('-sverilog')
+
+        # lowmem option
         if "black-parrot" in params["tags"]:
             self.cmd.append('-lowmem')
 
         if "earlgrey" in params["tags"]:
             self.cmd.append('-lowmem')
 
+        # regular options
         for incdir in params['incdirs']:
             self.cmd.append('-I' + incdir)
 
