@@ -83,8 +83,7 @@ for cfg in glob.glob(os.path.join(conf_dir, 'generators', 'meta-path',
 
                 for common in commons:
                     f = os.path.abspath(
-                        os.path.join(third_party_dir,
-                                     common)) + " " + f
+                        os.path.join(third_party_dir, common)) + " " + f
 
                 # add the test snippet do the beginning of the list
                 f = os.path.abspath(test_file) + " " + f
