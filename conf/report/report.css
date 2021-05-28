@@ -87,6 +87,7 @@ table.dataTable tfoot th {
   overflow: hidden;
   width: 30em;
   max-width: 30em;
+  min-width: 30em;
 }
 
 .tag_link, .tool_link {
