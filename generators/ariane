@@ -60,8 +60,9 @@ get_top_module = False
 for components in ver_cmd_comp:
     args = components.strip()
     if args.startswith("+incdir+"):
-        incdirs += os.path.join(ariane_path,
-                                args.partition("+incdir+")[2]) + ' '
+        incdirs += os.path.join(
+            ariane_path,
+            args.partition("+incdir+")[2]) + ' '
     elif args.startswith("--top-module"):
         get_top_module = True
     elif get_top_module:

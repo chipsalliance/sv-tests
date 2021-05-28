@@ -176,7 +176,8 @@ if test_params["should_fail"] == "0" and test_params["should_fail_because"]:
     test_params["should_fail"] = "1"
     logger.warning("contradictory params should_fail, should_fail_because.")
 # if string is empty and should_fail is 1
-elif test_params["should_fail"] == "1" and not test_params["should_fail_because"]:
+elif test_params[
+        "should_fail"] == "1" and not test_params["should_fail_because"]:
     logger.warning(
         "should_fail tag should be replaced with should_fail_because.")
 
