@@ -209,13 +209,11 @@ for key in libs.keys():
 
 test_params['defines'] = test_params['defines'].split()
 
-# Some tests have *.vlt and *.cc files which are specific to verilator,
-# so filter them out for all other runners.
-if 'verilator' not in args.runner:
-    test_params['files'] = [
-        f for f in test_params['files']
-        if not f.endswith('.vlt') and not f.endswith('.cc')
-    ]
+# Filter test files based on what the runner claims to support.
+test_params['files'] = [
+    f for f in test_params['files']
+    if os.path.splitext(f)[1] in runner_obj.allowed_extensions
+]
 
 try:
     tmp_dir = tempfile.mkdtemp()
