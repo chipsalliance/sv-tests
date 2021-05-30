@@ -23,6 +23,11 @@ body {
   text-align: center;
 }
 
+.dataTables_filter {
+  position: sticky;
+  right: 5%;
+}
+
 .fixed_header {
   height: 150px;
 }
