@@ -49,6 +49,6 @@ class Surelog(BaseRunner):
         self.cmd += params['files']
 
     def is_success_returncode(self, rc, params):
-        # 1 << 4 means semantic error, but we're only interested in
-        # syntax and fatal errors.
-        return rc & 0x03 == 0
+        # We're only interested in
+        # syntax, fatal and errors.
+        return rc & 0x07 == 0
