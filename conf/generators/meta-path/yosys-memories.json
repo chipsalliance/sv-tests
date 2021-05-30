@@ -4,5 +4,6 @@
 	"paths": [
 		["tools", "yosys", "tests", "memories"]
 	],
-	"matches": ["*.v"]
+	"matches": ["*.v"],
+	"blacklist": ["issue00335.v"]
 }

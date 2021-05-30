@@ -8,11 +8,18 @@
 	"commons": [
 		"cores/basejump_stl/bsg_misc/bsg_defines.v",
 		"cores/basejump_stl/bsg_cache/bsg_cache_pkg.v",
-		"cores/basejump_stl/bsg_cache/bsg_cache_non_blocking_pkg.v"
+		"cores/basejump_stl/bsg_cache/bsg_cache_non_blocking_pkg.v",
+		"cores/basejump_stl/bsg_dmc/bsg_dmc_pkg.v",
+		"cores/basejump_stl/bsg_noc/bsg_noc_pkg.v",
+		"cores/basejump_stl/bsg_noc/bsg_mesh_router_pkg.v",
+		"cores/basejump_stl/bsg_noc/bsg_wormhole_router_pkg.v",
+		"cores/basejump_stl/bsg_tag/bsg_tag_pkg.v",
+		"cores/basejump_stl/bsg_test/bsg_dramsim3_pkg.v"
 	],
 	"incdirs": [
 		"cores/basejump_stl/bsg_misc",
-		"cores/basejump_stl/bsg_noc"
+		"cores/basejump_stl/bsg_noc",
+		"cores/basejump_stl/bsg_clk_gen"
 	],
 	"timeouts": {
 		"bsg_scatter_gather.v": "60",
@@ -24,7 +31,19 @@
 	},
 	"blacklist": [
 		"bsg_nonsynth_mixin_motherboard.v",
-		"test_bsg_clock_params.v"
+		"test_bsg_clock_params.v",
+		"bsg_cache_pkg.v",
+		"bsg_cache_non_blocking_pkg.v",
+		"bsg_dmc_pkg.v",
+		"bsg_dramsim3_pkg.v",
+		"bsg_mesh_router_pkg.v",
+		"bsg_tag_pkg.v",
+		"bsg_wormhole_router_pkg.v",
+		"bsg_1_to_n_tagged_fifo_shared.v",
+		"bsg_mem_multiport.v",
+		"bsg_sbox_ctrl.v",
+		"bsg_sbox_ctrl_concentrate.v",
+		"bsg_pg_tree.v"
 	],
 	"fake_topmodule": true
 }

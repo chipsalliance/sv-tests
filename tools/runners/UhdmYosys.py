@@ -1,4 +1,4 @@
-#!/bin/false python3
+#!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 #
 # Copyright (C) 2020 The SymbiFlow Authors.
@@ -72,7 +72,7 @@ class UhdmYosys(BaseRunner):
             f.write("set -e\n")
             f.write("set -x\n")
             f.write(
-                f"surelog-uhdm -nopython -nobuiltin --disable-feature=parametersubstitution -parse -sverilog {library_paths}"
+                f"surelog -nopython -nobuiltin --disable-feature=parametersubstitution -parse -sverilog {library_paths}"
             )
             for i in params["incdirs"]:
                 f.write(f" -I{i}")

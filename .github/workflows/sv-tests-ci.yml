@@ -27,9 +27,22 @@ jobs:
       - name: Test
         run:
           test $(git status --porcelain | wc -l) -eq 0 || { git diff; false; }
-      - name: License
+      - name: Clone submodules
         run:
-          ./.github/workflows/check_license.sh
+          ./.github/add-local-submodules.sh "$GITHUB_REPOSITORY"
+      - name: License
+        uses: SymbiFlow/actions/checks@main
+        with:
+          exclude_directory: |
+            ./.git/
+            ./.github/
+            ./.dependabot/
+            ./miniconda.sh
+            ./build/
+          third_party: |
+            ./third_party/cores/
+            ./third_party/tests/
+            ./third_party/tools/
 
   Run:
     strategy:
@@ -47,8 +60,8 @@ jobs:
           - { JOB_NAME: antmicro-yosys-complete, MAKEFLAGS: -j2 }
           - { JOB_NAME: verible, MAKEFLAGS: -j2 }
           - { JOB_NAME: verilator, MAKEFLAGS: -j2 }
-          - { JOB_NAME: uhdm-integration-verilator, MAKEFLAGS: -j2 RUNNERS_FILTER=UhdmVerilator }
-          - { JOB_NAME: uhdm-integration-yosys, MAKEFLAGS: -j2 RUNNERS_FILTER=UhdmYosys }
+          - { JOB_NAME: verilator-uhdm, MAKEFLAGS: -j2 RUNNERS_FILTER=UhdmVerilator }
+          - { JOB_NAME: yosys-uhdm, MAKEFLAGS: -j2 RUNNERS_FILTER=UhdmYosys }
           - { JOB_NAME: zachjs-sv2v, MAKEFLAGS: -j2 }
 
     name: ${{ matrix.env.JOB_NAME }}

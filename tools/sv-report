@@ -259,7 +259,7 @@ def readConfig(filename):
                 if len(entry) == 3:
                     urls[entry[0]] = entry[2]
     except (OSError, FileNotFoundError, KeyError) as e:
-        criticalError(f"Unable to {config} file - {str(e)}")
+        criticalError(f"Unable to parse {config} file - {str(e)}")
     return config, urls
 
 
@@ -313,7 +313,8 @@ def collect_logs(runner_name):
             "description", "files", "incdirs", "top_module", "runner",
             "runner_url", "time_elapsed", "type", "mode", "timeout",
             "user_time", "system_time", "ram_usage", "tool_success",
-            "should_fail_because", "defines", "compatible-runners"
+            "should_fail_because", "defines", "compatible-runners",
+            "allow_elaboration"
         ]
         with open(t, "r") as f:
             try:

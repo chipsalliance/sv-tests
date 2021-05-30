@@ -113,7 +113,7 @@ test = os.path.abspath(os.path.join(dirs['tests'], args.test))
 supported_test_params = [
     "name", "tags", "description", "files", "incdirs", "top_module", "timeout",
     "type", "should_fail", "should_fail_because", "defines",
-    "compatible-runners"
+    "compatible-runners", "allow_elaboration"
 ]
 
 test_params = {}
@@ -157,6 +157,7 @@ try:
             test_params.setdefault('should_fail_because', "")
             test_params.setdefault('defines', "")
             test_params.setdefault('compatible-runners', "all")
+            test_params.setdefault('allow_elaboration', "False")
 
             if len(set(supported_test_params) - set(test_params.keys())) != 0:
                 missing = list(

@@ -1,4 +1,4 @@
-#!/bin/false python3
+#!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 #
 # Copyright (C) 2020 The SymbiFlow Authors.
@@ -35,7 +35,7 @@ class UhdmVerilator(BaseRunner):
             f.write("set -e\n")
             f.write('set -x\n')
             f.write(
-                'surelog-uhdm -nopython -nobuiltin --disable-feature=parametersubstitution -parse -sverilog'
+                'surelog -nopython -nobuiltin --disable-feature=parametersubstitution -parse -sverilog'
             )
             for i in params['incdirs']:
                 f.write(f' -I{i}')

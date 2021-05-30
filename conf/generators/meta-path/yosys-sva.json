@@ -4,5 +4,6 @@
 	"paths": [
 		["tools", "yosys", "tests", "sva"]
 	],
-	"matches": ["*.sv"]
+	"matches": ["*.sv"],
+	"blacklist": ["basic04.sv", "basic05.sv"]
 }

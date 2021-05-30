@@ -169,6 +169,51 @@ ivtest_file_exclude = [
     # The following tests need to be looked at and verified
     'pr1723367',  # scalar with vectored net
     'undef',  # undefined macro behaviour is ambiguous
+    'sformatf',  # Too many arguments passed to $sformatf
+    'format',  # Missing argument to $display
+    # These tests use procedural continuous assigns with bit selects on the lhs,
+    # which is not allowed according to the LRM.
+    'array_lval_select3a',
+    'assign32E',
+    'assign_deassign_pv',
+    'force_lval_part',
+    'force_release_reg_pv',
+    'pr1832097b',
+    'pr2943394',
+    # These tests are marked 'designed to fail' but are actually valid.
+    'sv_port_default14',
+    'br995',
+    'br_gh306a',
+    'br_gh306b',
+    'case5synfail',
+    'casesynth8',
+    'dffsynth8',
+    'br1015a',
+    'br1027a',
+    'br1027c',
+    'br1027e',
+    'br_gh25a',
+    'br_gh25b',
+    'check_constant_3',
+    'function4',
+    'no_timescale_in_module',
+    'pr1704013',
+    'scope2b',
+    # $dumpvars with bit selects, doesn't appear to be legal and commercial tools disallow
+    'array_word_check',
+    'dump_memword',
+    # defparam targeting a localparam isn't allowed
+    'br_gh157',
+    'scoped_events',
+    # Module ANSI ports are redeclared in body
+    'br_ml20150606',
+    # This expects failure because of unsized literal in a concat, but pretty much
+    # all tools allow this (usually with a warning) as an extension because tons of code
+    # in the wild does it.
+    'indef_width_concat',
+    # Primitive port connections cannot use the '.name()' syntax
+    'pr938b',
+    'udp_dff',
 ]
 
 ivtest_long = ['comp1000', 'comp1001']

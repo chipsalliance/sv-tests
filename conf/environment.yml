@@ -1,3 +1,12 @@
+# Copyright (C) 2019-2021  The SymbiFlow Authors.
+#
+# Use of this source code is governed by a ISC-style
+# license that can be found in the LICENSE file or at
+# https://opensource.org/licenses/ISC
+#
+# SPDX-License-Identifier: ISC
+
+
 name: sv-test-env
 channels:
   - LiteX-Hub
@@ -11,8 +20,8 @@ dependencies:
 #  - LiteX-Hub::surelog
 #  - LiteX-Hub::sv-parser
 #  - LiteX-Hub::tree-sitter-verilog
-#  - LiteX-Hub::uhdm-integration-verilator
-#  - LiteX-Hub::uhdm-integration-yosys
+#  - LiteX-Hub::verilator-uhdm
+#  - LiteX-Hub::yosys-uhdm
 #  - LiteX-Hub::verible
 #  - LiteX-Hub::verilator
 #  - LiteX-Hub::yosys
