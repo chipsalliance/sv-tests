@@ -42,6 +42,7 @@
                 var select = $('<select><option value="Select"></option></select>')
                     .appendTo($(column.footer()).empty())
                     .on('change', function() {
+                        var array = []
                         var val = $(this).val();
                         if(val.length > 1){
                           val = parseFloat(val.slice(0, -1));
@@ -55,18 +56,20 @@
                           percentage = (tests_passed/total_tests)*100;
 
                           // 0 tests passed
-                          if(tests_passed == val && tests_passed == 0){
-                            column.draw();
+                          if(tests_passed == val && tests_passed == 0 && tests_passed != ""){
+                            array.push(d);
                           }
                           // At least 1 test passed
                           else if(tests_passed >= val && val == 1){
-                            column.draw();
+                            array.push(d);
                           }
                           // other cases
                           else if(percentage >= val && val > 1) {
-                            column.draw();
+                            array.push(d);
                           }
-                        })
+                        });
+                        array = array.join('|');
+                        column.search(array, true, false, true).draw();
                     } );
                 select.append('<option value="0">0</option>');
                 select.append('<option value="1">1</option>');
