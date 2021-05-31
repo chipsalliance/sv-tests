@@ -44,6 +44,11 @@ class Slang(BaseRunner):
         if "hdlconv" in tags or "hdlconv_std2012" in tags or "hdlconv_std2017" in tags or "utd-sv" in tags:
             self.cmd.append('--parse-only')
 
+        # The Ariane core does not build correctly if VERILATOR is not defined -- it will attempt
+        # to reference nonexistent modules, for example.
+        if "ariane" in tags:
+            self.cmd.append("-DVERILATOR")
+
         self.cmd += params['files']
 
     def get_version(self):

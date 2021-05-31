@@ -69,7 +69,12 @@ for components in ver_cmd_comp:
         top_module = args
         get_top_module = False
     elif args.endswith('.sv'):
-        sources += os.path.join(ariane_path, args) + ' '
+        # The Ariane file lists contains a reference to this file but the module itself
+        # isn't instantiated anywhere. Problematically, it contains references to a
+        # nonexistent interface, so it otherwise breaks elaboration. This hack can be
+        # removed if the problem gets fixed upstream.
+        if 'axi2apb_wrap.sv' not in args:
+            sources += os.path.join(ariane_path, args) + ' '
 
 os.chdir(main_path)
 test_dir = os.path.join(tests_dir, 'generated', tests_subdir)
