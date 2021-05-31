@@ -58,23 +58,23 @@ lists = [
     {
         'name': 'bp_fe',
         'top': 'bp_fe_top',
-        'flist': 'bp_fe/syn/flist.vcs'
+        'flist': 'bp_top/syn/flist.vcs'
     }, {
         'name': 'bp_be',
         'top': 'bp_be_top',
-        'flist': 'bp_be/syn/flist.vcs'
+        'flist': 'bp_top/syn/flist.vcs'
     }, {
         'name': 'bp_cce',
         'top': 'bp_cce',
-        'flist': 'bp_me/syn/flist.vcs'
+        'flist': 'bp_top/syn/flist.vcs'
     }, {
         'name': 'bp_lce',
         'top': 'bp_lce',
-        'flist': 'bp_me/syn/flist.vcs'
+        'flist': 'bp_top/syn/flist.vcs'
     }, {
         'name': 'bp_uce',
         'top': 'bp_uce',
-        'flist': 'bp_me/syn/flist.vcs'
+        'flist': 'bp_top/syn/flist.vcs'
     }, {
         'name': 'bp_unicore',
         'top': 'bp_unicore',
