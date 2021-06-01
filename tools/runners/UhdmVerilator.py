@@ -19,6 +19,7 @@ class UhdmVerilator(BaseRunner):
     def __init__(self):
         super().__init__("verilator-uhdm", "verilator-uhdm")
 
+        self.allowed_extensions.extend(['.vlt', '.cc'])
         self.url = "https://github.com/alainmarcel/uhdm-integration"
 
     def prepare_run_cb(self, tmp_dir, params):

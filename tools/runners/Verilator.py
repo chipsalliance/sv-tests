@@ -19,6 +19,7 @@ class Verilator(BaseRunner):
     def __init__(self):
         super().__init__("verilator", "verilator")
 
+        self.allowed_extensions.extend(['.vlt', '.cc'])
         self.url = "https://verilator.org"
 
     def prepare_run_cb(self, tmp_dir, params):

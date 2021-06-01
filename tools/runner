@@ -209,6 +209,18 @@ for key in libs.keys():
 
 test_params['defines'] = test_params['defines'].split()
 
+# Filter test files based on what the runner claims to support.
+filtered_files = []
+for f in test_params['files']:
+    if os.path.splitext(f)[1] in runner_obj.allowed_extensions:
+        filtered_files.append(f)
+    else:
+        logger.info(
+            "Skipping '{}' with '{}' due to unsupported extension".format(
+                f, args.runner))
+
+test_params['files'] = filtered_files
+
 try:
     tmp_dir = tempfile.mkdtemp()
 except (PermissionError, FileExistsError) as e:
