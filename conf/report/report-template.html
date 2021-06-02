@@ -22,6 +22,24 @@
   </head>
 
   <script>
+    function toggleTestCoverage() {
+      var x = document.getElementById("test_coverage");
+      if (x.style.display === "none") {
+        x.style.display = "block";
+      } else {
+        x.style.display = "none";
+      }
+    }
+
+    function toggleFilters() {
+      var x = document.getElementById("filters");
+      if (x.style.display === "none") {
+        x.style.display = "block";
+      } else {
+        x.style.display = "none";
+      }
+    }
+
     $(document).ready( function () {
       $('#report_table').DataTable( {
         paging: false,
@@ -37,12 +55,14 @@
           {% endfor %}
         ],
           initComplete: function() {
-            this.api().columns([2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17]).every(function() {
+            this.api().columns().every( function () {
                 var column = this;
-                var select = $('<select><option value="Select"></option></select>')
-                    .appendTo($(column.footer()).empty())
+                if (column.index() !== 0 && column.index() !== 1) {
+                var theadname = column.header().textContent;
+                var select = $('<select><option value="Select">'+theadname+'</option></select>')
+                    .appendTo("#test_coverage")
                     .on('change', function() {
-                        var array = []
+                        var array = [];
                         var val = $(this).val();
                         if(val.length > 1){
                           val = parseFloat(val.slice(0, -1));
@@ -77,6 +97,7 @@
                 select.append('<option value="50%">50%</option>');
                 select.append('<option value="75%">75%</option>');
                 select.append('<option value="100%">All</option>');
+                  }
             } );
         }
       });
@@ -91,6 +112,12 @@
   <body>
     <h1 class="headline"><a href="https://github.com/SymbiFlow/sv-tests">SV-Tests</a></h1>
     <p class="headline"><a href="https://github.com/SymbiFlow/sv-tests"><em>Test suite to check compliance with the SystemVerilog LRM by chapter as well as some real-world cores and test-cases.</em></a></p>
+    <button id="filterButton" onclick="toggleFilters()">Hide/Show Filter Options</button>
+    <div id="filters">
+      <p>Filter by test coverage</p>
+      <button onclick="toggleTestCoverage()">Hide/Show</button>
+      <div id="test_coverage"></div>
+    </div>
     <table id="report_table">
       <thead>
         <tr class="fixed_header">
