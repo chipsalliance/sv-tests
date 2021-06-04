@@ -5,11 +5,12 @@ body {
   min-width: 100%;
 }
 
-.headline {
+.headline, .dataTables_filter, footer {
     text-align: center;
     position: sticky;
     left: 32px;
     width: calc(100vw - 64px);
+    float: none !important;
 }
 
 .headline a {  /* Only subtly hint that this is a link */
@@ -17,29 +18,18 @@ body {
     text-decoration: none;
 }
 
-#headline {
-  position: fixed;
-  width: 100%;
-  text-align: center;
-}
-
-.dataTables_filter {
-  position: sticky;
-  right: 5%;
-}
-
 .fixed_header {
   height: 150px;
 }
 
-.report_table_info {
+.report_table_info, .col_header1 {
   position: sticky;
   left: 0;
   z-index: 2;
   background-color: white;
 }
 
-.report_table_tag {
+.report_table_tag, .col_header2 {
   position: sticky;
   left: calc(30em + 20px);
   z-index: 2;
@@ -259,6 +249,11 @@ tfoot .report_table_result {
 }
 
 button:focus {outline:0;}
+
+.dataTables_info, .download {
+  position: sticky;
+  left: 0;
+}
 
 footer {
   text-align: center;

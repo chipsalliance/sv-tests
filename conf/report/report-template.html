@@ -49,8 +49,8 @@
     <table id="report_table">
       <thead>
         <tr class="fixed_header">
-          <th>  </th>
-          <th>  </th>
+          <th class="col_header1">  </th>
+          <th class="col_header2">  </th>
           {% for tool, tooldata in report|dictsort %}
           <th title='{{ report[tool]["version"] }}'>
             <a class="tool_link" target=_blank href='{{ report[tool]["url"] }}'>{{ tool.lower() }}</a>
@@ -137,7 +137,7 @@
       </tfoot>
     </table>
     <br>
-    <a href="report.csv">Download a summary in csv</a>
+    <a class="download" href="report.csv">Download a summary in csv</a>
   </body>
 
   <br> <br>
