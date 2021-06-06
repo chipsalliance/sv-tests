@@ -77,15 +77,15 @@
 
                           // 0 tests passed
                           if(tests_passed == val && tests_passed == 0 && tests_passed != ""){
-                            array.push(d);
+                            array.push('^'+d+'$');
                           }
                           // At least 1 test passed
                           else if(tests_passed >= val && val == 1){
-                            array.push(d);
+                            array.push('^'+d+'$');
                           }
                           // other cases
                           else if(percentage >= val && val > 1) {
-                            array.push(d);
+                            array.push('^'+d+'$');
                           }
                         });
                         array = array.join('|');
