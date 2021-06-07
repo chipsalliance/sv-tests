@@ -110,21 +110,23 @@ jobs:
           ./.github/workflows/report.sh
           ls -la ./out/report/
       - name: Update sv-tests-results repository
-        if: github.ref == 'refs/heads/master'
+        env:
+          DEPLOY_KEY: ${{ secrets.REPORT_DEPLOY_KEY }}
+        # Commented only for tests
+        #if: github.ref == 'refs/heads/master'
         run: |
-          echo "TODO: Uncomment pushing new report and generate token"
-        #uses: cpina/github-action-push-to-another-repository@master
-        #env:
-        #  API_TOKEN_GITHUB: ${{ secrets.API_TOKEN_GITHUB }}
-        #with:
-        #  source-directory: './out/report/'
-        #  destination-repository-name: 'sv-tests-results'
-        #  destination-repository-username: 'SymbiFlow'
-        #  destination-github-username: 'SymbiFlow Robot'
-        #  user-email: foss-fpga-tools@google.com
-        #  target-branch: 'gh-pages'
-        #  commit-message: 'Deploy $GITHUB_REF (build $GITHUB_RUN_ID)'
-        #  commit-message: 'Build from $GITHUB_SHA'
+          eval "$(ssh-agent -s)"
+          ssh-add - <<< "${DEPLOY_KEY}"
+          git clone \
+            git+ssh://github.com/SymbiFlow/sv-tests-results.git \
+            --reference ./ \
+            --single-branch \
+            --depth 1 \
+            --branch gh-pages \
+            output
+            cd output
+            cp -a ./out/report/* -t .
+            ls -la
       - name: Save PR number
         run: |
           echo ${{ github.event.number }} > ./out/report/issue_num
