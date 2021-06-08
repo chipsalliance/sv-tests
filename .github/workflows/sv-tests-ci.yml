@@ -114,7 +114,7 @@ jobs:
         #if: github.ref == 'refs/heads/master'
         run: |
           mkdir ~/.ssh
-          echo "$REPORT_DEPLOY_KEY" > ~/.ssh/id_rsa
+          echo ${{ secrets.REPORT_DEPLOY_KEY }} > ~/.ssh/id_rsa
           chmod 600 ~/.ssh/id_rsa
           ./.github/workflows/update_report.sh
       - name: Save PR number
