@@ -42,12 +42,23 @@ class Slang(BaseRunner):
         # can only expect to run parsing successfully.
         tags = params["tags"]
         if "hdlconv" in tags or "hdlconv_std2012" in tags or "hdlconv_std2017" in tags or "utd-sv" in tags:
-            self.cmd.append('--parse-only')
+            self.cmd.append("--parse-only")
 
         # The Ariane core does not build correctly if VERILATOR is not defined -- it will attempt
         # to reference nonexistent modules, for example.
         if "ariane" in tags:
             self.cmd.append("-DVERILATOR")
+
+        # black-parrot has syntax errors where variables are used before they are declared.
+        # This is being fixed upstream, but it might take a long time to make it to master
+        # so this works around the problem in the meantime.
+        if "black-parrot" in tags:
+            self.cmd.append("--allow-use-before-declare")
+
+        # The earlgrey core is not configured correctly and so references unknown modules
+        # and packages. Only run parsing until that gets fixed.
+        if "earlgrey" in tags:
+            self.cmd.append("--parse-only")
 
         self.cmd += params['files']
 
