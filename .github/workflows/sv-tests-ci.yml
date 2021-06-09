@@ -113,6 +113,7 @@ jobs:
         # Commented only for tests
         #if: github.ref == 'refs/heads/master'
         run: |
+          eval $(ssh-agent)
           ssh-add - <<< "${REPORT_DEPLOY_KEY}"
           ./.github/workflows/update_report.sh
       - name: Save PR number
