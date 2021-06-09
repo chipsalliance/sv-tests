@@ -108,13 +108,12 @@ jobs:
         run: |
           ./.github/workflows/summary.sh
           ./.github/workflows/report.sh
-          ls -la ./out/report/
       - name: Update sv-tests-results repository
         # Commented only for tests
         #if: github.ref == 'refs/heads/master'
         run: |
           eval $(ssh-agent)
-          ssh-add - <<< "${REPORT_DEPLOY_KEY}"
+          ssh-add - <<< "${{ secrets.REPORT_DEPLOY_KEY }}"
           ./.github/workflows/update_report.sh
       - name: Save PR number
         run: |
