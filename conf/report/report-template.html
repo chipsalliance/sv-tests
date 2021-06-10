@@ -20,6 +20,63 @@
   </head>
 
   <script>
+    var iter = 1;
+    function addOptions() {
+      var toolnames = [];
+      $("#report_table thead tr th a").each(function(){
+          toolnames.push(this.innerHTML);
+        });
+      if(iter > 1) {
+        $('#secondaryButton').remove();
+        $('#applyButton').remove();
+      }
+      $('<br>').appendTo('#filter_wrapper')
+      var div = $('<div id=""></div>').attr('id', "new_options_wrapper_"+iter).appendTo('#filter_wrapper')
+      var options =  $('<select id=""><option value="Select"></option></select>').attr('id', "new_filter_options_"+iter)
+                      .appendTo('#new_options_wrapper_'+iter)
+                      .on('change', function(){
+                        var value = $(this).val();
+                        current_value = $(this).attr("id")
+                        current_value = parseInt(current_value.charAt(current_value.length-1))
+                        if(value == "coverage"){
+                          if(document.getElementById('type_filter_'+current_value)){
+                            $('#type_filter_'+current_value).remove()
+                          }
+                          var tools = $('<select id=""><option value="Select"></option></select>').attr('id', "tool_filter_"+current_value).insertAfter(options)
+                          var coverage = $('<select id=""><option value="Select"></option></select>').attr('id', "coverage_filter_"+current_value).insertAfter(tools)
+                          coverage.append('<option value="0">0</option>')
+                          coverage.append('<option value="1">1</option>')
+                          coverage.append('<option value="25%">25%</option>')
+                          coverage.append('<option value="50%">50%</option>')
+                          coverage.append('<option value="75%">75%</option>')
+                          coverage.append('<option value="100%">All</option>')
+                          
+                        var i;
+                        for(i = 0; i < toolnames.length; i++){
+                          $('<option value="">'+toolnames[i]+'</option>').attr('value', toolnames[i]).appendTo(tools);
+                          }
+                          }
+                        if(value == "type"){
+                          if(document.getElementById('tool_filter_'+current_value)){
+                            $('#tool_filter_'+current_value).remove()
+                            $('#coverage_filter_'+current_value).remove()
+                          }
+                          var types = $('<select id=""><option value="Select"></option></select>').attr('id', "type_filter_"+current_value).insertAfter(options)
+                          types.append('<option value="parsing">Parsing</option>')
+                          types.append('<option value="preprocessing">Preprocessing</option>')
+                          types.append('<option value="simulation">Simulation</option>')
+                        }
+                      })
+        options.append('<option value="coverage">Test Coverage</option>')
+        options.append('<option value="type">Test Type</option>')
+        var add = $('<button id="secondaryButton" onclick="addOptions()">Add</button>').insertAfter(options)
+        var add = $('<button id="applyButton" onclick="applyFilter()">Apply</button>').insertAfter('#secondaryButton')
+        if(iter === 1){
+          $('#mainButton').remove();
+        }
+        iter = iter + 1
+  }
+
     $(document).ready( function () {
       $('#report_table').DataTable( {
         paging: false,
@@ -46,6 +103,9 @@
   <body>
     <h1 class="headline"><a href="https://github.com/chipsalliance/sv-tests">SV-Tests</a></h1>
     <p class="headline"><a href="https://github.com/chipsalliance/sv-tests"><em>Test suite to check compliance with the SystemVerilog LRM by chapter as well as some real-world cores and test-cases.</em></a></p>
+    <div id="filter_wrapper">
+      <button id="mainButton" onclick="addOptions()">Add</button>
+    </div>
     <table id="report_table">
       <thead>
         <tr class="fixed_header">
