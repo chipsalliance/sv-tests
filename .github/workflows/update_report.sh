@@ -1,6 +1,5 @@
 #!/bin/bash
 
-export GIT_DESCRIBE=$(git describe --match v*)
 export CURRENT_PATH=$PWD
 
 git clone \
@@ -16,9 +15,6 @@ cp -a $CURRENT_PATH/out/report/* -t .
 touch .nojekyll
 git add .
 
-echo "$GIT_DESCRIBE"
-echo "$GIT_REF"
-
 GIT_MESSAGE_FILE=/tmp/git-message
   cat > $GIT_MESSAGE_FILE <<EOF
 Deploy $GIT_REF (build $GITHUB_RUN_ID)
@@ -30,4 +26,7 @@ git commit \
   --author "SymbiFlow Robot <foss-fpga-tools@google.com>"
 
 git show -s
-git status
+
+git push \
+  git@github.com:SymbiFlow/sv-tests-results.git \
+  gh-actions-tests
