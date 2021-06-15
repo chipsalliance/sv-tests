@@ -1,0 +1,20 @@
+name: contributors-summary
+
+on:
+  push:
+    branches:
+      - master
+  pull_request:
+
+jobs:
+  Comment:
+    name: Calculate contribution stats
+    runs-on: ubuntu-18.04
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
+      - name: Run calculation
+        run: |
+          ./.github/workflows/contributors-summary.sh
