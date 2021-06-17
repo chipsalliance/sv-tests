@@ -15,13 +15,67 @@
     <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
     <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/fixedheader/3.1.5/js/dataTables.fixedHeader.min.js"> </script>
     <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/fixedheader/3.1.5/css/fixedHeader.dataTables.min.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet"/>
     <link rel="stylesheet" type="text/css" href="report.css">
     <script type="text/javascript" charset="utf8" src="report.js"></script>
   </head>
 
   <script>
+    function Filter(id, mode, condition, value) {
+      this.id = id;
+      this.mode = mode;
+      this.condition = condition;
+      this.value = value;
+    }
+
     var iter = 1;
+    var filters = [];
+    var value;
+    var apply_active = false;
+
+    function removeFilter(object){
+      var current_value = object.id;
+      current_value = parseInt(current_value.charAt(current_value.length-1));
+      var index = filters.findIndex(obj => obj.id === current_value);
+      if(current_value === iter-1 || current_value === iter-2){
+        $('#new_filter_options_'+current_value).remove();
+        $('#remove_'+current_value).remove();
+        current_object = filters[index];
+        mode = current_object.mode;
+
+        if(mode === "coverage"){
+          $('#operator_filter_'+current_value).remove();
+          $('#coverage_filter_'+current_value).remove();
+        }
+        if(mode === "type"){
+          $('#type_condition_filter_'+current_value).remove();
+          $('#type_filter_'+current_value).remove();
+        }
+        if(mode === "tool"){
+          $('#tool_condition_filter_'+current_value).remove();
+          $('#tool_filter_'+current_value).remove();
+        }
+      }
+      else
+        $('#new_options_wrapper_'+current_value).remove();
+      filters.splice(index, 1);
+    }
+
+    function removeAll() {
+      $('#filter_wrapper').remove();
+      iter = 1;
+      var div = $('<div id="filter_wrapper"><button id="mainButton" onclick="addOptions()">Add</button></div>').insertAfter('#headline');
+      filter.length = 0;
+    }
+
+    function applyFilter() {
+      apply_active = true;
+      if(!document.getElementById('removeButton'));
+        var remove_all = $('<button id="removeButton" onclick="removeAll()">Remove all filters</button>').insertAfter('#applyButton');
+    }
+    
     function addOptions() {
+      var tool, operator, percentage, type;
       var toolnames = [];
       $("#report_table thead tr th a").each(function(){
           toolnames.push(this.innerHTML);
@@ -29,52 +83,130 @@
       if(iter > 1) {
         $('#secondaryButton').remove();
         $('#applyButton').remove();
+        $('#removeButton').remove();
       }
-      $('<br>').appendTo('#filter_wrapper')
-      var div = $('<div id=""></div>').attr('id', "new_options_wrapper_"+iter).appendTo('#filter_wrapper')
+      var div = $('<div id=""></div>').attr('id', "new_options_wrapper_"+iter).appendTo('#filter_wrapper');
       var options =  $('<select id=""><option value="Select"></option></select>').attr('id', "new_filter_options_"+iter)
                       .appendTo('#new_options_wrapper_'+iter)
                       .on('change', function(){
-                        var value = $(this).val();
-                        current_value = $(this).attr("id")
-                        current_value = parseInt(current_value.charAt(current_value.length-1))
+                        value = $(this).val();
+                        current_value = $(this).attr("id");
+                        current_value = parseInt(current_value.charAt(current_value.length-1));
+                        
+                        var current_filter;
+                        if(filters.length < current_value){
+                          current_filter = new Filter();
+                          current_filter.id = current_value;
+                          filters.push(current_filter);
+                        }
+
                         if(value == "coverage"){
+                          var current_object = filters.find(obj => obj.id === current_value);
+                          current_object.mode = "coverage";
                           if(document.getElementById('type_filter_'+current_value)){
-                            $('#type_filter_'+current_value).remove()
+                            $('#type_condition_filter_'+current_value).remove();
+                            $('#type_filter_'+current_value).remove();
                           }
-                          var tools = $('<select id=""><option value="Select"></option></select>').attr('id', "tool_filter_"+current_value).insertAfter(options)
-                          var coverage = $('<select id=""><option value="Select"></option></select>').attr('id', "coverage_filter_"+current_value).insertAfter(tools)
-                          coverage.append('<option value="0">0</option>')
-                          coverage.append('<option value="1">1</option>')
-                          coverage.append('<option value="25%">25%</option>')
-                          coverage.append('<option value="50%">50%</option>')
-                          coverage.append('<option value="75%">75%</option>')
-                          coverage.append('<option value="100%">All</option>')
-                          
-                        var i;
-                        for(i = 0; i < toolnames.length; i++){
-                          $('<option value="">'+toolnames[i]+'</option>').attr('value', toolnames[i]).appendTo(tools);
-                          }
-                          }
-                        if(value == "type"){
                           if(document.getElementById('tool_filter_'+current_value)){
-                            $('#tool_filter_'+current_value).remove()
-                            $('#coverage_filter_'+current_value).remove()
+                            $('#tool_condition_filter_'+current_value).remove();
+                            $('#tool_filter_'+current_value).remove();
                           }
-                          var types = $('<select id=""><option value="Select"></option></select>').attr('id', "type_filter_"+current_value).insertAfter(options)
-                          types.append('<option value="parsing">Parsing</option>')
-                          types.append('<option value="preprocessing">Preprocessing</option>')
-                          types.append('<option value="simulation">Simulation</option>')
+                          
+                          var operators = $('<select id=""><option value="Select"></option></select>').attr('id', "operator_filter_"+current_value).insertAfter(options)
+                                        .on('change', function(){
+                                          operator = $(this).val();
+                                          current_object.condition = operator;
+                                        })
+                          var coverage = $('<select id=""><option value="Select"></option></select>').attr('id', "coverage_filter_"+current_value).insertAfter(operators)
+                                        .on('change', function(){
+                                          percentage = $(this).val();
+                                          current_object.value = percentage;
+                                        })
+                          if(!document.getElementById('remove_'+current_value))
+                            var remove = $('<i id="" class="fas fa-minus-circle" onclick="removeFilter(this)"></i>').attr('id', "remove_"+current_value).insertAfter(coverage);
+                          
+                          operators.append('<option value="<"> < </option>');
+                          operators.append('<option value="<="> <= </option>');
+                          operators.append('<option value=">"> > </option>');
+                          operators.append('<option value=">="> >= </option>');
+                          for(var i=1; i<=100; i++){
+                            $('<option value="">'+i+'</option>').attr('value', i).appendTo(coverage);
+                          }
+                        }
+
+                        if(value == "type"){
+                          var current_object = filters.find(obj => obj.id === current_value);
+                          current_object.mode = "type";
+                          if(document.getElementById('coverage_filter_'+current_value)){
+                            $('#operator_filter_'+current_value).remove();
+                            $('#coverage_filter_'+current_value).remove();
+                          }
+                          if(document.getElementById('tool_filter_'+current_value)){
+                            $('#tool_condition_filter_'+current_value).remove();
+                            $('#tool_filter_'+current_value).remove();
+                          }
+
+                          var type_condition = $('<select id=""><option value="Select"></option></select>').attr('id', "type_condition_filter_"+current_value).insertAfter(options)
+                                                  .on('change', function(){
+                                                    operator = $(this).val();
+                                                    current_object.condition = operator;
+                                                  })
+                          var types = $('<select id=""><option value="Select"></option></select>').attr('id', "type_filter_"+current_value).insertAfter(type_condition)
+                                        .on('change', function(){
+                                          type = $(this).val();
+                                          current_object.value = type;
+                                        })
+                          if(!document.getElementById('remove_'+current_value))
+                            var remove = $('<i id="" class="fas fa-minus-circle" onclick="removeFilter(this)"></i>').attr('id', "remove_"+current_value).insertAfter(types);
+                          
+                          type_condition.append('<option value="is">is</option>');
+                          type_condition.append('<option value="is not">is not</option>');
+                          types.append('<option value="parsing">Parsing</option>');
+                          types.append('<option value="preprocessing">Preprocessing</option>');
+                          types.append('<option value="simulation">Simulation</option>');
+                        }
+
+                        if(value == "tool"){
+                          var current_object = filters.find(obj => obj.id === current_value);
+                          current_object.mode = "tool";
+                          if(document.getElementById('coverage_filter_'+current_value)){
+                            $('#operator_filter_'+current_value).remove();
+                            $('#coverage_filter_'+current_value).remove();
+                          }
+                          if(document.getElementById('type_filter_'+current_value)){
+                            $('#type_condition_filter_'+current_value).remove();
+                            $('#type_filter_'+current_value).remove();
+                          }
+                          
+                          var tool_condition = $('<select id=""><option value="Select"></option></select>').attr('id', "tool_condition_filter_"+current_value).insertAfter(options)
+                                                  .on('change', function(){
+                                                    operator = $(this).val();
+                                                    current_object.condition = operator;
+                                                  })
+                          var tools = $('<select id=""><option value="Select"></option></select>').attr('id', "tool_filter_"+current_value).insertAfter(tool_condition)
+                                        .on('change', function(){
+                                          tool = $(this).val();
+                                          current_object.value = tool;
+                                        })
+                          if(!document.getElementById('remove_'+current_value))
+                            var remove = $('<i id="" class="fas fa-minus-circle" onclick="removeFilter(this)"></i>').attr('id', "remove_"+current_value).insertAfter(tools);
+
+                          tool_condition.append('<option value="is">is</option>');
+                          tool_condition.append('<option value="is not">is not</option>');
+                          for(var i = 0; i < toolnames.length; i++){
+                            $('<option value="">'+toolnames[i]+'</option>').attr('value', toolnames[i]).appendTo(tools);
+                          }
                         }
                       })
-        options.append('<option value="coverage">Test Coverage</option>')
-        options.append('<option value="type">Test Type</option>')
-        var add = $('<button id="secondaryButton" onclick="addOptions()">Add</button>').insertAfter(options)
-        var add = $('<button id="applyButton" onclick="applyFilter()">Apply</button>').insertAfter('#secondaryButton')
+        options.append('<option value="coverage">Test Coverage</option>');
+        options.append('<option value="type">Test Type</option>');
+        options.append('<option value="tool">Tool Name</option>');
+        var add = $('<button id="secondaryButton" onclick="addOptions()">Add</button>').insertAfter(options);
+        var apply = $('<button id="applyButton" onclick="applyFilter()">Apply</button>').insertAfter(add);
         if(iter === 1){
           $('#mainButton').remove();
         }
-        iter = iter + 1
+        iter = iter + 1;
   }
 
     $(document).ready( function () {

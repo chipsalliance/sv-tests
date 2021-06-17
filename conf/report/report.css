@@ -64,6 +64,14 @@ table.dataTable thead .sorting_desc_disabled {
   transform: translate(0px, 30px) rotate(315deg);
 }
 
+div[id^="new_options_wrapper_"] > * {
+  margin: 5px 0;
+}
+
+i {
+  color: #ff6961;
+}
+
 table.dataTable {
   width: auto;
   table-layout: fixed;
