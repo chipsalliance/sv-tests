@@ -65,13 +65,80 @@
       $('#filter_wrapper').remove();
       iter = 1;
       var div = $('<div id="filter_wrapper"><button id="mainButton" onclick="addOptions()">Add</button></div>').insertAfter('#headline');
-      filter.length = 0;
+      filters.length = 0;
     }
 
     function applyFilter() {
       apply_active = true;
-      if(!document.getElementById('removeButton'));
+      if(!document.getElementById('removeButton'))
         var remove_all = $('<button id="removeButton" onclick="removeAll()">Remove all filters</button>').insertAfter('#applyButton');
+      
+      report = $('#report_table').DataTable();
+      var num_filters = filters.length;
+      var coverage, coverage_operator, type, type_operator, tool, tool_operator;
+      for(var i=0; i<num_filters; i++){
+        if(filters[i].mode === 'coverage'){
+          coverage_operator = filters[i].condition;
+          coverage = filters[i].value;
+        }
+        if(filters[i].mode === 'type'){
+          type_operator = filters[i].condition;
+          type = filters[i].value;
+        }
+        if(filters[i].mode === 'tool'){
+          tool_operator = filters[i].condition;
+          tool = filters[i].value;
+        }
+      }
+
+      report.columns().every(function() {
+        var column = this;
+        if(column.index() !== 0 && column.index() !== 1) {
+          var theadname = column.header().textContent.trim();
+
+          if(tool_operator === 'is'){
+            if(theadname === tool){
+              var array = [];
+              coverage = parseInt(coverage);
+              column.data().each(function(d, j) {
+                output = d.split('/');
+                tests_passed = output[0];
+                total_tests = output[1];
+                percentage = parseInt((tests_passed/total_tests)*100);
+                
+                console.log(coverage_operator, coverage)
+                if (coverage_operator === '<'){
+                  if(percentage < coverage){
+                    array.push('^'+d+'$');
+                  }
+                }
+                if (coverage_operator === '<='){
+                  if(percentage <= coverage){
+                    array.push('^'+d+'$');
+                  }
+                }
+                if (coverage_operator === '>'){
+                  if(percentage > coverage){
+                    array.push('^'+d+'$');
+                  }
+                }
+                if (coverage_operator === '>='){
+                  if(percentage >= coverage){
+                    array.push('^'+d+'$');
+                  }
+                }
+                if (coverage_operator === '='){
+                  if(percentage === coverage){
+                    array.push('^'+d+'$');
+                  }
+                }
+              });
+              array = array.join('|');
+              column.search(array, true, false, true).draw();
+            }
+          }
+        }
+      });
     }
     
     function addOptions() {
