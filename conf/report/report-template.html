@@ -21,263 +21,10 @@
   </head>
 
   <script>
-    function Filter(id, mode, condition, value) {
-      this.id = id;
-      this.mode = mode;
-      this.condition = condition;
-      this.value = value;
-    }
-
-    var iter = 1;
-    var filters = [];
-    var value;
-    var apply_active = false;
-
-    function removeFilter(object){
-      var current_value = object.id;
-      current_value = parseInt(current_value.charAt(current_value.length-1));
-      var index = filters.findIndex(obj => obj.id === current_value);
-      if(current_value === iter-1 || current_value === iter-2){
-        $('#new_filter_options_'+current_value).remove();
-        $('#remove_'+current_value).remove();
-        current_object = filters[index];
-        mode = current_object.mode;
-
-        if(mode === "coverage"){
-          $('#operator_filter_'+current_value).remove();
-          $('#coverage_filter_'+current_value).remove();
-        }
-        if(mode === "type"){
-          $('#type_condition_filter_'+current_value).remove();
-          $('#type_filter_'+current_value).remove();
-        }
-        if(mode === "tool"){
-          $('#tool_condition_filter_'+current_value).remove();
-          $('#tool_filter_'+current_value).remove();
-        }
-      }
-      else
-        $('#new_options_wrapper_'+current_value).remove();
-      filters.splice(index, 1);
-    }
-
-    function removeAll() {
-      $('#filter_wrapper').remove();
-      iter = 1;
-      var div = $('<div id="filter_wrapper"><button id="mainButton" onclick="addOptions()">Add</button></div>').insertAfter('#headline');
-      filters.length = 0;
-    }
-
-    function applyFilter() {
-      apply_active = true;
-      if(!document.getElementById('removeButton'))
-        var remove_all = $('<button id="removeButton" onclick="removeAll()">Remove all filters</button>').insertAfter('#applyButton');
-      
-      report = $('#report_table').DataTable();
-      var num_filters = filters.length;
-      var coverage, coverage_operator, type, type_operator, tool, tool_operator;
-      for(var i=0; i<num_filters; i++){
-        if(filters[i].mode === 'coverage'){
-          coverage_operator = filters[i].condition;
-          coverage = filters[i].value;
-        }
-        if(filters[i].mode === 'type'){
-          type_operator = filters[i].condition;
-          type = filters[i].value;
-        }
-        if(filters[i].mode === 'tool'){
-          tool_operator = filters[i].condition;
-          tool = filters[i].value;
-        }
-      }
-
-      report.columns().every(function() {
-        var column = this;
-        if(column.index() !== 0 && column.index() !== 1) {
-          var theadname = column.header().textContent.trim();
-
-          if(tool_operator === 'is'){
-            if(theadname === tool){
-              var array = [];
-              coverage = parseInt(coverage);
-              column.data().each(function(d, j) {
-                output = d.split('/');
-                tests_passed = output[0];
-                total_tests = output[1];
-                percentage = parseInt((tests_passed/total_tests)*100);
-                
-                console.log(coverage_operator, coverage)
-                if (coverage_operator === '<'){
-                  if(percentage < coverage){
-                    array.push('^'+d+'$');
-                  }
-                }
-                if (coverage_operator === '<='){
-                  if(percentage <= coverage){
-                    array.push('^'+d+'$');
-                  }
-                }
-                if (coverage_operator === '>'){
-                  if(percentage > coverage){
-                    array.push('^'+d+'$');
-                  }
-                }
-                if (coverage_operator === '>='){
-                  if(percentage >= coverage){
-                    array.push('^'+d+'$');
-                  }
-                }
-                if (coverage_operator === '='){
-                  if(percentage === coverage){
-                    array.push('^'+d+'$');
-                  }
-                }
-              });
-              array = array.join('|');
-              column.search(array, true, false, true).draw();
-            }
-          }
-        }
-      });
-    }
-    
-    function addOptions() {
-      var tool, operator, percentage, type;
-      var toolnames = [];
-      $("#report_table thead tr th a").each(function(){
-          toolnames.push(this.innerHTML);
-        });
-      if(iter > 1) {
-        $('#secondaryButton').remove();
-        $('#applyButton').remove();
-        $('#removeButton').remove();
-      }
-      var div = $('<div id=""></div>').attr('id', "new_options_wrapper_"+iter).appendTo('#filter_wrapper');
-      var options =  $('<select id=""><option value="Select"></option></select>').attr('id', "new_filter_options_"+iter)
-                      .appendTo('#new_options_wrapper_'+iter)
-                      .on('change', function(){
-                        value = $(this).val();
-                        current_value = $(this).attr("id");
-                        current_value = parseInt(current_value.charAt(current_value.length-1));
-                        
-                        var current_filter;
-                        if(filters.length < current_value){
-                          current_filter = new Filter();
-                          current_filter.id = current_value;
-                          filters.push(current_filter);
-                        }
-
-                        if(value == "coverage"){
-                          var current_object = filters.find(obj => obj.id === current_value);
-                          current_object.mode = "coverage";
-                          if(document.getElementById('type_filter_'+current_value)){
-                            $('#type_condition_filter_'+current_value).remove();
-                            $('#type_filter_'+current_value).remove();
-                          }
-                          if(document.getElementById('tool_filter_'+current_value)){
-                            $('#tool_condition_filter_'+current_value).remove();
-                            $('#tool_filter_'+current_value).remove();
-                          }
-                          
-                          var operators = $('<select id=""><option value="Select"></option></select>').attr('id', "operator_filter_"+current_value).insertAfter(options)
-                                        .on('change', function(){
-                                          operator = $(this).val();
-                                          current_object.condition = operator;
-                                        })
-                          var coverage = $('<select id=""><option value="Select"></option></select>').attr('id', "coverage_filter_"+current_value).insertAfter(operators)
-                                        .on('change', function(){
-                                          percentage = $(this).val();
-                                          current_object.value = percentage;
-                                        })
-                          if(!document.getElementById('remove_'+current_value))
-                            var remove = $('<i id="" class="fas fa-minus-circle" onclick="removeFilter(this)"></i>').attr('id', "remove_"+current_value).insertAfter(coverage);
-                          
-                          operators.append('<option value="<"> < </option>');
-                          operators.append('<option value="<="> <= </option>');
-                          operators.append('<option value=">"> > </option>');
-                          operators.append('<option value=">="> >= </option>');
-                          for(var i=1; i<=100; i++){
-                            $('<option value="">'+i+'</option>').attr('value', i).appendTo(coverage);
-                          }
-                        }
-
-                        if(value == "type"){
-                          var current_object = filters.find(obj => obj.id === current_value);
-                          current_object.mode = "type";
-                          if(document.getElementById('coverage_filter_'+current_value)){
-                            $('#operator_filter_'+current_value).remove();
-                            $('#coverage_filter_'+current_value).remove();
-                          }
-                          if(document.getElementById('tool_filter_'+current_value)){
-                            $('#tool_condition_filter_'+current_value).remove();
-                            $('#tool_filter_'+current_value).remove();
-                          }
-
-                          var type_condition = $('<select id=""><option value="Select"></option></select>').attr('id', "type_condition_filter_"+current_value).insertAfter(options)
-                                                  .on('change', function(){
-                                                    operator = $(this).val();
-                                                    current_object.condition = operator;
-                                                  })
-                          var types = $('<select id=""><option value="Select"></option></select>').attr('id', "type_filter_"+current_value).insertAfter(type_condition)
-                                        .on('change', function(){
-                                          type = $(this).val();
-                                          current_object.value = type;
-                                        })
-                          if(!document.getElementById('remove_'+current_value))
-                            var remove = $('<i id="" class="fas fa-minus-circle" onclick="removeFilter(this)"></i>').attr('id', "remove_"+current_value).insertAfter(types);
-                          
-                          type_condition.append('<option value="is">is</option>');
-                          type_condition.append('<option value="is not">is not</option>');
-                          types.append('<option value="parsing">Parsing</option>');
-                          types.append('<option value="preprocessing">Preprocessing</option>');
-                          types.append('<option value="simulation">Simulation</option>');
-                        }
-
-                        if(value == "tool"){
-                          var current_object = filters.find(obj => obj.id === current_value);
-                          current_object.mode = "tool";
-                          if(document.getElementById('coverage_filter_'+current_value)){
-                            $('#operator_filter_'+current_value).remove();
-                            $('#coverage_filter_'+current_value).remove();
-                          }
-                          if(document.getElementById('type_filter_'+current_value)){
-                            $('#type_condition_filter_'+current_value).remove();
-                            $('#type_filter_'+current_value).remove();
-                          }
-                          
-                          var tool_condition = $('<select id=""><option value="Select"></option></select>').attr('id', "tool_condition_filter_"+current_value).insertAfter(options)
-                                                  .on('change', function(){
-                                                    operator = $(this).val();
-                                                    current_object.condition = operator;
-                                                  })
-                          var tools = $('<select id=""><option value="Select"></option></select>').attr('id', "tool_filter_"+current_value).insertAfter(tool_condition)
-                                        .on('change', function(){
-                                          tool = $(this).val();
-                                          current_object.value = tool;
-                                        })
-                          if(!document.getElementById('remove_'+current_value))
-                            var remove = $('<i id="" class="fas fa-minus-circle" onclick="removeFilter(this)"></i>').attr('id', "remove_"+current_value).insertAfter(tools);
-
-                          tool_condition.append('<option value="is">is</option>');
-                          tool_condition.append('<option value="is not">is not</option>');
-                          for(var i = 0; i < toolnames.length; i++){
-                            $('<option value="">'+toolnames[i]+'</option>').attr('value', toolnames[i]).appendTo(tools);
-                          }
-                        }
-                      })
-        options.append('<option value="coverage">Test Coverage</option>');
-        options.append('<option value="type">Test Type</option>');
-        options.append('<option value="tool">Tool Name</option>');
-        var add = $('<button id="secondaryButton" onclick="addOptions()">Add</button>').insertAfter(options);
-        var apply = $('<button id="applyButton" onclick="applyFilter()">Apply</button>').insertAfter(add);
-        if(iter === 1){
-          $('#mainButton').remove();
-        }
-        iter = iter + 1;
-  }
-
+    var table;
+    var toolnames = [];
     $(document).ready( function () {
-      $('#report_table').DataTable( {
+      table = $('#report_table').DataTable( {
         paging: false,
         fixedHeader: true,
         "order": [[ 1, "asc" ]],
@@ -289,9 +36,167 @@
           {% for tool in report %}
           { "orderDataType": "test-status" },
           {% endfor %}
-        ]
+        ],
+        initComplete: function() {
+          $("#report_table thead tr th a").each(function(){
+            toolnames.push(this.innerHTML);
+          });
+        }
       });
     } );
+
+    var iter = 1;
+
+    const filter_types = {
+      coverage: {
+        name: "Coverage",
+        operators: ["<", "<=", ">", ">=", "="],
+        value_field_factory: function(id, parent) {
+          $('li[data-uid=' + id + '] .filter-entry-operator option:not(:first)').remove();
+          $('li[data-uid=' + id + '] .filter-entry-value option:not(:first)').remove();
+          for (var i=0; i<this.operators.length; i++)
+            $('<option value="">'+this.operators[i]+'</option>').attr('value', this.operators[i]).appendTo('li[data-uid=' + id + '] .filter-entry-operator');
+          for (var i=0; i<=100; i++)
+            $('<option value="">'+i+'</option>').attr('value', i).appendTo('li[data-uid=' + id + '] .filter-entry-value');
+        },
+        apply: function(operator, percentage) {
+          var values = new Set();
+          var columns = table.columns();
+          var total_columns = columns[0].length;
+          table.columns().every(function() {
+            var column = this;
+            if(column.index() !== 0 && column.index() !== 1) {
+              percentage = parseInt(percentage);
+              column.data().each(function(d, j) {
+                output = d.split('/');
+                tests_passed = output[0];
+                total_tests = output[1];
+                coverage = parseInt((tests_passed/total_tests)*100);
+                if (operator === '<'){
+                  if(coverage < percentage){
+                    values.add(d);
+                  }
+                }
+                if (operator === '<='){
+                  if(coverage <= percentage){
+                    values.add(d);
+                  }
+                }
+                if (operator === '>'){
+                  if(coverage > percentage){
+                    values.add(d);
+                  }
+                }
+                if (operator === '>='){
+                  if(coverage >= percentage){
+                    values.add(d);
+                  }
+                }
+                if (operator === '='){
+                  if(coverage === percentage){
+                    values.add(d);
+                  }
+                }
+              });
+            }
+          });
+          values = [...values];
+          values = values.join('|');
+          table.search(values, true, false, true).draw();
+        }
+      },
+      type: {
+        name: "Type",
+        operators: ["is", "is not"],
+        types: ["parsing", "preprocessing", "simulation"],
+        value_field_factory: function(id, parent) {
+          $('li[data-uid=' + id + '] .filter-entry-operator option:not(:first)').remove();
+          $('li[data-uid=' + id + '] .filter-entry-value option:not(:first)').remove();
+          for (var i=0; i<this.operators.length; i++)
+            $('<option value="">'+this.operators[i]+'</option>').attr('value', this.operators[i]).appendTo('li[data-uid=' + id + '] .filter-entry-operator');
+          for (var i=0; i<this.types.length; i++)
+            $('<option value="">'+this.types[i]+'</option>').attr('value', this.types[i]).appendTo('li[data-uid=' + id + '] .filter-entry-value');
+        },
+        apply: function(operator, type) {
+          console.log(operator, type);
+        }
+      },
+      tool: {
+        name: "Tool",
+        operators: ["is", "is not"],
+        tools: toolnames,
+        value_field_factory: function(id, parent) {
+          $('li[data-uid=' + id + '] .filter-entry-operator option:not(:first)').remove();
+          $('li[data-uid=' + id + '] .filter-entry-value option:not(:first)').remove();
+          for (var i=0; i<this.operators.length; i++)
+            $('<option value="">'+this.operators[i]+'</option>').attr('value', this.operators[i]).appendTo('li[data-uid=' + id + '] .filter-entry-operator');
+          for (var i=0; i<this.tools.length; i++)
+            $('<option value="">'+this.tools[i]+'</option>').attr('value', this.tools[i]).appendTo('li[data-uid=' + id + '] .filter-entry-value');
+        },
+        apply: function(operator, tool) {
+          var array = [];
+          table.columns().every(function() {
+            var column = this;
+            if(column.index() !== 0 && column.index() !== 1){
+              var theadname = column.header().textContent.trim();
+              if(operator === 'is'){
+                if(theadname !== tool) {
+                  array.push(column.index());
+                }
+              }
+              if(operator === 'is not'){
+                if(theadname === tool) {
+                  array.push(column.index());
+                }
+              }
+            }
+          });
+          table.columns(array).visible(false);
+        }
+      }
+    }
+
+    function entryChanged(mode, id, parent) {
+      if(mode === "coverage")
+        filter_types.coverage.value_field_factory(id, parent)
+      if(mode === "type")
+        filter_types.type.value_field_factory(id, parent)
+      if(mode === "tool")
+        filter_types.tool.value_field_factory(id, parent)
+    }
+
+    function applyFilter() {
+      table.search(' ').draw();
+      if(!document.getElementsByClassName('filter-remove'))
+        var remove = $('<button class="filter-remove" onclick="removeAll()">Remove all filters</button>').insertAfter('.filter-apply');
+      var applied_filters = [];
+      var container = $('.filter-entries li select option:selected').each(function() {
+        applied_filters.push($(this).val());
+      });
+      for(var i=0; i<applied_filters.length-2; i++){
+        if(applied_filters[i] === "coverage")
+          filter_types.coverage.apply(applied_filters[i+1], applied_filters[i+2])
+        if(applied_filters[i] === "type")
+          filter_types.type.apply(applied_filters[i+1], applied_filters[i+2])
+        if(applied_filters[i] === "tool")
+          filter_types.tool.apply(applied_filters[i+1], applied_filters[i+2])
+      }
+    }
+
+    function addOptions() {
+      if(iter === 1)
+        var apply = $('<button class="filter-apply" onclick="applyFilter()"> Apply </button>').insertAfter('.filter-add');
+      var filter_entries = $('<li data-uid=""></li>').attr('data-uid', iter).appendTo('.filter-entries');
+      var filter_entry_type =  $('<select class="filter-entry-type" onchange="entryChanged(this.value, this.parentElement.dataset.uid, this.parentElement)"><option value="Select"></option></select>').appendTo(filter_entries)
+      var filter_entry_operator =  $('<select class="filter-entry-operator"><option value="Select"></option></select>').appendTo(filter_entries)
+      var filter_entry_value =  $('<select class="filter-entry-value"><option value="Select"></option></select>').appendTo(filter_entries)
+      var remove = $('<i class="fas fa-minus-circle filter-clear" onclick="remove_entry(this.parentElement)"></i>').insertAfter(filter_entry_value);
+    
+      filter_entry_type.append('<option value="coverage">Test Coverage</option>');
+      filter_entry_type.append('<option value="type">Test Type</option>');
+      filter_entry_type.append('<option value="tool">Tool Name</option>');
+      iter = iter + 1;
+    }
   </script>
   <style type="text/css">
     .report_table_result {
@@ -302,9 +207,13 @@
   <body>
     <h1 class="headline"><a href="https://github.com/chipsalliance/sv-tests">SV-Tests</a></h1>
     <p class="headline"><a href="https://github.com/chipsalliance/sv-tests"><em>Test suite to check compliance with the SystemVerilog LRM by chapter as well as some real-world cores and test-cases.</em></a></p>
-    <div id="filter_wrapper">
-      <button id="mainButton" onclick="addOptions()">Add</button>
-    </div>
+    <section id="filter">
+      <ul class="filter-entries">
+      </ul>
+      <div>
+        <button class="filter-add" onclick="addOptions()">Add</button>
+      </div>
+    </section>
     <table id="report_table">
       <thead>
         <tr class="fixed_header">
