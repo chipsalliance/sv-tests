@@ -403,6 +403,7 @@ def collect_logs(runner_name):
         for tag in database:
             tags[tag] = {}
             tags[tag]["status"] = []
+            tags[tag]["type"] = []
 
         # generate tags summary
         for _, test in tests.items():
@@ -410,12 +411,16 @@ def collect_logs(runner_name):
                 try:
                     runner_tag_usage[tag] = True
                     tags[tag]["status"].append(test["status"])
+                    for type in test["type"].split(" "):
+                        if type not in tags[tag]["type"]:
+                            tags[tag]["type"].append(type)
                 except KeyError:
                     logger.warning("Tag not present in the database: " + tag)
                     database[tag] = ''
                     runner_tag_usage[tag] = True
                     tags[tag] = {}
                     tags[tag]["status"] = test["status"]
+                    tags[tag]["type"] = test["type"]
                     continue
 
         for tag in tags:

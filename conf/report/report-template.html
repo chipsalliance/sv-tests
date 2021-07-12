@@ -22,6 +22,7 @@
 
   <script>
     var table;
+    var columns;
     var toolnames = [];
     $(document).ready( function () {
       table = $('#report_table').DataTable( {
@@ -41,28 +42,39 @@
           $("#report_table thead tr th a").each(function(){
             toolnames.push(this.innerHTML);
           });
+          columns = table.columns();
+          columns = columns[0].length;
         }
       });
     } );
 
     var iter = 1;
+    var tool_selected = false;
+    var tool_array = [];
+    var col_array = [];
+    for(var i=2; i<columns; i++)
+      col_array.add(i);
+    
+    const filters = {
+      "Test Coverage": "coverage",
+      "Test Type": "type",
+      "Tool Name": "tool",
+    }
 
     const filter_types = {
       coverage: {
         name: "Coverage",
         operators: ["<", "<=", ">", ">=", "="],
         value_field_factory: function(id, parent) {
-          $('li[data-uid=' + id + '] .filter-entry-operator option:not(:first)').remove();
-          $('li[data-uid=' + id + '] .filter-entry-value option:not(:first)').remove();
+          $(`li[data-uid=${id}] .filter-entry-operator option:not(:first)`).remove();
+          $(`li[data-uid=${id}] .filter-entry-value option:not(:first)`).remove();
           for (var i=0; i<this.operators.length; i++)
-            $('<option value="">'+this.operators[i]+'</option>').attr('value', this.operators[i]).appendTo('li[data-uid=' + id + '] .filter-entry-operator');
+            $(`<option value="${this.operators[i]}">${this.operators[i]}</option>`).appendTo(`li[data-uid=${id}] .filter-entry-operator`);
           for (var i=0; i<=100; i++)
-            $('<option value="">'+i+'</option>').attr('value', i).appendTo('li[data-uid=' + id + '] .filter-entry-value');
+            $(`<option value="${i}">${i}</option>`).appendTo(`li[data-uid=${id}] .filter-entry-value`);
         },
         apply: function(operator, percentage) {
           var values = new Set();
-          var columns = table.columns();
-          var total_columns = columns[0].length;
           table.columns().every(function() {
             var column = this;
             if(column.index() !== 0 && column.index() !== 1) {
@@ -74,27 +86,27 @@
                 coverage = parseInt((tests_passed/total_tests)*100);
                 if (operator === '<'){
                   if(coverage < percentage){
-                    values.add(d);
+                    values.add("^"+d+"$");
                   }
                 }
-                if (operator === '<='){
+                else if (operator === '<='){
                   if(coverage <= percentage){
-                    values.add(d);
+                    values.add("^"+d+"$");
                   }
                 }
-                if (operator === '>'){
+                else if (operator === '>'){
                   if(coverage > percentage){
-                    values.add(d);
+                    values.add("^"+d+"$");
                   }
                 }
-                if (operator === '>='){
+                else if (operator === '>='){
                   if(coverage >= percentage){
-                    values.add(d);
+                    values.add("^"+d+"$");
                   }
                 }
-                if (operator === '='){
+                else if (operator === '='){
                   if(coverage === percentage){
-                    values.add(d);
+                    values.add("^"+d+"$");
                   }
                 }
               });
@@ -102,7 +114,10 @@
           });
           values = [...values];
           values = values.join('|');
-          table.search(values, true, false, true).draw();
+          if (tool_selected === true)
+            table.columns(tool_column).search(values, true, false, true).draw();
+          else if (tool_selected === false)
+            table.columns(col_array).search(values, true, false, true).draw();
         }
       },
       type: {
@@ -110,15 +125,23 @@
         operators: ["is", "is not"],
         types: ["parsing", "preprocessing", "simulation"],
         value_field_factory: function(id, parent) {
-          $('li[data-uid=' + id + '] .filter-entry-operator option:not(:first)').remove();
-          $('li[data-uid=' + id + '] .filter-entry-value option:not(:first)').remove();
+          $(`li[data-uid=${id}] .filter-entry-operator option:not(:first)`).remove();
+          $(`li[data-uid=${id}] .filter-entry-value option:not(:first)`).remove();
           for (var i=0; i<this.operators.length; i++)
-            $('<option value="">'+this.operators[i]+'</option>').attr('value', this.operators[i]).appendTo('li[data-uid=' + id + '] .filter-entry-operator');
+            $(`<option value="${this.operators[i]}">${this.operators[i]}</option>`).appendTo(`li[data-uid=${id}] .filter-entry-operator`);
           for (var i=0; i<this.types.length; i++)
-            $('<option value="">'+this.types[i]+'</option>').attr('value', this.types[i]).appendTo('li[data-uid=' + id + '] .filter-entry-value');
+            $(`<option value="${this.types[i]}">${this.types[i]}</option>`).appendTo(`li[data-uid=${id}] .filter-entry-value`);
         },
         apply: function(operator, type) {
-          console.log(operator, type);
+          $.fn.dataTable.ext.search.push(
+            function(settings, data, dataIndex){
+              if (operator === 'is')
+                return $(table.row(dataIndex).node()).hasClass(type);
+              if (operator === 'is not')
+                return !($(table.row(dataIndex).node()).hasClass(type));
+            }
+          );
+          table.draw();
         }
       },
       tool: {
@@ -126,12 +149,12 @@
         operators: ["is", "is not"],
         tools: toolnames,
         value_field_factory: function(id, parent) {
-          $('li[data-uid=' + id + '] .filter-entry-operator option:not(:first)').remove();
-          $('li[data-uid=' + id + '] .filter-entry-value option:not(:first)').remove();
+          $(`li[data-uid=${id}] .filter-entry-operator option:not(:first)`).remove();
+          $(`li[data-uid=${id}] .filter-entry-value option:not(:first)`).remove();
           for (var i=0; i<this.operators.length; i++)
-            $('<option value="">'+this.operators[i]+'</option>').attr('value', this.operators[i]).appendTo('li[data-uid=' + id + '] .filter-entry-operator');
+            $(`<option value="${this.operators[i]}">${this.operators[i]}</option>`).appendTo(`li[data-uid=${id}] .filter-entry-operator`);
           for (var i=0; i<this.tools.length; i++)
-            $('<option value="">'+this.tools[i]+'</option>').attr('value', this.tools[i]).appendTo('li[data-uid=' + id + '] .filter-entry-value');
+            $(`<option value="${this.tools[i]}">${this.tools[i]}</option>`).appendTo(`li[data-uid=${id}] .filter-entry-value`);
         },
         apply: function(operator, tool) {
           var array = [];
@@ -143,10 +166,16 @@
                 if(theadname !== tool) {
                   array.push(column.index());
                 }
+                if(theadname === tool) {
+                  tool_array.push(column.index());
+                }
               }
               if(operator === 'is not'){
                 if(theadname === tool) {
                   array.push(column.index());
+                }
+                if(theadname !== tool) {
+                  tool_array.push(column.index());
                 }
               }
             }
@@ -157,46 +186,75 @@
     }
 
     function entryChanged(mode, id, parent) {
-      if(mode === "coverage")
-        filter_types.coverage.value_field_factory(id, parent)
-      if(mode === "type")
-        filter_types.type.value_field_factory(id, parent)
-      if(mode === "tool")
-        filter_types.tool.value_field_factory(id, parent)
+      filter_types[mode].value_field_factory(id, parent)
+    }
+
+    function arrayMove(arr, fromIndex, toIndex) {
+      var element = arr[fromIndex];
+      arr.splice(fromIndex, 1);
+      arr.splice(toIndex, 0, element);
+      return arr;
     }
 
     function applyFilter() {
-      table.search(' ').draw();
-      if(!document.getElementsByClassName('filter-remove'))
-        var remove = $('<button class="filter-remove" onclick="removeAll()">Remove all filters</button>').insertAfter('.filter-apply');
+      table.columns(col_array).search("").draw();
+      table.columns(col_array).visible(true);
+      $.fn.dataTable.ext.search.pop();
+      $('.filter-remove').show();
       var applied_filters = [];
       var container = $('.filter-entries li select option:selected').each(function() {
         applied_filters.push($(this).val());
       });
-      for(var i=0; i<applied_filters.length-2; i++){
-        if(applied_filters[i] === "coverage")
-          filter_types.coverage.apply(applied_filters[i+1], applied_filters[i+2])
-        if(applied_filters[i] === "type")
-          filter_types.type.apply(applied_filters[i+1], applied_filters[i+2])
-        if(applied_filters[i] === "tool")
-          filter_types.tool.apply(applied_filters[i+1], applied_filters[i+2])
+
+      if(applied_filters.includes("tool")){
+        tool_selected = true;
+        tool_index = applied_filters.indexOf("tool");
+        applied_filters = arrayMove(applied_filters, tool_index, 0);
+        applied_filters = arrayMove(applied_filters, tool_index+1, 1);
+        applied_filters = arrayMove(applied_filters, tool_index+2, 2);
+      }
+      for(var i=0; i<applied_filters.length-2; i+=3)
+        filter_types[applied_filters[i]].apply(applied_filters[i+1], applied_filters[i+2]);
+    }
+
+    function removeAll() {
+      iter = 1;
+      table.columns(col_array).search("").draw();
+      table.columns(col_array).visible(true);
+      $.fn.dataTable.ext.search.pop();
+      table.draw();
+      $('li').remove();
+      $('.filter-apply').hide();
+      $('.filter-remove').hide();
+    }
+
+    function removeEntry(parent) {
+      iter = iter - 1;
+      parent.remove();
+      if (iter === 1){
+        $('.filter-apply').hide();
+        $('.filter-remove').hide();
+        table.columns(col_array).search("").draw();
+        table.columns(col_array).visible(true);
+        $.fn.dataTable.ext.search.pop();
+        table.draw();
       }
     }
 
     function addOptions() {
       if(iter === 1)
-        var apply = $('<button class="filter-apply" onclick="applyFilter()"> Apply </button>').insertAfter('.filter-add');
-      var filter_entries = $('<li data-uid=""></li>').attr('data-uid', iter).appendTo('.filter-entries');
-      var filter_entry_type =  $('<select class="filter-entry-type" onchange="entryChanged(this.value, this.parentElement.dataset.uid, this.parentElement)"><option value="Select"></option></select>').appendTo(filter_entries)
-      var filter_entry_operator =  $('<select class="filter-entry-operator"><option value="Select"></option></select>').appendTo(filter_entries)
-      var filter_entry_value =  $('<select class="filter-entry-value"><option value="Select"></option></select>').appendTo(filter_entries)
+        $('.filter-apply').show();
+      var filter_entries = $(`<li data-uid=${iter}></li>`).appendTo('.filter-entries');
+      var filter_entry_type =  $('<select class="filter-entry-type" onchange="entryChanged(this.value, this.parentElement.dataset.uid, this.parentElement)"><option value=""></option></select>').appendTo(filter_entries)
+      var filter_entry_operator =  $('<select class="filter-entry-operator"><option value=""></option></select>').appendTo(filter_entries)
+      var filter_entry_value =  $('<select class="filter-entry-value"><option value=""></option></select>').appendTo(filter_entries)
       var remove = $('<i class="fas fa-minus-circle filter-clear" onclick="remove_entry(this.parentElement)"></i>').insertAfter(filter_entry_value);
     
-      filter_entry_type.append('<option value="coverage">Test Coverage</option>');
-      filter_entry_type.append('<option value="type">Test Type</option>');
-      filter_entry_type.append('<option value="tool">Tool Name</option>');
+      for (var key in filters)
+        filter_entry_type.append(`<option value=${filters[key]}>${key}</option>`);
       iter = iter + 1;
     }
+
   </script>
   <style type="text/css">
     .report_table_result {
@@ -212,6 +270,8 @@
       </ul>
       <div>
         <button class="filter-add" onclick="addOptions()">Add</button>
+        <button class="filter-apply" onclick="applyFilter()">Apply</button>
+        <button class="filter-remove" onclick="removeAll()">Remove all filters</button>
       </div>
     </section>
     <table id="report_table">
