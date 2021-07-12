@@ -248,7 +248,7 @@
       var filter_entry_type =  $('<select class="filter-entry-type" onchange="entryChanged(this.value, this.parentElement.dataset.uid, this.parentElement)"><option value=""></option></select>').appendTo(filter_entries)
       var filter_entry_operator =  $('<select class="filter-entry-operator"><option value=""></option></select>').appendTo(filter_entries)
       var filter_entry_value =  $('<select class="filter-entry-value"><option value=""></option></select>').appendTo(filter_entries)
-      var remove = $('<i class="fas fa-minus-circle filter-clear" onclick="remove_entry(this.parentElement)"></i>').insertAfter(filter_entry_value);
+      var remove = $('<i class="fas fa-minus-circle filter-clear" onclick="removeEntry(this.parentElement)"></i>').insertAfter(filter_entry_value);
     
       for (var key in filters)
         filter_entry_type.append(`<option value=${filters[key]}>${key}</option>`);
