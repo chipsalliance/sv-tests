@@ -36,7 +36,7 @@ class UhdmVerilator(BaseRunner):
             f.write("set -e\n")
             f.write('set -x\n')
             f.write(
-                'surelog -nopython -nobuiltin --disable-feature=parametersubstitution -parse -sverilog'
+                'surelog -nopython -nobuiltin --disable-feature=parametersubstitution -parse -sverilog -nonote -noinfo -nowarning'
             )
             for i in params['incdirs']:
                 f.write(f' -I{i}')
