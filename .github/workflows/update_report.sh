@@ -13,10 +13,6 @@ git clone \
 
 cd output
 
-# XXX changing the branch here is only temporary, remove this line before merging
-git checkout -b gh-pages-gha-test
-# XXX
-
 rm -rf *
 cp -a $CURRENT_PATH/out/report/* -t .
 touch .nojekyll
@@ -35,6 +31,4 @@ git commit -F $GIT_MESSAGE_FILE
 
 git show -s
 
-# XXX change it to git push just before merging
-git push --set-upstream origin gh-pages-gha-test
-# XXX
+git push

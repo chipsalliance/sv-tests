@@ -2,6 +2,8 @@ name: sv-tests-ci
 
 on:
   push:
+    branches:
+      - master
   pull_request:
 
 jobs:
@@ -107,8 +109,7 @@ jobs:
           ./.github/workflows/summary.sh
           ./.github/workflows/report.sh
       - name: Update sv-tests-results repository
-        # Commented only for tests
-        #if: github.ref == 'refs/heads/master'
+        if: github.ref == 'refs/heads/master'
         run: |
           eval $(ssh-agent -s)
           ssh-add - <<< "${{ secrets.REPORT_DEPLOY_KEY }}"
