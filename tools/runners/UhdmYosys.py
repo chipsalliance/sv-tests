@@ -72,7 +72,7 @@ class UhdmYosys(BaseRunner):
             f.write("set -e\n")
             f.write("set -x\n")
             f.write(
-                f"surelog -nopython -nobuiltin --disable-feature=parametersubstitution -parse -sverilog {library_paths}"
+                f"surelog -nopython -nobuiltin --disable-feature=parametersubstitution -parse -sverilog -nonote -noinfo -nowarning {library_paths}"
             )
             for i in params["incdirs"]:
                 f.write(f" -I{i}")
