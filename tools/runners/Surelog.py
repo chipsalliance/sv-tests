@@ -25,6 +25,11 @@ class Surelog(BaseRunner):
         if not strtobool(params['allow_elaboration']):
             self.cmd.append('-noelab')
 
+        # silence surelog
+        self.cmd.append("-nonote")
+        self.cmd.append("-noinfo")
+        self.cmd.append("-nowarning")
+
         # force sverilog mode for .v files
         if "black-parrot" in params["tags"]:
             self.cmd.append('-sverilog')
