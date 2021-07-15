@@ -23,7 +23,7 @@ hash -r
 conda info -a
 
 # Get base report from sv-tests master run
-wget https://symbiflow.github.io/sv-tests-results/report.csv -O $BASE_REPORT
+wget https://chipsalliance.github.io/sv-tests-results/report.csv -O $BASE_REPORT
 
 # Delete headers from all report.csv
 for file in $(find ./out/report_* -name "*.csv" -print); do
