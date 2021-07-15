@@ -1,13 +1,12 @@
 # SystemVerilog Tester
 
-[![License](https://img.shields.io/github/license/SymbiFlow/sv-tests.svg)](https://github.com/SymbiFlow/sv-tests/blob/master/LICENSE)
-[![Build Status](https://github.com/symbiflow/sv-tests/workflows/sv-tests-ci/badge.svg)](https://github.com/SymbiFlow/sv-tests/actions)
-[![Tests](http://storage.googleapis.com/symbiflow-badges/sv-tests/continuous.svg)](http://storage.googleapis.com/symbiflow-badges/sv-tests/continuous.html)
+[![License](https://img.shields.io/github/license/SymbiFlow/sv-tests.svg)](https://github.com/chipsalliance/sv-tests/blob/master/LICENSE)
+[![Build Status](https://github.com/chipsalliance/sv-tests/workflows/sv-tests-ci/badge.svg)](https://github.com/chipsalliance/sv-tests/actions)
 
 The purpose of this project is to find all the supported and missing SystemVerilog features in various Verilog tools.
 
-The report generated from the last passing master build can be viewed [on a dedicated dashboard:](https://symbiflow.github.io/sv-tests/)
-[![Grid](./img/sv-test-grid.png)](https://symbiflow.github.io/sv-tests/)
+The report generated from the last passing master build can be viewed [on a dedicated dashboard:](https://chipsalliance.github.io/sv-tests-results/)
+[![Grid](./img/sv-test-grid.png)](https://chipsalliance.github.io/sv-tests-results/)
 
 # Running
 
