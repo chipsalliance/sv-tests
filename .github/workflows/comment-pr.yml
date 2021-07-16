@@ -36,7 +36,10 @@ jobs:
             var fs = require('fs');
             fs.writeFileSync('${{github.workspace}}/tests_summary.zip', Buffer.from(download.data));
 
-      - run: unzip tests_summary.zip -d ./out/report
+      - run: |
+          unzip tests_summary.zip
+          tar xvf sv-tests-out.tar.bz2
+          cat ./out/report/tests_summary.md
 
       - id: get-comment-body
         run: |
