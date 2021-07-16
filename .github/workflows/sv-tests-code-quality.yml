@@ -1,0 +1,44 @@
+name: "Code Quality Checks"
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  Test:
+    name: "Code Quality Checks"
+    runs-on: ubuntu-18.04
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+        with:
+          submodules: true
+      - uses: actions/setup-python@v2
+        with:
+          python-version: 3.7
+      - name: Script
+        run:
+          pip install -r conf/requirements.txt
+      - name: Make
+        run:
+          make format
+      - name: Test
+        run:
+          test $(git status --porcelain | wc -l) -eq 0 || { git diff; false; }
+      - name: Clone submodules
+        run:
+          ./.github/add-local-submodules.sh "$GITHUB_REPOSITORY"
+      - name: License
+        uses: SymbiFlow/actions/checks@main
+        with:
+          exclude_directory: |
+            ./.git/
+            ./.github/
+            ./.dependabot/
+            ./miniconda.sh
+            ./build/
+          third_party: |
+            ./third_party/cores/
+            ./third_party/tests/
+            ./third_party/tools/
+
