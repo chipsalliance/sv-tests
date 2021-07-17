@@ -20,6 +20,10 @@
   </head>
 
   <script>
+    if (process.env.BUILD_ID !== 'local') 
+      $('.addLink').attr('href', `https://github.com/chipsalliance/sv-tests/actions/runs/${process.env.BUILD_ID}`);
+    else
+      $('.addLink').removeAttr('href');
     $(document).ready( function () {
       $('#report_table').DataTable( {
         paging: false,
@@ -143,7 +147,9 @@
   <br> <br>
   <footer id="footer">
     Generated using <a href="https://github.com/chipsalliance/sv-tests">sv-tests</a>,
-    revision: <a href="https://github.com/chipsalliance/sv-tests/commit/{{revision}}">{{revision}}</a>.
+    revision: <a href="https://github.com/chipsalliance/sv-tests/commit/{{revision}}">{{revision}}</a>,
+    build_id: <a class="addLink">{{build_id}}</a>,
+    date: <p>{{datetime}}</p>.
   </footer>
 
   <div id="logfile-outer">

@@ -73,10 +73,19 @@ jobs:
       - uses: actions/download-artifact@v2
         with:
           path: ./out/
+      - name: Get current time
+        uses: 1466587594/get-current-time@v2
+        id: current-time
+        with:
+          format: YYYYMMDD-HH
       - name: Summary
         run: |
           ./.github/workflows/summary.sh
           ./.github/workflows/report.sh
+        env:
+          global:
+            - BUILD_ID = ${{GITHUB_ACTIONS}}
+            - DATETIME = "${{ steps.current-time.outputs.readableTime }}"
       - name: Update sv-tests-results repository
         if: github.ref == 'refs/heads/master'
         run: |

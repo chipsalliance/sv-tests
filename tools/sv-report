@@ -557,13 +557,24 @@ try:
         report = jinja2.Template(
             f.read(), trim_blocks=True, lstrip_blocks=True)
 
+    try:
+        build_id = os.environ['BUILD_ID']
+    except:
+        build_id = 'local'
+    try:
+        datetime = os.environ['DATETIME']
+    except:
+        datetime = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+
     with open(args.out, 'w') as f:
         f.write(
             report.render(
                 report=data,
                 database=database,
                 database_urls=urls,
-                revision=args.revision))
+                revision=args.revision,
+                build_id=os.environ['BUILD_ID'],
+                datetime=os.environ['DATETIME']))
 
     with open(args.csv, 'w', newline='') as csvfile:
         writer = csv.DictWriter(csvfile, fieldnames=csv_header)
