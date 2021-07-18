@@ -19,6 +19,9 @@ jobs:
       - name: Script
         run:
           pip install -r conf/requirements.txt
+          echo $GITHUB_RUN_ID
+          echo $GITHUB_JOB
+          echo $GITHUB_RUN_NUMBER
       - name: Make
         run:
           make format
