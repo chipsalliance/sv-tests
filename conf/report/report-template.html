@@ -143,7 +143,14 @@
   <br> <br>
   <footer id="footer">
     Generated using <a href="https://github.com/chipsalliance/sv-tests">sv-tests</a>,
-    revision: <a href="https://github.com/chipsalliance/sv-tests/commit/{{revision}}">{{revision}}</a>.
+    revision: <a href="https://github.com/chipsalliance/sv-tests/commit/{{revision}}">{{revision}}</a>,
+    {% if build_id != 'local' %}
+      {% set href = 'https://github.com/chipsalliance/sv-tests/actions/runs/' ~ build_id|string %}
+      build_id: <a href="{{href}}">{{build_id}}</a>,
+    {% else %}
+      build_id: <a>{{build_id}}</a>,
+    {% endif %}
+    date: <a>{{datetime}}</a>.
   </footer>
 
   <div id="logfile-outer">

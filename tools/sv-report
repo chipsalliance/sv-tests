@@ -557,13 +557,18 @@ try:
         report = jinja2.Template(
             f.read(), trim_blocks=True, lstrip_blocks=True)
 
+    build_id = os.environ.get('GITHUB_ACTION', 'local')
+    build_datetime = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+
     with open(args.out, 'w') as f:
         f.write(
             report.render(
                 report=data,
                 database=database,
                 database_urls=urls,
-                revision=args.revision))
+                revision=args.revision,
+                build_id=build_id,
+                datetime=build_datetime))
 
     with open(args.csv, 'w', newline='') as csvfile:
         writer = csv.DictWriter(csvfile, fieldnames=csv_header)
