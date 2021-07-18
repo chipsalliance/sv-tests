@@ -557,11 +557,8 @@ try:
         report = jinja2.Template(
             f.read(), trim_blocks=True, lstrip_blocks=True)
 
-    try:
-        build_id = os.environ['GITHUB_ACTION']
-    except:
-        build_id = 'local'
-    datetime = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+    build_id = os.environ.get('GITHUB_ACTION', 'local')
+    build_datetime = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
 
     with open(args.out, 'w') as f:
         f.write(
@@ -571,7 +568,7 @@ try:
                 database_urls=urls,
                 revision=args.revision,
                 build_id=build_id,
-                datetime=datetime))
+                datetime=build_datetime))
 
     with open(args.csv, 'w', newline='') as csvfile:
         writer = csv.DictWriter(csvfile, fieldnames=csv_header)
