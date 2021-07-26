@@ -51,8 +51,9 @@
     } );
 
     var iter;
-    var tool_selected = false;
-    
+    var selected_tools = [];
+    var tools_relation;
+
     const filter_types = {
       coverage: {
         name: "Coverage",
@@ -74,55 +75,175 @@
           for (var i=0; i<=100; i++)
             $(`<option value="${i}">${i}</option>`).appendTo(`li[data-uid=${id}] span[data-uid=${iter}] .filter-entry-value`);
         },
-        apply: function(operator, percentage) {
+        apply: function(operator1, percentage1, operator2, percentage2, relation) {
           var values = new Set();
-          table.columns().every(function() {
-            var column = this;
-            if(column.index() !== 0 && column.index() !== 1) {
-              percentage = parseInt(percentage);
-              column.data().each(function(d, j) {
-                output = d.split('/');
-                tests_passed = output[0];
-                total_tests = output[1];
-                coverage = parseInt((tests_passed/total_tests)*100);
-                if (operator === '<'){
-                  if(coverage < percentage){
-                    values.add(d);
+          if (typeof relation == 'undefined') {
+            table.columns().every(function() {
+              var column = this;
+              if(column.index() !== 0 && column.index() !== 1) {
+                percentage = parseInt(percentage1);
+                column.data().each(function(d, j) {
+                  output = d.split('/');
+                  tests_passed = output[0];
+                  total_tests = output[1];
+                  coverage = parseInt((tests_passed/total_tests)*100);
+                  if (operator1 === '<'){
+                    if(coverage < percentage)
+                      values.add(d);
                   }
-                }
-                else if (operator === '<='){
-                  if(coverage <= percentage){
-                    values.add(d);
+                  else if (operator1 === '<='){
+                    if(coverage <= percentage)
+                      values.add(d);
                   }
-                }
-                else if (operator === '>'){
-                  if(coverage > percentage){
-                    values.add(d);
+                  else if (operator1 === '>'){
+                    if(coverage > percentage)
+                      values.add(d);
                   }
-                }
-                else if (operator === '>='){
-                  if(coverage >= percentage){
-                    values.add(d);
+                  else if (operator1 === '>='){
+                    if(coverage >= percentage)
+                      values.add(d);
                   }
-                }
-                else if (operator === '='){
-                  if(coverage === percentage){
-                    values.add(d);
+                  else if (operator1 === '='){
+                    if(coverage === percentage)
+                      values.add(d);
                   }
-                }
-              });
-            }
-          });
-          values = [...values];
-          table.columns(col_array).every(function() {
-            $.fn.dataTable.ext.search.push(
-              function(settings, searchData, index, rowData, counter) {
-                for(var i=0; i<col_array.length; i++){
-                  if(values.includes(searchData[col_array[i]]))
-                    return true;
-                }
+                });
+              }
             });
-          })
+          }
+          else {
+            table.columns().every(function() {
+              var column = this;
+              if(column.index() !== 0 && column.index() !== 1) {
+                percentage1 = parseInt(percentage1);
+                percentage2 = parseInt(percentage2);
+                column.data().each(function(d, j) {
+                  output = d.split('/');
+                  tests_passed = output[0];
+                  total_tests = output[1];
+                  coverage = parseInt((tests_passed/total_tests)*100);
+                  if (relation === 'and') {
+                    if (operator1 === '<'){
+                      if (operator2 === '>') {
+                        if(coverage < percentage1 && coverage > percentage2)
+                          values.add(d);
+                      }
+                      else if (operator2 === '>=') {
+                        if(coverage < percentage1 && coverage >= percentage2)
+                          values.add(d);
+                      }
+                    }
+                    else if (operator1 === '<='){
+                      if (operator2 === '>') {
+                        if(coverage <= percentage1 && coverage > percentage2)
+                          values.add(d);
+                      }
+                      else if (operator2 === '>=') {
+                        if(coverage <= percentage1 && coverage >= percentage2)
+                          values.add(d);
+                      }
+                    }
+                    else if (operator1 === '>'){
+                      if (operator2 === '<') {
+                        if(coverage > percentage1 && coverage < percentage2)
+                          values.add(d);
+                      }
+                      else if (operator2 === '<=') {
+                        if(coverage > percentage1 && coverage <= percentage2)
+                          values.add(d);
+                      }
+                    }
+                    else if (operator1 === '>='){
+                      if (operator2 === '<') {
+                        if(coverage >= percentage1 && coverage < percentage2)
+                          values.add(d);
+                      }
+                      else if (operator2 === '<=') {
+                        if(coverage >= percentage1 && coverage <= percentage2)
+                          values.add(d);
+                      }
+                    }
+                  }
+                  if (relation === 'or') {
+                    if (operator1 === '<'){
+                      if (operator2 === '>') {
+                        if(coverage < percentage1 || coverage > percentage2)
+                          values.add(d);
+                      }
+                      else if (operator2 === '>=') {
+                        if(coverage < percentage1 || coverage >= percentage2)
+                          values.add(d);
+                      }
+                    }
+                    else if (operator1 === '<='){
+                      if (operator2 === '>') {
+                        if(coverage <= percentage1 || coverage > percentage2)
+                          values.add(d);
+                      }
+                      else if (operator2 === '>=') {
+                        if(coverage <= percentage1 || coverage >= percentage2)
+                          values.add(d);
+                      }
+                    }
+                    else if (operator1 === '>'){
+                      if (operator2 === '<') {
+                        if(coverage > percentage1 || coverage < percentage2)
+                          values.add(d);
+                      }
+                      else if (operator2 === '<=') {
+                        if(coverage > percentage1 || coverage <= percentage2)
+                          values.add(d);
+                      }
+                    }
+                    else if (operator1 === '>='){
+                      if (operator2 === '<') {
+                        if(coverage >= percentage1 || coverage < percentage2)
+                          values.add(d);
+                      }
+                      else if (operator2 === '<=') {
+                        if(coverage >= percentage1 || coverage <= percentage2)
+                          values.add(d);
+                      }
+                    }
+                  }
+                });
+              }
+            });
+          }
+          values = [...values];
+          if (selected_tools.length === 0){
+            table.columns(col_array).every(function() {
+              $.fn.dataTable.ext.search.push(
+                function(settings, searchData, index, rowData, counter) {
+                  for(var i=0; i<col_array.length; i++){
+                    if(values.includes(searchData[col_array[i]]))
+                      return true;
+                  }
+              });
+            });
+          }
+          else {
+            table.columns(selected_tools).every(function() {
+              if (tool_relation !== 'and'){
+                $.fn.dataTable.ext.search.push(
+                  function(settings, searchData, index, rowData, counter) {
+                    for(var i=0; i<selected_tools.length; i++){
+                      if(values.includes(searchData[selected_tools[i]]))
+                        return true;
+                    }
+                });
+              }
+              else if (tool_relation === 'and'){
+                regex = [];
+                for (var i=0; i<values.length; i++){
+                  value = "^"+values[i]+"$";
+                  regex.push(value);
+                }
+                regex = regex.join("|");
+                table.columns(selected_tools).search(regex, true, false, true).draw();
+              }
+            });
+          }
           table.draw();
         }
       },
@@ -147,15 +268,42 @@
           for (var i=0; i<this.types.length; i++)
             $(`<option value="${this.types[i]}">${this.types[i]}</option>`).appendTo(`li[data-uid=${id}] span[data-uid=${iter}] .filter-entry-value`);
         },
-        apply: function(operator, type) {
-          $.fn.dataTable.ext.search.push(
-            function(settings, data, dataIndex){
-              if (operator === 'is')
-                return $(table.row(dataIndex).node()).hasClass(type);
-              else if (operator === 'is not')
-                return !($(table.row(dataIndex).node()).hasClass(type));
-            }
-          );
+        apply: function(operator1, type1, operator2, type2, relation) {
+          if (typeof relation == 'undefined'){
+            $.fn.dataTable.ext.search.push(
+              function(settings, data, dataIndex){
+                if (operator1 === 'is')
+                  return $(table.row(dataIndex).node()).hasClass(type1);
+                else if (operator1 === 'is not')
+                  return !$(table.row(dataIndex).node()).hasClass(type1);
+              });
+          }
+          else {
+            $.fn.dataTable.ext.search.push(
+              function(settings, data, dataIndex){
+                if (relation === 'and'){
+                  if (operator1 === 'is' && operator2 === 'is')
+                    return (($(table.row(dataIndex).node()).hasClass(type1)) && ($(table.row(dataIndex).node()).hasClass(type2)));
+                  else if (operator1 === 'is' && operator2 === 'is not')
+                  return (($(table.row(dataIndex).node()).hasClass(type1)) && (!$(table.row(dataIndex).node()).hasClass(type2)));
+                  else if (operator1 === 'is not' && operator2 === 'is')
+                  return ((!$(table.row(dataIndex).node()).hasClass(type1)) && ($(table.row(dataIndex).node()).hasClass(type2)));
+                  else if (operator1 === 'is not' && operator2 === 'is not')
+                  return ((!$(table.row(dataIndex).node()).hasClass(type1)) && (!$(table.row(dataIndex).node()).hasClass(type2)));
+                }
+                else if (relation === 'or'){
+                  if (operator1 === 'is' && operator2 === 'is')
+                    return (($(table.row(dataIndex).node()).hasClass(type1)) || ($(table.row(dataIndex).node()).hasClass(type2)));
+                  else if (operator1 === 'is' && operator2 === 'is not')
+                  return (($(table.row(dataIndex).node()).hasClass(type1)) || (!$(table.row(dataIndex).node()).hasClass(type2)));
+                  else if (operator1 === 'is not' && operator2 === 'is')
+                  return ((!$(table.row(dataIndex).node()).hasClass(type1)) || ($(table.row(dataIndex).node()).hasClass(type2)));
+                  else if (operator1 === 'is not' && operator2 === 'is not')
+                  return ((!$(table.row(dataIndex).node()).hasClass(type1)) || (!$(table.row(dataIndex).node()).hasClass(type2)));
+                }
+              }
+            );
+          }
           table.draw();
         }
       },
@@ -190,17 +338,19 @@
                 if(theadname === tool){
                   var index = tool_array.indexOf(column.index());
                   tool_array.splice(index, 1);
+                  selected_tools.push(column.index());
                 }
               }
               else if(operator === 'is not'){
                 if(theadname !== tool){
                   var index = tool_array.indexOf(column.index());
                   tool_array.splice(index, 1);
+                  selected_tools.push(column.index());
                 }
               }
             }
           });
-          table.columns(array).visible(false);
+          table.columns(tool_array).visible(false);
         }
       }
     }
@@ -238,7 +388,12 @@
       });
       applied_filters.sort((a, b) => (a.priority < b.priority) ? 1 : -1);
       for(const key in applied_filters){
-        for (var i=0; i<Object.keys(applied_filters[key]).length-2; i++){
+        if (applied_filters[key]['filter'] === 'tool')
+          tool_relation = applied_filters[key][0]['relation'];
+        if (applied_filters[key]['filter'] !== 'tool' && (Object.keys(applied_filters[key]).length-2 === 2))
+          filter_types[applied_filters[key]['filter']].apply(applied_filters[key][0]['operator'], applied_filters[key][0]['value'], applied_filters[key][1]['operator'], applied_filters[key][1]['value'], applied_filters[key][0]['relation']);
+        else {
+        for (var i=0; i<Object.keys(applied_filters[key]).length-2; i++)
           filter_types[applied_filters[key]['filter']].apply(applied_filters[key][i]['operator'], applied_filters[key][i]['value']);
         }
       }
