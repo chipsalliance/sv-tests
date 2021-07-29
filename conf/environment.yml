@@ -31,4 +31,4 @@ dependencies:
   - python=3.8
   - pip
   - pip:                            # Packages installed from PyPI
-    - -r file:requirements.txt
+    - -r requirements.txt
