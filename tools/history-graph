@@ -68,7 +68,7 @@ def single_report_data(index, csv_file, data):
 repo = Repo(args.results_dir)
 main_hash = repo.head.object.hexsha
 
-for i in range(args.number_of_commits, -1, -1):
+for i in range(args.number_of_commits - 1, -1, -1):
     current_hash = f'{main_hash}~{i}'
     commit = repo.commit(current_hash)
     print(f'Processing {commit}')
