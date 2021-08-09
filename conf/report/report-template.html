@@ -54,6 +54,19 @@
     var selected_tools = [];
     var tools_relation;
 
+    const operator_from_string = {
+      '<': (a, b) => a < b,
+      '>': (a, b) => a > b,
+      '>=': (a, b) => a >= b,
+      '<=': (a, b) => a <= b,
+      '=': (a, b) => a === b
+    };
+
+    const relation_from_string = {
+      'and': (a, b) => a && b,
+      'or': (a, b) => a || b
+    }
+
     const filter_types = {
       coverage: {
         name: "Coverage",
@@ -87,26 +100,8 @@
                   tests_passed = output[0];
                   total_tests = output[1];
                   coverage = parseInt((tests_passed/total_tests)*100);
-                  if (operator1 === '<'){
-                    if(coverage < percentage)
-                      values.add(d);
-                  }
-                  else if (operator1 === '<='){
-                    if(coverage <= percentage)
-                      values.add(d);
-                  }
-                  else if (operator1 === '>'){
-                    if(coverage > percentage)
-                      values.add(d);
-                  }
-                  else if (operator1 === '>='){
-                    if(coverage >= percentage)
-                      values.add(d);
-                  }
-                  else if (operator1 === '='){
-                    if(coverage === percentage)
-                      values.add(d);
-                  }
+                  if ((operator1 in operator_from_string) && operator_from_string[operator1](coverage, percentage))
+                    values.add(d);
                 });
               }
             });
@@ -122,90 +117,11 @@
                   tests_passed = output[0];
                   total_tests = output[1];
                   coverage = parseInt((tests_passed/total_tests)*100);
-                  if (relation === 'and') {
-                    if (operator1 === '<'){
-                      if (operator2 === '>') {
-                        if(coverage < percentage1 && coverage > percentage2)
-                          values.add(d);
-                      }
-                      else if (operator2 === '>=') {
-                        if(coverage < percentage1 && coverage >= percentage2)
-                          values.add(d);
-                      }
-                    }
-                    else if (operator1 === '<='){
-                      if (operator2 === '>') {
-                        if(coverage <= percentage1 && coverage > percentage2)
-                          values.add(d);
-                      }
-                      else if (operator2 === '>=') {
-                        if(coverage <= percentage1 && coverage >= percentage2)
-                          values.add(d);
-                      }
-                    }
-                    else if (operator1 === '>'){
-                      if (operator2 === '<') {
-                        if(coverage > percentage1 && coverage < percentage2)
-                          values.add(d);
-                      }
-                      else if (operator2 === '<=') {
-                        if(coverage > percentage1 && coverage <= percentage2)
-                          values.add(d);
-                      }
-                    }
-                    else if (operator1 === '>='){
-                      if (operator2 === '<') {
-                        if(coverage >= percentage1 && coverage < percentage2)
-                          values.add(d);
-                      }
-                      else if (operator2 === '<=') {
-                        if(coverage >= percentage1 && coverage <= percentage2)
-                          values.add(d);
-                      }
-                    }
-                  }
-                  if (relation === 'or') {
-                    if (operator1 === '<'){
-                      if (operator2 === '>') {
-                        if(coverage < percentage1 || coverage > percentage2)
-                          values.add(d);
-                      }
-                      else if (operator2 === '>=') {
-                        if(coverage < percentage1 || coverage >= percentage2)
-                          values.add(d);
-                      }
-                    }
-                    else if (operator1 === '<='){
-                      if (operator2 === '>') {
-                        if(coverage <= percentage1 || coverage > percentage2)
-                          values.add(d);
-                      }
-                      else if (operator2 === '>=') {
-                        if(coverage <= percentage1 || coverage >= percentage2)
-                          values.add(d);
-                      }
-                    }
-                    else if (operator1 === '>'){
-                      if (operator2 === '<') {
-                        if(coverage > percentage1 || coverage < percentage2)
-                          values.add(d);
-                      }
-                      else if (operator2 === '<=') {
-                        if(coverage > percentage1 || coverage <= percentage2)
-                          values.add(d);
-                      }
-                    }
-                    else if (operator1 === '>='){
-                      if (operator2 === '<') {
-                        if(coverage >= percentage1 || coverage < percentage2)
-                          values.add(d);
-                      }
-                      else if (operator2 === '<=') {
-                        if(coverage >= percentage1 || coverage <= percentage2)
-                          values.add(d);
-                      }
-                    }
-                  }
+                  const result_left = operator_from_string[operator1](coverage, percentage1);
+                  const result_right = operator_from_string[operator2](coverage, percentage2);
+                  const result = relation_from_string[relation](result_left, result_right);
+                  if (result)
+                    values.add(d);
                 });
               }
             });
@@ -361,6 +277,8 @@
     }
 
     function applyFilter() {
+      tool_array = table.columns()[0];
+      tool_array = tool_array.splice(2);
       table.columns(col_array).every(function() {
         $.fn.dataTable.ext.search.pop();
       });
