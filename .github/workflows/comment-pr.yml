@@ -12,9 +12,6 @@ jobs:
     runs-on: ubuntu-18.04
     if: ${{ github.event.workflow_run.event == 'pull_request' && github.event.workflow_run.conclusion == 'success' }}
     steps:
-      - name: Prepare output directories
-        run: mkdir -p out/report
-
       - name: 'Download artifact'
         uses: actions/github-script@v3.1.0
         with:
@@ -38,12 +35,11 @@ jobs:
 
       - run: |
           unzip tests_summary.zip
-          tar xvf sv-tests-out.tar.bz2
-          cat ./out/report/tests_summary.md
+          cat ./tests_summary/tests_summary.md
 
       - id: get-comment-body
         run: |
-          body=$(cat ./out/report/tests_summary.md)
+          body=$(cat ./tests_summary/tests_summary.md)
           body="${body//'%'/'%25'}"
           body="${body//$'\n'/'%0A'}"
           body="${body//$'\r'/'%0D'}"
@@ -51,7 +47,7 @@ jobs:
 
       - id: get-pr-number
         run: |
-          num=$(cat ./out/report/issue_num)
+          num=$(cat ./tests_summary/issue_num)
           echo ::set-output name=num::$num
 
       - name: Post comment
