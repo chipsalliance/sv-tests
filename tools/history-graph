@@ -15,6 +15,7 @@ import sys
 import jinja2
 import datetime
 import argparse
+import binascii
 
 from git import Repo
 from random import randint
@@ -91,8 +92,8 @@ for tool in datasets:
 # randomize colors
 colors = dict()
 for tool in datasets:
-    r, g, b = randint(0, 255), randint(0, 255), randint(0, 255)
-    colors[tool] = '#%02x%02x%02x' % (r, g, b)
+    color = hex(binascii.crc32(tool.encode('utf-8')))[-6:]
+    colors[tool] = f'#{color:0<6.6}'
 
 try:
     with open(args.template) as f:
