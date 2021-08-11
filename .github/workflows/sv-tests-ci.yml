@@ -85,16 +85,20 @@ jobs:
           mkdir -p ~/.ssh
           chmod 700 ~/.ssh
           ./.github/workflows/update_report.sh
-      - name: Save PR number
+      - name: Prepare artifacts for PR commenter
+        if: github.event.workflow_run.event == 'pull_request'
         run: |
-          echo ${{ github.event.number }} > ./out/report/issue_num
-          ./.github/workflows/compress.sh
+          mkdir tests_summary
+          echo ${{ github.event.number }} > tests_summary/issue_num
+          cp out/report/tests_summary.md tests_summary/
       - uses: actions/upload-artifact@v2
+        if: github.event.workflow_run.event == 'pull_request'
         with:
           name: tests_summary
           path: |
-            ./out/
+            ./tests_summary/
       - id: get-artifacts-to-delete
+        if: github.event.workflow_run.event == 'pull_request'
         run: |
           artifacts=$(find ./out -type d -name 'report_*' -exec basename {} \;)
           echo $artifacts
@@ -104,6 +108,7 @@ jobs:
           echo ::set-output name=artifacts::$artifacts
           echo $artifacts
       - name: Delete Old Artifacts
+        if: github.event.workflow_run.event == 'pull_request'
         uses: geekyeggo/delete-artifact@v1
         with:
           name: ${{ steps.get-artifacts-to-delete.outputs.artifacts }}
