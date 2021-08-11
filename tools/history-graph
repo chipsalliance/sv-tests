@@ -54,15 +54,10 @@ args = parser.parse_args()
 
 def single_report_data(index, csv_file, data):
     with io.BytesIO(csv_file.data_stream.read()) as f:
-        reader = csv.reader(io.StringIO(f.read().decode('utf-8')))
+        reader = csv.DictReader(io.StringIO(f.read().decode('utf-8')))
         for r in reader:
-            # skip header
-            if r[1] == 'Tool':
-                continue
-            if 'False' in r[2]:
-                data[r[1]][index]['fail'] += 1
-            else:
-                data[r[1]][index]['pass'] += 1
+            key = 'pass' if r['Pass'] == 'True' else 'fail'
+            data[r['Tool']][index][key] += 1
 
 
 repo = Repo(args.results_dir)
