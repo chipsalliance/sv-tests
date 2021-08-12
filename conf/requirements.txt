@@ -7,4 +7,5 @@ psutil
 mako
 make_var
 pytablewriter
+GitPython
 git+https://github.com/lowRISC/fusesoc.git@ot

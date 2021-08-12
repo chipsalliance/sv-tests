@@ -1,0 +1,110 @@
+#!/usr/bin/env python3
+# -*- coding: utf-8 -*-
+#
+# Copyright (C) 2020 The SymbiFlow Authors.
+#
+# Use of this source code is governed by a ISC-style
+# license that can be found in the LICENSE file or at
+# https://opensource.org/licenses/ISC
+#
+# SPDX-License-Identifier: ISC
+
+import io
+import csv
+import sys
+import jinja2
+import datetime
+import argparse
+import binascii
+
+from git import Repo
+from random import randint
+from collections import defaultdict
+
+parser = argparse.ArgumentParser()
+
+data = defaultdict(lambda: defaultdict(lambda: defaultdict(int)))
+
+parser.add_argument(
+    '-r',
+    '--results-dir',
+    help='Directory with the test results repository',
+    required=True)
+
+parser.add_argument(
+    '-n',
+    '--number-of-commits',
+    help='Number of commits in the history to process',
+    type=int,
+    default=120)
+
+parser.add_argument(
+    '--template',
+    help='Path to the html template',
+    default='conf/report/history-graph-template.html')
+
+parser.add_argument(
+    '-o',
+    '--out',
+    help='Path to the html file with the history graph',
+    default='out/report/history.html')
+
+# parse args
+args = parser.parse_args()
+
+
+def single_report_data(index, csv_file, data):
+    with io.BytesIO(csv_file.data_stream.read()) as f:
+        reader = csv.DictReader(io.StringIO(f.read().decode('utf-8')))
+        for r in reader:
+            key = 'pass' if r['Pass'] == 'True' else 'fail'
+            data[r['Tool']][index][key] += 1
+
+
+repo = Repo(args.results_dir)
+main_hash = repo.head.object.hexsha
+
+for i in range(args.number_of_commits - 1, -1, -1):
+    current_hash = f'{main_hash}~{i}'
+    commit = repo.commit(current_hash)
+    print(f'Processing {commit}')
+
+    date = datetime.datetime.fromtimestamp(commit.committed_date)
+
+    targetfile = commit.tree / 'report.csv'
+    single_report_data(date, targetfile, data)
+
+datasets = defaultdict(list)
+
+for tool in data:
+    for index in data[tool]:
+        bad = data[tool][index]['fail']
+        good = data[tool][index]['pass']
+        percent = round(good * 100 / (good + bad), 2)
+        datasets[tool].append(percent)
+
+# convert lists to strings
+labels = ', '.join(f'"{x}"' for x in data[next(iter(data))].keys())
+
+for tool in datasets:
+    datasets[tool] = ', '.join(str(x) for x in datasets[tool])
+
+# randomize colors
+colors = dict()
+for tool in datasets:
+    color = hex(binascii.crc32(tool.encode('utf-8')))[-6:]
+    colors[tool] = f'#{color:0<6.6}'
+
+try:
+    with open(args.template) as f:
+        template = jinja2.Template(
+            f.read(), trim_blocks=True, lstrip_blocks=True)
+except Exception as e:
+    print(f'Unable to read template: {e}')
+
+try:
+    with open(args.out, 'w') as f:
+        f.write(
+            template.render(labels=labels, datasets=datasets, colors=colors))
+except Exception as e:
+    print(f'Unable to generate history graph: {e}')

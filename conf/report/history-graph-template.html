@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.5.0/Chart.min.js"></script>
+</head>
+
+<body>
+    <canvas id="line-chart" width=300" height="150"></canvas>
+    <script>
+
+    new Chart(document.getElementById("line-chart"), {
+      type: 'line',
+      data: {
+        labels: [ {{ labels }} ],
+        datasets: [
+          {% for tool in datasets %}
+            {
+              data: [ {{ datasets[tool] }} ],
+              label: "{{ tool }}" ,
+              borderColor: "{{ colors[tool] }}",
+              fill: false
+            },
+          {% endfor %}
+        ]
+      },
+      options: {
+        title: {
+          display: true,
+          text: 'SV-Tests results history'
+        }
+      }
+    });
+    </script>
+</body>
+</html>
+
