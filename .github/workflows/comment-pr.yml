@@ -35,11 +35,11 @@ jobs:
 
       - run: |
           unzip tests_summary.zip
-          cat ./tests_summary/tests_summary.md
+          cat ./tests_summary.md
 
       - id: get-comment-body
         run: |
-          body=$(cat ./tests_summary/tests_summary.md)
+          body=$(cat ./tests_summary.md)
           body="${body//'%'/'%25'}"
           body="${body//$'\n'/'%0A'}"
           body="${body//$'\r'/'%0D'}"
@@ -47,7 +47,7 @@ jobs:
 
       - id: get-pr-number
         run: |
-          num=$(cat ./tests_summary/issue_num)
+          num=$(cat ./issue_num)
           echo ::set-output name=num::$num
 
       - name: Post comment
