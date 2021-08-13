@@ -8,6 +8,9 @@ The purpose of this project is to find all the supported and missing SystemVeril
 The report generated from the last passing master build can be viewed [on a dedicated dashboard:](https://chipsalliance.github.io/sv-tests-results/)
 [![Grid](./img/sv-test-grid.png)](https://chipsalliance.github.io/sv-tests-results/)
 
+History of the builds is also tracked and can be seen [on a separate page:](https://chipsalliance.github.io/sv-tests-results/history)
+[![History](./img/sv-test-history.png)](https://chipsalliance.github.io/sv-tests-results/history)
+
 # Running
 
 Initialize the submodules:
