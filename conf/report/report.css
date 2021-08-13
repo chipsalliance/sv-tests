@@ -100,9 +100,9 @@ table.dataTable tfoot th {
   white-space: nowrap;
   text-align: right;
   overflow: hidden;
-  width: 30em;
-  max-width: 30em;
-  min-width: 30em;
+  width: 30em !important;
+  max-width: 30em !important;
+  min-width: 30em !important;
 }
 
 .tag_link, .tool_link {
