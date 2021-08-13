@@ -1,12 +1,28 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.5.0/Chart.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@3.5.0/dist/chart.min.js"></script>
 </head>
 
 <body>
-    <canvas id="line-chart" width=300" height="150"></canvas>
-    <script>
+  <canvas id="line-chart" width=300" height="150"></canvas>
+  <script>
+
+    function handleHover(evt, item, legend) {
+      legend.chart.data.datasets.forEach((line) => {
+        line.borderColorOrig = line.borderColor;
+        if (item.text != line.label) {
+          line.borderColor = line.borderColor + "0c";
+        }
+      });
+      legend.chart.update();
+    };
+    function handleLeave(evt, item, legend) {
+      legend.chart.data.datasets.forEach((line) => {
+          line.borderColor = line.borderColorOrig;
+      });
+      legend.chart.update();
+    };
 
     new Chart(document.getElementById("line-chart"), {
       type: 'line',
@@ -18,19 +34,42 @@
               data: [ {{ datasets[tool] }} ],
               label: "{{ tool }}" ,
               borderColor: "{{ colors[tool] }}",
+              stepped: true,
               fill: false
             },
           {% endfor %}
         ]
       },
       options: {
-        title: {
-          display: true,
-          text: 'SV-Tests results history'
+        responsive: true,
+        plugins: {
+          title: {
+            display: true,
+            text: 'SV-Tests results history'
+          },
+          legend: {
+            onHover: handleHover,
+            onLeave: handleLeave
+          }
+        },
+        scales: {
+          x: {
+            display: true,
+            title: {
+              display: true,
+              text: 'Date of the build'
+            }
+          },
+          y: {
+            display: true,
+            title: {
+              display: true,
+              text: 'Tests passed [%]'
+            },
+          }
         }
-      }
+      },
     });
-    </script>
+  </script>
 </body>
 </html>
-
