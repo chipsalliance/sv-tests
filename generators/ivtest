@@ -214,6 +214,10 @@ ivtest_file_exclude = [
     # Primitive port connections cannot use the '.name()' syntax
     'pr938b',
     'udp_dff',
+    # Icarus checks that final-blocks do not have non-blocking assignments but
+    # a strict reading of IEEE 1800-2017, $9.2.3 does not require this, even
+    # though the non-blocking assignment will have no effect.
+    'program3b',
 ]
 
 ivtest_long = ['comp1000', 'comp1001']
