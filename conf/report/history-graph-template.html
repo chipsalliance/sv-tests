@@ -29,7 +29,7 @@
       data: {
         labels: [ {{ labels }} ],
         datasets: [
-          {% for tool in datasets %}
+          {% for tool in datasets | sort %}
             {
               data: [ {{ datasets[tool] }} ],
               label: "{{ tool }}" ,
