@@ -25,6 +25,9 @@ class Sv2v_zachjs(BaseRunner):
         for incdir in params['incdirs']:
             self.cmd.append('-I' + incdir)
 
+        for define in params['defines']:
+            self.cmd.append('-D' + define)
+
         self.cmd += params['files']
 
     def get_version(self):
