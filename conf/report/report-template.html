@@ -29,6 +29,7 @@
       table = $('#report_table').DataTable( {
         paging: false,
         fixedHeader: true,
+        "autoWidth": false,
         "order": [[ 1, "asc" ]],
         "columnDefs": [ { "type": "sv-id", targets: 1 },
                         { "orderable": false, targets: 0 }],
