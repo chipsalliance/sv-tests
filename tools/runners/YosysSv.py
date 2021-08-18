@@ -24,6 +24,8 @@ class YosysSv(BaseRunner):
         run = os.path.join(tmp_dir, "run.sh")
         scr = os.path.join(tmp_dir, 'scr.ys')
 
+        top = self.get_top_module_or_guess(params)
+
         inc = ""
         for incdir in params['incdirs']:
             inc += f' -I {incdir}'
@@ -36,6 +38,18 @@ class YosysSv(BaseRunner):
         with open(scr, 'w') as f:
             for svf in params['files']:
                 f.write(f'read_verilog -sv {inc} {defs} {svf}\n')
+
+            # prep (without optimizations)
+            f.write(
+                f"hierarchy -top \\{top}\n"
+                "proc\n"
+                "check\n"
+                "memory_dff\n"
+                "memory_collect\n"
+                "stat\n"
+                "check\n"
+                "write_json\n"
+                "write_verilog\n")
 
         # prepare wrapper script
         with open(run, 'w') as f:
