@@ -67,9 +67,6 @@
 [submodule "third_party/tests/uvm"]
 	path = third_party/tests/uvm
 	url = https://github.com/SymbiFlow/uvm.git
-[submodule "third_party/tools/uhdm-integration"]
-	path = third_party/tools/uhdm-integration
-	url = https://github.com/alainmarcel/uhdm-integration.git
 [submodule "third_party/cores/ibex-yosys-build"]
 	path = third_party/cores/ibex-yosys-build
 	url = https://github.com/SymbiFlow/ibex-yosys-build.git
@@ -85,3 +82,6 @@
 [submodule "third_party/tests/axi-vip"]
 	path = third_party/tests/axi-vip
 	url = https://github.com/SymbiFlow/axi-vip.git
+[submodule "third_party/tools/yosys-uhdm-plugin-integration"]
+	path = third_party/tools/yosys-uhdm-plugin-integration
+	url = https://github.com/antmicro/yosys-uhdm-plugin-integration.git
