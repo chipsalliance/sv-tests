@@ -10,6 +10,7 @@
 # SPDX-License-Identifier: ISC
 
 import io
+import os
 import csv
 import sys
 import jinja2
@@ -53,16 +54,34 @@ parser.add_argument(
 args = parser.parse_args()
 
 
-def single_report_data(index, csv_file, data):
+def process_csv_reader(index, reader, data):
+    for r in reader:
+        key = 'pass' if r['Pass'] == 'True' else 'fail'
+        data[r['Tool']][index][key] += 1
+
+
+def process_csv_from_file(index, csv_file_path, data):
+    with open(csv_file_path) as f:
+        reader = csv.DictReader(f)
+        process_csv_reader(index, reader, data)
+
+
+def process_csv_from_commit(index, csv_file, data):
     with io.BytesIO(csv_file.data_stream.read()) as f:
         reader = csv.DictReader(io.StringIO(f.read().decode('utf-8')))
-        for r in reader:
-            key = 'pass' if r['Pass'] == 'True' else 'fail'
-            data[r['Tool']][index][key] += 1
+        process_csv_reader(index, reader, data)
 
 
 repo = Repo(args.results_dir)
 main_hash = repo.head.object.hexsha
+
+# check if there is new (not yet committed) results file available
+changed_files = [i.a_path for i in repo.index.diff(None)]
+append_changed = 'report.csv' in changed_files
+
+if append_changed:
+    # process fewer history commits
+    args.number_of_commits -= 1
 
 for i in range(args.number_of_commits - 1, -1, -1):
     current_hash = f'{main_hash}~{i}'
@@ -72,7 +91,13 @@ for i in range(args.number_of_commits - 1, -1, -1):
     date = datetime.datetime.fromtimestamp(commit.committed_date)
 
     targetfile = commit.tree / 'report.csv'
-    single_report_data(date, targetfile, data)
+    process_csv_from_commit(date, targetfile, data)
+
+if append_changed:
+    date = datetime.datetime.now()
+    print('Processing locally modified results')
+    csv_path = os.path.join(args.results_dir, 'report.csv')
+    process_csv_from_file(date, csv_path, data)
 
 datasets = defaultdict(list)
 
