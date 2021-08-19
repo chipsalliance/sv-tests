@@ -105,10 +105,11 @@ $(INSTALL_DIR)/bin/verilator-uhdm: uhdm-common
 # surelog-uhdm-yosys
 yosys-uhdm: $(INSTALL_DIR)/bin/yosys-uhdm
 
-# cannot use 'make -C uhdm-integration <target> as uhdm relies on $PWD
-$(INSTALL_DIR)/bin/yosys-uhdm: uhdm-common
-	cd $(RDIR)/uhdm-integration && $(MAKE) image/bin/yosys
-	cp $(RDIR)/uhdm-integration/image/bin/yosys $(INSTALL_DIR)/bin/yosys-uhdm
+$(INSTALL_DIR)/bin/yosys-uhdm:
+	mkdir -p $(INSTALL_DIR)
+	cd $(RDIR)/yosys-uhdm-plugin-integration && ./build_binaries.sh
+	cp -r $(RDIR)/yosys-uhdm-plugin-integration/image/* $(INSTALL_DIR)
+	mv $(INSTALL_DIR)/bin/yosys $(INSTALL_DIR)/bin/yosys-uhdm
 
 # sv-parser
 sv-parser: $(INSTALL_DIR)/bin/parse_sv
