@@ -13,6 +13,7 @@ jobs:
     if: ${{ github.event.workflow_run.event == 'pull_request' && github.event.workflow_run.conclusion == 'success' }}
     steps:
       - name: 'Download artifact'
+        id: get-artifacts
         uses: actions/github-script@v3.1.0
         with:
           script: |
@@ -30,6 +31,11 @@ jobs:
                artifact_id: matchArtifact.id,
                archive_format: 'zip',
             });
+            var artifact_link = "https://github.com/chipsalliance/sv-tests/suites/";
+            artifact_link += "${{ github.event.worflow_run.id }}";
+            artifact_link += "/artifacts/${{ steps.get-artifacts.outputs.artifact_id}})";
+
+            console.log("::set-output name=artifact_link::" + artifact_link);
             var fs = require('fs');
             fs.writeFileSync('${{github.workspace}}/tests_summary.zip', Buffer.from(download.data));
 
@@ -37,6 +43,9 @@ jobs:
           unzip tests_summary.zip
           cat ./tests_summary.md
 
+      - name: XXX: temporary test
+        run:
+          echo ${{ steps.get-artifacts.outputs.artifact_link}}
       - id: get-comment-body
         run: |
           body=$(cat ./tests_summary.md)
