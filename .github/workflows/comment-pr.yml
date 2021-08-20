@@ -43,7 +43,7 @@ jobs:
           unzip tests_summary.zip
           cat ./tests_summary.md
 
-      - name: XXX: temporary test
+      - name: XXX temporary test
         run:
           echo ${{ steps.get-artifacts.outputs.artifact_link}}
       - id: get-comment-body
