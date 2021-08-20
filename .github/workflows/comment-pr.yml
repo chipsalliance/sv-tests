@@ -20,7 +20,7 @@ jobs:
             var artifacts = await github.actions.listWorkflowRunArtifacts({
                owner: context.repo.owner,
                repo: context.repo.repo,
-               run_id: ${{github.event.workflow_run.id }},
+               run_id: ${{ github.event.workflow_run.id }},
             });
             var matchArtifact = artifacts.data.artifacts.filter((artifact) => {
               return artifact.name == "tests_summary"
@@ -32,8 +32,8 @@ jobs:
                archive_format: 'zip',
             });
             var artifact_link = "https://github.com/chipsalliance/sv-tests/suites/";
-            artifact_link += "${{ github.event.worflow_run.id }}";
-            artifact_link += "/artifacts/${{ steps.get-artifacts.outputs.artifact_id}})";
+            artifact_link += ${{ github.event.workflow_run.id }};
+            artifact_link += matchArtifact.id;
 
             console.log("::set-output name=artifact_link::" + artifact_link);
             var fs = require('fs');
