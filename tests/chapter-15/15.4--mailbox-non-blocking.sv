@@ -17,10 +17,10 @@ module top();
 mailbox m;
 
 initial begin
-	m = new();
 	string msg = "abc";
 	string r;
 	string r_peek;
+	m = new();
 	m.try_put(msg);
 	m.peek(r_peek);
 	$display(":assert: (%d == 1)", m.num());
