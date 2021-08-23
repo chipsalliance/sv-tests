@@ -399,7 +399,7 @@
       </thead>
         {% for tag, info in database.items() %}
         {% for tool, tooldata in report|dictsort %}
-         {% if loop.first %}
+         {% if loop.last %}
           <tr class="{% if "simulation" in tooldata["tags"][tag]["type"] %} simulation {% endif %}
             {% if "parsing" in tooldata["tags"][tag]["type"] %} parsing {% endif %}
             {% if "preprocessing" in tooldata["tags"][tag]["type"] %} preprocessing {% endif %}">
