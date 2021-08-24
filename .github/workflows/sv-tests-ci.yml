@@ -69,7 +69,8 @@ jobs:
         with:
           python-version: 3.7
       - name: Prepare output directories
-        run: mkdir -p out/report
+        run: |
+          mkdir -p out/report
       - uses: actions/download-artifact@v2
         with:
           path: ./out/
@@ -90,6 +91,9 @@ jobs:
         run: |
           mkdir tests_summary
           echo ${{ github.event.number }} > tests_summary/issue_num
+          SUITE_INFO=`curl -s https://api.github.com/repos/${GITHUB_REPOSITORY}/actions/runs/${GITHUB_RUN_ID}`
+          SUITE_ID=`echo $SUITE_INFO | jq -r '.check_suite_id'`
+          echo $SUITE_ID > tests_summary/suite_id
           cp out/report/history/report.csv tests_summary/report_base.csv
           cp out/report/report.csv tests_summary/report_new.csv
           cp out/report/new_*csv tests_summary/
@@ -102,7 +106,8 @@ jobs:
           name: tests_summary
           path: |
             ./tests_summary/
-      - id: get-artifacts-to-delete
+      - name: Find artifacts that are no longer needed
+        id: get-artifacts-to-delete
         if: github.event_name == 'pull_request'
         run: |
           artifacts=$(find ./out -type d -name 'report_*' -exec basename {} \;)
