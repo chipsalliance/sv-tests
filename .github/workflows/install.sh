@@ -4,7 +4,7 @@ set -x
 set -e
 
 # Add local submodules
-.github/add-local-submodules.sh "$GITHUB_REPOSITORY"
+git submodule update --init --recursive
 
 # Get a conda environment
 wget https://repo.continuum.io/miniconda/Miniconda3-latest-Linux-x86_64.sh -O miniconda.sh
