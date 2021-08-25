@@ -398,13 +398,15 @@
         </tr>
       </thead>
         {% for tag, info in database.items() %}
-        {% for tool, tooldata in report|dictsort %}
-         {% if loop.last %}
-          <tr class="{% if "simulation" in tooldata["tags"][tag]["type"] %} simulation {% endif %}
-            {% if "parsing" in tooldata["tags"][tag]["type"] %} parsing {% endif %}
-            {% if "preprocessing" in tooldata["tags"][tag]["type"] %} preprocessing {% endif %}">
-          {% endif %}
-        {% endfor %}
+          {% set list = [] %}
+          {% for tool, tooldata in report|dictsort %}
+            {% for type in tooldata["tags"][tag]["type"] %}
+              {% if type not in list %}
+                {% set list = list.append(type) %}
+              {% endif %}
+            {% endfor %}
+          {% endfor %}
+          <tr class="{{list|join(" ")}}">
           <th class="report_table_info" title="{{info}}">
             {% if tag in database_urls %}
             <a class="tag_link" target=_blank href="{{database_urls[tag]}}"> {{ info }} </a>
