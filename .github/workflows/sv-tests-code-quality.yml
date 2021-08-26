@@ -27,7 +27,7 @@ jobs:
           test $(git status --porcelain | wc -l) -eq 0 || { git diff; false; }
       - name: Clone submodules
         run:
-          ./.github/add-local-submodules.sh "$GITHUB_REPOSITORY"
+          git submodule update --init --recursive
       - name: License
         uses: SymbiFlow/actions/checks@main
         with:

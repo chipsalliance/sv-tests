@@ -61,6 +61,7 @@
 [submodule "third_party/cores/black-parrot"]
 	path = third_party/cores/black-parrot
 	url = https://github.com/black-parrot/black-parrot
+	branch = dev
 [submodule "third_party/tests/easyUVM"]
 	path = third_party/tests/easyUVM
 	url = https://github.com/antmicro/easyUVM.git

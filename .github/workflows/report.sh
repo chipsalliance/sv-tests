@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # Add local submodules
-.github/add-local-submodules.sh "$GITHUB_REPOSITORY"
+git submodule update --init --recursive
 
 set -e
 source "$HOME/miniconda/etc/profile.d/conda.sh"
