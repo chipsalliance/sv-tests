@@ -51,7 +51,6 @@
       col_array = table.columns()[0];
       var filters = $('<details><summary>Show advanced filters (experimental)</summary></details>').insertAfter(".dataTables_filter");
       var section = $('<section id="filter"><ul class="filter-entries"></ul></section>').insertAfter("summary");
-      var global_relation = $('<select class="global-relation"><option value=""></option><option value="and">AND</option><option value="or">OR</option></select>').insertBefore('.filter-entries');
       var add_buttons = $('<div><button class="filter-add" onclick="addOptions()">Add</button><button class="filter-apply" onclick="applyFilter()">Apply</button><button class="filter-remove" onclick="removeAll()">Remove all filters</button></div>').insertAfter("#filter");
     } );
 
@@ -129,7 +128,7 @@
           if (global_relation === 'or') {
             return values;
           }
-          else if (global_relation === 'and') {
+          else {
             if (selected_tools.length === 0){
               $.fn.dataTable.ext.search.push(
                 function(settings, searchData, index, rowData, counter) {
@@ -169,7 +168,7 @@
             $(`<option value="${this.types[i]}">${this.types[i]}</option>`).appendTo(`li[data-uid=${id}] .filter-entry-value`);
         },
         apply: function(operator1, type1, operator2, type2) {
-          if (typeof operator2 == 'undefined' && global_relation === 'and'){
+          if (typeof operator2 == 'undefined'){
             $.fn.dataTable.ext.search.push(
               function(settings, data, dataIndex){
                 if (operator1 === 'is')
@@ -268,55 +267,77 @@
         applied_filters[filter].push(object);
       });
       if (applied_filters['tool']){
-        if (global_relation === 'and'){
-          if (applied_filters['tool'].length > 1)
-            alert('Tools are not supported by AND operation. OR is applied for tools');
-          for (var i=0; i<applied_filters['tool'].length; i++)
-            filter_types['tool'].apply(applied_filters['tool'][i]['operator'], applied_filters['tool'][i]['value']);
-        }
+        if (applied_filters['tool'].length > 1)
+          alert('Tools are not supported by AND operation. OR is applied for tools');
+        for (var i=0; i<applied_filters['tool'].length; i++)
+          filter_types['tool'].apply(applied_filters['tool'][i]['operator'], applied_filters['tool'][i]['value']);
       }
-      for(const key in applied_filters){
-        if (key != 'tool' && global_relation === 'and') {
-          try{
-            filter_types[key].apply(applied_filters[key][0]['operator'], applied_filters[key][0]['value'], applied_filters[key][1]['operator'], applied_filters[key][1]['value']);
-          }
-          catch(err) {
-            filter_types[key].apply(applied_filters[key][0]['operator'], applied_filters[key][0]['value']);
-          }
-        }
-        else if (global_relation === 'or') {
-          var result = [];
-          var operator;
-          var value;
-          for (var i=0; i<applied_filters[key].length; i++){
-            if (key == 'type'){
-              operator = applied_filters['type'][i]['operator'];
-              value = applied_filters['type'][i]['value'];
+
+      var operator1, operator2;
+      var value1, value2;
+      var result = [];
+
+      if (typeof global_relation == 'undefined'){
+        for (const key in applied_filters)
+          filter_types[key].apply(applied_filters[key][0]['operator'], applied_filters[key][0]['value']);
+      }
+      else{
+        for(const key in applied_filters){
+          if (key != 'tool' && global_relation === 'and') {
+            try{
+              filter_types[key].apply(applied_filters[key][0]['operator'], applied_filters[key][0]['value'], applied_filters[key][1]['operator'], applied_filters[key][1]['value']);
             }
-            if (key == 'coverage')
-              result = result.concat(filter_types['coverage'].apply(applied_filters['coverage'][i]['operator'], applied_filters['coverage'][i]['value']));
-            console.log(result)
-            table.columns(col_array).every(function(){
-              $.fn.dataTable.ext.search.push(
-                function(settings, searchData, dataIndex, rowData, counter){
-                  if (result.length > 0){
-                    for (var i=0; i<col_array.length; i++){
-                      if(result.includes(searchData[col_array[i]]))
-                        return true;
-                    }
-                  }
-                  if (typeof operator != 'undefined'){
-                    if (operator === 'is')
-                      return $(table.row(dataIndex).node()).hasClass(value);
-                    else if (operator === 'is not')
-                      return (!$(table.row(dataIndex).node()).hasClass(value));
-                  }
-                });
-            });
+            catch(err) {
+              filter_types[key].apply(applied_filters[key][0]['operator'], applied_filters[key][0]['value']);
+            }
+          }
+          else if (key != 'tool' && global_relation === 'or') {
+            for (var i=0; i<applied_filters[key].length; i++){
+              if (key == 'type' && applied_filters['type'].length == 1){
+                operator1 = applied_filters['type'][0]['operator'];
+                value1 = applied_filters['type'][0]['value'];
+              }
+              if (key == 'type' && applied_filters['type'].length > 1){
+                operator1, operator2 = applied_filters['type'][0]['operator'], applied_filters['type'][1]['operator'];
+                value1, value2 = applied_filters['type'][0]['value'], applied_filters['type'][1]['value'];
+              }
+              if (key == 'coverage')
+                result = result.concat(filter_types['coverage'].apply(applied_filters['coverage'][i]['operator'], applied_filters['coverage'][i]['value']));
+            }
           }
         }
+        if (global_relation === 'or') {
+          table.columns(col_array).visible(true);
+          table.columns(col_array).every(function(){
+            $.fn.dataTable.ext.search.push(
+              function(settings, searchData, dataIndex, rowData, counter){
+                if (result.length > 0){
+                  for (var i=0; i<col_array.length; i++){
+                    if(result.includes(searchData[col_array[i]]))
+                      return true;
+                  }
+                }
+                if (typeof operator2 == 'undefined'){
+                  if (operator1 === 'is')
+                    return $(table.row(dataIndex).node()).hasClass(value1);
+                  else if (operator1 === 'is not')
+                    return (!$(table.row(dataIndex).node()).hasClass(value1));
+                }
+                if (typeof operator2 != 'undefined'){
+                  if (operator1 === 'is' && operator2 === 'is')
+                    return (($(table.row(dataIndex).node()).hasClass(value1)) || ($(table.row(dataIndex).node()).hasClass(value2)));
+                  else if (operator1 === 'is' && operator2 === 'is not')
+                    return (($(table.row(dataIndex).node()).hasClass(value1)) || (!$(table.row(dataIndex).node()).hasClass(value2)));
+                  else if (operator1 === 'is not' && operator2 === 'is')
+                    return ((!$(table.row(dataIndex).node()).hasClass(value1)) || ($(table.row(dataIndex).node()).hasClass(value2)));
+                  else if (operator1 === 'is not' && operator2 === 'is not')
+                    return ((!$(table.row(dataIndex).node()).hasClass(value1)) || (!$(table.row(dataIndex).node()).hasClass(value2)));
+                }
+            });
+          });
+        }
+        table.draw();
       }
-      table.draw();
     }
 
     function removeAll() {
@@ -344,6 +365,9 @@
     }
 
     function addOptions() {
+      if (document.getElementsByClassName('filter-entries')[0].childElementCount >= 1 && document.getElementsByClassName('global-relation').length == 0){
+        var global_relation = $('<select class="global-relation"><option value=""></option><option value="and">AND</option><option value="or">OR</option></select>').insertAfter("#filter");
+      }
       iter = $('.filter-entries').children('li').length;
       if(iter === 0)
         $('.filter-apply').show();
