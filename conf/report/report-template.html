@@ -118,7 +118,7 @@
                   coverage = parseInt((tests_passed/total_tests)*100);
                   const result_left = operator_from_string[operator1](coverage, percentage1);
                   const result_right = operator_from_string[operator2](coverage, percentage2);
-                  const result = relation_from_string[relation](result_left, result_right);
+                  const result = relation_from_string[global_relation](result_left, result_right);
                   if (result)
                     values.add(d);
                 });
