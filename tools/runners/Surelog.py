@@ -17,7 +17,7 @@ class Surelog(BaseRunner):
     def __init__(self):
         super().__init__("Surelog", "surelog")
 
-        self.url = "https://github.com/alainmarcel/Surelog"
+        self.url = "https://github.com/chipsalliance/Surelog"
 
     def prepare_run_cb(self, tmp_dir, params):
         self.cmd = [self.executable, '-nopython', '-nobuiltin', '-parse']
