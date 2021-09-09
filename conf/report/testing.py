@@ -2,6 +2,24 @@ from selenium import webdriver
 from selenium.webdriver.support.ui import Select
 import sys
 
+def setDriver(driver_location, driver=None):
+    if driver == None:
+        return webdriver.Chrome(driver_location)
+    elif driver == 'chrome':
+        return webdriver.Chrome(driver_location)
+    elif driver == 'edge':
+        return webdriver.Edge(driver_location)
+    elif driver == 'firefox':
+        return webdriver.Firefox(driver_location)
+    elif driver == 'ie':
+        return webdriver.Ie(driver_location)
+    elif driver == 'opera':
+        return webdriver.Opera(driver_location)
+    elif driver == 'phantomjs':
+        return webdriver.PhantomJS(driver_location)
+    elif driver == 'safari':
+        return webdriver.Safari(driver_location)
+
 def openPage(URL):
     driver.get(URL)
 
@@ -34,23 +52,23 @@ def removeIcon(num):
 def removeAll():
     driver.find_element_by_class_name('filter-remove').click()
 
-chromedriver_location = "D:\Downloads\chromedriver_latest\chromedriver.exe"
-driver = webdriver.Chrome(chromedriver_location)
 
-try:
-    URL = sys.argv[1]
-except:
-    URL = "D:/Outreachy/local-cp/sv-tests/out/report/index.html"
+if __name__ == "__main__":
+    try:
+        URL = sys.argv[1]
+    except:
+        URL = "D:/Outreachy/local-cp/sv-tests/out/report/index.html"
 
-openPage(URL)
+    driver = setDriver("D:/Downloads/chromedriver_latest/chromedriver.exe")
+    openPage(URL)
 
-driver.implicitly_wait(10)
-driver.find_element_by_tag_name('details').click()
-addEntries(3)
-fillEntry(0, "coverage", "=", "50")
-fillEntry(1, "type", "is", "preprocessing")
-fillEntry(2, "tool", "is not", "icarus")
-addGlobalOp("and")
-applyFilters()
-removeIcon(2)
-removeAll()
+    driver.implicitly_wait(10)
+    driver.find_element_by_tag_name('details').click()
+    addEntries(3)
+    fillEntry(0, "coverage", "=", "50")
+    fillEntry(1, "type", "is", "preprocessing")
+    fillEntry(2, "tool", "is not", "icarus")
+    addGlobalOp("and")
+    applyFilters()
+    removeIcon(2)
+    removeAll()
