@@ -263,6 +263,25 @@ button:focus {outline:0;}
   left: 0;
 }
 
+.button-switcher {
+  background-color: white; 
+  color: black; 
+  border: 2px solid #4CAF60;
+  border-radius: 5px;
+  top: 10px;
+  font-size: 20px;
+  position:relative;
+  float: right;
+  margin:5px;
+}
+
+.button-switcher-report {background-color: #4CAF60; color: white;}
+
+.button-switcher:hover {
+  background-color: #4CAF60;
+  color: white;
+}
+
 footer {
   text-align: center;
   font-size: 10px;
