@@ -1,0 +1,18 @@
+{% if False %}
+<!-- vim: set ts=2 sts=2 sw=2 et: -->
+{% endif %}
+  <br>
+  <a class="download" href="report.csv">Download a summary in csv</a>
+  
+  <br> <br>
+  <footer id="footer">
+    Generated using <a href="https://github.com/chipsalliance/sv-tests">sv-tests</a>,
+    revision: <a href="https://github.com/chipsalliance/sv-tests/commit/{{revision}}">{{revision}}</a>,
+    {% if build_id != 'local' %}
+      {% set href = 'https://github.com/chipsalliance/sv-tests/actions/runs/' ~ build_id|string %}
+      build_id: <a href="{{href}}">{{build_id}}</a>,
+    {% else %}
+      build_id: <a>{{build_id}}</a>,
+    {% endif %}
+    date: <a>{{datetime}}</a>.
+  </footer>

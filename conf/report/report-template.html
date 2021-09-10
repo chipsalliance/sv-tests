@@ -1,12 +1,9 @@
 {% if False %}
 <!-- vim: set ts=2 sts=2 sw=2 et: -->
 {% endif %}
-<!DOCTYPE html>
-<html>
-  <head>
-    <meta charset="UTF-8" />
-    <title>SystemVerilog Report</title>
 
+{% include "page-begin.html" %}
+    
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
     <link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/themes/smoothness/jquery-ui.css">
@@ -18,9 +15,8 @@
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet"/>
     <link rel="stylesheet" type="text/css" href="report.css">
     <script type="text/javascript" charset="utf8" src="report.js"></script>
-  </head>
-
-  <script>
+    
+    <script>
     var table;
     var toolnames = [];
     var tool_array = [];
@@ -371,10 +367,9 @@
       width: calc(80% / {{ report.keys()|length}} );
     }
   </style>
-
-  <body>
-    <h1 class="headline"><a href="https://github.com/chipsalliance/sv-tests">SV-Tests</a></h1>
-    <p class="headline"><a href="https://github.com/chipsalliance/sv-tests"><em>Test suite to check compliance with the SystemVerilog LRM by chapter as well as some real-world cores and test-cases.</em></a></p>
+    {% include 'body-begin.html' %}
+    {% include "content-begin.html" %}
+    
     <button onclick="toggleFilters()">Show advanced filters (experimental)</button>
     <section style="display: none;" id="filter">
       <ul class="filter-entries">
@@ -483,23 +478,10 @@
         </tr>
       </tfoot>
     </table>
-    <br>
-    <a class="download" href="report.csv">Download a summary in csv</a>
-  </body>
-
-  <br> <br>
-  <footer id="footer">
-    Generated using <a href="https://github.com/chipsalliance/sv-tests">sv-tests</a>,
-    revision: <a href="https://github.com/chipsalliance/sv-tests/commit/{{revision}}">{{revision}}</a>,
-    {% if build_id != 'local' %}
-      {% set href = 'https://github.com/chipsalliance/sv-tests/actions/runs/' ~ build_id|string %}
-      build_id: <a href="{{href}}">{{build_id}}</a>,
-    {% else %}
-      build_id: <a>{{build_id}}</a>,
-    {% endif %}
-    date: <a>{{datetime}}</a>.
-  </footer>
-
+    
+    {% include 'content-end.html' %}
+    
+    {% include 'body-end.html' %}
   <div id="logfile-outer">
     <div class="iframe-wrap">
       <iframe class="iframe-log" name="log-frame"></iframe>
@@ -540,4 +522,4 @@
     {% endfor %}
   </div>
 
-</html>
+{% include 'page-end.html' %}
