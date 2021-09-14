@@ -566,7 +566,8 @@ try:
     with open(args.template, "r") as f:
         loader = jinja2.FileSystemLoader(args.partials)
         report = jinja2.Environment(
-            loader=loader, trim_blocks=True, lstrip_blocks=True).from_string(f.read())
+            loader=loader, trim_blocks=True,
+            lstrip_blocks=True).from_string(f.read())
 
     build_id = os.environ.get('GITHUB_RUN_ID', 'local')
     build_datetime = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
