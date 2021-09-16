@@ -69,11 +69,11 @@ lists = [
         'flist': 'bp_top/syn/flist.vcs'
     }, {
         'name': 'bp_lce',
-        'top': 'bp_lce',
+        'top': '',
         'flist': 'bp_top/syn/flist.vcs'
     }, {
         'name': 'bp_uce',
-        'top': 'bp_uce',
+        'top': '',
         'flist': 'bp_top/syn/flist.vcs'
     }, {
         'name': 'bp_unicore',
