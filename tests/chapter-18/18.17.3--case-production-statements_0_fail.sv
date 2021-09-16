@@ -10,11 +10,12 @@
 /*
 :name: case_production_statements_0
 :description: randcase case statement test
+:should_fail_because: switch variable not declared
 :tags: 18.17.3
 */
 
 function int F();
-    int x, switch;
+    int x;
     randsequence( main )
       main : case (switch)
           0 : zero;
@@ -22,7 +23,7 @@ function int F();
           2 : second;
           default : third;
       endcase;
-      zero : { x = 0; };
+      zero2 : { x = 0; };
       first : { x = 10; };
       second : { x = 2; };
       third : { x = 3; };

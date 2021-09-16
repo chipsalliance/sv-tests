@@ -8,18 +8,17 @@
 
 
 /*
-:name: if_else_production_statements_2
+:name: if_else_production_statements_0
 :description: randcase if-else test
+:should_fail_because: switch variable not declared
 :tags: 18.17.2
 */
 
 function int F();
-    int x, switch;
+    int x;
     randsequence( main )
       main : first;
-      first : if(switch) second else third;
-      second : { x = 10; };
-      third : { x = 5; };
+      first : { if(switch ) x = 10; else x = 5; };
     endsequence
     return x;
 endfunction
