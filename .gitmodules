@@ -86,3 +86,6 @@
 [submodule "third_party/tools/yosys-uhdm-plugin-integration"]
 	path = third_party/tools/yosys-uhdm-plugin-integration
 	url = https://github.com/antmicro/yosys-uhdm-plugin-integration.git
+[submodule "third_party/tests/projf-explore"]
+	path = third_party/tests/projf-explore
+	url = https://github.com/projf/projf-explore.git
