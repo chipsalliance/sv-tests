@@ -29,8 +29,9 @@ class Slang(BaseRunner):
         # a single compilation unit, so ask slang to do that.
         self.cmd += ['--single-unit']
 
-        if params['top_module'] != '':
-            self.cmd.append('--top=' + params['top_module'])
+        top = params['top_module'].strip()
+        if top:
+            self.cmd.append('--top=' + top)
 
         for incdir in params['incdirs']:
             self.cmd.extend(['-I', incdir])
@@ -58,6 +59,10 @@ class Slang(BaseRunner):
         # The earlgrey core is not configured correctly and so references unknown modules
         # and packages. Only run parsing until that gets fixed.
         if "earlgrey" in tags:
+            self.cmd.append("--parse-only")
+
+        # projf tests reference nonexistent modules.
+        if "projf-explore" in tags:
             self.cmd.append("--parse-only")
 
         self.cmd += params['files']
