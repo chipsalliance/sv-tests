@@ -26,6 +26,8 @@ class Slang(BaseRunner):
         self.cmd = [self.executable]
         if mode == 'preprocessing':
             self.cmd += ['-E']
+        elif mode == "parsing":
+            self.cmd.append("--parse-only")
 
         # Some tests expect that all input files will be concatenated into
         # a single compilation unit, so ask slang to do that.
@@ -42,9 +44,6 @@ class Slang(BaseRunner):
             self.cmd.extend(['-D', define])
 
         tags = params["tags"]
-
-        if params['mode'] in ["parsing", "preprocessing"]:
-            self.cmd.append("--parse-only")
 
         # The Ariane core does not build correctly if VERILATOR is not defined -- it will attempt
         # to reference nonexistent modules, for example.
