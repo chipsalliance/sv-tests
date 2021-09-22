@@ -4,5 +4,6 @@
 	"paths": [
 		["tests", "projf-explore", "*", "*", "*"]
 	],
-	"matches": ["*.sv"]
+	"matches": ["*.sv"],
+	"type": "parsing"
 }

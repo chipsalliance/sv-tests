@@ -17,7 +17,9 @@ from BaseRunner import BaseRunner
 
 class Verilator(BaseRunner):
     def __init__(self):
-        super().__init__("verilator", "verilator")
+        super().__init__(
+            "verilator", "verilator",
+            {"preprocessing", "parsing", "elaboration", "simulation"})
 
         self.allowed_extensions.extend(['.vlt', '.cc'])
         self.url = "https://verilator.org"

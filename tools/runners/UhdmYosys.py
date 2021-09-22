@@ -17,7 +17,8 @@ from BaseRunner import BaseRunner
 
 class UhdmYosys(BaseRunner):
     def __init__(self):
-        super().__init__("uhdm-yosys", "uhdm-yosys", {"parsing"})
+        super().__init__(
+            "uhdm-yosys", "uhdm-yosys", {"parsing", "elaboration"})
 
         self.url = "https://github.com/alainmarcel/uhdm-integration"
 

@@ -11,6 +11,7 @@
 :name: aborting_productions_break_and_return_2
 :description: return statement test
 :should_fail_because: typo in production name
+:type: elaboration
 :tags: 18.17.6
 */
 

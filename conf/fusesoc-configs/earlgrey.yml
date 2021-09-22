@@ -17,4 +17,4 @@ conf_file: build/lowrisc_systems_top_earlgrey_0.1/sim-icarus/lowrisc_systems_top
 test_file: earlgrey.sv
 timeout: 360
 compatible-runners: all
-allow_elaboration: True
+type: parsing elaboration

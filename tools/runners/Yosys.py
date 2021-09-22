@@ -16,7 +16,8 @@ from BaseRunner import BaseRunner
 
 class Yosys(BaseRunner):
     def __init__(self):
-        super().__init__("yosys", "yosys")
+        super().__init__(
+            "yosys", "yosys", {"preprocessing", "parsing", "elaboration"})
 
         self.url = "http://www.clifford.at/yosys/"
 

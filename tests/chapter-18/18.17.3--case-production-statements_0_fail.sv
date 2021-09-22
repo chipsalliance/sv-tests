@@ -11,6 +11,7 @@
 :name: case_production_statements_0
 :description: randcase case statement test
 :should_fail_because: switch variable not declared
+:type: elaboration
 :tags: 18.17.3
 */
 

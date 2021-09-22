@@ -55,6 +55,11 @@ for cfg in glob.glob(os.path.join(conf_dir, 'generators', 'meta-path',
         commons = data.get('commons', [])
         incdirs = data.get('incdirs', [])
         timeouts = data.get('timeouts', {})
+        test_type = data.get('type', None)
+
+        if test_type is not None:
+            global_extra_tags.append(f":type: {test_type}")
+
         if 'fake_topmodule' in data:
             global_extra_tags.append(":top_module: top")
             extra_code = "module top; endmodule"

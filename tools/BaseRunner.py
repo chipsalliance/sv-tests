@@ -48,7 +48,7 @@ class BaseRunner:
             self,
             name,
             executable=None,
-            supported_features={'preprocessing', 'parsing', 'simulation'}):
+            supported_features={'preprocessing', 'parsing', 'elaboration'}):
         """Base runner class constructor
         Arguments:
         name -- runner name.

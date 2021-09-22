@@ -17,7 +17,9 @@ from BaseRunner import BaseRunner
 
 class UhdmVerilator(BaseRunner):
     def __init__(self):
-        super().__init__("verilator-uhdm", "verilator-uhdm")
+        super().__init__(
+            "verilator-uhdm", "verilator-uhdm",
+            {"preprocessing", "parsing", "elaboration", "simulation"})
 
         self.allowed_extensions.extend(['.vlt', '.cc'])
         self.url = "https://github.com/alainmarcel/uhdm-integration"
