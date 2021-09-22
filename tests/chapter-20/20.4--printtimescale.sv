@@ -11,7 +11,7 @@
 :name: printtimescale_task
 :description: $printtimescale test
 :tags: 20.4
-:type: simulation parsing
+:type: simulation elaboration parsing
 */
 
 `timescale 1 ms / 1 us

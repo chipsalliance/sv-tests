@@ -10,7 +10,7 @@
 /*
 :name: idx_select_sim
 :description: indexed select bit simulation test
-:type: simulation parsing
+:type: simulation elaboration parsing
 :tags: 11.5.1
 */
 module top();

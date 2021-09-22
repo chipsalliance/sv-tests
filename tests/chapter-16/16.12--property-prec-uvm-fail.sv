@@ -11,7 +11,7 @@
 :name: property_prec_test_fail_uvm
 :description: failing property with precondition in UVM
 :should_fail_because: mem_ctrl interleaves reads and writes and property requires to keep reading
-:type: simulation
+:type: simulation elaboration
 :tags: uvm uvm-assertions
 */
 

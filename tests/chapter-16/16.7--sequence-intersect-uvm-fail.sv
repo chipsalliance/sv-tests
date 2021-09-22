@@ -11,7 +11,7 @@
 :name: sequence_intersect_op_test_fail_uvm
 :description: failing sequence with "intersect" operator in UVM
 :should_fail_because: intersecting sequences must start and end at the same time but gnt1 is asserted later
-:type: simulation
+:type: simulation elaboration
 :tags: uvm uvm-assertions
 */
 

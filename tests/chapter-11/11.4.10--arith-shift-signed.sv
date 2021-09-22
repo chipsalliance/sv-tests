@@ -10,7 +10,7 @@
 /*
 :name: arith_shift_signed
 :description: arithmetic shift operator test
-:type: simulation parsing
+:type: simulation elaboration parsing
 :tags: 11.4.10
 */
 module top();

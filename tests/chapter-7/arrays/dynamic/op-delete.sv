@@ -11,7 +11,7 @@
 :name: dynamic-arrays-op-delete
 :description: Test dynamic arrays operator delete support
 :tags: 7.5.3
-:type: simulation parsing
+:type: simulation elaboration parsing
 */
 module top ();
 

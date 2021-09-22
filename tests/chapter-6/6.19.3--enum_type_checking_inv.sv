@@ -12,7 +12,7 @@
 :description: invalid enum assignment tests
 :should_fail_because: enum enforces strict type checking rules
 :tags: 6.19.3
-:type: simulation
+:type: simulation elaboration
 */
 module top();
 	typedef enum {a, b, c, d} e;

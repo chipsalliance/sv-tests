@@ -11,7 +11,7 @@
 :name: uvm_sequence
 :description: uvm_sequence test
 :tags: uvm uvm-classes
-:type: simulation parsing
+:type: simulation elaboration parsing
 */
 
 import uvm_pkg::*;

@@ -10,7 +10,7 @@
 /*
 :name: string_bit_array_sim
 :description: string stored in bit array simulation test
-:type: simulation parsing
+:type: simulation elaboration parsing
 :tags: 11.10
 */
 module top();

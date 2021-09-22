@@ -11,7 +11,7 @@
 :name: itor_function
 :description: $itor test
 :tags: 20.5
-:type: simulation parsing
+:type: simulation elaboration parsing
 */
 
 module top();

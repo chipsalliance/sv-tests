@@ -12,7 +12,7 @@
 :description: superclass type declaration conflicts must be resolved in subclass
 :should_fail_because: superclass type declaration conflicts must be resolved in subclass
 :tags: 8.26.6.2
-:type: simulation
+:type: simulation elaboration
 */
 module class_tb ();
 	interface class ic1#(type T = logic);

@@ -11,7 +11,7 @@
 :name: dist_erlang_function
 :description: $dist_erlang test
 :tags: 20.15
-:type: simulation parsing
+:type: simulation elaboration parsing
 */
 
 module top();

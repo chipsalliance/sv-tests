@@ -11,7 +11,7 @@
 :name: associative-arrays-last
 :description: Test support of associative arrays methods (last)
 :tags: 7.9.5 7.9
-:type: simulation parsing
+:type: simulation elaboration parsing
 */
 module top ();
 

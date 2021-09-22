@@ -10,7 +10,7 @@
 /*
 :name: array_addressing_sim
 :description: array addressing simulation test
-:type: simulation parsing
+:type: simulation elaboration parsing
 :tags: 11.5.2
 */
 module top();

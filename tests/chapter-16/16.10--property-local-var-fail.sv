@@ -11,7 +11,7 @@
 :name: property_local_var_fail_test
 :description: failing property with local variables
 :should_fail_because: pipeline increments value by 4 but property expects incrementation by 3
-:type: simulation
+:type: simulation elaboration
 :tags: 16.10
 */
 

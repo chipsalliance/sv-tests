@@ -11,7 +11,7 @@
 :name: insert
 :description: Test queues insert function support
 :tags: 7.10.2.2 7.10.2
-:type: simulation parsing
+:type: simulation elaboration parsing
 */
 module top ();
 

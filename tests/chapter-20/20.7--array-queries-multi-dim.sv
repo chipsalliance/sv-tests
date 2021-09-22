@@ -11,7 +11,7 @@
 :name: array_queries_multi_dim
 :description: multi-dimensional array query function tests
 :tags: 20.7
-:type: simulation parsing
+:type: simulation elaboration parsing
 */
 
 module top();

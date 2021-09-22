@@ -11,7 +11,7 @@
 :name: assume_property_test_fail_uvm
 :description: failing assume property test with UVM
 :should_fail_because: dut asserts read and write at the same time
-:type: simulation
+:type: simulation elaboration
 :tags: uvm uvm-assertions
 */
 

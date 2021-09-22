@@ -11,7 +11,7 @@
 :name: sequence_test_fail_uvm
 :description: failing sequence in UVM
 :should_fail_because: mem_ctrl interleaves reads and writes and sequence requires to keep reading
-:type: simulation
+:type: simulation elaboration
 :tags: uvm uvm-assertions
 */
 

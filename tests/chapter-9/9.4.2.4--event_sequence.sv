@@ -11,7 +11,7 @@
 :name: event_sequence
 :description: sequence event test
 :tags: 9.4.2.4
-:type: simulation parsing
+:type: simulation elaboration parsing
 */
 module seq_tb ();
 	logic a = 0;

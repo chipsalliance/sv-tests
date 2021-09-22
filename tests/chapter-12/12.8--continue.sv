@@ -11,7 +11,7 @@
 :name: jump_continue
 :description: A module testing continue statement
 :tags: 12.8
-:type: simulation parsing
+:type: simulation elaboration parsing
 */
 module jump_tb ();
 	initial begin

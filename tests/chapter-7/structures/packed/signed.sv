@@ -11,7 +11,7 @@
 :name: packed-and-signed-structures
 :description: Test packed and signed structures support
 :tags: 7.2.1 7.2
-:type: simulation parsing
+:type: simulation elaboration parsing
 */
 module top ();
 

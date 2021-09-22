@@ -12,7 +12,7 @@
 :description: Test packed arrays operations support (Variable slice)
 :should_fail_because: slicing array with zero part width
 :tags: 7.4.3
-:type: simulation
+:type: simulation elaboration
 */
 module top ();
 

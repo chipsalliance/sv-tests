@@ -10,7 +10,7 @@
 /*
 :name: assert_final_test_uvm
 :description: assert final test with UVM
-:type: simulation parsing
+:type: simulation elaboration parsing
 :tags: uvm uvm-assertions
 :timeout: 60
 */

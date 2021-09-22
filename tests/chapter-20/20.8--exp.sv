@@ -11,7 +11,7 @@
 :name: exp_function
 :description: $exp test
 :tags: 20.8
-:type: simulation parsing
+:type: simulation elaboration parsing
 */
 
 module top();

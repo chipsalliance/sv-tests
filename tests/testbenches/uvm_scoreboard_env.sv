@@ -11,7 +11,7 @@
 :name: uvm_scoreboard_env
 :description: uvm scoreboard + env test
 :tags: uvm uvm-scoreboards
-:type: simulation parsing
+:type: simulation elaboration parsing
 :timeout: 30
 */
 

@@ -11,7 +11,7 @@
 :name: property_test_fail_uvm
 :description: failing property test with UVM
 :should_fail_because: mem_ctrl asserts read and write at the same time and property checks that one or the other is asserted
-:type: simulation
+:type: simulation elaboration
 :tags: uvm uvm-assertions
 */
 

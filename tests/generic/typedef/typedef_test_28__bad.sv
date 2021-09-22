@@ -12,7 +12,7 @@
 :description: Test
 :should_fail_because: missing forward typedef declaration, type_identifier does not resolve to a data type.
 :tags: 6.18
-:type: simulation
+:type: simulation elaboration
 */
 
 // 6.18 says:

@@ -11,7 +11,7 @@
 :name: dist_normal_function
 :description: $dist_normal test
 :tags: 20.15
-:type: simulation parsing
+:type: simulation elaboration parsing
 */
 
 module top();

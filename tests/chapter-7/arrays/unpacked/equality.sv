@@ -11,7 +11,7 @@
 :name: operations-on-unpacked-arrays-equality
 :description: Test unpacked arrays operations support (equality)
 :tags: 7.4.3
-:type: simulation parsing
+:type: simulation elaboration parsing
 */
 module top ();
 
