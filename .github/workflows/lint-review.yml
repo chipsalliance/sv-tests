@@ -34,7 +34,7 @@ jobs:
       - run: |
           unzip event.json.zip
       - name: Run Verible action
-        uses: chipsalliance/verible-linter-action@v1.4
+        uses: chipsalliance/verible-linter-action@main
         with:
           paths:
             ./tests
