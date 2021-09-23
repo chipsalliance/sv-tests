@@ -45,7 +45,7 @@ class Verilator(BaseRunner):
         # have shell shebang on the first line
         self.cmd = ['sh', 'scr.sh']
 
-        if mode == 'simulation':
+        if mode in ['simulation', 'elaboration']:
             self.cmd += ['--cc']
         elif mode == 'preprocessing':
             self.cmd += ['-E']
@@ -56,16 +56,17 @@ class Verilator(BaseRunner):
         # Flags for compliance testing:
         self.cmd += ['-Wpedantic', '-Wno-context']
 
-        if params['top_module'] != '':
+        top = self.get_top_module_or_guess(params)
+        if top is not None:
             self.cmd.append('--top-module ' + params['top_module'])
 
-        if mode == 'preprocessing':
+        if mode in ['preprocessing', 'parsing']:
             self.cmd += ['-P', '-E']
 
         for incdir in params['incdirs']:
             self.cmd.append('-I' + incdir)
 
-        if mode == 'simulation':
+        if mode in ['elaboration', 'simulation']:
             self.cmd += [
                 '--Mdir', build_dir, '--prefix', 'Vtop', '--exe', '-o',
                 build_exe
