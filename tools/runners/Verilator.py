@@ -45,11 +45,11 @@ class Verilator(BaseRunner):
         # have shell shebang on the first line
         self.cmd = ['sh', 'scr.sh']
 
-        if mode in ['simulation', 'elaboration']:
+        if mode == 'simulation':
             self.cmd += ['--cc']
         elif mode == 'preprocessing':
-            self.cmd += ['-E']
-        else:
+            self.cmd += ['-P', '-E']
+        else:  # parsing and elaboration
             self.cmd += ['--lint-only']
 
         self.cmd += ['-Wno-fatal', '-Wno-UNOPTFLAT', '-Wno-BLKANDNBLK']
@@ -60,13 +60,10 @@ class Verilator(BaseRunner):
         if top is not None:
             self.cmd.append('--top-module ' + params['top_module'])
 
-        if mode in ['preprocessing', 'parsing']:
-            self.cmd += ['-P', '-E']
-
         for incdir in params['incdirs']:
             self.cmd.append('-I' + incdir)
 
-        if mode in ['elaboration', 'simulation']:
+        if mode == 'simulation':
             self.cmd += [
                 '--Mdir', build_dir, '--prefix', 'Vtop', '--exe', '-o',
                 build_exe
