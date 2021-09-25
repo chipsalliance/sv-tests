@@ -13,11 +13,12 @@ from selenium import webdriver
 from selenium.webdriver.support.ui import Select
 import sys
 
-def setDriver(driver=None):
-    if driver == None:
-        return webdriver.Chrome()
+def setDriver(arg=None):
+    global driver
+    if arg == None:
+        driver = webdriver.Chrome()
     else:
-        return driver
+        driver = arg
 
 def openPage(URL):
     driver.get(URL)
@@ -33,17 +34,11 @@ def fillEntryType(num, type):
     select = Select(driver.find_elements_by_xpath(entry_type)[num])
     select.select_by_value(type)
 
-def fillSpan(num, operator, value, relation=None):
-    entry_operator = "//*[@class='filter-entry-operator']"
-    select = Select(driver.find_elements_by_xpath(entry_operator)[num])
-    select.select_by_value(operator)
-    entry_value = "//*[@class='filter-entry-value']"
-    select = Select(driver.find_elements_by_xpath(entry_value)[num])
-    select.select_by_value(value)
-    if relation != None:
-        entry_relation = "//*[@class='filter-condition']"
-        select = Select(driver.find_elements_by_xpath(entry_relation)[num])
-        select.select_by_value(relation)
+def fillSpan(entry_id, *args):
+    for i in range(len(args)):
+        entry_operator = f"(//*[@id='filter']/ul/li[{entry_id+1}]/span/select)[{i+1}]"
+        select = Select(driver.find_element_by_xpath(entry_operator))
+        select.select_by_value(args[i])
 
 def applyFilters():
     driver.find_element_by_class_name('filter-apply').click()
@@ -64,11 +59,9 @@ if __name__ == "__main__":
     fillEntryType(0, "coverage")
     fillEntryType(1, "type")
     fillEntryType(2, "tool")
-    fillSpan(0, ">", "50", "or")
-    fillSpan(1, "<", "80")
-    fillSpan(2, "is", "preprocessing")
-    fillSpan(3, "is", "yosyssv", "and")
-    fillSpan(4, "is", "surelog")
+    fillSpan(0, ">", "50", "or", "<", "80")
+    fillSpan(1, "is", "preprocessing")
+    fillSpan(2, "is", "yosyssv", "and", "is", "surelog")
     applyFilters()
     removeIcon(2)
     removeAll()
