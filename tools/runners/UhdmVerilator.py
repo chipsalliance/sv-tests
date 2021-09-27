@@ -42,7 +42,7 @@ class UhdmVerilator(BaseRunner):
             )
 
             if mode in ["parsing", "preprocessing"]:
-                self.cmd.append('-noelab')
+                f.write('-noelab')
 
             for i in params['incdirs']:
                 f.write(f' -I{i}')
