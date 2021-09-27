@@ -22,7 +22,6 @@ jobs:
           - { JOB_NAME: surelog, MAKEFLAGS: -j2 }
           - { JOB_NAME: tree-sitter-verilog, MAKEFLAGS: -j2 }
           - { JOB_NAME: yosys, MAKEFLAGS: -j2 }
-          - { JOB_NAME: antmicro-yosys-complete, MAKEFLAGS: -j2 }
           - { JOB_NAME: verible, MAKEFLAGS: -j2 }
           - { JOB_NAME: verilator, MAKEFLAGS: -j2 }
           - { JOB_NAME: verilator-uhdm, MAKEFLAGS: -j2 RUNNERS_FILTER=UhdmVerilator }
