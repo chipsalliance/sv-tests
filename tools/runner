@@ -146,6 +146,7 @@ try:
 
         else:
             # set default values for optional metadata entries
+            test_params.setdefault('name', test)
             test_params.setdefault('files', test)
             test_params.setdefault('incdirs', os.path.dirname(test))
             test_params.setdefault('top_module', '')
