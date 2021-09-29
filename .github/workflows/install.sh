@@ -13,6 +13,10 @@ source "$HOME/miniconda/etc/profile.d/conda.sh"
 hash -r
 conda config --set always_yes yes --set changeps1 no
 
+# Replace all spaces with \|
+USE_CHANNEL=${USE_CHANNEL// /\\|}
+# Uncomment the correct channels
+sed -e"/^#  - $USE_CHANNEL$/ { s/^#// }" -i conf/environment.yml
 # Uncomment the correct runner
 sed -e"/^#  - .*::$JOB_NAME$/ { s/^#// }" -i conf/environment.yml
 git diff
