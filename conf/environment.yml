@@ -10,8 +10,8 @@
 name: sv-test-env
 channels:
   - LiteX-Hub
-  - pkgw-forge
-  - conda-forge
+#  - pkgw-forge
+#  - conda-forge
 dependencies:
 #  - LiteX-Hub::iverilog
 #  - LiteX-Hub::moore

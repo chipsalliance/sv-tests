@@ -14,19 +14,19 @@ jobs:
       fail-fast: false
       matrix:
         env:
-          - { JOB_NAME: iverilog, MAKEFLAGS: -j2 }
-          - { JOB_NAME: moore, MAKEFLAGS: -j2 }
-          - { JOB_NAME: odin_ii, MAKEFLAGS: -j2 }
-          - { JOB_NAME: slang, MAKEFLAGS: -j2 }
-          - { JOB_NAME: sv-parser, MAKEFLAGS: -j2 }
-          - { JOB_NAME: surelog, MAKEFLAGS: -j2 }
+          - { JOB_NAME: iverilog,            MAKEFLAGS: -j2 }
+          - { JOB_NAME: moore,               MAKEFLAGS: -j2 }
+          - { JOB_NAME: odin_ii,             MAKEFLAGS: -j2, USE_CHANNEL: conda-forge pkgw-forge }
+          - { JOB_NAME: slang,               MAKEFLAGS: -j2, USE_CHANNEL: conda-forge }
+          - { JOB_NAME: sv-parser,           MAKEFLAGS: -j2 }
+          - { JOB_NAME: surelog,             MAKEFLAGS: -j2 }
           - { JOB_NAME: tree-sitter-verilog, MAKEFLAGS: -j2 }
-          - { JOB_NAME: yosys, MAKEFLAGS: -j2 }
-          - { JOB_NAME: verible, MAKEFLAGS: -j2 }
-          - { JOB_NAME: verilator, MAKEFLAGS: -j2 }
-          - { JOB_NAME: verilator-uhdm, MAKEFLAGS: -j2 RUNNERS_FILTER=UhdmVerilator }
-          - { JOB_NAME: yosys-uhdm, MAKEFLAGS: -j2 RUNNERS_FILTER=UhdmYosys }
-          - { JOB_NAME: zachjs-sv2v, MAKEFLAGS: -j2 }
+          - { JOB_NAME: yosys,               MAKEFLAGS: -j2 }
+          - { JOB_NAME: verible,             MAKEFLAGS: -j2 }
+          - { JOB_NAME: verilator,           MAKEFLAGS: -j2 }
+          - { JOB_NAME: verilator-uhdm,      MAKEFLAGS: -j2 RUNNERS_FILTER=UhdmVerilator }
+          - { JOB_NAME: yosys-uhdm,          MAKEFLAGS: -j2 RUNNERS_FILTER=UhdmYosys }
+          - { JOB_NAME: zachjs-sv2v,         MAKEFLAGS: -j2, USE_CHANNEL: conda-forge }
 
     name: ${{ matrix.env.JOB_NAME }}
     env: ${{ matrix.env }}
