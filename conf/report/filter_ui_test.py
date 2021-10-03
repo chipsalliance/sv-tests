@@ -61,7 +61,7 @@ if __name__ == "__main__":
     fillEntryType(2, "tool")
     fillSpan(0, ">", "50", "or", "<", "80")
     fillSpan(1, "is", "preprocessing")
-    fillSpan(2, "is", "yosyssv", "and", "is", "surelog")
+    fillSpan(2, "is", "verible", "and", "is", "surelog")
     applyFilters()
     removeIcon(2)
     removeAll()
