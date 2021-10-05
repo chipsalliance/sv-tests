@@ -58,7 +58,7 @@ class Verilator(BaseRunner):
 
         top = self.get_top_module_or_guess(params)
         if top is not None:
-            self.cmd.append('--top-module ' + params['top_module'])
+            self.cmd.append(f'--top-module {top}')
 
         for incdir in params['incdirs']:
             self.cmd.append('-I' + incdir)
