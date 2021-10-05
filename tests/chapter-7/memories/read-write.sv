@@ -11,7 +11,7 @@
 :name: memories-read-write
 :description: Test memories read-write support
 :tags: 7.4.4
-:type: simulation parsing
+:type: simulation elaboration parsing
 */
 module top ();
 

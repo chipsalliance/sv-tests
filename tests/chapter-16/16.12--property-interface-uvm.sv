@@ -10,7 +10,7 @@
 /*
 :name: property_interface_test_uvm
 :description: interface property test with UVM
-:type: simulation parsing
+:type: simulation elaboration parsing
 :tags: uvm uvm-assertions
 :timeout: 60
 */

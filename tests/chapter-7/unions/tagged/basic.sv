@@ -11,7 +11,7 @@
 :name: basic-tagged-union
 :description: Test basic tagged union support
 :tags: 7.3.2
-:type: simulation parsing
+:type: simulation elaboration parsing
 */
 module top ();
 

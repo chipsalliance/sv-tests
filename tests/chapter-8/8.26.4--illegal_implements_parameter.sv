@@ -12,7 +12,7 @@
 :description: implementing parameter that resolves to an interface class is not allowed
 :should_fail_because: implementing parameter that resolves to an interface class is not allowed
 :tags: 8.26.4
-:type: simulation
+:type: simulation elaboration
 */
 module class_tb ();
 	interface class ihello;

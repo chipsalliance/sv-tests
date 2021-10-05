@@ -11,7 +11,7 @@
 :name: dist_t_function
 :description: $dist_t test
 :tags: 20.15
-:type: simulation parsing
+:type: simulation elaboration parsing
 */
 
 module top();

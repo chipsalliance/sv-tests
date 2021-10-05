@@ -11,7 +11,7 @@
 :name: function_fork_valid
 :description: function valid fork test
 :tags: 13.4.4
-:type: simulation parsing
+:type: simulation elaboration parsing
 */
 module top();
 

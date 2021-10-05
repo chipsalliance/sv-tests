@@ -12,7 +12,7 @@
 :description: Test
 :should_fail_because: use a strength keyword with `nounconnected_drive macro
 :tags: 22.9
-:type: simulation
+:type: simulation elaboration
 */
 `unconnected_drive pull0 
 `nounconnected_drive pull0

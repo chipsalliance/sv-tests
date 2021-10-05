@@ -11,7 +11,7 @@
 :name: unpacked-array-iterator-index-querying
 :description: Test support of unpacked arrays index querying method
 :tags: 7.12.4 7.4.2 7.10 7.12.1
-:type: simulation parsing
+:type: simulation elaboration parsing
 */
 module top ();
 

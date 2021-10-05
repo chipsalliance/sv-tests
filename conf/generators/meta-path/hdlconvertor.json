@@ -12,5 +12,6 @@
 		"directive_verilogpp.sv",
 		"fifo_rx.sv",
 		"parity_using_function2.v"
-	]
+	],
+	"type": "parsing"
 }

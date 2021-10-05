@@ -11,7 +11,7 @@
 :name: function
 :description: function test
 :tags: 13.4
-:type: simulation parsing
+:type: simulation elaboration parsing
 */
 module top();
 

@@ -11,7 +11,7 @@
 :name: array-locator-methods-unique
 :description: Test support of array locator methods
 :tags: 7.12.1 7.12 7.10 7.12.2
-:type: simulation parsing
+:type: simulation elaboration parsing
 */
 module top ();
 

@@ -11,7 +11,7 @@
 :name: random_function
 :description: $random test
 :tags: 20.15
-:type: simulation parsing
+:type: simulation elaboration parsing
 */
 
 module top();

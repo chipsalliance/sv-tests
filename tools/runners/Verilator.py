@@ -17,7 +17,9 @@ from BaseRunner import BaseRunner
 
 class Verilator(BaseRunner):
     def __init__(self):
-        super().__init__("verilator", "verilator")
+        super().__init__(
+            "verilator", "verilator",
+            {"preprocessing", "parsing", "elaboration", "simulation"})
 
         self.allowed_extensions.extend(['.vlt', '.cc'])
         self.url = "https://verilator.org"
@@ -46,19 +48,17 @@ class Verilator(BaseRunner):
         if mode == 'simulation':
             self.cmd += ['--cc']
         elif mode == 'preprocessing':
-            self.cmd += ['-E']
-        else:
+            self.cmd += ['-P', '-E']
+        else:  # parsing and elaboration
             self.cmd += ['--lint-only']
 
         self.cmd += ['-Wno-fatal', '-Wno-UNOPTFLAT', '-Wno-BLKANDNBLK']
         # Flags for compliance testing:
         self.cmd += ['-Wpedantic', '-Wno-context']
 
-        if params['top_module'] != '':
-            self.cmd.append('--top-module ' + params['top_module'])
-
-        if mode == 'preprocessing':
-            self.cmd += ['-P', '-E']
+        top = self.get_top_module_or_guess(params)
+        if top is not None:
+            self.cmd.append(f'--top-module {top}')
 
         for incdir in params['incdirs']:
             self.cmd.append('-I' + incdir)

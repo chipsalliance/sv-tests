@@ -22,7 +22,7 @@ class Surelog(BaseRunner):
     def prepare_run_cb(self, tmp_dir, params):
         self.cmd = [self.executable, '-nopython', '-nobuiltin', '-parse']
 
-        if not strtobool(params['allow_elaboration']):
+        if params['mode'] in ["parsing", "preprocessing"]:
             self.cmd.append('-noelab')
 
         # silence surelog

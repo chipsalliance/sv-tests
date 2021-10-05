@@ -11,7 +11,7 @@
 :name: jump_break
 :description: A module testing break statement
 :tags: 12.8
-:type: simulation parsing
+:type: simulation elaboration parsing
 */
 module jump_tb ();
 	initial begin

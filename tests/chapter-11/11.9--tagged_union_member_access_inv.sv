@@ -12,7 +12,7 @@
 :description: invalid tagged union member access test
 :should_fail_because: accessing wrong member should result in run-time error
 :tags: 11.9
-:type: simulation
+:type: simulation elaboration
 */
 module top();
 

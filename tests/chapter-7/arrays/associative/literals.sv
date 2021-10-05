@@ -11,7 +11,7 @@
 :name: associative-arrays-literals
 :description: Test associative arrays literals support
 :tags: 7.9.11 7.8
-:type: simulation parsing
+:type: simulation elaboration parsing
 */
 module top ();
 

@@ -11,7 +11,7 @@
 :name: test_plusargs
 :description: $test$plusargs test
 :tags: 21.6
-:type: simulation parsing
+:type: simulation elaboration parsing
 */
 module top();
 

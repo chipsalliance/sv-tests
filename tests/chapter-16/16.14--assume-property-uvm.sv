@@ -10,7 +10,7 @@
 /*
 :name: assume_property_test_uvm
 :description: assume property test with UVM
-:type: simulation parsing
+:type: simulation elaboration parsing
 :tags: uvm uvm-assertions
 :timeout: 60
 */

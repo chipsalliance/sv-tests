@@ -11,7 +11,7 @@
 :name: string_concat_op
 :description: string concatenation operator test
 :tags: 11.4.12.2
-:type: simulation parsing
+:type: simulation elaboration parsing
 */
 module top();
 

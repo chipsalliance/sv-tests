@@ -16,13 +16,15 @@ from BaseRunner import BaseRunner
 
 class Yosys(BaseRunner):
     def __init__(self):
-        super().__init__("yosys", "yosys")
+        super().__init__(
+            "yosys", "yosys", {"preprocessing", "parsing", "elaboration"})
 
         self.url = "http://www.clifford.at/yosys/"
 
     def prepare_run_cb(self, tmp_dir, params):
         run = os.path.join(tmp_dir, "run.sh")
         scr = os.path.join(tmp_dir, 'scr.ys')
+        mode = params['mode']
 
         top = self.get_top_module_or_guess(params)
 
@@ -37,19 +39,20 @@ class Yosys(BaseRunner):
         # prepare yosys script
         with open(scr, 'w') as f:
             for svf in params['files']:
-                f.write(f'read_verilog -sv {inc} {defs} {svf}\n')
+                f.write(f'read_verilog -defer -sv {inc} {defs} {svf}\n')
 
-            # prep (without optimizations)
-            f.write(
-                f"hierarchy -top \\{top}\n"
-                "proc\n"
-                "check\n"
-                "memory_dff\n"
-                "memory_collect\n"
-                "stat\n"
-                "check\n"
-                "write_json\n"
-                "write_verilog\n")
+            if mode == "elaboration":
+                # prep (without optimizations)
+                f.write(
+                    f"hierarchy -top \\{top}\n"
+                    "proc\n"
+                    "check\n"
+                    "memory_dff\n"
+                    "memory_collect\n"
+                    "stat\n"
+                    "check\n"
+                    "write_json\n"
+                    "write_verilog\n")
 
         # prepare wrapper script
         with open(run, 'w') as f:

@@ -11,7 +11,7 @@
 :name: floor_function
 :description: $floor test
 :tags: 20.8
-:type: simulation parsing
+:type: simulation elaboration parsing
 */
 
 module top();

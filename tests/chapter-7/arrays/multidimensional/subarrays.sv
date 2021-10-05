@@ -11,7 +11,7 @@
 :name: subarrays
 :description: Test multidimensional subarrays assignments
 :tags: 7.4.5
-:type: simulation parsing
+:type: simulation elaboration parsing
 */
 
 module top ();

@@ -11,7 +11,7 @@
 :name: array-unpacked-assignments
 :description: Test unpacked arrays assignments
 :tags: 7.6 7.4.2
-:type: simulation parsing
+:type: simulation elaboration parsing
 */
 module top ();
 

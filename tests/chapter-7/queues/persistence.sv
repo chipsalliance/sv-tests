@@ -11,7 +11,7 @@
 :name: queues-elements-persistence
 :description: Test status of persistence of references to elements of queue
 :tags: 7.10.3
-:type: simulation parsing
+:type: simulation elaboration parsing
 */
 module top ();
 

@@ -17,13 +17,16 @@ from BaseRunner import BaseRunner
 
 class UhdmYosys(BaseRunner):
     def __init__(self):
-        super().__init__("uhdm-yosys", "uhdm-yosys", {"parsing"})
+        super().__init__(
+            "uhdm-yosys", "uhdm-yosys",
+            {"preprocessing", "parsing", "elaboration"})
 
         self.url = "https://github.com/alainmarcel/uhdm-integration"
 
     def prepare_run_cb(self, tmp_dir, params):
         runner_scr = os.path.join(tmp_dir, "scr.sh")
         yosys_scr = os.path.join(tmp_dir, "yosys-script")
+        mode = params['mode']
 
         top = self.get_top_module_or_guess(params)
 
@@ -49,8 +52,12 @@ class UhdmYosys(BaseRunner):
             f.write("set -e\n")
             f.write("set -x\n")
             f.write(
-                f"surelog -nopython -nobuiltin --disable-feature=parametersubstitution -parse -sverilog -nonote -noinfo -nowarning"
+                f"surelog -nopython -nobuiltin -parse -sverilog -nonote -noinfo -nowarning"
             )
+
+            if mode in ["parsing", "preprocessing"]:
+                f.write('-noelab')
+
             for i in params["incdirs"]:
                 f.write(f" -I{i}")
 
@@ -62,8 +69,8 @@ class UhdmYosys(BaseRunner):
 
             f.write("\n")
 
-            f.write(f"cat {yosys_scr}\n")
-
-            f.write(f"{self.executable} -s {yosys_scr}\n")
+            if mode == "elaboration":
+                f.write(f"cat {yosys_scr}\n")
+                f.write(f"{self.executable} -s {yosys_scr}\n")
 
         self.cmd = ["sh", runner_scr]

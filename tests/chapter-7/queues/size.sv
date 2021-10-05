@@ -11,7 +11,7 @@
 :name: size
 :description: Test queues size support
 :tags: 7.10.2.1 7.10.2
-:type: simulation parsing
+:type: simulation elaboration parsing
 */
 module top ();
 

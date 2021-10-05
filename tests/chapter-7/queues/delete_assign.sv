@@ -11,7 +11,7 @@
 :name: delete-assign
 :description: Update queue by assignment (delete)
 :tags: 7.10.4
-:type: simulation parsing
+:type: simulation elaboration parsing
 */
 module top ();
 

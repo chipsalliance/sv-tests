@@ -10,7 +10,7 @@
 /*
 :name: equality_op
 :description: equality operator test
-:type: simulation parsing
+:type: simulation elaboration parsing
 :tags: 11.4.5
 */
 module top();

@@ -10,7 +10,7 @@
 /*
 :name: empty_string_sim
 :description: empty string simulation test
-:type: simulation parsing
+:type: simulation elaboration parsing
 :tags: 11.10.3
 */
 module top();

@@ -11,7 +11,7 @@
 :name: expect_test_fail_uvm
 :description: failing expect in UVM
 :should_fail_because: read is asserted every 2 cycles
-:type: simulation
+:type: simulation elaboration
 :tags: uvm uvm-assertions
 */
 

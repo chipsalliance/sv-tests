@@ -48,7 +48,7 @@ class BaseRunner:
             self,
             name,
             executable=None,
-            supported_features={'preprocessing', 'parsing', 'simulation'}):
+            supported_features={'preprocessing', 'parsing', 'elaboration'}):
         """Base runner class constructor
         Arguments:
         name -- runner name.
@@ -69,19 +69,18 @@ class BaseRunner:
         if "all" not in compatible_runners:
             if self.name not in compatible_runners:
                 return None
-        basic_features = ['parsing', 'preprocessing']
-        previous_required = False
-        for feature in basic_features:
-            if feature in test_features and feature not in self.supported_features and previous_required:
-                return None
-            if feature in test_features and feature in self.supported_features:
-                previous_required = True
 
-        features = ['simulation', *basic_features]
+        # select the first mode from the list that matches both the runner and
+        # the test
+        modes_sorted = [
+            'simulation', 'elaboration', 'parsing', 'preprocessing'
+        ]
 
-        for feature in features:
-            if feature in test_features and feature in self.supported_features:
-                return feature
+        for m in modes_sorted:
+            if m in test_features and m in self.supported_features:
+                return m
+
+        return None
 
     def run(self, tmp_dir, params):
         """Run the provided test case

@@ -10,7 +10,7 @@
 /*
 :name: sequence_and_op_test_uvm
 :description: sequence with "and" operator in UVM
-:type: simulation parsing
+:type: simulation elaboration parsing
 :tags: uvm uvm-assertions
 :timeout: 60
 */

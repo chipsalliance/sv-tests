@@ -10,7 +10,7 @@
 /*
 :name: string_compare
 :description: string comparison test
-:type: simulation parsing
+:type: simulation elaboration parsing
 :tags: 11.10.1
 */
 module top();

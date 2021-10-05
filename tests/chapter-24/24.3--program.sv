@@ -11,7 +11,7 @@
 :name: program_construct
 :description: program construct test
 :tags: 24.3
-:type: simulation parsing
+:type: simulation elaboration parsing
 */
 program prog(input wire a, input wire b);
 	initial $display(":assert: (%d == %d)", a, b);

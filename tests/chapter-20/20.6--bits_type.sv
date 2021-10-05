@@ -11,7 +11,7 @@
 :name: bits_type_function
 :description: $bits with type argument
 :tags: 20.6
-:type: simulation parsing
+:type: simulation elaboration parsing
 */
 
 module top();

@@ -11,7 +11,7 @@
 :name: operations-on-packed-arrays-equality
 :description: Test packed arrays operations support (equality)
 :tags: 7.4.3
-:type: simulation parsing
+:type: simulation elaboration parsing
 */
 module top ();
 

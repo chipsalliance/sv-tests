@@ -9,5 +9,6 @@
 		"p12.sv",
 		"p138.sv",
 		"p77.sv"
-	]
+	],
+	"type": "parsing"
 }

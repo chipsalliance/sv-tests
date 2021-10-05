@@ -11,7 +11,7 @@
 :name: operations-on-unpacked-arrays-one-bit
 :description: Test unpacked arrays operations support (one bit)
 :tags: 7.4.3
-:type: simulation parsing
+:type: simulation elaboration parsing
 */
 module top ();
 

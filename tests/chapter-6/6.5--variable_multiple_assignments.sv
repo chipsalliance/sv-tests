@@ -12,7 +12,7 @@
 :description: Variable multiple assignments tests
 :should_fail_because: it shall be an error to have multiple continuous assignments
 :tags: 6.5
-:type: simulation
+:type: simulation elaboration
 */
 module top();
 	int v;
