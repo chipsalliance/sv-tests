@@ -199,6 +199,7 @@ ivtest_file_exclude = [
     'no_timescale_in_module',
     'pr1704013',
     'scope2b',
+    'event_array',
     # $dumpvars with bit selects, doesn't appear to be legal and commercial tools disallow
     'array_word_check',
     'dump_memword',

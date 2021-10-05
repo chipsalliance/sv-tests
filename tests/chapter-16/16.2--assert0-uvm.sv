@@ -57,7 +57,7 @@ class env extends uvm_env;
             int a = 8'h35;
             m_if.a <= a;
 
-            assert #0 (m_if.a != m_if.b) else `uvm_error(label, $sformatf("assert failed :assert: (False)"));
+            assert #0 (m_if.a != m_if.b) else $error($sformatf("assert failed :assert: (False)"));
         end
         `uvm_info(label, "Finished run phase", UVM_LOW);
         phase.drop_objection(this);

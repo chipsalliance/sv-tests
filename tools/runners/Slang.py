@@ -56,6 +56,12 @@ class Slang(BaseRunner):
         if "black-parrot" in tags:
             self.cmd.append("--allow-use-before-declare")
 
+            # These two tests simply cannot be elaborated because they target
+            # modules that have invalid parameter values for a top-level module.
+            name = params["name"]
+            if 'bp_lce' in name or 'bp_uce' in name:
+                self.cmd.append("--parse-only")
+
         # The earlgrey core is not configured correctly and so references unknown modules
         # and packages. Only run parsing until that gets fixed.
         if "earlgrey" in tags:
