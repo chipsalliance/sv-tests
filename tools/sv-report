@@ -17,6 +17,7 @@ from logparser import parseLog
 import argparse
 import logging
 import jinja2
+import markupsafe
 import csv
 import datetime
 import sys
@@ -173,7 +174,7 @@ def logToHTML(path_in, path_out, tags, log_content):
     depth = path_in.count('/') - 1
     src_relative = '../' * depth
     files = tags['files'].split()
-    log = str(jinja2.escape(log_content))
+    log = str(markupsafe.escape(log_content))
     log_files_pat = r'({}\S+):\d+'
     html_pat_ln = r'{}:(\d+)'
     html_sub_ln = r'<a href="{0}{1}.html#l-\1" target="file-frame">{1}:\1</a>'
