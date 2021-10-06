@@ -11,7 +11,7 @@
 :name: coverage_routines
 :description: coverage routine test
 :tags: 20.14
-:type: simulation parsing
+:type: simulation elaboration parsing
 */
 
 module DUT;

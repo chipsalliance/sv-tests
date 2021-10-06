@@ -11,7 +11,7 @@
 :name: sequence_local_var_fail_test
 :description: failing sequence with local variables
 :should_fail_because: pipeline increments value by 4 but sequence expects incrementation by 3
-:type: simulation elaboration
+:type: simulation
 :tags: 16.10
 */
 

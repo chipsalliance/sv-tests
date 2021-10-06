@@ -11,7 +11,7 @@
 :name: property_local_var_test_fail_uvm
 :description: failing property with local variables in UVM
 :should_fail_because: pipeline increments value by 4 but property expects incrementation by 3
-:type: simulation elaboration
+:type: simulation
 :tags: uvm uvm-assertions
 */
 

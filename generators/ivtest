@@ -20,7 +20,7 @@ templ = """/*
 :files: {1}
 :incdirs: {4}
 :tags: ivtest
-:type: parsing
+:type: elaboration parsing
 {2}
 {3}
 {5}
@@ -277,7 +277,7 @@ for l in ivtest_lists:
             for t in type_should_fail:
                 if re.match(t, line[1]):
                     should_fail_because = ':should_fail_because: this test was imported from ivtest and is designed to fail'
-                    type_ = ':type: simulation'
+                    type_ = ':type: simulation elaboration'
 
             timeout = ''
             if name in ivtest_long:
