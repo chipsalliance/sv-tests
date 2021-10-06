@@ -5,7 +5,7 @@
 		"/*",
 		":name: simple_{1}_operator_sim",
 		":description: minimal {0} operator simulation test (without result verification)",
-        ":type: simulation parsing",
+		":type: simulation elaboration parsing",
 		":tags: {2}",
 		"*/",
 		"module top(input [3:0] a, input [3:0] b, output [3:0] c);",
@@ -30,7 +30,7 @@
 		["&", "bit_and", "11.4.8"],
 		["|", "bit_or", "11.4.8"],
 		["^", "bit_xor", "11.4.8"],
-        ["<<", "log_shl", "11.4.10"],
-        [">>", "log_shr", "11.4.10"]
+		["<<", "log_shl", "11.4.10"],
+		[">>", "log_shr", "11.4.10"]
 	]
 }

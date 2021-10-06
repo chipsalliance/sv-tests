@@ -5,7 +5,7 @@
 		"/*",
 		":name: wildcard_operator_sim_{4}",
 		":description: wildcard operator test in simulation",
-        ":type: simulation parsing",
+		":type: simulation elaboration parsing",
 		":tags: 11.4.6",
 		"*/",
 		"module top();",

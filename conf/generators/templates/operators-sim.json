@@ -5,7 +5,7 @@
 		"/*",
 		":name: {1}_operator_sim_{5}",
 		":description: {0} operator test in simulation",
-        ":type: simulation parsing",
+		":type: simulation elaboration parsing",
 		":tags: {2}",
 		"*/",
 		"module top();",
@@ -37,11 +37,11 @@
 		["&", "bit_and", "11.4.8"],
 		["|", "bit_or", "11.4.8"],
 		["^", "bit_xor", "11.4.8"],
-        ["<<", "log_shl", "11.4.10"],
-        [">>", "log_shr", "11.4.10"]
+		["<<", "log_shl", "11.4.10"],
+		[">>", "log_shr", "11.4.10"]
 	],
-    [
-        ["4", "3", "0"],
-        ["4", "4", "1"]
-    ]]
+	[
+		["4", "3", "0"],
+		["4", "4", "1"]
+	]]
 }
