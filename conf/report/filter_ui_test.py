@@ -13,26 +13,31 @@ from selenium import webdriver
 from selenium.webdriver.support.ui import Select
 import sys
 
+
 def setDriver(arg=None):
     global driver
-    if arg == None:
+    if arg is None:
         driver = webdriver.Chrome()
     else:
         driver = arg
+
 
 def openPage(URL):
     driver.get(URL)
     driver.implicitly_wait(10)
     driver.find_element_by_tag_name('button').click()
 
+
 def addEntries(iter):
     for _ in range(iter):
         driver.find_element_by_class_name('filter-add').click()
+
 
 def fillEntryType(num, type):
     entry_type = "//*[@class='filter-entry-type']"
     select = Select(driver.find_elements_by_xpath(entry_type)[num])
     select.select_by_value(type)
+
 
 def fillSpan(entry_id, *args):
     for i in range(len(args)):
@@ -40,11 +45,14 @@ def fillSpan(entry_id, *args):
         select = Select(driver.find_element_by_xpath(entry_operator))
         select.select_by_value(args[i])
 
+
 def applyFilters():
     driver.find_element_by_class_name('filter-apply').click()
 
+
 def removeIcon(num):
     driver.find_elements_by_class_name('filter-clear')[num].click()
+
 
 def removeAll():
     driver.find_element_by_class_name('filter-remove').click()
