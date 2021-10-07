@@ -11,7 +11,7 @@
 :name: sequence_throughout_op_test_fail_uvm
 :description: failing sequence with "throughout" operator in UVM
 :should_fail_because: gnt2 is not asserted
-:type: simulation elaboration
+:type: simulation
 :tags: uvm uvm-assertions
 */
 

@@ -11,7 +11,7 @@
 :name: assume_test_fail_uvm
 :description: failing assume test with UVM
 :should_fail_because: adder returns wrong value and assume expects correct result (a+b)
-:type: simulation elaboration
+:type: simulation
 :tags: uvm uvm-assertions
 */
 

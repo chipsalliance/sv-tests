@@ -11,7 +11,7 @@
 :name: property_disable_iff_fail_test_uvm
 :description: failing property with disable iff test with UVM
 :should_fail_because: disable iff uses wrong reset polarity
-:type: simulation elaboration
+:type: simulation
 :tags: uvm uvm-assertions
 */
 

@@ -11,7 +11,7 @@
 :name: property_disable_iff_fail_test
 :description: failing property with disable iff
 :should_fail_because: disable iff uses wrong reset polarity
-:type: simulation elaboration
+:type: simulation
 :tags: 16.15
 */
 
