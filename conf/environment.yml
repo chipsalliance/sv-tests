@@ -24,6 +24,7 @@ dependencies:
 #  - LiteX-Hub::yosys-uhdm
 #  - LiteX-Hub::verible
 #  - LiteX-Hub::verilator
+#  - gxx_impl_linux-64
 #  - LiteX-Hub::yosys
 #  - LiteX-Hub::antmicro-yosys-complete
 #  - LiteX-Hub::zachjs-sv2v
