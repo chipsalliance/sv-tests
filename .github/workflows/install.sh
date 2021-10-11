@@ -22,7 +22,7 @@ sed -e"/^#  - .*::$JOB_NAME$/ { s/^#// }" -i conf/environment.yml
 # For verilator, we need to explicitly add gxx dependency
 # otherwise conda will download older version of gxx
 # and verilator won't be able to find gxx binary
-if [ "$JOB_NAME" = "verilator" ]; then
+if [ "$JOB_NAME" = "verilator" ] || [ "$JOB_NAME" = "verilator-uhdm" ]; then
   sed -e"/^#  - gxx_impl_linux-64$/ { s/^#// }" -i conf/environment.yml
 fi
 git diff
