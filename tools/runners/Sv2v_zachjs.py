@@ -34,8 +34,5 @@ class Sv2v_zachjs(BaseRunner):
     def get_version(self):
         version = super().get_version()
 
-        # sv2v stores the actual version at the second position
-        revision = version.split()[1]
-
-        # return it without the trailing comma
-        return " ".join([self.name, revision[:-1]])
+        # return it with our custom prefix and without the trailing newline
+        return "zachjs-" + version.rstrip()
