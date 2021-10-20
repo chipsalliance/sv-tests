@@ -56,101 +56,26 @@
 
     var iter;
     var global_relation;
-    var selected_tools = [];
-    var tools_relation;
-
-    const operator_from_string = {
-      '<': (a, b) => a < b,
-      '>': (a, b) => a > b,
-      '>=': (a, b) => a >= b,
-      '<=': (a, b) => a <= b,
-      '=': (a, b) => a === b
-    };
+    var filter_expression;
 
     const relation_from_string = {
-      'and': (a, b) => a && b,
-      'or': (a, b) => a || b
+      'is': '==',
+      'is not': '!=='
     }
 
     const filter_types = {
       coverage: {
         name: "Coverage",
-        operators: ["<", "<=", ">", ">=", "="],
+        operators: ["<", "<=", ">", ">=", "=="],
         value_field_factory: function(id) {
-          $(`li[data-uid=${id}] .filter-entry-operator`).remove();
-          $(`li[data-uid=${id}] .filter-entry-value`).remove();
+          $(`li[data-uid=${id}] .filter-entry-operator option:not(:first)`).remove();
+          $(`li[data-uid=${id}] .filter-entry-value option:not(:first)`).remove();
           var filter_entry_operator =  $('<select class="filter-entry-operator"><option value=""></option></select>').insertAfter(`li[data-uid=${id}] .filter-entry-type`);
           var filter_entry_value =  $('<select class="filter-entry-value"><option value=""></option></select>').insertAfter(`li[data-uid=${id}] .filter-entry-operator`);
           for (var i=0; i<this.operators.length; i++)
             $(`<option value="${this.operators[i]}">${this.operators[i]}</option>`).appendTo(`li[data-uid=${id}] .filter-entry-operator`);
           for (var i=0; i<=100; i++)
             $(`<option value="${i}">${i}</option>`).appendTo(`li[data-uid=${id}] .filter-entry-value`);
-        },
-        apply: function(operator1, percentage1, operator2, percentage2) {
-          var values = new Set();
-          if (typeof operator2 == 'undefined') {
-            table.columns().every(function() {
-              var column = this;
-              if(column.index() !== 0 && column.index() !== 1) {
-                percentage = parseInt(percentage1);
-                column.data().each(function(d, j) {
-                  output = d.split('/');
-                  tests_passed = output[0];
-                  total_tests = output[1];
-                  coverage = parseInt((tests_passed/total_tests)*100);
-                  if ((operator1 in operator_from_string) && operator_from_string[operator1](coverage, percentage))
-                    values.add(d);
-                });
-              }
-            });
-          }
-          else {
-            table.columns().every(function() {
-              var column = this;
-              if(column.index() !== 0 && column.index() !== 1) {
-                percentage1 = parseInt(percentage1);
-                percentage2 = parseInt(percentage2);
-                column.data().each(function(d, j) {
-                  output = d.split('/');
-                  tests_passed = output[0];
-                  total_tests = output[1];
-                  coverage = parseInt((tests_passed/total_tests)*100);
-                  const result_left = operator_from_string[operator1](coverage, percentage1);
-                  const result_right = operator_from_string[operator2](coverage, percentage2);
-                  const result = relation_from_string[global_relation](result_left, result_right);
-                  if (result)
-                    values.add(d);
-                });
-              }
-            });
-          }
-          values = [...values];
-          if (global_relation === 'or') {
-            return values;
-          }
-          else {
-            if (selected_tools.length === 0){
-              $.fn.dataTable.ext.search.push(
-                function(settings, searchData, index, rowData, counter) {
-                  for(var i=0; i<col_array.length; i++){
-                    if(values.includes(searchData[col_array[i]]))
-                      return true;
-                  }
-              });
-            }
-            else {
-              table.columns(selected_tools).every(function() {
-                regex = [];
-                for (var i=0; i<values.length; i++){
-                  value = "^"+values[i]+"$";
-                  regex.push(value);
-                }
-                regex = regex.join("|");
-                table.columns(selected_tools).search(regex, true, false, true).draw();
-            });
-            }
-          }
-          table.draw();
         }
       },
       type: {
@@ -158,42 +83,14 @@
         operators: ["is", "is not"],
         types: ["parsing", "preprocessing", "simulation"],
         value_field_factory: function(id) {
-          $(`li[data-uid=${id}] .filter-entry-operator`).remove();
-          $(`li[data-uid=${id}] .filter-entry-value`).remove();
+          $(`li[data-uid=${id}] .filter-entry-operator option:not(:first)`).remove();
+          $(`li[data-uid=${id}] .filter-entry-value option:not(:first)`).remove();
           var filter_entry_operator =  $('<select class="filter-entry-operator"><option value=""></option></select>').insertAfter(`li[data-uid=${id}] .filter-entry-type`);
           var filter_entry_value =  $('<select class="filter-entry-value"><option value=""></option></select>').insertAfter(`li[data-uid=${id}] .filter-entry-operator`);
           for (var i=0; i<this.operators.length; i++)
-            $(`<option value="${this.operators[i]}">${this.operators[i]}</option>`).appendTo(`li[data-uid=${id}] .filter-entry-operator`);
+            $(`<option value="${relation_from_string[this.operators[i]]}">${this.operators[i]}</option>`).appendTo(`li[data-uid=${id}] .filter-entry-operator`);
           for (var i=0; i<this.types.length; i++)
             $(`<option value="${this.types[i]}">${this.types[i]}</option>`).appendTo(`li[data-uid=${id}] .filter-entry-value`);
-        },
-        apply: function(operator1, type1, operator2, type2) {
-          if (typeof operator2 == 'undefined'){
-            $.fn.dataTable.ext.search.push(
-              function(settings, data, dataIndex){
-                if (operator1 === 'is')
-                  return $(table.row(dataIndex).node()).hasClass(type1);
-                else if (operator1 === 'is not')
-                  return !$(table.row(dataIndex).node()).hasClass(type1);
-              });
-          }
-          else {
-            $.fn.dataTable.ext.search.push(
-              function(settings, data, dataIndex){
-                if (global_relation === 'and'){
-                  if (operator1 === 'is' && operator2 === 'is')
-                    return (($(table.row(dataIndex).node()).hasClass(type1)) && ($(table.row(dataIndex).node()).hasClass(type2)));
-                  else if (operator1 === 'is' && operator2 === 'is not')
-                  return (($(table.row(dataIndex).node()).hasClass(type1)) && (!$(table.row(dataIndex).node()).hasClass(type2)));
-                  else if (operator1 === 'is not' && operator2 === 'is')
-                  return ((!$(table.row(dataIndex).node()).hasClass(type1)) && ($(table.row(dataIndex).node()).hasClass(type2)));
-                  else if (operator1 === 'is not' && operator2 === 'is not')
-                  return ((!$(table.row(dataIndex).node()).hasClass(type1)) && (!$(table.row(dataIndex).node()).hasClass(type2)));
-                }
-              }
-            );
-          }
-          table.draw();
         }
       },
       tool: {
@@ -201,40 +98,52 @@
         operators: ["is", "is not"],
         tools: toolnames,
         value_field_factory: function(id) {
-          $(`li[data-uid=${id}] .filter-entry-operator`).remove();
-          $(`li[data-uid=${id}] .filter-entry-value`).remove();
+          $(`li[data-uid=${id}] .filter-entry-operator option:not(:first)`).remove();
+          $(`li[data-uid=${id}] .filter-entry-value option:not(:first)`).remove();
           var filter_entry_operator =  $('<select class="filter-entry-operator"><option value=""></option></select>').insertAfter(`li[data-uid=${id}] .filter-entry-type`);
           var filter_entry_value =  $('<select class="filter-entry-value"><option value=""></option></select>').insertAfter(`li[data-uid=${id}] .filter-entry-operator`);
           for (var i=0; i<this.operators.length; i++)
-            $(`<option value="${this.operators[i]}">${this.operators[i]}</option>`).appendTo(`li[data-uid=${id}] .filter-entry-operator`);
+            $(`<option value="${relation_from_string[this.operators[i]]}">${this.operators[i]}</option>`).appendTo(`li[data-uid=${id}] .filter-entry-operator`);
           for (var i=0; i<this.tools.length; i++)
             $(`<option value="${this.tools[i]}">${this.tools[i]}</option>`).appendTo(`li[data-uid=${id}] .filter-entry-value`);
-        },
-        apply: function(operator, tool) {
-          table.columns(col_array).visible(true);
-          table.columns(tool_array).every(function() {
-            var column = this;
-            if(column.index() !== 0 && column.index() !== 1){
-              var theadname = column.header().textContent.trim();
-              if(operator === 'is'){
-                if(theadname === tool){
-                  var index = tool_array.indexOf(column.index());
-                  tool_array.splice(index, 1);
-                  selected_tools.push(column.index());
-                }
-              }
-              else if(operator === 'is not'){
-                if(theadname !== tool){
-                  var index = tool_array.indexOf(column.index());
-                  tool_array.splice(index, 1);
-                  selected_tools.push(column.index());
-                }
-              }
-            }
-          });
-          table.columns(tool_array).visible(false);
         }
       }
+    }
+
+    const global_relation_string = {
+      'and': ' && ',
+      'or': ' || '
+    }
+
+    function string_builder(applied_filters) {
+      var query = [];
+      global_relation = $('.global-relation').val();
+      $('.filter-entries').find('li').each(function(){
+        var expression = $(this).find('.filter-entry-type').val() + $(this).find('.filter-entry-operator').val() +  "\"" + $(this).find('.filter-entry-value').val() +  "\"";
+        query.push(expression);
+      });
+      return query.join(global_relation_string[global_relation]);
+    }
+
+    function filter_cell(coverage, tool, types) {
+      var result = eval("(coverage, tool, types) => (" + eval(filter_expression) + ")");
+      return result;
+    }
+
+    function search_function() {
+      $.fn.dataTable.ext.search.push(
+        function(settings, searchData, index, rowData, counter){
+          for(var i=2; i<col_array.length; i++){
+            var coverage, tool, types;
+            coverage = rowData[i]['@data-order'];
+            tool = rowData[i]['@data-search'].split(' ')[0];
+            types = rowData[i]['@data-search'].split(' ');
+            types.shift();
+            if(filter_cell(coverage, tool, types))
+              return true;
+          } 
+      });
+      table.draw();
     }
 
     function entryChanged(mode, id) {
@@ -253,91 +162,8 @@
       $.fn.dataTable.ext.search.pop();
       table.draw();
       $('.filter-remove').show();
-      global_relation = $('.global-relation').val();
-      var applied_filters = {};
-      $('.filter-entries').find('li').each(function(){
-        filter = $(this).find('.filter-entry-type').val();
-        applied_filters[filter] = [];
-      });
-      $('.filter-entries').find('li').each(function(){
-        object = {};
-        filter = $(this).find('.filter-entry-type').val();
-        object['operator'] = $(this).find('.filter-entry-operator').val();
-        object['value'] = $(this).find('.filter-entry-value').val();
-        applied_filters[filter].push(object);
-      });
-      if (applied_filters['tool']){
-        if (applied_filters['tool'].length > 1)
-          alert('Tools are not supported by AND operation. OR is applied for tools');
-        for (var i=0; i<applied_filters['tool'].length; i++)
-          filter_types['tool'].apply(applied_filters['tool'][i]['operator'], applied_filters['tool'][i]['value']);
-      }
-
-      var operator1, operator2;
-      var value1, value2;
-      var result = [];
-
-      if (typeof global_relation == 'undefined'){
-        for (const key in applied_filters)
-          filter_types[key].apply(applied_filters[key][0]['operator'], applied_filters[key][0]['value']);
-      }
-      else{
-        for(const key in applied_filters){
-          if (key != 'tool' && global_relation === 'and') {
-            try{
-              filter_types[key].apply(applied_filters[key][0]['operator'], applied_filters[key][0]['value'], applied_filters[key][1]['operator'], applied_filters[key][1]['value']);
-            }
-            catch(err) {
-              filter_types[key].apply(applied_filters[key][0]['operator'], applied_filters[key][0]['value']);
-            }
-          }
-          else if (key != 'tool' && global_relation === 'or') {
-            for (var i=0; i<applied_filters[key].length; i++){
-              if (key == 'type' && applied_filters['type'].length == 1){
-                operator1 = applied_filters['type'][0]['operator'];
-                value1 = applied_filters['type'][0]['value'];
-              }
-              if (key == 'type' && applied_filters['type'].length > 1){
-                operator1, operator2 = applied_filters['type'][0]['operator'], applied_filters['type'][1]['operator'];
-                value1, value2 = applied_filters['type'][0]['value'], applied_filters['type'][1]['value'];
-              }
-              if (key == 'coverage')
-                result = result.concat(filter_types['coverage'].apply(applied_filters['coverage'][i]['operator'], applied_filters['coverage'][i]['value']));
-            }
-          }
-        }
-        if (global_relation === 'or') {
-          table.columns(col_array).visible(true);
-          table.columns(col_array).every(function(){
-            $.fn.dataTable.ext.search.push(
-              function(settings, searchData, dataIndex, rowData, counter){
-                if (result.length > 0){
-                  for (var i=0; i<col_array.length; i++){
-                    if(result.includes(searchData[col_array[i]]))
-                      return true;
-                  }
-                }
-                if (typeof operator2 == 'undefined'){
-                  if (operator1 === 'is')
-                    return $(table.row(dataIndex).node()).hasClass(value1);
-                  else if (operator1 === 'is not')
-                    return (!$(table.row(dataIndex).node()).hasClass(value1));
-                }
-                if (typeof operator2 != 'undefined'){
-                  if (operator1 === 'is' && operator2 === 'is')
-                    return (($(table.row(dataIndex).node()).hasClass(value1)) || ($(table.row(dataIndex).node()).hasClass(value2)));
-                  else if (operator1 === 'is' && operator2 === 'is not')
-                    return (($(table.row(dataIndex).node()).hasClass(value1)) || (!$(table.row(dataIndex).node()).hasClass(value2)));
-                  else if (operator1 === 'is not' && operator2 === 'is')
-                    return ((!$(table.row(dataIndex).node()).hasClass(value1)) || ($(table.row(dataIndex).node()).hasClass(value2)));
-                  else if (operator1 === 'is not' && operator2 === 'is not')
-                    return ((!$(table.row(dataIndex).node()).hasClass(value1)) || (!$(table.row(dataIndex).node()).hasClass(value2)));
-                }
-            });
-          });
-        }
-        table.draw();
-      }
+      filter_expression = string_builder();
+      search_function();
     }
 
     function removeAll() {
@@ -404,15 +230,7 @@
         </tr>
       </thead>
         {% for tag, info in database.items() %}
-          {% set list = [] %}
-          {% for tool, tooldata in report|dictsort %}
-            {% for type in tooldata["tags"][tag]["type"] %}
-              {% if type not in list %}
-                {% set list = list.append(type) %}
-              {% endif %}
-            {% endfor %}
-          {% endfor %}
-          <tr class="{{list|join(" ")}}">
+          <tr>
           <th class="report_table_info" title="{{info}}">
             {% if tag in database_urls %}
             <a class="tag_link" target=_blank href="{{database_urls[tag]}}"> {{ info }} </a>
@@ -422,15 +240,18 @@
           </th>
           <th class="report_table_tag" title="{{info}}"> {{ tag }} </th>
           {% for tool, tooldata in report|dictsort %}
-          <th class="report_table_result {{ tooldata["tags"][tag]["status"] }}
-            {% if "test-na" not in tooldata["tags"][tag]["status"] %} test-cell {% endif %}"
+          <th class="report_table_result {{ tooldata["tags"][tag]["status"] }}{% if "test-na" not in tooldata["tags"][tag]["status"] %} test-cell {% endif %}"
+            {% set celldata = tool.lower() ~ " " ~ tooldata["tags"][tag]["type"]|join(" ") %}
+            data-search='{{celldata}}'
             {% if "test-varied" in tooldata["tags"][tag]["status"] %} style='background-size: {{'%0.0f' | format(100.0 * tooldata["tags"][tag]["passed-num"] / tooldata["tags"][tag]["logs"]|length) }}% 100%' {% endif %}
             {% if "test-na" not in tooldata["tags"][tag]["status"] %}
             id='{{tool}}-{{tag}}-cell'
-            onclick='toggleLog("{{tool}}", "{{tag}}",
-                               "{{tooldata["tags"][tag]["logs"][tooldata["tags"][tag]["head_test"]]["name"]}}")'
+            data-order='{{ '%0.0f' | format(100.0 * tooldata["tags"][tag]["passed-num"] / tooldata["tags"][tag]["logs"]|length) }}'
+            onclick='toggleLog("{{tool}}", "{{tag}}", "{{tooldata["tags"][tag]["logs"][tooldata["tags"][tag]["head_test"]]["name"]}}")'
             {% endif %}
-          >
+            {% if "test-na" in tooldata["tags"][tag]["status"] %}
+            data-order=" "
+            {% endif %}>
             {% if "test-na" not in tooldata["tags"][tag]["status"] %}
             {{ tooldata["tags"][tag]["passed-num"] }}/{{ tooldata["tags"][tag]["logs"]|length }}
             {% endif %}
