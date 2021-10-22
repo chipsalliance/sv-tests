@@ -4,7 +4,8 @@ on:
 
 jobs:
   upload_event_file:
-    runs-on: ubuntu-latest
+    runs-on: [self-hosted, Linux, X64]
+    container: ubuntu:latest
     steps:
       - uses: actions/checkout@v2
       - name: Copy event file
