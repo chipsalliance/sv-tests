@@ -14,24 +14,23 @@ jobs:
       fail-fast: false
       matrix:
         env:
-          - { JOB_NAME: iverilog,            MAKEFLAGS: -j4 }
-          - { JOB_NAME: moore,               MAKEFLAGS: -j4 }
-          - { JOB_NAME: odin_ii,             MAKEFLAGS: -j4, USE_CHANNEL: conda-forge pkgw-forge }
-          - { JOB_NAME: slang,               MAKEFLAGS: -j4, USE_CHANNEL: conda-forge }
-          - { JOB_NAME: sv-parser,           MAKEFLAGS: -j4 }
-          - { JOB_NAME: surelog,             MAKEFLAGS: -j4 }
-          - { JOB_NAME: tree-sitter-verilog, MAKEFLAGS: -j4 }
-          - { JOB_NAME: yosys,               MAKEFLAGS: -j4 }
-          - { JOB_NAME: verible,             MAKEFLAGS: -j4 }
-          - { JOB_NAME: verilator,           MAKEFLAGS: -j4 }
-          - { JOB_NAME: verilator-uhdm,      MAKEFLAGS: -j4 RUNNERS_FILTER=UhdmVerilator }
-          - { JOB_NAME: yosys-uhdm,          MAKEFLAGS: -j4 RUNNERS_FILTER=UhdmYosys }
-          - { JOB_NAME: zachjs-sv2v,         MAKEFLAGS: -j4, USE_CHANNEL: conda-forge }
+          - { JOB_NAME: iverilog,            MAKEFLAGS: -j2 }
+          - { JOB_NAME: moore,               MAKEFLAGS: -j2 }
+          - { JOB_NAME: odin_ii,             MAKEFLAGS: -j2, USE_CHANNEL: conda-forge pkgw-forge }
+          - { JOB_NAME: slang,               MAKEFLAGS: -j2, USE_CHANNEL: conda-forge }
+          - { JOB_NAME: sv-parser,           MAKEFLAGS: -j2 }
+          - { JOB_NAME: surelog,             MAKEFLAGS: -j2 }
+          - { JOB_NAME: tree-sitter-verilog, MAKEFLAGS: -j2 }
+          - { JOB_NAME: yosys,               MAKEFLAGS: -j2 }
+          - { JOB_NAME: verible,             MAKEFLAGS: -j2 }
+          - { JOB_NAME: verilator,           MAKEFLAGS: -j2 }
+          - { JOB_NAME: verilator-uhdm,      MAKEFLAGS: -j2 RUNNERS_FILTER=UhdmVerilator }
+          - { JOB_NAME: yosys-uhdm,          MAKEFLAGS: -j2 RUNNERS_FILTER=UhdmYosys }
+          - { JOB_NAME: zachjs-sv2v,         MAKEFLAGS: -j2, USE_CHANNEL: conda-forge }
 
     name: ${{ matrix.env.JOB_NAME }}
     env: ${{ matrix.env }}
-    runs-on: [self-hosted, Linux, X64]
-    container: ubuntu:latest
+    runs-on: ubuntu-latest
     steps:
       - name: Cancel previous
         uses: styfle/cancel-workflow-action@0.8.0
@@ -39,12 +38,9 @@ jobs:
           access_token: ${{ github.token }}
       - name: Checkout code
         uses: actions/checkout@v2
-      - name: Setup python
-        run: |
-          apt-get update -qq
-          apt install -y python3 python3-pip git wget
-          update-alternatives --install /usr/bin/python python /usr/bin/python3 1
-          update-alternatives --install /usr/bin/pip pip /usr/bin/pip3 1
+      - uses: actions/setup-python@v2
+        with:
+          python-version: 3.7
       - name: Install
         run:
           ./.github/workflows/install.sh ${{ matrix.env.MAKEFLAGS }}
@@ -54,39 +50,29 @@ jobs:
       - name: Prepare Report
         run:
           ./.github/workflows/tool_report_prepare.sh
-      - name: Pack results
-        run: |
-          tar -cvf out_${{ matrix.env.JOB_NAME }}.tar ./out/report/${{ matrix.env.JOB_NAME }}_report.csv ./out/logs/
       - uses: actions/upload-artifact@v2
         with:
           name: report_${{ matrix.env.JOB_NAME }}
           path: |
-            out_${{ matrix.env.JOB_NAME }}.tar
-            **/plot_*.svg
+            ./out/report/${{ matrix.env.JOB_NAME }}_report.csv
+            ./out/logs/
 
   Summary:
     name: Summary
-    runs-on: [self-hosted, Linux, X64]
-    container: ubuntu:latest
+    runs-on: ubuntu-latest
     needs: Run
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
-      - name: Setup python
-        run: |
-          apt-get update -qq
-          apt install -y python3 python3-pip wget git curl jq
-          update-alternatives --install /usr/bin/python python /usr/bin/python3 1
-          update-alternatives --install /usr/bin/pip pip /usr/bin/pip3 1
+      - uses: actions/setup-python@v2
+        with:
+          python-version: 3.7
       - name: Prepare output directories
         run: |
           mkdir -p out/report
       - uses: actions/download-artifact@v2
         with:
           path: ./out/
-      - name: Extract
-        run: |
-          for file in $(find out/ -name *.tar -print); do tar -xf $file --strip-components=2 -C $(dirname $file); done
       - name: Summary
         run: |
           ./.github/workflows/summary.sh
