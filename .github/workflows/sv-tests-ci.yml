@@ -91,6 +91,7 @@ jobs:
         if: github.ref == 'refs/heads/master'
         run: |
           set -e
+          id
           eval $(ssh-agent -s)
           ssh-add - <<< "${{ secrets.REPORT_DEPLOY_KEY }}"
           mkdir -p ~/.ssh
