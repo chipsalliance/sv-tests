@@ -112,6 +112,7 @@ jobs:
           cp out/report/new_*csv tests_summary/
           cp out/report/tests_summary.json tests_summary/
           cp out/report/tests_summary.md tests_summary/
+          find out -name plot_*.svg -exec cp {} tests_summary/ \;
       - name: Upload artifacts for summary
         uses: actions/upload-artifact@v2
         if: github.event_name == 'pull_request'
