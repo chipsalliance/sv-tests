@@ -98,6 +98,7 @@ jobs:
           ssh-add - <<< "${{ secrets.REPORT_DEPLOY_KEY }}"
           mkdir -p ~/.ssh
           chmod 700 ~/.ssh
+          ssh-keyscan -t rsa github.com >> ~/.ssh/known_hosts
           ./.github/workflows/update_report.sh
       - name: Prepare artifacts for PR commenter
         if: github.event_name == 'pull_request'
