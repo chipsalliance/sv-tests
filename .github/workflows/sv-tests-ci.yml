@@ -13,23 +13,38 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        env:
-          - { JOB_NAME: iverilog,            MAKEFLAGS: -j4 }
-          - { JOB_NAME: moore,               MAKEFLAGS: -j4 }
-          - { JOB_NAME: odin_ii,             MAKEFLAGS: -j4, USE_CHANNEL: conda-forge pkgw-forge }
-          - { JOB_NAME: slang,               MAKEFLAGS: -j4, USE_CHANNEL: conda-forge }
-          - { JOB_NAME: sv-parser,           MAKEFLAGS: -j4 }
-          - { JOB_NAME: surelog,             MAKEFLAGS: -j4 }
-          - { JOB_NAME: tree-sitter-verilog, MAKEFLAGS: -j4 }
-          - { JOB_NAME: yosys,               MAKEFLAGS: -j4 }
-          - { JOB_NAME: verible,             MAKEFLAGS: -j4 }
-          - { JOB_NAME: verilator,           MAKEFLAGS: -j4 }
-          - { JOB_NAME: verilator-uhdm,      MAKEFLAGS: -j4 RUNNERS_FILTER=UhdmVerilator }
-          - { JOB_NAME: yosys-uhdm,          MAKEFLAGS: -j4 RUNNERS_FILTER=UhdmYosys }
-          - { JOB_NAME: zachjs-sv2v,         MAKEFLAGS: -j4, USE_CHANNEL: conda-forge }
+        tool:
+          - name: icarus
+            deps: autoconf autotools-dev bison flex libfl-dev gperf
+          - name: moore
+            deps: cargo
+          - name: odin
+            repo: odin_ii
+            deps: autoconf autotools-dev bison flex libfl-dev cmake pkg-config
+          - name: slang
+            deps: cmake pkg-config
+          - name: surelog
+            repo: Surelog
+            deps: cmake default-jre pkg-config tclsh uuid-dev
+          - name: sv-parser
+            deps: cargo
+          - name: tree-sitter-verilog
+            deps: npm
+          - name: verible
+            deps: bazel
+          - name: verilator
+            deps: autoconf autotools-dev bison flex libfl-dev
+          - name: verilator-uhdm
+            deps: autoconf autotools-dev bison default-jre flex libfl-dev cmake pkg-config tclsh uuid-dev
+          - name: yosys
+            deps: bison clang tcl-dev flex libfl-dev
+          - name: yosys-uhdm
+            repo: yosys-uhdm-plugin-integration
+            deps: cmake clang tcl-dev bison default-jre flex libfl-dev libreadline-dev pkg-config tclsh uuid-dev
+          - name: zachjs-sv2v
+            deps: haskell-stack
 
-    name: ${{ matrix.env.JOB_NAME }}
-    env: ${{ matrix.env }}
+    name: ${{ matrix.tool.name }}
     runs-on: [self-hosted, Linux, X64]
     container: ubuntu:latest
     steps:
@@ -37,31 +52,67 @@ jobs:
         uses: styfle/cancel-workflow-action@0.8.0
         with:
           access_token: ${{ github.token }}
+      - name: Show shell
+        run: |
+          echo "$SHELL"
       - name: Checkout code
         uses: actions/checkout@v2
-      - name: Setup python
+      - name: Update apt repos
         run: |
           apt-get update -qq
+      - name: Add bazel repo (if needed)
+        if: ${{ contains(matrix.tool.deps, 'bazel') }}
+        run: |
+          apt -qq -y install apt-transport-https curl gnupg
+          curl -fsSL https://bazel.build/bazel-release.pub.gpg | gpg --dearmor > bazel.gpg
+          mv bazel.gpg /etc/apt/trusted.gpg.d/
+          echo "deb [arch=amd64] https://storage.googleapis.com/bazel-apt stable jdk1.8" | tee /etc/apt/sources.list.d/bazel.list
+          apt-get update -qq
+      - name: Install common dependencies
+        run: |
           apt install -y python3 python3-pip git wget
           update-alternatives --install /usr/bin/python python /usr/bin/python3 1
           update-alternatives --install /usr/bin/pip pip /usr/bin/pip3 1
-      - name: Install
+          pip install -r conf/requirements.txt
+      - name: Install tool-specific dependencies
+        if: ${{ matrix.tool.deps }}
+        run: |
+          apt -qq -y install ${{ matrix.tool.deps }}
+      - name: Update haskell (if needed)
+        if: ${{ contains(matrix.tool.deps, 'haskell') }}
+        run: |
+          stack upgrade
+      - name: Checkout the tool submodule
+        run: |
+          if [[ ! -z "${{ matrix.tool.repo }}" ]]; then
+            git submodule update --init --recursive third_party/tools/${{ matrix.tool.repo }}
+          elif [[ -e third_party/tools/${{ matrix.tool.name }} ]]; then
+            git submodule update --init --recursive third_party/tools/${{ matrix.tool.name }}
+          fi
+      - name: Build
         run:
-          ./.github/workflows/install.sh ${{ matrix.env.MAKEFLAGS }}
+          make ${{ matrix.tool.name }} -j$(nproc)
+      - name: Check
+        run:
+          make info
+      - name: Checkout third party tests and cores
+        run: |
+          git submodule update --init --recursive third_party/tests
+          git submodule update --init --recursive third_party/cores
       - name: Run
-        run:
-          ./.github/workflows/run.sh ${{ matrix.env.MAKEFLAGS }}
+        run: |
+          make -j$(nproc)
       - name: Prepare Report
         run:
-          ./.github/workflows/tool_report_prepare.sh
+          mv out/report/report.csv out/report/${{ matrix.tool.name }}_report.csv
       - name: Pack results
         run: |
-          tar -cvf out_${{ matrix.env.JOB_NAME }}.tar ./out/report/${{ matrix.env.JOB_NAME }}_report.csv ./out/logs/
+          tar -cvf out_${{ matrix.tool.name }}.tar ./out/report/${{ matrix.tool.name }}_report.csv ./out/logs/
       - uses: actions/upload-artifact@v2
         with:
-          name: report_${{ matrix.env.JOB_NAME }}
+          name: report_${{ matrix.tool.name }}
           path: |
-            out_${{ matrix.env.JOB_NAME }}.tar
+            out_${{ matrix.tool.name }}.tar
             **/plot_*.svg
 
   Summary:
