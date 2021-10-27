@@ -2,7 +2,7 @@
 
 export CURRENT_PATH=$PWD
 
-set -x
+set -ex
 
 git clone \
   git@github.com:chipsalliance/sv-tests-results.git \
@@ -11,7 +11,7 @@ git clone \
   --branch gh-pages \
   output
 
-cd output
+cd output || (echo "The output directory doesn't exist! Cloning the sv-tests-results repository failed, please check the ssh-key! Exiting"; exit 1)
 
 rm -rf *
 cp -a $CURRENT_PATH/out/report/* -t .
