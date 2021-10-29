@@ -125,12 +125,8 @@
       return query.join(global_relation_string[global_relation]);
     }
 
-    function filter_cell(coverage, tool, types) {
-      var result = eval("(coverage, tool, types) => (" + eval(filter_expression) + ")");
-      return result;
-    }
-
     function search_function() {
+      const filter_cell = eval('(coverage, tool, type) => (' + filter_expression + ')')
       $.fn.dataTable.ext.search.push(
         function(settings, searchData, index, rowData, counter){
           for(var i=2; i<col_array.length; i++){
@@ -139,7 +135,8 @@
             tool = rowData[i]['@data-search'].split(' ')[0];
             types = rowData[i]['@data-search'].split(' ');
             types.shift();
-            if(filter_cell(coverage, tool, types))
+            result = filter_cell(coverage, tool, type);
+            if(result)
               return true;
           } 
       });
