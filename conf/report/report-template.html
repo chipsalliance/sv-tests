@@ -68,8 +68,8 @@
         name: "Coverage",
         operators: ["<", "<=", ">", ">=", "=="],
         value_field_factory: function(id) {
-          $(`li[data-uid=${id}] .filter-entry-operator option:not(:first)`).remove();
-          $(`li[data-uid=${id}] .filter-entry-value option:not(:first)`).remove();
+          $(`li[data-uid=${id}] .filter-entry-operator`).remove();
+          $(`li[data-uid=${id}] .filter-entry-value`).remove();
           var filter_entry_operator =  $('<select class="filter-entry-operator"><option value=""></option></select>').insertAfter(`li[data-uid=${id}] .filter-entry-type`);
           var filter_entry_value =  $('<select class="filter-entry-value"><option value=""></option></select>').insertAfter(`li[data-uid=${id}] .filter-entry-operator`);
           for (var i=0; i<this.operators.length; i++)
@@ -83,8 +83,8 @@
         operators: ["is", "is not"],
         types: ["parsing", "preprocessing", "simulation"],
         value_field_factory: function(id) {
-          $(`li[data-uid=${id}] .filter-entry-operator option:not(:first)`).remove();
-          $(`li[data-uid=${id}] .filter-entry-value option:not(:first)`).remove();
+          $(`li[data-uid=${id}] .filter-entry-operator`).remove();
+          $(`li[data-uid=${id}] .filter-entry-value`).remove();
           var filter_entry_operator =  $('<select class="filter-entry-operator"><option value=""></option></select>').insertAfter(`li[data-uid=${id}] .filter-entry-type`);
           var filter_entry_value =  $('<select class="filter-entry-value"><option value=""></option></select>').insertAfter(`li[data-uid=${id}] .filter-entry-operator`);
           for (var i=0; i<this.operators.length; i++)
@@ -98,8 +98,8 @@
         operators: ["is", "is not"],
         tools: toolnames,
         value_field_factory: function(id) {
-          $(`li[data-uid=${id}] .filter-entry-operator option:not(:first)`).remove();
-          $(`li[data-uid=${id}] .filter-entry-value option:not(:first)`).remove();
+          $(`li[data-uid=${id}] .filter-entry-operator`).remove();
+          $(`li[data-uid=${id}] .filter-entry-value`).remove();
           var filter_entry_operator =  $('<select class="filter-entry-operator"><option value=""></option></select>').insertAfter(`li[data-uid=${id}] .filter-entry-type`);
           var filter_entry_value =  $('<select class="filter-entry-value"><option value=""></option></select>').insertAfter(`li[data-uid=${id}] .filter-entry-operator`);
           for (var i=0; i<this.operators.length; i++)
