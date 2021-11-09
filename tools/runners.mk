@@ -87,20 +87,15 @@ $(INSTALL_DIR)/lib/tree-sitter-verilog.so:
 	cd $(RDIR)/tree-sitter-verilog && npm install
 	/usr/bin/env python3 -c "from tree_sitter import Language; Language.build_library(\"$@\", [\"$(abspath $(RDIR)/tree-sitter-verilog)\"])"
 
-uhdm-common:
-	mkdir -p $(INSTALL_DIR)/bin/
-	cd $(RDIR)/uhdm-integration && $(MAKE) image/bin/surelog
-	cp $(RDIR)/uhdm-integration/Surelog/build/bin/surelog $(INSTALL_DIR)/bin/surelog-uhdm
-
 # surelog-uhdm-verilator
 verilator-uhdm: $(INSTALL_DIR)/bin/verilator-uhdm
 
 # cannot use 'make -C uhdm-integration <target> as uhdm relies on $PWD
-$(INSTALL_DIR)/bin/verilator-uhdm: uhdm-common
-	cd $(RDIR)/uhdm-integration && $(MAKE) image/bin/verilator
-	cp $(RDIR)/uhdm-integration/image/bin/verilator $(INSTALL_DIR)/bin/verilator-uhdm
-	sed -i 's/"verilator_bin"/"verilator_bin-uhdm"/g' $(INSTALL_DIR)/bin/verilator-uhdm
-	cp $(RDIR)/uhdm-integration/image/bin/verilator_bin $(INSTALL_DIR)/bin/verilator_bin-uhdm
+$(INSTALL_DIR)/bin/verilator-uhdm:
+	mkdir -p $(INSTALL_DIR)
+	cd $(RDIR)/verilator-uhdm && ./build_binaries.sh
+	cp -r $(RDIR)/verilator-uhdm/image/* $(INSTALL_DIR)
+	mv $(INSTALL_DIR)/bin/verilator $(INSTALL_DIR)/bin/verilator-uhdm
 
 # surelog-uhdm-yosys
 yosys-uhdm: $(INSTALL_DIR)/bin/yosys-uhdm
