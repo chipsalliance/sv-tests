@@ -49,7 +49,7 @@
       tool_array = table.columns()[0];
       tool_array = tool_array.splice(2);
       col_array = table.columns()[0];
-      var filters = $('<details><summary>Show advanced filters (experimental)</summary></details>').insertAfter(".dataTables_filter");
+      var filters = $('<div id="report_table_filter" class="dataTables_filter advanced_filter"><details><summary>Show advanced filters (experimental)</summary></details></div>').insertAfter(".dataTables_filter");
       var section = $('<section id="filter"><ul class="filter-entries"></ul></section>').insertAfter("summary");
       var add_buttons = $('<div><button class="filter-add" onclick="addOptions()">Add</button><button class="filter-apply" onclick="applyFilter()">Apply</button><button class="filter-remove" onclick="removeAll()">Remove all filters</button></div>').insertAfter("#filter");
     } );

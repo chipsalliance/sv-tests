@@ -22,6 +22,14 @@ body {
   height: 150px;
 }
 
+.advanced_filter {
+  padding-top: 20px;
+}
+
+section > ul.filter-entries {
+  list-style-type: none;
+}
+
 .report_table_info, .col_header1 {
   position: sticky;
   left: 0;
