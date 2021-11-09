@@ -101,6 +101,7 @@ jobs:
           git submodule update --init --recursive third_party/cores
       - name: Run
         run: |
+          make ${{ matrix.tool.name }} generate-tests
           make -j$(nproc)
       - name: Prepare Report
         run:
