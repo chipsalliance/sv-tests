@@ -36,13 +36,17 @@ jobs:
             deps: autoconf autotools-dev bison flex libfl-dev
           - name: verilator-uhdm
             deps: autoconf autotools-dev bison default-jre flex libfl-dev cmake pkg-config tclsh uuid-dev
+            runners_filter: UhdmVerilator
           - name: yosys
             deps: bison clang tcl-dev flex libfl-dev
           - name: yosys-uhdm
             repo: yosys-uhdm-plugin-integration
             deps: cmake clang tcl-dev bison default-jre flex libfl-dev libreadline-dev pkg-config tclsh uuid-dev
+            runners_filter: UhdmYosys
           - name: zachjs-sv2v
             deps: haskell-stack
+    env:
+      RUNNERS_FILTER: ${{ matrix.tool.runners_filter }}
 
     name: ${{ matrix.tool.name }}
     runs-on: [self-hosted, Linux, X64]
