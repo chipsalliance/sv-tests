@@ -18,11 +18,6 @@ import os
 import re
 
 
-def set_process_limits():
-    """Make sure processes behave. Limit memory to 4GiB"""
-    resource.setrlimit(resource.RLIMIT_DATA, (4 << 30, 4 << 30))
-
-
 def kill_child_processes(parent_pid, sig=signal.SIGKILL):
     try:
         parent = psutil.Process(parent_pid)
@@ -118,7 +113,6 @@ class BaseRunner:
         proc = subprocess.Popen(
             self.cmd,
             cwd=tmp_dir,
-            preexec_fn=set_process_limits,
             stdout=subprocess.PIPE,
             stderr=subprocess.STDOUT)
 
@@ -197,10 +191,7 @@ class BaseRunner:
             cmd = self.get_version_cmd()
 
             proc = subprocess.Popen(
-                cmd,
-                preexec_fn=set_process_limits,
-                stdout=subprocess.PIPE,
-                stderr=subprocess.STDOUT)
+                cmd, stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
 
             log, _ = proc.communicate()
 
