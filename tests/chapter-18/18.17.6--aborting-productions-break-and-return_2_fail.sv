@@ -8,7 +8,7 @@
 
 
 /*
-:name: aborting_productions_break_and_return_2
+:name: aborting_productions_break_and_return_2_fail
 :description: return statement test
 :should_fail_because: typo in production name
 :type: elaboration

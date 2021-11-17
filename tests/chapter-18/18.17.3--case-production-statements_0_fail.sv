@@ -8,7 +8,7 @@
 
 
 /*
-:name: case_production_statements_0
+:name: case_production_statements_0_fail
 :description: randcase case statement test
 :should_fail_because: switch variable not declared
 :type: elaboration
