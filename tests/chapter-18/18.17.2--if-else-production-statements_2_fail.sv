@@ -8,7 +8,7 @@
 
 
 /*
-:name: if_else_production_statements_2
+:name: if_else_production_statements_2_fail
 :description: randcase if-else test
 :should_fail_because: switch variable not declared
 :type: elaboration
