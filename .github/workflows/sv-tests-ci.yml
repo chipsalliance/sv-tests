@@ -32,6 +32,7 @@ jobs:
             deps: npm
           - name: verible
             deps: bazel
+            skip-ccache: 1
           - name: verilator
             deps: autoconf autotools-dev bison flex libfl-dev
           - name: verilator-uhdm
@@ -47,6 +48,7 @@ jobs:
             deps: haskell-stack
     env:
       RUNNERS_FILTER: ${{ matrix.tool.runners_filter }}
+      CCACHE_DIR: "/root/sv-tests/sv-tests/.cache/"
 
     name: ${{ matrix.tool.name }}
     runs-on: [self-hosted, Linux, X64]
@@ -78,6 +80,10 @@ jobs:
           update-alternatives --install /usr/bin/python python /usr/bin/python3 1
           update-alternatives --install /usr/bin/pip pip /usr/bin/pip3 1
           pip install -r conf/requirements.txt
+      - name: Install ccache
+        if: ${{ !matrix.tool.skip-ccache }}
+        run: |
+          apt install -y ccache
       - name: Install tool-specific dependencies
         if: ${{ matrix.tool.deps }}
         run: |
@@ -93,8 +99,20 @@ jobs:
           elif [[ -e third_party/tools/${{ matrix.tool.name }} ]]; then
             git submodule update --init --recursive third_party/tools/${{ matrix.tool.name }}
           fi
+      - name: Create Cache Timestamp
+        id: cache_timestamp
+        uses: nanzm/get-time-action@v1.1
+        with:
+          format: 'YYYY-MM-DD-HH-mm-ss'
+      - name: Setup cache
+        uses: actions/cache@v2
+        with:
+          path: "/root/sv-tests/sv-tests/.cache/"
+          key: cache_${{ matrix.tool.name }}_${{ steps.cache_timestamp.outputs.time }}
+          restore-keys: cache_${{ matrix.tool.name }}_
       - name: Build
-        run:
+        run: |
+          export PATH="/usr/lib/ccache:/usr/local/opt/ccache/libexec:$PATH"
           make ${{ matrix.tool.name }} -j$(nproc)
       - name: Check
         run:
