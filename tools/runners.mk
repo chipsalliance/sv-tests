@@ -26,8 +26,7 @@ $(INSTALL_DIR)/bin/odin_II:
 yosys: $(INSTALL_DIR)/bin/yosys
 
 $(INSTALL_DIR)/bin/yosys:
-	$(MAKE) -C $(RDIR)/yosys ENABLE_TCL=0 ENABLE_ABC=0 ENABLE_GLOB=0 ENABLE_PLUGINS=0 ENABLE_READLINE=0 ENABLE_COVER=0
-	install -D $(RDIR)/yosys/yosys $@
+	$(MAKE) -C $(RDIR)/yosys PREFIX=$(INSTALL_DIR) install
 
 # antmicro-yosys
 antmicro-yosys: $(INSTALL_DIR)/bin/antmicro-yosys
@@ -106,6 +105,17 @@ $(INSTALL_DIR)/bin/yosys-uhdm:
 	cp -r $(RDIR)/yosys-uhdm-plugin-integration/image/* $(INSTALL_DIR)
 	mv $(INSTALL_DIR)/bin/yosys $(INSTALL_DIR)/bin/yosys-uhdm
 
+# vanilla-yosys-plugin
+vanilla-yosys-plugin: $(INSTALL_DIR)/bin/vanilla-yosys-plugin
+
+$(INSTALL_DIR)/bin/vanilla-yosys-plugin: yosys
+	mkdir -p $(INSTALL_DIR)
+	(export PATH=$(INSTALL_DIR)/bin/:${PATH} && \
+		export INSTALL_PATH=$(INSTALL_DIR) && \
+		export BUILD_UPSTREAM=1 && \
+		cd $(RDIR)/yosys-uhdm-plugin-integration && \
+		./build_binaries.sh --skip-yosys)
+
 # sv-parser
 sv-parser: $(INSTALL_DIR)/bin/parse_sv
 
@@ -128,6 +138,6 @@ $(INSTALL_DIR)/bin/verible-verilog-kythe-extractor: verible
 $(INSTALL_DIR)/bin/verilog_syntax: verible
 
 # setup the dependencies
-RUNNERS_TARGETS := odin yosys icarus verilator slang zachjs-sv2v tree-sitter-verilog sv-parser moore verible surelog antmicro-yosys yosys-uhdm verilator-uhdm
+RUNNERS_TARGETS := odin yosys icarus verilator slang zachjs-sv2v tree-sitter-verilog sv-parser moore verible surelog antmicro-yosys yosys-uhdm vanilla-yosys-plugin verilator-uhdm
 .PHONY: $(RUNNERS_TARGETS)
 runners: $(RUNNERS_TARGETS)
