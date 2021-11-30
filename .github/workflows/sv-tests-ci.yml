@@ -114,6 +114,12 @@ jobs:
           path: "/root/sv-tests/sv-tests/.cache/"
           key: cache_${{ matrix.tool.name }}_${{ steps.cache_timestamp.outputs.time }}
           restore-keys: cache_${{ matrix.tool.name }}_
+      - name: Checkout third party tests and cores
+        run: |
+          git submodule update --init --recursive third_party/tests
+          git submodule update --init --recursive third_party/cores
+          # yosys tool also contains tests
+          git submodule update --init --recursive third_party/tools/yosys
       - name: Build
         run: |
           export PATH="/usr/lib/ccache:/usr/local/opt/ccache/libexec:$PATH"
@@ -121,12 +127,6 @@ jobs:
       - name: Check
         run:
           make info
-      - name: Checkout third party tests and cores
-        run: |
-          git submodule update --init --recursive third_party/tests
-          git submodule update --init --recursive third_party/cores
-          # yosys tool also contains tests
-          git submodule update --init --recursive third_party/tools/yosys
       - name: Run
         run: |
           make ${{ matrix.tool.name }} generate-tests
