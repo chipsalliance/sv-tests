@@ -55,6 +55,11 @@ parser.add_argument(
     default="conf/report/report-template.html")
 
 parser.add_argument(
+    "--partials",
+    help="Directory with report template partials",
+    default="conf/report/partials/")
+
+parser.add_argument(
     "--code-template",
     help="Path to the html code preview template",
     default="conf/report/code-template.html")
@@ -559,8 +564,10 @@ try:
             1 for t in rtt if rtt[t]["status"] not in "test-na")
 
     with open(args.template, "r") as f:
-        report = jinja2.Template(
-            f.read(), trim_blocks=True, lstrip_blocks=True)
+        loader = jinja2.FileSystemLoader(args.partials)
+        report = jinja2.Environment(
+            loader=loader, trim_blocks=True,
+            lstrip_blocks=True).from_string(f.read())
 
     build_id = os.environ.get('GITHUB_RUN_ID', 'local')
     build_datetime = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
@@ -571,6 +578,8 @@ try:
                 report=data,
                 database=database,
                 database_urls=urls,
+                #Partials
+                title="SystemVerilog Report",
                 revision=args.revision,
                 build_id=build_id,
                 datetime=build_datetime))
