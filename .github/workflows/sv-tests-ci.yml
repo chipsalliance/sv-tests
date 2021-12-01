@@ -44,10 +44,10 @@ jobs:
             repo: yosys-uhdm-plugin-integration
             deps: cmake clang tcl-dev bison default-jre flex libfl-dev libreadline-dev pkg-config tclsh uuid-dev
             runners_filter: UhdmYosys
-          - name: vanilla-yosys-plugin
+          - name: vanilla-yosys-uhdm-plugin
             repo: yosys-uhdm-plugin-integration
             deps: cmake clang tcl-dev bison default-jre flex libfl-dev libreadline-dev pkg-config tclsh uuid-dev
-            runners_filter: VanillaYosysPlugin
+            runners_filter: VanillaYosysUhdmPlugin
           - name: zachjs-sv2v
             deps: haskell-stack
     env:
