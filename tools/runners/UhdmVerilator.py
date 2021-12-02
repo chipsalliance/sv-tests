@@ -22,7 +22,7 @@ class UhdmVerilator(BaseRunner):
             {"preprocessing", "parsing", "elaboration", "simulation"})
 
         self.allowed_extensions.extend(['.vlt', '.cc'])
-        self.url = "https://github.com/alainmarcel/uhdm-integration"
+        self.url = "https://github.com/antmicro/verilator"
 
     def prepare_run_cb(self, tmp_dir, params):
         mode = params['mode']

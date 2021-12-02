@@ -21,7 +21,7 @@ class VanillaYosysUhdmPlugin(BaseRunner):
             "vanilla-yosys-uhdm-plugin", "vanilla-yosys-uhdm-plugin",
             {"preprocessing", "parsing", "elaboration"})
 
-        self.url = "https://github.com/alainmarcel/uhdm-integration"
+        self.url = "https://github.com/antmicro/yosys-uhdm-plugin-integration"
 
     def prepare_run_cb(self, tmp_dir, params):
         runner_scr = os.path.join(tmp_dir, "scr.sh")
