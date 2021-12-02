@@ -15,10 +15,10 @@ import sys
 from BaseRunner import BaseRunner
 
 
-class UhdmYosys(BaseRunner):
+class VanillaYosysUhdmPlugin(BaseRunner):
     def __init__(self):
         super().__init__(
-            "yosys-uhdm", "yosys-uhdm",
+            "vanilla-yosys-uhdm-plugin", "vanilla-yosys-uhdm-plugin",
             {"preprocessing", "parsing", "elaboration"})
 
         self.url = "https://github.com/antmicro/yosys-uhdm-plugin-integration"

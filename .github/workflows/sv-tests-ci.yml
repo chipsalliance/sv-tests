@@ -39,11 +39,15 @@ jobs:
             deps: autoconf autotools-dev bison default-jre flex libfl-dev cmake pkg-config tclsh uuid-dev
             runners_filter: UhdmVerilator
           - name: yosys
-            deps: bison clang tcl-dev flex libfl-dev
+            deps: bison clang tcl-dev flex libfl-dev pkg-config libreadline-dev
           - name: yosys-uhdm
             repo: yosys-uhdm-plugin-integration
             deps: cmake clang tcl-dev bison default-jre flex libfl-dev libreadline-dev pkg-config tclsh uuid-dev
             runners_filter: UhdmYosys
+          - name: vanilla-yosys-uhdm-plugin
+            repo: yosys-uhdm-plugin-integration
+            deps: cmake clang tcl-dev bison default-jre flex libfl-dev libreadline-dev pkg-config tclsh uuid-dev
+            runners_filter: VanillaYosysUhdmPlugin
           - name: zachjs-sv2v
             deps: haskell-stack
     env:
@@ -110,6 +114,12 @@ jobs:
           path: "/root/sv-tests/sv-tests/.cache/"
           key: cache_${{ matrix.tool.name }}_${{ steps.cache_timestamp.outputs.time }}
           restore-keys: cache_${{ matrix.tool.name }}_
+      - name: Checkout third party tests and cores
+        run: |
+          git submodule update --init --recursive third_party/tests
+          git submodule update --init --recursive third_party/cores
+          # yosys tool also contains tests
+          git submodule update --init --recursive third_party/tools/yosys
       - name: Build
         run: |
           export PATH="/usr/lib/ccache:/usr/local/opt/ccache/libexec:$PATH"
@@ -117,12 +127,6 @@ jobs:
       - name: Check
         run:
           make info
-      - name: Checkout third party tests and cores
-        run: |
-          git submodule update --init --recursive third_party/tests
-          git submodule update --init --recursive third_party/cores
-          # yosys tool also contains tests
-          git submodule update --init --recursive third_party/tools/yosys
       - name: Run
         run: |
           make ${{ matrix.tool.name }} generate-tests
