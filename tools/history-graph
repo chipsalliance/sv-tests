@@ -101,15 +101,24 @@ if append_changed:
 
 datasets = defaultdict(list)
 
+# generate a set with all keys in case not all tools contain all keys
+all_keys = set()
 for tool in data:
-    for index in data[tool]:
-        bad = data[tool][index]['fail']
-        good = data[tool][index]['pass']
-        percent = round(good * 100 / (good + bad), 2)
-        datasets[tool].append(percent)
+    all_keys.update(set(data[tool].keys()))
+
+for tool in data:
+    for index in sorted(list(all_keys)):
+        if index not in data[tool]:
+            # append 0% if the tool didn't run
+            datasets[tool].append(0)
+        else:
+            bad = data[tool][index]['fail']
+            good = data[tool][index]['pass']
+            percent = round(good * 100 / (good + bad), 2)
+            datasets[tool].append(percent)
 
 # convert lists to strings
-labels = ', '.join(f'"{x}"' for x in data[next(iter(data))].keys())
+labels = ', '.join(f'"{x}"' for x in sorted(list(all_keys)))
 
 for tool in datasets:
     datasets[tool] = ', '.join(str(x) for x in datasets[tool])
