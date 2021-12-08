@@ -48,7 +48,7 @@
 	url = https://github.com/google/verible.git
 [submodule "third_party/tools/Surelog"]
 	path = third_party/tools/Surelog
-	url = https://github.com/alainmarcel/Surelog.git
+	url = https://github.com/chipsalliance/Surelog.git
 [submodule "third_party/cores/rsd"]
 	path = third_party/cores/rsd
 	url = https://github.com/rsd-devel/rsd
@@ -89,5 +89,3 @@
 [submodule "third_party/tools/verilator-uhdm"]
 	path = third_party/tools/verilator-uhdm
 	url = https://github.com/antmicro/verilator
-[submodule "third_party/tools/Surelog/"]
-	url = https://github.com/chipsalliance/Surelog.git
