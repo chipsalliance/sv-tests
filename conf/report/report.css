@@ -1,148 +1,230 @@
+:root {
+  box-sizing: border-box;
+}
+
 body {
+  background-color: white;
+
+  width: fit-content;
+  min-width: 100%;
+
   font-family: sans-serif;
   margin: 0;
-  width: min-content;
+  padding: 0;
+}
+
+main {
+  width: fit-content;
   min-width: 100%;
 }
 
-.headline, .dataTables_filter, footer {
-    text-align: center;
-    position: sticky;
-    left: 32px;
-    width: calc(100vw - 64px);
-    float: none !important;
+/** Sticky page sections (everything but a table) *********************/
+
+/** Centered or right aligned sections **/
+header,
+.dataTables_filter {
+  position: sticky;
+  /* 100vw includes (unknown) scrollbar width. */
+  /* Subtract arbitrary margin from both sides to cover for it. */
+  width: calc(100vw - 64px);
+  left: 32px;
+
+  margin-left: 0 !important;
+  margin-right: 0 !important;
 }
 
-.headline a {  /* Only subtly hint that this is a link */
+/** Left aligned sections **/
+#filter-section,
+.dataTables_info,
+#summary-section,
+footer {
+  position: sticky;
+  /* 100vw includes (unknown) scrollbar width. */
+  /* Subtract arbitrary margin from the right to cover for it. */
+  width: calc(100vw - 32px);
+  left: 0;
+
+  margin-left: 0 !important;
+  margin-right: 0;
+}
+
+/** General styling ***************************************************/
+
+header {
+    text-align: center;
+}
+
+header a {  /* Only subtly hint that this is a link */
     color: #00006f;
     text-decoration: none;
 }
 
-.fixed_header {
-  height: 150px;
+.dataTables_filter {
+    float: none !important;
+    text-align: center;
 }
 
-.report_table_info, .col_header1 {
-  position: sticky;
-  left: 0;
-  z-index: 2;
-  background-color: white;
+.dataTables_info {
+    float: none !important;
+    text-align: left;
 }
 
-.report_table_tag, .col_header2 {
-  position: sticky;
-  left: calc(30em + 20px);
-  z-index: 2;
-  background-color: white;
+#summary-section {
+  margin-top: 1rem;
 }
 
-.fixedHeader-floating {
-  z-index: 4;
-  background-color: white;
+footer {
+  margin-top: 1rem;
+  text-align: center;
+  font-size: 10px;
 }
 
-.report_summary_header {
-  position: sticky;
-  left: 0;
-  z-index: 2;
-  background-color: lightgray;
-}
-
-.gray_header {
-  background-color: lightgray;
-}
-
-table.dataTable thead .sorting, table.dataTable thead .sorting_asc, 
-table.dataTable thead .sorting_desc, table.dataTable thead .sorting_asc_disabled, 
-table.dataTable thead .sorting_desc_disabled {
-  background-position: bottom right;
-  max-width: 50px;
-}
-
-.tool_link {
-  display: block;
-  transform: translate(0px, 30px) rotate(315deg);
-}
+/** Filter ************************************************************/
 
 .filter-apply, .filter-remove {
   display: none;
 }
 
-i {
+#filter i {
   color: #ff6961;
 }
 
+/** Table *************************************************************/
+
+/** Layout **/
+
 table.dataTable {
+  /* 20px = padding; 2px = borders */
+  --description-col-width: calc(30em + 20px);
+  --tag-col-width:         calc(8em  + 20px);
+  --tool-col-min-width:    calc(5em  + 20px + 2px);
+
+  min-width: 100%;
   width: auto;
-  table-layout: fixed;
+
+  position: relative;
+  z-index: 0;
 }
 
-table.dataTable tfoot th {
-  padding: 10px 10px 6px 10px;
-  border-top: 0px;
+table.dataTable > thead > tr > th:nth-of-type(1),
+table.dataTable > tbody > tr > th:nth-of-type(1) {
+  box-sizing: border-box !important;
+  width:     var(--description-col-width) !important;
+  max-width: var(--description-col-width) !important;
+  min-width: var(--description-col-width) !important;
 }
 
-.report_footer {
-  outline: 2px solid #505050;
+table.dataTable > thead > tr > th:nth-of-type(2),
+table.dataTable > tbody > tr > th:nth-of-type(2) {
+  box-sizing: border-box !important;
+  width:     var(--tag-col-width) !important;
+  min-width: var(--tag-col-width) !important;
+  max-width: var(--tag-col-width) !important;
 }
 
-.report_footer > tr:first-of-type > .report_summary_header {
-  box-shadow: 0 -2px 0 #505050;
+table.dataTable > thead > tr > th:nth-of-type(n+3),
+table.dataTable > tbody > tr > td,
+table.dataTable > tfoot > tr > td {
+  box-sizing: border-box !important;
+  min-width: var(--tool-col-min-width) !important;
+  width:     auto !important;
 }
 
-.report_table_tag {
+table.dataTable > thead > tr {
+  height: 150px;
+}
+
+/** Sticky column headers **/
+
+table.dataTable > thead > tr > th:nth-of-type(n+2) {
+  position: sticky;
+  z-index: calc(2 + var(--z, 0));
+  top: 0;
+}
+
+table.dataTable > thead > tr > th:nth-of-type(-n+2) {
+  position: sticky;
+  z-index: calc(3 + var(--TOOLS_COUNT, 100));
+  top: 0;
+}
+
+/** Sticky row headers (first 2 columns) **/
+
+table.dataTable > tbody > tr > th:nth-of-type(-n+2),
+table.dataTable > tfoot > tr > th:nth-of-type(-n+2) {
+  position: sticky;
+  z-index: 1;
+}
+
+table.dataTable > * > tr > th:nth-of-type(1) {
+  left: 0;
+}
+
+table.dataTable > * > tr > th:nth-of-type(2) {
+  left: var(--description-col-width);
+}
+
+/** Styling **/
+
+table.dataTable thead .sorting,
+table.dataTable thead .sorting_asc,
+table.dataTable thead .sorting_desc,
+table.dataTable thead .sorting_asc_disabled,
+table.dataTable thead .sorting_desc_disabled {
+  background-position: bottom right;
+}
+
+table.dataTable > thead,
+table.dataTable > tbody {
+  background-color: white;
+}
+
+table.dataTable > tfoot {
+  background-color: lightgray;
+}
+
+table.dataTable > * > tr,
+table.dataTable > * > tr > th {
+  background-color: inherit;
+}
+
+table.dataTable > thead > tr > th:nth-of-type(n+3) {
   text-align: left;
-  width: 8em;
+  vertical-align: bottom;
 }
 
-.report_table_info {
+table.dataTable > thead > tr > th:nth-of-type(n+3) a.tool_link {
+  display: inline-block;
+  position: absolute;
+  left: 50%;
+  bottom: 10px;
+  transform-origin: bottom left;
+  transform: rotate(315deg);
+  text-transform: lowercase;
+}
+
+table.dataTable > * > tr > th:nth-of-type(1) {
   text-overflow: ellipsis;
   white-space: nowrap;
   text-align: right;
   overflow: hidden;
-  width: 30em !important;
-  max-width: 30em !important;
-  min-width: 30em !important;
 }
 
-.tag_link, .tool_link {
-  color: black;
+table.dataTable > * > tr > th:nth-of-type(2) {
+  text-align: left;
+  padding-right: 1px; /* decrease padding to avoid line wrapping in some cells */
 }
 
-tfoot .report_table_result {
-  font-weight: normal !important;
-  text-align: right;
-  border: 1px;
-  border-color: #505050;
-  border-style: none none solid solid;
+table.dataTable > tbody > tr > td {
+  text-align: center;
+  overflow: hidden;
 }
 
-.report_summary_row {
-  background-color: lightgray;
+table.dataTable > tbody > tr > td:empty {
+  background-color: #cfcece;
 }
 
-.report_summary_header {
-  text-align: right;
-}
-
-.ui-widget-shadow {
-  -webkit-box-shadow: none;
-  box-shadow: none;
-}
-
-.ui-tooltip {
-  font-family: "Courier New", Courier, monospace;
-  font-size: 13px;
-  font-weight: normal;
-  white-space: pre-wrap;
-  max-width: 100%;
-}
-
-.ui-corner-all {
-  border-radius: 0px;
-}
-
-.test-cell {
+table.dataTable > tbody > tr > td:not(:empty) {
   border: 1px;
   border-color: #505050;
   border-style: dotted;
@@ -169,10 +251,62 @@ tfoot .report_table_result {
   /* a single green pixel with color #89e894 that we use to make a variable background 'bargraph' */
   background-image:url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAIAAACQd1PeAAAADElEQVQI12PoejEFAAQGAgeVHl+AAAAAAElFTkSuQmCC');
   background-repeat:no-repeat;
-  background-size: 100% 100%;
+  background-size: var(--val, 100%) 100%;
 }
-.test-na {
-  background-color: #cfcece;
+
+table.dataTable > tfoot > tr > * {
+  padding: 10px 10px 6px 10px;
+}
+
+table.dataTable > tfoot > tr:first-of-type > * {
+  border-top: 2px solid #505050;
+}
+
+table.dataTable > tfoot > tr:last-of-type > * {
+  border-bottom: 2px solid #505050;
+}
+
+table.dataTable > tfoot > tr:not(:first-of-type) > th {
+  border-top: 0;
+}
+
+table.dataTable > tfoot > tr > td {
+  font-weight: normal !important;
+  text-align: right;
+  border-left: 1px solid #505050;
+  border-top: 1px solid #505050;
+  overflow: hidden;
+}
+
+a.tag_link, a.tool_link {
+  color: black;
+  text-decoration: underline;
+  text-underline-position: under;
+  text-decoration-color: #00000060;
+}
+
+a.tool_link:hover, a.tag_link:hover {
+  color: #00006f;
+  text-decoration-color: #00006f80;
+}
+
+/** Other *************************************************************/
+
+.ui-widget-shadow {
+  -webkit-box-shadow: none;
+  box-shadow: none;
+}
+
+.ui-tooltip {
+  font-family: "Courier New", Courier, monospace;
+  font-size: 13px;
+  font-weight: normal;
+  white-space: pre-wrap;
+  max-width: 100%;
+}
+
+.ui-corner-all {
+  border-radius: 0px;
 }
 
 #logfile-outer {
@@ -257,13 +391,3 @@ tfoot .report_table_result {
 }
 
 button:focus {outline:0;}
-
-.dataTables_info, .download {
-  position: sticky;
-  left: 0;
-}
-
-footer {
-  text-align: center;
-  font-size: 10px;
-}
