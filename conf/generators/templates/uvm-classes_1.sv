@@ -11,7 +11,7 @@
 :name: {0}_1
 :description: {0} class test
 :tags: uvm uvm-classes
-:type: simulation parsing
+:type: simulation elaboration parsing
 */
 
 import uvm_pkg::*;

@@ -11,7 +11,7 @@
 :name: function_return_assignment
 :description: function return value assignment test
 :tags: 13.4.1
-:type: simulation parsing
+:type: simulation elaboration parsing
 */
 module top();
 

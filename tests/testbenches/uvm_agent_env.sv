@@ -11,7 +11,7 @@
 :name: uvm_agent_env
 :description: uvm agent + env test
 :tags: uvm uvm-agents
-:type: simulation parsing
+:type: simulation elaboration parsing
 :timeout: 30
 */
 

@@ -12,7 +12,7 @@
 :description: invalid stream unpack test
 :should_fail_because: stream is wider than assignment target
 :tags: 11.4.14.3
-:type: simulation
+:type: simulation elaboration
 */
 module top();
 

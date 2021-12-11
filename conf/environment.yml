@@ -10,8 +10,8 @@
 name: sv-test-env
 channels:
   - LiteX-Hub
-  - pkgw-forge
-  - conda-forge
+#  - pkgw-forge
+#  - conda-forge
 dependencies:
 #  - LiteX-Hub::iverilog
 #  - LiteX-Hub::moore
@@ -24,6 +24,7 @@ dependencies:
 #  - LiteX-Hub::yosys-uhdm
 #  - LiteX-Hub::verible
 #  - LiteX-Hub::verilator
+#  - gxx_impl_linux-64
 #  - LiteX-Hub::yosys
 #  - LiteX-Hub::antmicro-yosys-complete
 #  - LiteX-Hub::zachjs-sv2v
@@ -31,4 +32,4 @@ dependencies:
   - python=3.8
   - pip
   - pip:                            # Packages installed from PyPI
-    - -r file:requirements.txt
+    - -r requirements.txt

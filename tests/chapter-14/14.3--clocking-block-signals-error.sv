@@ -8,10 +8,10 @@
 
 
 /*
-:name: clocking_block_signals
+:name: clocking_block_signals_fail
 :description: clocking block with signals test
 :should_fail_because: assigning to net from procedural context
-:type: simulation
+:type: simulation elaboration
 :tags: 14.3
 */
 module top(input clk, input a, output b, output c);

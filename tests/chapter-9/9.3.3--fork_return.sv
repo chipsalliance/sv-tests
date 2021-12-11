@@ -12,7 +12,7 @@
 :description: illegal return from fork
 :should_fail_because: illegal return from fork
 :tags: 9.3.3
-:type: simulation
+:type: simulation elaboration
 */
 module block_tb ();
 	task fork_test;

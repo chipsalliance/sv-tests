@@ -10,7 +10,7 @@
 /*
 :name: dynamic_array_unpack_stream_sim
 :description: stream unpack simulation test with dynamic array
-:type: simulation parsing
+:type: simulation elaboration parsing
 :tags: 11.4.14.4
 */
 module top();

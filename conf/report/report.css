@@ -1,9 +1,16 @@
 body {
   font-family: sans-serif;
+  margin: 0;
+  width: min-content;
+  min-width: 100%;
 }
 
-.headline {
+.headline, .dataTables_filter, footer {
     text-align: center;
+    position: sticky;
+    left: 32px;
+    width: calc(100vw - 64px);
+    float: none !important;
 }
 
 .headline a {  /* Only subtly hint that this is a link */
@@ -15,14 +22,14 @@ body {
   height: 150px;
 }
 
-.report_table_info {
+.report_table_info, .col_header1 {
   position: sticky;
   left: 0;
   z-index: 2;
   background-color: white;
 }
 
-.report_table_tag {
+.report_table_tag, .col_header2 {
   position: sticky;
   left: calc(30em + 20px);
   z-index: 2;
@@ -57,6 +64,14 @@ table.dataTable thead .sorting_desc_disabled {
   transform: translate(0px, 30px) rotate(315deg);
 }
 
+.filter-apply, .filter-remove {
+  display: none;
+}
+
+i {
+  color: #ff6961;
+}
+
 table.dataTable {
   width: auto;
   table-layout: fixed;
@@ -85,9 +100,9 @@ table.dataTable tfoot th {
   white-space: nowrap;
   text-align: right;
   overflow: hidden;
-  width: 30em;
-  max-width: 30em;
-  min-width: 30em;
+  width: 30em !important;
+  max-width: 30em !important;
+  min-width: 30em !important;
 }
 
 .tag_link, .tool_link {
@@ -242,6 +257,11 @@ tfoot .report_table_result {
 }
 
 button:focus {outline:0;}
+
+.dataTables_info, .download {
+  position: sticky;
+  left: 0;
+}
 
 footer {
   text-align: center;

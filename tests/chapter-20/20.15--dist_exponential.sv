@@ -11,7 +11,7 @@
 :name: dist_exponential_function
 :description: $dist_exponential test
 :tags: 20.15
-:type: simulation parsing
+:type: simulation elaboration parsing
 */
 
 module top();

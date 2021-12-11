@@ -10,7 +10,7 @@
 /*
 :name: property_interface_prec_test_uvm
 :description: interface property with precondition in UVM
-:type: simulation parsing
+:type: simulation elaboration parsing
 :tags: uvm uvm-assertions
 :timeout: 60
 */

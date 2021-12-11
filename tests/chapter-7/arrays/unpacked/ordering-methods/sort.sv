@@ -11,7 +11,7 @@
 :name: ordering-methods-sort
 :description: Test support of sort method on unpacked arrays
 :tags: 7.12.2 7.4.2
-:type: simulation parsing
+:type: simulation elaboration parsing
 */
 module top ();
 

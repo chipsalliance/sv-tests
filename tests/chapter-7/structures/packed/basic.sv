@@ -11,7 +11,7 @@
 :name: basic-packed-structures
 :description: Test packed structures support
 :tags: 7.2.1 7.2 7.1
-:type: simulation parsing
+:type: simulation elaboration parsing
 */
 module top ();
 

@@ -11,7 +11,7 @@
 :name: constructor_param
 :description: class constructor with arguments test
 :tags: 8.7
-:type: simulation parsing
+:type: simulation elaboration parsing
 */
 module class_tb ();
 	class test_cls;

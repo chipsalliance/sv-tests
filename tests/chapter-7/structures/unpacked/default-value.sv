@@ -11,7 +11,7 @@
 :name: unpacked-structures-members-default-value
 :description: Test unpacked structures members default value support
 :tags: 7.2.2
-:type: simulation parsing
+:type: simulation elaboration parsing
 */
 module top ();
 

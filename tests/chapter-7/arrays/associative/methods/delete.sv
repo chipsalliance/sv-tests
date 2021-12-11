@@ -11,7 +11,7 @@
 :name: associative-arrays-delete
 :description: Test support of associative arrays methods (delete)
 :tags: 7.9.2 7.9
-:type: simulation parsing
+:type: simulation elaboration parsing
 */
 module top ();
 

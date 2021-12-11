@@ -20,7 +20,7 @@ templ = """/*
 :incdirs: {1}
 :top_module: {2}
 :tags: black-parrot
-:timeout: 300
+:timeout: 1000
 */
 """
 
@@ -69,11 +69,11 @@ lists = [
         'flist': 'bp_top/syn/flist.vcs'
     }, {
         'name': 'bp_lce',
-        'top': 'bp_lce',
+        'top': '',
         'flist': 'bp_top/syn/flist.vcs'
     }, {
         'name': 'bp_uce',
-        'top': 'bp_uce',
+        'top': '',
         'flist': 'bp_top/syn/flist.vcs'
     }, {
         'name': 'bp_unicore',

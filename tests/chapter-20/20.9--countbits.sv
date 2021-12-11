@@ -11,7 +11,7 @@
 :name: countbits_function
 :description: $countbits test
 :tags: 20.9
-:type: simulation parsing
+:type: simulation elaboration parsing
 */
 
 module top();

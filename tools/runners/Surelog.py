@@ -17,12 +17,12 @@ class Surelog(BaseRunner):
     def __init__(self):
         super().__init__("Surelog", "surelog")
 
-        self.url = "https://github.com/alainmarcel/Surelog"
+        self.url = "https://github.com/chipsalliance/Surelog"
 
     def prepare_run_cb(self, tmp_dir, params):
-        self.cmd = [self.executable, '-nopython', '-nobuiltin', '-parse']
+        self.cmd = [self.executable, '-nopython', '-parse']
 
-        if not strtobool(params['allow_elaboration']):
+        if params['mode'] in ["parsing", "preprocessing"]:
             self.cmd.append('-noelab')
 
         # silence surelog
@@ -40,12 +40,19 @@ class Surelog(BaseRunner):
         if "ivtest" in params["tags"]:
             self.cmd.append('-sverilog')
 
+        top = params['top_module'].strip()
+        if top:
+            self.cmd.append('--top-module ' + top)
+
         # lowmem option
         if "black-parrot" in params["tags"]:
             self.cmd.append('-lowmem')
 
         if "earlgrey" in params["tags"]:
             self.cmd.append('-lowmem')
+
+        for define in params['defines']:
+            self.cmd.append('-D' + define)
 
         # regular options
         for incdir in params['incdirs']:

@@ -11,7 +11,7 @@
 :name: properties
 :description: class properties test
 :tags: 8.5
-:type: simulation parsing
+:type: simulation elaboration parsing
 */
 module class_tb ();
 	class test_cls;

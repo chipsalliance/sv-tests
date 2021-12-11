@@ -14,10 +14,10 @@
 */
 
 function int F();
-    int x;
+    int x, switch;
     randsequence( main )
       main : first;
-      first : { if(switch ) x = 10; else x = 5; };
+      first : { if(switch) x = 10; else x = 5; };
     endsequence
     return x;
 endfunction

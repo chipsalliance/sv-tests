@@ -5,7 +5,7 @@
 		"/*",
 		":name: logical_operator_sim_{4}",
 		":description: logical operator test in simulation",
-        ":type: simulation parsing",
+		":type: simulation elaboration parsing",
 		":tags: 11.4.7",
 		"*/",
 		"module top();",
@@ -20,15 +20,15 @@
 		"end",
 		"endmodule"
 	],
-    "cartesian_product": "true",
+	"cartesian_product": "true",
 	"values": [[
-        ["0", "0"],
-        ["0", "1"],
-        ["1", "0"],
-        ["1", "1"]
+		["0", "0"],
+		["0", "1"],
+		["1", "0"],
+		["1", "1"]
 	],
-    [
+	[
 		["&&", "and"],
 		["||", "or"]
-    ]]
+	]]
 }

@@ -10,7 +10,7 @@
 /*
 :name: expect_test_uvm
 :description: expect in UVM
-:type: simulation parsing
+:type: simulation elaboration parsing
 :tags: uvm uvm-assertions
 :timeout: 60
 */

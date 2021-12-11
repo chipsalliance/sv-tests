@@ -7,7 +7,7 @@
 		":description: encapsulation test",
 		":should_fail_because: {1}",
 		":tags: 8.18",
-		":type: simulation",
+		":type: simulation elaboration",
 		"*/",
 		"module top();",
 		"class a_cls;",

@@ -11,7 +11,7 @@
 :name: associative-arrays-num
 :description: Test support of associative arrays methods (num)
 :tags: 7.9.1 7.9
-:type: simulation parsing
+:type: simulation elaboration parsing
 */
 module top ();
 

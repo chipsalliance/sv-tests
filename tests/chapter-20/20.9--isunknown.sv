@@ -11,7 +11,7 @@
 :name: isunknown_function
 :description: $isunknown test
 :tags: 20.9
-:type: simulation parsing
+:type: simulation elaboration parsing
 */
 
 module top();

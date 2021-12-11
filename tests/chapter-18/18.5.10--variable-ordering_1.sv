@@ -12,7 +12,7 @@
 :description: variable ordering test
 :should_fail_because: randc vars are not allowed, they are always solved before any other
 :tags: 18.5.10
-:type: simulation
+:type: simulation elaboration
 */
 
 class a;

@@ -10,7 +10,7 @@
 /*
 :name: assert_final_test_uvm
 :description: assert final test with UVM
-:type: simulation parsing
+:type: simulation elaboration parsing
 :tags: uvm uvm-assertions
 :timeout: 60
 */
@@ -57,7 +57,7 @@ class env extends uvm_env;
             int a = 8'h35;
             m_if.a <= a;
 
-            assert final (m_if.a != m_if.b) else `uvm_error(label, $sformatf("assert failed :assert: (False)"));
+            assert final (m_if.a != m_if.b) else $error($sformatf("assert failed :assert: (False)"));
         end
         `uvm_info(label, "Finished run phase", UVM_LOW);
         phase.drop_objection(this);

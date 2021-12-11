@@ -17,10 +17,12 @@ from BaseRunner import BaseRunner
 
 class UhdmVerilator(BaseRunner):
     def __init__(self):
-        super().__init__("verilator-uhdm", "verilator-uhdm")
+        super().__init__(
+            "verilator-uhdm", "verilator-uhdm",
+            {"preprocessing", "parsing", "elaboration", "simulation"})
 
         self.allowed_extensions.extend(['.vlt', '.cc'])
-        self.url = "https://github.com/alainmarcel/uhdm-integration"
+        self.url = "https://github.com/antmicro/verilator"
 
     def prepare_run_cb(self, tmp_dir, params):
         mode = params['mode']
@@ -36,8 +38,12 @@ class UhdmVerilator(BaseRunner):
             f.write("set -e\n")
             f.write('set -x\n')
             f.write(
-                'surelog -nopython -nobuiltin --disable-feature=parametersubstitution -parse -sverilog -nonote -noinfo -nowarning'
+                'surelog -nopython -nobuiltin -parse -sverilog -nonote -noinfo -nowarning'
             )
+
+            if mode in ["parsing", "preprocessing"]:
+                f.write('-noelab')
+
             for i in params['incdirs']:
                 f.write(f' -I{i}')
 
@@ -49,7 +55,9 @@ class UhdmVerilator(BaseRunner):
 
             f.write("\n")
 
-            f.write(f'{self.executable} $@ || exit $?\n')
+            # only run verilation if elaboration is needed
+            if mode in ['elaboration', 'simulation']:
+                f.write(f'{self.executable} $@ || exit $?\n')
 
             # compile and run the code only for simulation
             if mode == 'simulation':

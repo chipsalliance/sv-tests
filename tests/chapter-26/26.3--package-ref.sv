@@ -11,7 +11,7 @@
 :name: package_ref
 :description: package reference test
 :tags: 26.3
-:type: simulation parsing
+:type: simulation elaboration parsing
 */
 
 package mypkg;

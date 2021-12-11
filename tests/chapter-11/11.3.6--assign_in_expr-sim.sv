@@ -10,7 +10,7 @@
 /*
 :name: assign_in_expr_sim
 :description: assignment in expression simulation test
-:type: simulation parsing
+:type: simulation elaboration parsing
 :tags: 11.3.6
 */
 module top();

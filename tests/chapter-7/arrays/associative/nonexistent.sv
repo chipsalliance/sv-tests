@@ -11,7 +11,7 @@
 :name: associative-arrays-access-nonexistent
 :description: Test access to nonexistent associative array element
 :tags: 7.8.6 7.9.1
-:type: simulation parsing
+:type: simulation elaboration parsing
 */
 module top ();
 

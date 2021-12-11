@@ -20,6 +20,7 @@ templ = """/*
 :files: {1}
 :incdirs: {4}
 :tags: ivtest
+:type: elaboration parsing
 {2}
 {3}
 {5}
@@ -199,6 +200,7 @@ ivtest_file_exclude = [
     'no_timescale_in_module',
     'pr1704013',
     'scope2b',
+    'event_array',
     # $dumpvars with bit selects, doesn't appear to be legal and commercial tools disallow
     'array_word_check',
     'dump_memword',
@@ -214,6 +216,10 @@ ivtest_file_exclude = [
     # Primitive port connections cannot use the '.name()' syntax
     'pr938b',
     'udp_dff',
+    # Icarus checks that final-blocks do not have non-blocking assignments but
+    # a strict reading of IEEE 1800-2017, $9.2.3 does not require this, even
+    # though the non-blocking assignment will have no effect.
+    'program3b',
 ]
 
 ivtest_long = ['comp1000', 'comp1001']
@@ -271,7 +277,7 @@ for l in ivtest_lists:
             for t in type_should_fail:
                 if re.match(t, line[1]):
                     should_fail_because = ':should_fail_because: this test was imported from ivtest and is designed to fail'
-                    type_ = ':type: simulation'
+                    type_ = ':type: simulation elaboration'
 
             timeout = ''
             if name in ivtest_long:

@@ -12,7 +12,7 @@
 :description: void function return value test
 :should_fail_because: void function returns value
 :tags: 13.4.1
-:type: simulation
+:type: simulation elaboration
 */
 module top();
 

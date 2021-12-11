@@ -14,7 +14,7 @@
 */
 
 function int F();
-    int x;
+    int x, switch;
     randsequence( main )
       main : case (switch)
           0 : zero;
@@ -22,7 +22,7 @@ function int F();
           2 : second;
           default : third;
       endcase;
-      zero2 : { x = 0; };
+      zero : { x = 0; };
       first : { x = 10; };
       second : { x = 2; };
       third : { x = 3; };

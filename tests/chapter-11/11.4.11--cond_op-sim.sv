@@ -10,7 +10,7 @@
 /*
 :name: cond_op_sim
 :description: ?: operator simulation test
-:type: simulation parsing
+:type: simulation elaboration parsing
 :tags: 11.4.11
 */
 module top();

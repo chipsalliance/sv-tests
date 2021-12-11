@@ -16,5 +16,6 @@
 		"lfsr_updown_tb.v",
 		"parity_using_function2.v",
 		"stm_import.sv"
-	]
+	],
+	"type": "parsing"
 }

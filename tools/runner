@@ -113,7 +113,7 @@ test = os.path.abspath(os.path.join(dirs['tests'], args.test))
 supported_test_params = [
     "name", "tags", "description", "files", "incdirs", "top_module", "timeout",
     "type", "should_fail", "should_fail_because", "defines",
-    "compatible-runners", "allow_elaboration"
+    "compatible-runners"
 ]
 
 test_params = {}
@@ -146,18 +146,18 @@ try:
 
         else:
             # set default values for optional metadata entries
+            test_params.setdefault('name', test)
             test_params.setdefault('files', test)
             test_params.setdefault('incdirs', os.path.dirname(test))
             test_params.setdefault('top_module', '')
             test_params.setdefault('timeout', "30")
-            test_params.setdefault('type', 'parsing')
+            test_params.setdefault('type', 'parsing elaboration')
             test_params.setdefault(
                 'should_fail',
                 ("0", "1")["should_fail_because" in test_params.keys()])
             test_params.setdefault('should_fail_because', "")
             test_params.setdefault('defines', "")
             test_params.setdefault('compatible-runners', "all")
-            test_params.setdefault('allow_elaboration', "False")
 
             if len(set(supported_test_params) - set(test_params.keys())) != 0:
                 missing = list(

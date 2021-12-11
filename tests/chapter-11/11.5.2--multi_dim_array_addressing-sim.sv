@@ -10,7 +10,7 @@
 /*
 :name: multi_dim_array_addressing_sim
 :description: multi-dimensional array addressing simulation test
-:type: simulation parsing
+:type: simulation elaboration parsing
 :tags: 11.5.2
 */
 module top();

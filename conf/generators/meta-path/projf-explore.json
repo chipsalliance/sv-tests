@@ -1,0 +1,9 @@
+{
+	"name": "projf",
+	"project": "projf-explore",
+	"paths": [
+		["tests", "projf-explore", "*", "*", "*"]
+	],
+	"matches": ["*.sv"],
+	"type": "parsing"
+}
