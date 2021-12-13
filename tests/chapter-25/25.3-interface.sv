@@ -11,6 +11,7 @@
 :name: interface
 :description: interface test
 :tags: 25.3
+:top_module: top
 */
 
 interface test_bus;
