@@ -15,10 +15,10 @@
 
     {# Global parameters for scripts and stylesheets #}
     <script>
-      var TOOL_NAMES = [{{'"' ~ report.keys()|sort|join('", "') ~ '"'}}];
-      var TOOLS_COUNT = {{report|length}};
+      var TOOL_NAMES = [{{report.tools.keys()|sort|map('escape_js_str')|map('quote')|join(', ')}}];
+      var TOOLS_COUNT = {{report.tools|length}};
     </script>
-    <style>:root { --TOOLS_COUNT: {{report|length}}; }</style>
+    <style>:root { --TOOLS_COUNT: {{report.tools|length}}; }</style>
 
     <link rel="stylesheet" type="text/css" href="report.css">
     <script type="text/javascript" charset="utf8" src="report.js"></script>
@@ -47,100 +47,106 @@
           <tr>
             <th></th>
             <th></th>
-            {% for tool, tooldata in report|dictsort %}
-            <th title="{{report[tool]['version']|e|replace('\n', '&#10;')}}" style="--z: {{loop.length - loop.index}}">
-              <a class="tool_link" target="_blank" href="{{report[tool]["url"]}}">{{tool|e}}</a>
+            {% for tool, tool_results in report.tools|dictsort %}
+            <th title="{{tool_results.version|escape_attr}}" style="--z: {{loop.length - loop.index}}">
+              <a class="tool_link" target="_blank" href="{{tool_results.url}}">{{tool|e}}</a>
             </th>
             {% endfor %}
           </tr>
         </thead>
         <tbody>
-          {% for tag, info in database|dictsort %}
+          {% for tag, tag_info in report.tags|dictsort %}
           {%   set types_used_in_the_row = [] %}
-          {%   for tool, tooldata in report|dictsort %}
-          {%     for type in tooldata["tags"][tag]["type"] %}
-          {%       if type not in types_used_in_the_row %}
-          {%         set _ = types_used_in_the_row.append(type) %}
-          {%       endif %}
-          {%     endfor %}
+          {%   for tool, tool_results in report.tools|dictsort %}
+          {%     if tag in tool_results.tags %}
+          {%       for type in tool_results.tags[tag].types %}
+          {%         if type not in types_used_in_the_row %}
+          {%           set _ = types_used_in_the_row.append(type) %}
+          {%         endif %}
+          {%       endfor %}
+          {%     endif %}
           {%   endfor %}
           <tr class="{{types_used_in_the_row|join(' ')}}" data-tag="{{tag|e}}">
-            <th title="{{info|e|replace('\n', '&#10;')}}">
-              {%- if tag in database_urls -%}
-              <a class="tag_link" target="_blank" href="{{database_urls[tag]}}">{{info|e}}</a>
+            <th title="{{tag_info.description|escape_attr}}">
+              {%- if tag_info.url -%}
+              <a class="tag_link" target="_blank" href="{{tag_info.url}}">{{tag_info.description|e}}</a>
               {%- else -%}
-              {{info|e}}
+              {{tag_info.description|e}}
               {%- endif -%}
             </th>
-            <th title="{{info|e|replace('\n', '&#10;')}}">{{tag|e}}</th>
-            {% for tool, tooldata in report|dictsort %}
-            {%   set test_data = tooldata['tags'][tag] %}
-            {%   set test_status = test_data['status'] %}
+            <th title="{{tag_info.description|escape_attr}}">{{tag|e}}</th>
+            {% for tool, tool_results in report.tools|dictsort %}
             {%   set attrs = [] %}
-            {%   if test_status != 'test-na' %}
-            {%     set head_test = test_data['logs'][test_data['head_test']]['name'] %}
-            {%     set _ = attrs.append('class="'~test_status~'"') %}
-            {%     set _ = attrs.append('data-tool="'~(tool|e)~'"') %}
-            {%     set _ = attrs.append('data-head-test="'~(head_test|e)~'"') %}
-            {%     if test_status == 'test-varied' %}
-            {%       set percentage = '%0.0f'|format(100.0 * test_data['passed-num'] / test_data['logs']|length) %}
-            {%       set _ = attrs.append('style="--val: '~(percentage)~'%"') %}
+            {%   if tag in tool_results.tags %}
+            {%     set tag_results = tool_results.tags[tag] %}
+            {%     set test_status = tag_results.status|string %}
+            {%     if test_status != 'test-na' %}
+            {%       set head_test = tag_results.tests[0].name %}
+            {%       set _ = attrs.append('class=' ~ (test_status|quote)) %}
+            {%       set _ = attrs.append('data-tool=' ~ (tool|escape_attr|quote)) %}
+            {%       set _ = attrs.append('data-head-test=' ~ (head_test|escape_attr|quote)) %}
+            {%       if test_status == 'test-varied' %}
+            {%         set percentage = '%0.0f'|format(100.0 * tag_results.passed_tests / tag_results.tests|length) %}
+            {%         set _ = attrs.append('style="--val: '~(percentage)~'%"') %}
+            {%       endif %}
             {%     endif %}
-            <td {{attrs|join(' ')}}>{{test_data['passed-num']}}/{{test_data['logs']|length}}</td>
+            {%   endif %}
+            {%   if attrs|length %}
+            <td {{attrs|join(' ')}}>{{tag_results.passed_tests}}/{{tag_results.tests|length}}</td>
             {%   else %}
             <td></td>
             {%   endif %}
             {% endfor %}
           </tr>
-        {% endfor %}
+          {% endfor %}
         </tbody>
         <tfoot>
           <tr>
             <th colspan="2">Total tests passed</th>
-            {% for tool, tooldata in report|dictsort %}
-            {%   set passed_tests = tooldata['total']['tests'] %}
-            {%   set total_tests = tooldata['tests']|length %}
+            {% for tool, tool_results in report.tools|dictsort %}
+            {%   set passed_tests = tool_results.total_passed_tests %}
+            {%   set total_tests = tool_results.total_tests %}
             {%   set passed_tests_percentage = '%0.0f'|format(100.0 * passed_tests / total_tests) %}
             <td class="test-varied" style="--val: {{passed_tests_percentage}}%" title="{{tool|lower|e}} ({{passed_tests_percentage}}%)">{{passed_tests}}/{{total_tests}}</td>
             {% endfor %}
           </tr>
           <tr>
             <th colspan="2">Total tags passed</th>
-            {% for tool, tooldata in report|dictsort %}
-            {%   set passed_tags = tooldata['total']['tags'] %}
-            {%   set tested_tags = tooldata['total']['tested_tags'] %}
+            {% for tool, tool_results in report.tools|dictsort %}
+            {%   set passed_tags = tool_results.total_passed_tags %}
+            {%   set tested_tags = tool_results.total_tested_tags %}
             {%   set passed_tags_percentage = '%0.0f'|format(100.0 * passed_tags / tested_tags) %}
             <td class="test-varied" style="--val: {{passed_tags_percentage}}%" title="{{tool|lower|e}} ({{passed_tags_percentage}}%)">{{passed_tags}}/{{tested_tags}}</td>
             {% endfor %}
           </tr>
           <tr>
             <th colspan="2">Total time elapsed</th>
-            {% for tool, tooldata in report|dictsort %}
-            <td title="{{tool|lower|e}}">{{'%0.0f'|format(tooldata["time_elapsed"])}}s</td>
+            {% for tool, tool_results in report.tools|dictsort %}
+            <td title="{{tool|lower|e}}">{{'%0.0f'|format(tool_results.total_time)}}s</td>
             {% endfor %}
           </tr>
           <tr>
             <th colspan="2">User time elapsed</th>
-            {% for tool, tooldata in report|dictsort %}
-            <td title="{{tool|lower|e}}">{{'%0.0f'|format(tooldata["user_time"])}}s</td>
+            {% for tool, tool_results in report.tools|dictsort %}
+            <td title="{{tool|lower|e}}">{{'%0.0f'|format(tool_results.user_time)}}s</td>
             {% endfor %}
           </tr>
           <tr>
             <th colspan="2">System time elapsed</th>
-            {% for tool, tooldata in report|dictsort %}
-            <td title="{{tool|lower|e}}">{{'%0.0f'|format(tooldata["system_time"])}}s</td>
+            {% for tool, tool_results in report.tools|dictsort %}
+            <td title="{{tool|lower|e}}">{{'%0.0f'|format(tool_results.system_time)}}s</td>
             {% endfor %}
           </tr>
           <tr>
             <th colspan="2">Maximum ram usage</th>
-            {% for tool, tooldata in report|dictsort %}
-            <td title="{{tool|lower|e}}">{{'%0.0f'|format(tooldata["ram_usage"])}} MB</td>
+            {% for tool, tool_results in report.tools|dictsort %}
+            <td title="{{tool|lower|e}}">{{'%0.0f'|format(tool_results.max_ram_usage)}} MB</td>
             {% endfor %}
           </tr>
           <tr>
             <th colspan="2">Average throughput passed for inputs &gt; 1KiB</th>
-            {% for tool, tooldata in report|dictsort %}
-            <td title="{{tool|lower|e}}">{{'%0.0f'|format(tooldata["passed_throughput"]|float)}} KiB/s</td>
+            {% for tool, tool_results in report.tools|dictsort %}
+            <td title="{{tool|lower|e}}">{{'%0.0f'|format(tool_results.passed_throughput|float)}} KiB/s</td>
             {% endfor %}
           </tr>
         </tfoot>
@@ -169,18 +175,18 @@
       <div class="iframe-wrap">
         <iframe class="iframe-log" name="file-frame"></iframe>
       </div>
-      {% for tag, info in database.items() %}
-      {%   for tool, tooldata in report.items() %}
-      {%     if "test-na" not in tooldata["tags"][tag]["status"] %}
+      {% for tag in report.tags|sort %}
+      {%   for tool, tool_results in report.tools|dictsort %}
+      {%     if (tag in tool_results.tags) and (tool_results.tags[tag].status != 'test-na') %}
       <div id="{{tool}}-{{tag}}-logfile" class="logfile">
         <div id="logtab-{{tool}}-{{tag}}-bar" class="logtab-bar">
           <button class="logtab-btn logtab-close-btn" onclick="toggleLog('{{tool}}', '{{tag}}', null)">close</button>
-          {% for test, output in tooldata["tags"][tag]["logs_sorted"] %}
-          <button id="logtab-btn-{{tool}}-{{tag}}-{{output['name']}}" class="logtab-btn logtab-tab-btn {{output["status"]}} sorted" {#
-               #} onclick="selectTab('{{output['fname']}}', {#
-                                   #}'logtab-btn-{{tool}}-{{tag}}-{{output['name']}}', {#
-                                   #}'{{output['first_file']}}', {#
-                                   #}'{{output['name']}}')">{{output["name"]}}</button>
+          {% for test_result in tool_results.tags[tag].tests %}
+          <button id="logtab-btn-{{tool}}-{{tag}}-{{test_result.name}}" class="logtab-btn logtab-tab-btn {{test_result.status}} sorted" {#
+               #} onclick="selectTab('{{test_result.log_html_file}}', {#
+                                   #}'logtab-btn-{{tool}}-{{tag}}-{{test_result.name}}', {#
+                                   #}'{{test_result.input_files[0]}}.html', {#
+                                   #}'{{test_result.name}}')">{{test_result.name}}</button>
           {% endfor %}
         </div>
       </div>

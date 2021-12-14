@@ -1,3 +1,5 @@
+<!DOCTYPE html>
+<html>
 <head>
   <style>
     .log { font-family: "Courier New", Consolas, monospace; font-size: 80%; }
@@ -6,25 +8,26 @@
   </style>
 </head>
 <body>
-<h3><a href="{{runner_url}}" target="_blank">{{runner}}</a></h3>
-<pre class="{{status}}">
-description: {{description|e}}
-rc: {{rc|e}} (means success: {{tool_success|e}})
+<h3><a href="{{log['runner_url']}}" target="_blank">{{log['runner']|e}}</a></h3>
+<pre class="{{result.status}}">
+description: {{log['description']|e}}
+rc: {{result.exit_code}} (means success: {{log['tool_success']|e}})
 {% if should_fail_because|length %}
-should_fail_because: {{should_fail_because|e}}
+should_fail_because: {{log['should_fail_because']|e}}
 {% endif %}
-tags: {{tags|e}}
-incdirs: {{incdirs|e}}
-top_module: {{top_module|e}}
-type: {{type|e}}
-mode: {{mode|e}}
-files: {{file_urls}}
-defines: {{defines|e}}
-completed: {{date_completed}}
-time_elapsed: {{'%0.3f'| format(time_elapsed|float)}}s
-ram usage: {{'%d'| format(ram_usage|int)}} KB
+tags: {{result.tags|join(' ')|e}}
+incdirs: {{log['incdirs']|e}}
+top_module: {{log['top_module']|e}}
+type: {{result.types|join(' ')|e}}
+mode: {{log['mode']|e}}
+files:{% for f, f_html in input_files_map.items() %} <a href="{{f_html}}" target="file-frame">{{f|e}}</a>{% endfor +%}
+defines: {{log['defines']|e}}
+completed: {{log['date_completed']|e}}
+time_elapsed: {{'%0.3f'| format(result.total_time|float)}}s
+ram usage: {{'%d'| format(result.ram_usage|int)}} KB
 </pre>
 <pre class="log">
-{{log_urls}}
+{{content}}
 </pre>
 </body>
+</html>
