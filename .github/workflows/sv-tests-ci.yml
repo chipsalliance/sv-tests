@@ -130,7 +130,7 @@ jobs:
       - name: Run
         run: |
           make ${{ matrix.tool.name }} generate-tests
-          make -j$(nproc)
+          make
       - name: Prepare Report
         run:
           mv out/report/report.csv out/report/${{ matrix.tool.name }}_report.csv
