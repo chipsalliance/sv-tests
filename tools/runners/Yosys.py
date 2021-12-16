@@ -25,6 +25,9 @@ class Yosys(BaseRunner):
         run = os.path.join(tmp_dir, "run.sh")
         scr = os.path.join(tmp_dir, 'scr.ys')
         mode = params['mode']
+        defer = ""
+        if mode != "elaboration":
+            defer = "-defer"
 
         top = self.get_top_module_or_guess(params)
 
@@ -39,7 +42,7 @@ class Yosys(BaseRunner):
         # prepare yosys script
         with open(scr, 'w') as f:
             for svf in params['files']:
-                f.write(f'read_verilog -defer -sv {inc} {defs} {svf}\n')
+                f.write(f'read_verilog {defer} -sv {inc} {defs} {svf}\n')
 
             if mode == "elaboration":
                 # prep (without optimizations)
