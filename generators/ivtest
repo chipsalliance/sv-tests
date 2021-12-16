@@ -20,7 +20,7 @@ templ = """/*
 :files: {1}
 :incdirs: {4}
 :tags: ivtest
-:type: elaboration parsing
+:type: simulation parsing
 {2}
 {3}
 {5}
