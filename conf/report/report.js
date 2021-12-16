@@ -85,11 +85,10 @@ $.fn.dataTable.ext.order['test-status'] = function ( settings, col ) {
   });
 };
 
-function toggleLog(tool, tag, test) {
+function toggleLog(tool, tag, test, cell) {
   all_logs = document.getElementsByClassName("logfile-shown");
 
   var div_id = [tool, tag, "logfile"].join("-");
-  var cell_id = [tool, tag, "cell"].join("-");
 
   for (var i=0; i < all_logs.length; ++i) {
     if (all_logs[i].id != div_id) {
@@ -123,16 +122,40 @@ function toggleLog(tool, tag, test) {
     test_btn.onclick();
   }
 
-  cell = document.getElementById(cell_id);
-  cell.classList.toggle("test-cell-selected");
+  var selected_cell = document.querySelector(".test-cell-selected");
+  if (!cell) {
+    if (selected_cell) {
+      selected_cell.classList.remove("test-cell-selected");
+    }
+  } else {
+    if (cell != selected_cell) {
+      cell.classList.add("test-cell-selected");
+    } else {
+      cell.classList.remove("test-cell-selected");
+    }
+  }
 
-  footer = document.getElementById("footer");
   logs = document.getElementById("logfile-outer");
 
   scroll = document.documentElement.scrollTop;
-  footer.style.marginBottom = logs.offsetHeight + "px";
+  document.body.style.paddingBottom = logs.offsetHeight + "px";
   document.documentElement.scrollTop = scroll;
 }
+
+function testResultClicked(event) {
+  var tool = event.target.dataset.tool;
+  var tag = event.target.parentElement.dataset.tag;
+  var test = event.target.dataset.headTest;
+  toggleLog(tool, tag, test, event.target);
+}
+
+// Install events after DOM is loaded
+window.addEventListener('DOMContentLoaded', (event) => {
+  var test_result_cells = document.querySelectorAll(".dataTable > tbody > tr > td:not(.test-na)");
+  test_result_cells.forEach((target) => {
+    target.addEventListener('click', testResultClicked, false);
+  });
+});
 
 function hideLog(div_id) {
   log_div = document.getElementById(div_id);
@@ -179,15 +202,15 @@ $(document).ready(function() {
   var tag = hash[1];
   var test = hash[2];
 
-  var chap_btn = document.getElementById(
-    [tool, tag, 'cell'].join('-'));
+  var test_cell = document.querySelector(
+    `.dataTable > tbody > tr[data-tag="${tag}"] > td[data-tool="${tool}"]`);
+  if (!test_cell)
+    return;
+
   var test_btn = document.getElementById(
     ['logtab', 'btn', tool, tag, test].join('-'));
 
-  if (chap_btn !== null) {
-    chap_btn.onclick();
-    if (test_btn !== null) {
-      test_btn.onclick();
-    };
-  };
+  test_cell.click();
+  if (test_btn !== null)
+    test_btn.click();
 });
