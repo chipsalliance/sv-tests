@@ -14,11 +14,12 @@ from BaseRunner import BaseRunner
 
 
 class moore(BaseRunner):
-    def __init__(self, name="moore"):
+    def __init__(
+            self,
+            name="moore",
+            supported_features={'preprocessing', 'parsing'}):
         super().__init__(
-            name,
-            executable="moore",
-            supported_features={'preprocessing', 'parsing'})
+            name, executable="moore", supported_features=supported_features)
 
         self.url = "http://llhd.io/"
 
