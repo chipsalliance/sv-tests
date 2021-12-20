@@ -1,16 +1,8 @@
 #!/bin/bash
-
-ANALYZER=$PWD"/tools/report_analyzer.py"
-GRAPHER=$PWD"/tools/history-graph"
-OUT_DIR=$PWD"/out/report/"
-COMPARE_REPORT=$OUT_DIR"/report.csv"
-REPORTS_HISTORY=$OUT_DIR"/history"
-BASE_REPORT=$OUT_DIR"/history/report.csv"
-CHANGES_SUMMARY_JSON=$OUT_DIR"/tests_summary.json"
-CHANGES_SUMMARY_MD=$OUT_DIR"/tests_summary.md"
-
 set -x
 set -e
+
+#environment variables for this file are set in sv-tests-ci.yml
 
 # Get base report from sv-tests master run
 git clone https://github.com/chipsalliance/sv-tests-results.git --depth 120 $REPORTS_HISTORY

@@ -149,6 +149,16 @@ jobs:
     runs-on: [self-hosted, Linux, X64]
     container: ubuntu:latest
     needs: Run
+    env:
+      ANALYZER: "$PWD/tools/report_analyzer.py"
+      GRAPHER: "$PWD/tools/history-graph"
+      OUT_REPORT_DIR: "$PWD/out/report/"
+      COMPARE_REPORT: "$OUT_REPORT_DIR/report.csv"
+      REPORTS_HISTORY: "$(mktemp -d --suffix='.history')"
+      BASE_REPORT: "$REPORTS_HISTORY/report.csv"
+      CHANGES_SUMMARY_JSON: "$OUT_REPORT_DIR/tests_summary.json"
+      CHANGES_SUMMARY_MD: "$OUT_REPORT_DIR/tests_summary.md"
+      TESTS_SUMMARY_DIR: "tests_summary/"
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
@@ -184,17 +194,17 @@ jobs:
       - name: Prepare artifacts for PR commenter
         if: github.event_name == 'pull_request'
         run: |
-          mkdir tests_summary
-          echo ${{ github.event.number }} > tests_summary/issue_num
+          mkdir $TESTS_SUMMARY_DIR
+          echo ${{ github.event.number }} > $TESTS_SUMMARY_DIR/issue_num
           SUITE_INFO=`curl -s https://api.github.com/repos/${GITHUB_REPOSITORY}/actions/runs/${GITHUB_RUN_ID}`
           SUITE_ID=`echo $SUITE_INFO | jq -r '.check_suite_id'`
-          echo $SUITE_ID > tests_summary/suite_id
-          cp out/report/history/report.csv tests_summary/report_base.csv
-          cp out/report/report.csv tests_summary/report_new.csv
-          cp out/report/new_*csv tests_summary/
-          cp out/report/tests_summary.json tests_summary/
-          cp out/report/tests_summary.md tests_summary/
-          find out -name plot_*.svg -exec cp {} tests_summary/ \;
+          echo $SUITE_ID > $TESTS_SUMMARY_DIR/suite_id
+          cp $COMPARE_REPORT $TESTS_SUMMARY_DIR/report_base.csv
+          cp $OUT_REPORT_DIR/report.csv $TESTS_SUMMARY_DIR/report_new.csv
+          cp $OUT_REPORT_DIR/new_*csv $TESTS_SUMMARY_DIR
+          cp $OUT_REPORT_DIR/tests_summary.json $TESTS_SUMMARY_DIR
+          cp $OUT_REPORT_DIR/tests_summary.md $TESTS_SUMMARY_DIR
+          find out -name plot_*.svg -exec cp {} $TESTS_SUMMARY_DIR \;
       - name: Upload artifacts for summary
         uses: actions/upload-artifact@v2
         if: github.event_name == 'pull_request'
