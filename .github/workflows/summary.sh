@@ -2,10 +2,10 @@
 
 ANALYZER=$PWD"/tools/report_analyzer.py"
 GRAPHER=$PWD"/tools/history-graph"
+REPORTS_HISTORY=$(mktemp -d --suffix='.history')
 OUT_DIR=$PWD"/out/report/"
 COMPARE_REPORT=$OUT_DIR"/report.csv"
-REPORTS_HISTORY=$OUT_DIR"/history"
-BASE_REPORT=$OUT_DIR"/history/report.csv"
+BASE_REPORT=$REPORTS_HISTORY"/report.csv"
 CHANGES_SUMMARY_JSON=$OUT_DIR"/tests_summary.json"
 CHANGES_SUMMARY_MD=$OUT_DIR"/tests_summary.md"
 
