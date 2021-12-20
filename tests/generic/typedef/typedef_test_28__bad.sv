@@ -8,7 +8,7 @@
 
 
 /*
-:name: typedef_test_28
+:name: typedef_test_28__bad
 :description: Test
 :should_fail_because: missing forward typedef declaration, type_identifier does not resolve to a data type.
 :tags: 6.18
