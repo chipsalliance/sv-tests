@@ -386,6 +386,8 @@ def renderLogToHTMLFile(
     log_content = convertPathsToRelativeLinks(
         str(markupsafe.escape(log_content)), log_html_dir)
 
+    csspath = os.path.join(out_dir, "log.css")
+    csspath = os.path.relpath(csspath, os.path.dirname(log_html_path))
     os.makedirs(os.path.dirname(log_html_path), exist_ok=True)
     with open(log_html_path, 'w') as f:
         f.write(
@@ -393,7 +395,8 @@ def renderLogToHTMLFile(
                 input_files_map=files_map,
                 result=test_result,
                 log=test_log,
-                content=log_content))
+                content=log_content,
+                csspath=csspath))
 
 
 with open(args.code_template, "r") as templ:
