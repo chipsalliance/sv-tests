@@ -28,6 +28,7 @@ import urllib.parse
 import dataclasses
 import enum
 from typing import Dict, Any, List, Set, Iterable
+import json
 
 parser = argparse.ArgumentParser()
 
@@ -428,6 +429,31 @@ def renderInputFileToHTMLFile(
                 csspath=csspath, filename=input_file_path, code=code))
 
 
+def renderTagResultsConfig(
+        js_path: str, tool: str, tag: str, test_results: Iterable[TestResult]):
+    tool = tool.lower()
+    tag = tag.lower()
+    js_global_variable_name = f"config_loader_data['{tool}/{tag}']"
+
+    # Order of values in each entry:
+    # [name, status, log_html_path, first_input_file_html_path]
+    config = []
+    for test_result in test_results:
+        name = test_result.name
+        status = int(test_result.status == TestStatus.PASSED)
+        log_html_file = test_result.log_html_file
+        first_input_html = test_result.input_files[0] + ".html"
+        first_input_html = urllib.parse.quote(first_input_html)
+        config.append([name, status, log_html_file, first_input_html])
+
+    js_data = json.dumps(config, separators=(",", ":"))
+    code = f"{js_global_variable_name} = {js_data}"
+
+    os.makedirs(os.path.dirname(js_path), exist_ok=True)
+    with open(js_path, "w") as f:
+        f.write(code)
+
+
 def collect_logs(runner_name: str):
     tool_results = ToolResults()
 
@@ -435,6 +461,8 @@ def collect_logs(runner_name: str):
     # with size > minimum_throughput_file_size
     passed_tests_time = 0.0
     passed_tests_input_files_size = 0.0
+
+    rendered_count = 0
 
     @dataclasses.dataclass
     class TagStatuses:
@@ -571,6 +599,7 @@ def collect_logs(runner_name: str):
         # Render the log if needed
         if not exists_and_is_newer_than(
                 log_html, [log_file, args.log_template, __file__]):
+            rendered_count += 1
             renderLogToHTMLFile(
                 out_dir, log_html, test_result, test_log_data, log_content)
 
@@ -602,6 +631,13 @@ def collect_logs(runner_name: str):
             [t for t in tool_results.tests.values() if tag in t.tags],
             key=TestResultComp)
 
+        config_js = os.path.join(
+            out_dir, "results", runner_name.lower(),
+            f"{tag.lower()}.config.js")
+
+        # Render the config
+        renderTagResultsConfig(config_js, runner_name, tag, tag_results.tests)
+
     try:
         with open(os.path.join(args.logs, runner_name, "version")) as f:
             tool_results.version = f.read().strip()
@@ -619,6 +655,10 @@ def collect_logs(runner_name: str):
     else:
         tool_results.passed_throughput = (
             passed_tests_input_files_size / passed_tests_time / 1024)
+
+    logger.info(
+        f"{runner_name}: (Re)generated {rendered_count}/{tool_results.total_tests} rendered log files."
+    )
 
     return tool_results
 
@@ -651,12 +691,18 @@ for tool_name, tool_results in zip(runner_names, results):
         all_input_files.update(test_result.input_files)
 
 # Render input files
+rendered_count = 0
 for input_file in all_input_files:
     input_file_html = os.path.join(out_dir, input_file + ".html")
     if exists_and_is_newer_than(input_file_html,
                                 [input_file, args.code_template, __file__]):
         continue
+    rendered_count += 1
     renderInputFileToHTMLFile(out_dir, input_file_html, input_file)
+
+logger.info(
+    f"(Re)generated {rendered_count}/{len(all_input_files)} rendered input files."
+)
 
 # CamelCase or undscore_separator csv headers ?
 # We use CamelCase so that gnuplot getting header from CSV displays them

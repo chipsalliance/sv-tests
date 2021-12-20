@@ -74,17 +74,15 @@
               {{tag_info.description|e}}
               {%- endif -%}
             </th>
-            <th title="{{tag_info.description|escape_attr}}">{{tag|e}}</th>
+            <th title="{{tag_info.description|escape_attr}}">{{tag|lower|e}}</th>
             {% for tool, tool_results in report.tools|dictsort %}
             {%   set attrs = [] %}
             {%   if tag in tool_results.tags %}
             {%     set tag_results = tool_results.tags[tag] %}
             {%     set test_status = tag_results.status|string %}
             {%     if test_status != 'test-na' %}
-            {%       set head_test = tag_results.tests[0].name %}
             {%       set _ = attrs.append('class=' ~ (test_status|quote)) %}
-            {%       set _ = attrs.append('data-tool=' ~ (tool|escape_attr|quote)) %}
-            {%       set _ = attrs.append('data-head-test=' ~ (head_test|escape_attr|quote)) %}
+            {%       set _ = attrs.append('data-tool=' ~ (tool|lower|escape_attr|quote)) %}
             {%       if test_status == 'test-varied' %}
             {%         set percentage = '%0.0f'|format(100.0 * tag_results.passed_tests / tag_results.tests|length) %}
             {%         set _ = attrs.append('style="--val: '~(percentage)~'%"') %}
@@ -168,31 +166,15 @@
       </p>
     </footer>
 
-    <div id="logfile-outer">
-      <div class="iframe-wrap">
-        <iframe class="iframe-log" name="log-frame"></iframe>
+    <div class="c_test-details-panel s_hidden">
+      <iframe class="p_log" name="log-frame"></iframe>
+      <iframe class="p_file" name="file-frame"></iframe>
+      <div class="p_tests-list">
+        <template class="p_item-template">
+          <button class="p_item"><slot name="test-name"></slot></button>
+        </template>
+        <button class="p_close-button">close</button>
       </div>
-      <div class="iframe-wrap">
-        <iframe class="iframe-log" name="file-frame"></iframe>
-      </div>
-      {% for tag in report.tags|sort %}
-      {%   for tool, tool_results in report.tools|dictsort %}
-      {%     if (tag in tool_results.tags) and (tool_results.tags[tag].status != 'test-na') %}
-      <div id="{{tool}}-{{tag}}-logfile" class="logfile">
-        <div id="logtab-{{tool}}-{{tag}}-bar" class="logtab-bar">
-          <button class="logtab-btn logtab-close-btn" onclick="toggleLog('{{tool}}', '{{tag}}', null)">close</button>
-          {% for test_result in tool_results.tags[tag].tests %}
-          <button id="logtab-btn-{{tool}}-{{tag}}-{{test_result.name}}" class="logtab-btn logtab-tab-btn {{test_result.status}} sorted" {#
-               #} onclick="selectTab('{{test_result.log_html_file}}', {#
-                                   #}'logtab-btn-{{tool}}-{{tag}}-{{test_result.name}}', {#
-                                   #}'{{test_result.input_files[0]}}.html', {#
-                                   #}'{{test_result.name}}')">{{test_result.name}}</button>
-          {% endfor %}
-        </div>
-      </div>
-      {%     endif %}
-      {%   endfor %}
-      {% endfor %}
     </div>
   </body>
 </html>
