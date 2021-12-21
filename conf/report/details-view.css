@@ -20,7 +20,6 @@ header {
   font-family: sans-serif;
   line-height: 1.4rem;
   padding: 0;
-  line-height: 1rem;
   margin: 0;
   display: grid;
   grid-template-columns: max-content 1fr;

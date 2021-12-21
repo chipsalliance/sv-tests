@@ -27,6 +27,7 @@
         </div>
         <div><dt>top module</dt><dd>{{log['top_module']|e}}</dd></div>
         <div><dt>type</dt><dd>{{result.types|join(' ')|e}}</dd></div>
+        <div><dt>results group</dt><dd>{% if result.results_group|length %}{{result.results_group|e}}{% else %}<em></em>{% endif %}</dd></div>
         <div><dt>mode</dt><dd>{{log['mode']|e}}</dd></div>
         <div>
           <dt>files</dt>
