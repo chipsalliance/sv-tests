@@ -19,7 +19,7 @@ class Yosys(BaseRunner):
         super().__init__(
             "yosys", "yosys", {"preprocessing", "parsing", "elaboration"})
 
-        self.url = "http://www.clifford.at/yosys/"
+        self.url = "https://github.com/YosysHQ/yosys"
 
     def prepare_run_cb(self, tmp_dir, params):
         run = os.path.join(tmp_dir, "run.sh")
