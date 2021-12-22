@@ -10,7 +10,8 @@ body {
 
   font-family: sans-serif;
   margin: 0;
-  padding: 0;
+  /* --panel-height is set dynamically in report.js */
+  padding: 0 0 var(--panel-height, 0) 0;
 }
 
 main {
@@ -234,7 +235,7 @@ table.dataTable > tbody > tr > td:not(:empty) {
   font-weight: normal;
 }
 
-.test-cell-selected {
+table.dataTable > tbody > tr > td:not(:empty).s_selected {
   outline: 3px solid blue;
   filter: brightness(95%);
   font-weight: bold;
@@ -290,6 +291,82 @@ a.tool_link:hover, a.tag_link:hover {
   text-decoration-color: #00006f80;
 }
 
+/** Details panel *****************************************************/
+
+.c_test-details-panel {
+  position: fixed;
+  left: 1.5%;
+  right: 1.5%;
+  bottom: 0;
+  z-index: 10;
+
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 2px 2px;
+  grid-template-areas:
+    "log file"
+    "tests-list tests-list";
+  justify-content: stretch;
+  justify-items: stretch;
+
+  overflow-y: hidden;
+  overflow-x: hidden;
+
+  background-color: #000;
+  border: 2px solid black;
+  font-family: "Courier New", Courier, monospace;
+}
+
+.c_test-details-panel.s_hidden {
+  display: none;
+}
+
+.c_test-details-panel > .p_log { grid-area: log; }
+.c_test-details-panel > .p_file { grid-area: file; }
+.c_test-details-panel > .p_tests-list { grid-area: tests-list; }
+
+.c_test-details-panel > iframe {
+  background-color: #fff;
+  border: none;
+  height: 20vh;
+}
+
+.c_test-details-panel > .p_tests-list {
+  max-height: 20vh;
+  background-color: #666;
+  overflow-y: scroll;
+}
+
+.c_test-details-panel > .p_tests-list > button {
+  width: 12.5%;
+  margin: 0px;
+  cursor: pointer;
+  border: 2px solid #666;
+  overflow:hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  box-sizing: border-box;
+}
+
+.c_test-details-panel .p_close-button {
+  background: #cfcece;
+  float: right;
+}
+
+.c_test-details-panel > .p_tests-list > .p_item {
+  float: left;
+  background-color: #ff6961;
+}
+
+.c_test-details-panel > .p_tests-list > .p_item.s_passed {
+  background-color: #89E894;
+}
+
+.c_test-details-panel > .p_tests-list > .p_item.s_selected {
+  border: 2px solid blue;
+  font-weight: bold;
+}
+
 /** Other *************************************************************/
 
 .ui-widget-shadow {
@@ -307,87 +384,6 @@ a.tool_link:hover, a.tag_link:hover {
 
 .ui-corner-all {
   border-radius: 0px;
-}
-
-#logfile-outer {
-  display: none;
-  position: fixed;
-  bottom: 0;
-  left: 1.5%;
-  width: 97%;
-  max-height: 80%;
-  border: 2px solid black;
-  overflow-y: hidden;
-  overflow-x: hidden;
-  z-index: 10;
-  font-family: "Courier New", Courier, monospace;
-  background-color: #fff;
-}
-.logfile {
-  display: none;
-  max-height: 20%;
-  border: 2px solid black;
-  overflow-y: hidden;
-  overflow-x: hidden;
-  z-index: 10;
-  font-family: "Courier New", Courier, monospace;
-  background-color: #666;
-}
-.logfile-inner {
-  overflow-y: scroll;
-  overflow-x: hidden;
-  max-height: calc(60vh);
-  border-bottom: 1px solid black;
-  display: none;
-  cursor: text;
-}
-.iframe-log {
-  width: 100%;
-  height: calc(20vh);
-}
-.iframe-wrap {
-  width: 50%;
-  float: left;
-  box-sizing: border-box;
-}
-.logtab-bar {
-  overflow-y: scroll;
-  max-height: calc(20vh);
-}
-.logtab-btn {
-  margin: 0px;
-  cursor: pointer;
-  border: 2px solid #666;
-  overflow:hidden;
-  text-overflow: ellipsis;
-  width: 12.5%;
-  white-space: nowrap;
-  box-sizing: border-box;
-}
-.logtab-close-btn {
-  background: #cfcece;
-  float: right;
-}
-.logtab-tab-btn {
-  float: left;
-}
-.logtab-btn-selected {
-  border: 2px solid blue;
-  font-weight: bold;
-}
-.logfile-tab {
-  z-index: 11;
-  float: left;
-  cursor: pointer;
-}
-.logfile-shown {
-  display: block;
-}
-.logfile-outer-shown {
-  display: block !important;
-}
-.logtab-shown {
-  display: block;
 }
 
 button:focus {outline:0;}
