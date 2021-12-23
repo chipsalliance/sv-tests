@@ -163,6 +163,9 @@ report: init tests versions urls
 	cp $(CONF_DIR)/report/*.css $(OUT_DIR)/report/
 	cp $(CONF_DIR)/report/*.js $(OUT_DIR)/report/
 
+list-generators:
+	@echo $(GENERATORS)
+
 $(foreach g, $(GENERATORS), $(eval $(call generator_gen,$(g))))
 $(foreach r, $(RUNNERS),$(foreach t, $(TESTS),$(eval $(call runner_test_gen,$(r),$(t)))))
 $(foreach r, $(RUNNERS),$(eval $(call runner_cg_gen,$(r))))

@@ -129,8 +129,8 @@ jobs:
           make info
       - name: Run
         run: |
-          make ${{ matrix.tool.name }} generate-tests
           make -j$(nproc)
+          for gen in $(make list-generators); do make generate-$gen; if [ "fusesoc" = "$gen" ] || [ "black-parrot" = "$gen" ]; then make; else make -j$(nproc); fi done
       - name: Prepare Report
         run:
           mv out/report/report.csv out/report/${{ matrix.tool.name }}_report.csv
