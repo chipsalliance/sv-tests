@@ -11,7 +11,6 @@
 
     <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.19/css/jquery.dataTables.css">
     <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet"/>
 
     {# Global parameters for scripts and stylesheets #}
     <script>
@@ -30,16 +29,67 @@
     </header>
     <main>
       <section id="filter-section">
-        <button onclick="toggleFilters()">Show advanced filters (experimental)</button>
-        <section style="display: none;" id="filter">
-          <ul class="filter-entries">
-          </ul>
-          <div>
-            <button class="filter-add" onclick="addOptions()">Add</button>
-            <button class="filter-apply" onclick="applyFilter()">Apply</button>
-            <button class="filter-remove" onclick="removeAll()">Remove all filters</button>
-          </div>
-        </section>
+        <details>
+          <summary>
+            Advanced filters
+          </summary>
+          <button id="filter-apply-button" class="v_link-button" disabled>Apply</button>
+          <button id="filter-reset-button" class="v_link-button" disabled>Reset</button>
+          <span id="filter-error-msg"></span>
+          <dl class="c_filter">
+            <dt>Tool</dt>
+            <dd class="p_tool-filter">
+              <div class="p_checkboxes">
+                {% for tool, tool_info in report.tools|numeric_dictsort %}
+                <label title="{{tool|escape_attr}}"><input type="checkbox" value="{{tool|lower|escape_attr}}" checked>{{tool|e}}</label>
+                {% endfor %}
+              </div>
+              <div class="p_buttons-bar">
+                <button class="p_select-all-button">Select all</button>
+                <button class="p_invert-selection-button">Invert selection</button>
+              </div>
+            </dd>
+            <dt>Coverage</dt>
+            <dd class="p_coverage-filter">
+              <div class="p_entry">
+                <select class="p_entry-operator">
+                  <option value="&gt;=">&gt;=</option>
+                  <option value="&lt;=">&lt;=</option>
+                  <option value="&gt;">&gt;</option>
+                  <option value="&lt;">&lt;</option>
+                  <option value="==">==</option>
+                </select>
+                <input type="number" min="0" max="100" class="p_entry-value" value="0"><span>%</span>
+              </div>
+              <template class="p_entry-template">
+                <div class="p_entry v_removable">
+                  <select class="p_entry-relation">
+                    <option value="&amp;&amp;">and</option>
+                    <option value="||">or</option>
+                  </select>
+                  <select class="p_entry-operator">
+                  <option value="&gt;=">&gt;=</option>
+                  <option value="&lt;=">&lt;=</option>
+                  <option value="&gt;">&gt;</option>
+                  <option value="&lt;">&lt;</option>
+                  <option value="==">==</option>
+                  </select>
+                  <input type="number" min="0" max="100" class="p_entry-value" value="0"><span>%</span>
+                  <button class="v_link-button p_remove-entry-button">(remove)</button>
+                </div>
+              </template>
+              <button class="p_add-entry-button">Add condition</button>
+            </dd>
+            <dt>Type</dt>
+            <dd class="p_type-filter">
+              <div class="p_checkboxes">
+                {% for type in ["Elaboration", "Parsing", "Simulation"] %}
+                <label title="{{type|escape_attr}}"><input type="checkbox" value="{{type|lower|escape_attr}}" checked>{{type|e}}</label>
+                {% endfor %}
+              </div>
+            </dd>
+          </dl>
+        </details>
       </section>
       {% for group, group_data in report.groups|numeric_dictsort %}
       <table id="report_table-{{group}}" class="dataTable" data-group="{{group}}">
@@ -65,7 +115,7 @@
           {%       endif %}
           {%     endfor %}
           {%   endfor %}
-          <tr class="{{types_used_in_the_row|join(' ')}}" data-tag="{{tag|e}}">
+          <tr data-types="{{types_used_in_the_row|join(' ')}}" data-tag="{{tag|e}}">
             <th title="{{tag_info.description|escape_attr}}">
               {%- if tag_info.url -%}
               <a class="tag_link" target="_blank" href="{{tag_info.url}}">{{tag_info.description|e}}</a>
