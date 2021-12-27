@@ -1,0 +1,56 @@
+@import 'details-view.css';
+
+section {
+  margin: 0;
+  padding: 4px;
+  overflow: hidden;
+  width: 100%;
+}
+
+section.property-list.test-passed { background-color: #aaffaa; }
+section.property-list.test-failed { background-color: #ffaaaa; }
+
+section.property-list a:link {
+  color: #00006f;
+}
+
+section.property-list > dl {
+  margin: 0;
+}
+
+section.property-list > dl > div {
+  display: block;
+  line-height: 1.2em;
+}
+
+section.property-list > dl dt {
+  display: inline;
+  font-weight: bold;
+}
+section.property-list > dl dt::after {
+  content: ":";
+}
+
+section.property-list > dl dd {
+  margin: 0 0 0 0.5em;
+  display: inline;
+}
+
+section.property-list > dl dd ul {
+  margin: 0 0 0.5rem 1rem;
+  padding: 0;
+}
+
+section.property-list > dl dd ul li {
+  list-style-type: none;
+}
+
+section.log {
+  padding: 4px;
+}
+
+section.log > pre {
+  margin: 0;
+  padding: 0;
+  font-family: "Courier New", Consolas, monospace;
+}

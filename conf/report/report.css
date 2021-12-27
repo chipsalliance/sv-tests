@@ -1,4 +1,16 @@
-:root {
+/*
+Naming convention used in some elements group:
+
+c_* : component. Marks toplevel component element.
+p_* : A "part" of a component.
+v_* : Variant. Additional class that marks a variant of a part, component
+      or element.
+s_* : State of an element.
+
+Names ("*" above) use lower-kebab-case.
+*/
+
+* {
   box-sizing: border-box;
 }
 
@@ -42,8 +54,8 @@ footer {
   position: sticky;
   /* 100vw includes (unknown) scrollbar width. */
   /* Subtract arbitrary margin from the right to cover for it. */
-  width: calc(100vw - 32px);
-  left: 0;
+  width: calc(100vw - 42px);
+  left: 10px;
 
   margin-left: 0 !important;
   margin-right: 0;
@@ -78,16 +90,6 @@ footer {
   margin-top: 1rem;
   text-align: center;
   font-size: 10px;
-}
-
-/** Filter ************************************************************/
-
-.filter-apply, .filter-remove {
-  display: none;
-}
-
-#filter i {
-  color: #ff6961;
 }
 
 /** Table *************************************************************/
@@ -291,6 +293,195 @@ a.tool_link:hover, a.tag_link:hover {
   text-decoration-color: #00006f80;
 }
 
+table.dataTable > thead > tr > th:first-of-type {
+  text-align: left;
+  vertical-align: bottom;
+  padding: 0 0 4px 10px;
+  overflow: hidden;
+}
+
+table.dataTable > thead > tr > th:first-of-type h2 {
+  padding: 0;
+  margin: 0;
+  font-family: sans-serif;
+  font-size: 2rem;
+  text-transform: uppercase;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  color:#666;
+}
+
+/** Filter ************************************************************/
+
+/** Expandable view (<details>) **/
+
+#filter-section > details {
+  position: relative;
+  margin: 0.5rem 0;
+  padding: 0.5rem 0;
+  display: block;
+}
+
+#filter-section > details > summary {
+  display: inline-block;
+  width: fit-content;
+
+  color: black;
+  margin: 0.5rem 0;
+
+  font-size: 1rem;
+  font-weight: bold;
+  text-decoration: underline;
+  text-underline-position: under;
+  text-decoration-color: #00000060;
+  cursor: default;
+}
+#filter-section > details > summary:hover {
+  color: #00006f;
+  text-decoration-color: #00006f80;
+}
+#filter-section > details[open] > summary {
+  margin-right : 1rem;
+}
+#filter-section > details > button {
+  font-weight: bold;
+  display: inline-block;
+  margin-right : 1rem;
+}
+#filter-error-msg {
+  display: inline-block;
+  font-size: 0.8em;
+  font-weight: bold;
+  color: #af1a00;
+}
+#filter-error-msg:empty {
+  display: none;
+}
+
+#filter-section > details[open]::before,
+#filter-section > details[open]::after {
+  content: "";
+  position: absolute;
+  display: block;
+  height: 2px;
+  left: 0;
+  right: 0;
+  background-color: #505050;
+  box-shadow: -1rem 0 #505050, 64px 0 #505050;
+}
+#filter-section > details[open]::before { top: 0.5rem; }
+#filter-section > details[open]::after { bottom: 0.5rem; }
+
+/** Filter controls **/
+
+.c_filter {
+  display: grid;
+  grid-template-columns: 4em 1fr;
+  gap: 1rem 2px;
+  align-items: start;
+  justify-items: stretch;
+  margin: 1rem 0;
+  line-height: 1.5rem;
+}
+
+.c_filter > dt::after {
+  content: ":"
+}
+
+.c_filter > dd {
+  display: block;
+}
+
+.c_filter > dd label {
+  word-break: keep-all;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  height: 1.5rem;
+}
+
+.c_filter > dd label > input[type="checkbox"] {
+  vertical-align: middle;
+}
+
+.c_filter .p_checkboxes {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, 10em);
+  align-items: start;
+}
+
+.c_filter .p_buttons-bar {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  margin-top: 0.5rem;
+}
+.c_filter .p_buttons-bar > :not(:last-child) {
+  margin-right: 2px;
+}
+
+.c_filter > .p_coverage-filter {
+  display: flex;
+  flex-direction: row;
+  align-items: baseline;
+  flex-wrap: wrap;
+  margin-bottom: -4px;
+}
+
+.c_filter > .p_coverage-filter > .p_entry {
+  display: flex;
+  flex-direction: row;
+  align-items: baseline;
+
+  margin-right: 1rem;
+}
+.c_filter > .p_coverage-filter > .p_entry > * {
+  margin-bottom: 4px;
+}
+.c_filter > .p_coverage-filter > .p_entry > :not(:last-child) {
+  margin-right: 2px;
+}
+
+.c_filter > .p_coverage-filter > .p_entry > select {
+  width: fit-content;
+}
+.c_filter > .p_coverage-filter > .p_entry > input[type="number"] {
+  width: fit-content;
+  max-width: 5em;
+}
+.c_filter > .p_coverage-filter > .p_entry > input[type="number"]:invalid {
+  outline: 2px solid #ff6961;
+  color: #af1a00;
+}
+
+button.v_link-button {
+  appearance: none;
+  background: none;
+  border: none;
+  padding: 0;
+  margin: 0;
+
+  font: inherit;
+  font-size: 0.8em;
+  align-self: center;
+  line-height: 1em;
+
+  color: black;
+  text-decoration: underline;
+  text-underline-position: under;
+  text-decoration-color: #00000060;
+}
+
+button.v_link-button:hover {
+  color: #00006f;
+  text-decoration-color: #00006f80;
+}
+
+button.v_link-button:disabled {
+  color: #cfcece;
+  text-decoration-color: #cfcece60;
+}
+
 /** Details panel *****************************************************/
 
 .c_test-details-panel {
@@ -306,8 +497,9 @@ a.tool_link:hover, a.tag_link:hover {
   grid-template-areas:
     "log file"
     "tests-list tests-list";
-  justify-content: stretch;
+  align-items: stretch;
   justify-items: stretch;
+  justify-content: stretch;
 
   overflow-y: hidden;
   overflow-x: hidden;
@@ -348,6 +540,8 @@ a.tool_link:hover, a.tag_link:hover {
   box-sizing: border-box;
 }
 
+.c_test-details-panel > .p_tests-list > button:focus { outline:0; }
+
 .c_test-details-panel .p_close-button {
   background: #cfcece;
   float: right;
@@ -385,5 +579,3 @@ a.tool_link:hover, a.tag_link:hover {
 .ui-corner-all {
   border-radius: 0px;
 }
-
-button:focus {outline:0;}

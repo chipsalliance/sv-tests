@@ -29,6 +29,7 @@ import dataclasses
 import enum
 from typing import Dict, Any, List, Set, Iterable
 import json
+import itertools
 
 parser = argparse.ArgumentParser()
 
@@ -108,8 +109,10 @@ elif args.verbose:
 else:
     logger.setLevel(logging.INFO)
 
+# Common paths
 out_dir = os.path.dirname(os.path.abspath(args.out))
 top_dir = os.path.abspath(os.curdir)
+logs_out_dir = os.path.join(out_dir, "logs")
 
 lex = lexers.get_lexer_by_name("systemverilog")
 
@@ -129,12 +132,55 @@ def surroundWithQuotes(value: str, quot='"'):
     return quot + str(value) + quot
 
 
+# NOTE: this works correctly only with numbers shorter than 10 digits
+def numericSortKey(s: str):
+    # prepend all number occurences with the length of the number
+    r = re.sub(r"\d+", lambda m: str(len(m.group(0))) + m.group(0), s).lower()
+    return r
+
+
+def numericSort(l: List[str]):
+    return sorted(l, key=numericSortKey)
+
+
+def numericDictSort(d: Dict[str, Any]):
+    return sorted(d.items(), key=lambda kv: numericSortKey(kv[0]))
+
+
+# Like numericDictSort, but entries starting with a letter are placed before
+# entries starting with a digit.
+def tagDictSort(d: Dict[str, Any]):
+    def tagSortKey(s: str):
+        if len(s) > 0 and s[0].isdigit():
+            return numericSortKey(s)
+        else:
+            return " " + numericSortKey(s)
+
+    return sorted(d.items(), key=lambda kv: tagSortKey(kv[0]))
+
+
+# Maps results_group ID to a name displayed in a report
+RESULTS_GROUP_DISPLAY_NAMES = {
+    "": "",
+    "cores": "Cores",
+}
+
+
+def getResultsGroupDisplayName(group_id):
+    # TODO: read display names from some config
+    return RESULTS_GROUP_DISPLAY_NAMES.get(group_id, "")
+
+
 # Initialize Jinja2 environment with custom filter
 
 jinja2env = jinja2.Environment(trim_blocks=True, lstrip_blocks=True)
 jinja2env.filters["escape_attr"] = escapeXmlAttribute
 jinja2env.filters["escape_js_str"] = escapeJsString
 jinja2env.filters["quote"] = surroundWithQuotes
+jinja2env.filters["numeric_sort"] = numericSort
+jinja2env.filters["numeric_dictsort"] = numericDictSort
+jinja2env.filters["tag_dictsort"] = tagDictSort
+jinja2env.filters["group_id_to_display_name"] = getResultsGroupDisplayName
 
 
 def exists_and_is_newer_than(target: str, sources: List[str]):
@@ -162,25 +208,6 @@ def totalSize(files):
 def criticalError(msg):
     logger.critical(msg)
     sys.exit(1)
-
-
-# class used for sorting "test tabs" in the report
-class TestResultComp(object):
-    def __init__(self, item):
-        self.item = item
-
-    def prepend_nums(self, s):
-        # prepend all number occurences with the length of the number
-        for m in re.findall(r'\d+', s):
-            s = s.replace(m, str(len(m)) + m)
-
-        return s
-
-    def __lt__(self, other):
-        s = self.prepend_nums(self.item.name)
-        o = self.prepend_nums(other.item.name)
-
-        return s < o
 
 
 def readConfig(filename):
@@ -236,6 +263,7 @@ class TestResult:
     name: str = ""
     tags: Set[str] = dataclasses.field(default_factory=set)
     types: Set[str] = dataclasses.field(default_factory=set)
+    results_group: str = ""
     input_files: List[str] = dataclasses.field(default_factory=list)
     # Unit: bytes
     total_input_files_size: int = 0
@@ -255,18 +283,45 @@ class TestResult:
 
 
 @dataclasses.dataclass
-class TagResults:
-    status: TestStatus = TestStatus.NA
-    types: List[str] = dataclasses.field(default_factory=list)
-    passed_tests: int = 0
-    tests: List[TestResult] = dataclasses.field(default_factory=list)
+class TagInfo:
+    description: str = ""
+    url: str = ""
 
 
 @dataclasses.dataclass
-class ToolResults:
-    tests: Dict[str, TestResult] = dataclasses.field(default_factory=dict)
-    tags: Dict[str, TagResults] = dataclasses.field(default_factory=dict)
+class ToolInfo:
+    # Tool name should be used only for display purposes. Always use a key
+    # from `tools` in `ReportResults` (or another dict where tool ID is
+    # the key) as a runner/tool ID.
+    name: str = ""
+    version: str = ""
+    url: str = ""
 
+
+@dataclasses.dataclass
+class TagToolResult:
+    tests: List[TestResult] = dataclasses.field(default_factory=list)
+    types: Set[str] = dataclasses.field(default_factory=set)
+
+    passed_tests: int = 0
+
+    @property
+    def total_tests(self):
+        return len(self.tests)
+
+    @property
+    def status(self) -> TestStatus:
+        if (self.total_tests == 0):
+            return TestStatus.NA
+        elif (self.passed_tests == 0):
+            return TestStatus.FAILED
+        elif (self.passed_tests == self.total_tests):
+            return TestStatus.PASSED
+        return TestStatus.VARIED
+
+
+@dataclasses.dataclass
+class ToolSummary:
     # Unit: seconds
     total_time: float = 0
     user_time: float = 0
@@ -278,32 +333,40 @@ class ToolResults:
     # Unit: KiB/s
     passed_throughput: float = 0
 
-    # Tool name. This should be used only for display purposes. Always use
-    # a key from `tools` in `ReportResults` as a runner/tool ID.
-    name: str = ""
-    version: str = ""
-    url: str = ""
-
     total_passed_tests: int = 0
+    total_tests: int = 0
     total_passed_tags: int = 0
     total_tested_tags: int = 0
 
-    @property
-    def total_tests(self):
-        return len(self.tests)
-
 
 @dataclasses.dataclass
-class TagInfo:
-    description: str = ""
-    url: str = ""
+class GroupData:
+    # key 1 = tag id; key 2 = runner name = runner class name
+    tags_tools: Dict[str, Dict[str, TagToolResult]] = dataclasses.field(
+        default_factory=dict)
+    # key = runner name = runner class name
+    summaries: Dict[str, ToolSummary] = dataclasses.field(default_factory=dict)
+    # key = runner name = runner class name
+    tests: Dict[str,
+                List[TestResult]] = dataclasses.field(default_factory=dict)
+
+
+# GroupData equivalent for data from a single tool
+@dataclasses.dataclass
+class PartialGroupData:
+    # key 1 = tag id
+    tags: Dict[str, TagToolResult] = dataclasses.field(default_factory=dict)
+    summary: ToolSummary = dataclasses.field(default_factory=ToolSummary)
+    tests: List[TestResult] = dataclasses.field(default_factory=list)
 
 
 @dataclasses.dataclass
 class ReportResults:
-    # Results from each runner/tool.
-    # Keys are runner names (i.e. runner class names)
-    tools: Dict[str, ToolResults] = dataclasses.field(default_factory=dict)
+    # Results groups (key = results group id)
+    groups: Dict[str, GroupData] = dataclasses.field(default_factory=dict)
+    # key = runner name = runner class name
+    tools: Dict[str, ToolInfo] = dataclasses.field(default_factory=dict)
+
     # Tags used in the report. Keys are tag IDs.
     tags: Dict[str, TagInfo] = dataclasses.field(default_factory=dict)
 
@@ -386,6 +449,8 @@ def renderLogToHTMLFile(
     log_content = convertPathsToRelativeLinks(
         str(markupsafe.escape(log_content)), log_html_dir)
 
+    csspath = os.path.join(out_dir, "log.css")
+    csspath = os.path.relpath(csspath, os.path.dirname(log_html_path))
     os.makedirs(os.path.dirname(log_html_path), exist_ok=True)
     with open(log_html_path, 'w') as f:
         f.write(
@@ -393,7 +458,8 @@ def renderLogToHTMLFile(
                 input_files_map=files_map,
                 result=test_result,
                 log=test_log,
-                content=log_content))
+                content=log_content,
+                csspath=csspath))
 
 
 with open(args.code_template, "r") as templ:
@@ -436,7 +502,7 @@ def renderTagResultsConfig(
     js_global_variable_name = f"config_loader_data['{tool}/{tag}']"
 
     # Order of values in each entry:
-    # [name, status, log_html_path, first_input_file_html_path]
+    # [group, name, status, log_html_path, first_input_file_html_path]
     config = []
     for test_result in test_results:
         name = test_result.name
@@ -444,7 +510,8 @@ def renderTagResultsConfig(
         log_html_file = test_result.log_html_file
         first_input_html = test_result.input_files[0] + ".html"
         first_input_html = urllib.parse.quote(first_input_html)
-        config.append([name, status, log_html_file, first_input_html])
+        group = test_result.results_group
+        config.append([group, name, status, log_html_file, first_input_html])
 
     js_data = json.dumps(config, separators=(",", ":"))
     code = f"{js_global_variable_name} = {js_data}"
@@ -455,23 +522,21 @@ def renderTagResultsConfig(
 
 
 def collect_logs(runner_name: str):
-    tool_results = ToolResults()
+    @dataclasses.dataclass
+    class LocalPartialGroupData:
+        group: PartialGroupData = dataclasses.field(
+            default_factory=PartialGroupData)
 
-    # Values used to calculate throughput. Totals are collected only for files
-    # with size > minimum_throughput_file_size
-    passed_tests_time = 0.0
-    passed_tests_input_files_size = 0.0
+        # Values used to calculate throughput. Totals are collected only for
+        # files with size > minimum_throughput_file_size
+        passed_tests_time: float = 0.0
+        passed_tests_input_files_size: float = 0.0
+
+    local_groups: Dict[str, LocalPartialGroupData] = {}
+    tool_info: ToolInfo = ToolInfo()
 
     rendered_count = 0
-
-    @dataclasses.dataclass
-    class TagStatuses:
-        passed_count: int = 0
-        present_statuses: Set[TestStatus] = dataclasses.field(
-            default_factory=set)
-        present_types: Set[str] = dataclasses.field(default_factory=set)
-
-    tags_statuses: Dict[str, TagStatuses] = {}
+    tests_count = 0
 
     for log_file in glob(os.path.join(args.logs, runner_name, "**/*.log"),
                          recursive=True):
@@ -490,7 +555,8 @@ def collect_logs(runner_name: str):
             "description", "files", "incdirs", "top_module", "runner",
             "runner_url", "time_elapsed", "type", "mode", "timeout",
             "user_time", "system_time", "ram_usage", "tool_success",
-            "should_fail_because", "defines", "compatible-runners"
+            "should_fail_because", "defines", "compatible-runners",
+            "results_group"
         }
         test_log_data: Dict[str, Any] = {}
         log_content = ""
@@ -534,12 +600,10 @@ def collect_logs(runner_name: str):
 
             log_content = f.read()
 
-        tool_results.tests[t_id] = test_result
-
-        if tool_results.name == "":
-            tool_results.name = test_log_data["runner"]
+        # Test Result
 
         test_result.name = test_log_data["name"]
+        test_result.results_group = test_log_data["results_group"]
 
         # Convert splitted "tags" to set() and append all meta-tags
         test_result.tags = set(test_log_data["tags"].split())
@@ -561,20 +625,13 @@ def collect_logs(runner_name: str):
         tool_should_fail = test_log_data["should_fail"] == "1"
         tool_crashed = test_result.exit_code >= 126
         tool_failed = test_log_data["tool_success"] == "0"
-
         if tool_crashed or tool_should_fail != tool_failed:
             test_result.status = TestStatus.FAILED
-        elif test_log_data["mode"] == "simulation" and not parseLog(
-                log_content):
+        elif (test_log_data["mode"] == "simulation"
+              and not parseLog(log_content)):
             test_result.status = TestStatus.FAILED
         else:
             test_result.status = TestStatus.PASSED
-            tool_results.total_passed_tests += 1
-            # Collect stats for calculating passed_throughput
-            input_files_size = test_result.total_input_files_size
-            if input_files_size > minimum_throughput_file_size:
-                passed_tests_input_files_size += input_files_size
-                passed_tests_time += float(test_log_data["time_elapsed"])
 
         test_result.timeout = int(test_log_data["timeout"])
 
@@ -582,18 +639,9 @@ def collect_logs(runner_name: str):
         test_result.user_time = float(test_log_data["user_time"])
         test_result.system_time = float(test_log_data["system_time"])
 
-        tool_results.total_time += test_result.total_time
-        tool_results.user_time += test_result.user_time
-        tool_results.system_time += test_result.system_time
-
         test_result.ram_usage = float(test_log_data["ram_usage"])  # KB
-        ram_usage_mb = test_result.ram_usage / 1000
-        if tool_results.max_ram_usage < ram_usage_mb:
-            tool_results.max_ram_usage = ram_usage_mb
 
-        logs_out_dir = os.path.join(out_dir, "logs")
         log_html = os.path.join(logs_out_dir, t_id + ".html")
-
         test_result.log_html_file = os.path.relpath(log_html, out_dir)
 
         # Render the log if needed
@@ -602,93 +650,186 @@ def collect_logs(runner_name: str):
             rendered_count += 1
             renderLogToHTMLFile(
                 out_dir, log_html, test_result, test_log_data, log_content)
+        tests_count += 1
+
+        # Group
+
+        local_group = local_groups.setdefault(
+            test_result.results_group, LocalPartialGroupData())
+        group = local_group.group
+        group.tests.append(test_result)
+
+        # (tag, tool) results
 
         for tag in test_result.tags:
-            tag_statuses = tags_statuses.setdefault(tag, TagStatuses())
+            tag_data = group.tags.setdefault(tag, TagToolResult())
+            tag_data.tests.append(test_result)
+            tag_data.types.update(test_result.types)
             if test_result.status == TestStatus.PASSED:
-                tag_statuses.passed_count += 1
-            tag_statuses.present_statuses.add(test_result.status)
-            tag_statuses.present_types.update(test_result.types)
+                tag_data.passed_tests += 1
 
-    for tag, tag_statuses in tags_statuses.items():
-        tag_results = tool_results.tags[tag] = TagResults()
+        # Summary
 
-        tag_results.passed_tests = tag_statuses.passed_count
-        if len(tag_statuses.present_statuses) == 0:
-            tag_results.status = TestStatus.NA
-        elif len(tag_statuses.present_statuses) == 1:
-            tag_results.status = list(tag_statuses.present_statuses)[0]
-            tool_results.total_tested_tags += 1
-            if (tag_results.status == TestStatus.PASSED):
-                tool_results.total_passed_tags += 1
+        if test_result.status == TestStatus.PASSED:
+            input_files_size = test_result.total_input_files_size
+            if input_files_size > minimum_throughput_file_size:
+                local_group.passed_tests_input_files_size += input_files_size
+                local_group.passed_tests_time += test_result.total_time
+
+        summary = group.summary
+
+        summary.total_time += test_result.total_time
+        summary.user_time += test_result.user_time
+        summary.system_time += test_result.system_time
+
+        ram_usage_mb = test_result.ram_usage / 1000
+        if summary.max_ram_usage < ram_usage_mb:
+            summary.max_ram_usage = ram_usage_mb
+
+        summary.total_tests += 1
+        if test_result.status == TestStatus.PASSED:
+            summary.total_passed_tests += 1
+
+        if tool_info.name == "":
+            tool_info.name = test_log_data["runner"]
+
+    logger.info(
+        f"{runner_name}: (Re)generated {rendered_count}/{tests_count} rendered log files."
+    )
+
+    all_used_tags: Set[str] = set()
+
+    for group_id, local_group in local_groups.items():
+        group = local_group.group
+        all_used_tags.update(group.tags.keys())
+        for tag_id, tag_tool_result in group.tags.items():
+            if tag_tool_result.status != TestStatus.NA:
+                group.summary.total_tested_tags += 1
+                if tag_tool_result.status == TestStatus.PASSED:
+                    group.summary.total_passed_tags += 1
+
+            tag_tool_result.tests.sort(key=lambda t: numericSortKey(t.name))
+
+        time = local_group.passed_tests_time
+        size = local_group.passed_tests_input_files_size
+        if time == 0:
+            group.summary.passed_throughput = 0
         else:
-            tag_results.status = TestStatus.VARIED
-            tool_results.total_tested_tags += 1
+            group.summary.passed_throughput = size / time / 1024
 
-        tag_results.types = list(tag_statuses.present_types)
-
-        tag_results.tests = sorted(
-            [t for t in tool_results.tests.values() if tag in t.tags],
-            key=TestResultComp)
-
+    for tag_id in all_used_tags:
+        # List of tag's test lists from all groups
+        tests_lists = [
+            lg.group.tags[tag_id].tests
+            for lg in local_groups.values()
+            if tag_id in lg.group.tags
+        ]
         config_js = os.path.join(
             out_dir, "results", runner_name.lower(),
-            f"{tag.lower()}.config.js")
+            tag_id.lower() + ".config.js")
 
         # Render the config
-        renderTagResultsConfig(config_js, runner_name, tag, tag_results.tests)
+        renderTagResultsConfig(
+            config_js, runner_name, tag_id,
+            itertools.chain.from_iterable(tests_lists))
 
     try:
         with open(os.path.join(args.logs, runner_name, "version")) as f:
-            tool_results.version = f.read().strip()
+            tool_info.version = f.read().strip()
     except IOError:
         pass
 
     try:
         with open(os.path.join(args.logs, runner_name, "url")) as f:
-            tool_results.url = f.read().strip()
+            tool_info.url = f.read().strip()
     except IOError:
         pass
 
-    if passed_tests_time == 0:
-        tool_results.passed_throughput = 0
-    else:
-        tool_results.passed_throughput = (
-            passed_tests_input_files_size / passed_tests_time / 1024)
+    groups: Dict[str, PartialGroupData] = {
+        id: lg.group
+        for id, lg in local_groups.items()
+    }
 
-    logger.info(
-        f"{runner_name}: (Re)generated {rendered_count}/{tool_results.total_tests} rendered log files."
-    )
-
-    return tool_results
+    return {
+        "tool_info": tool_info,
+        "partial_groups": groups,
+    }
 
 
-logger.info("Generating {} from log files in '{}'".format(args.out, args.logs))
+# CamelCase or undscore_separator csv headers ?
+# We use CamelCase so that gnuplot getting header from CSV displays them
+# as-is and doesn't print the post-underscore letter a subscript.
+csv_header = [
+    'TestName',
+    'Tool',  # Parser/Compiler/Tool processing it
+    'Group',
+    'Pass',  # result. True if we got expected result.
+    'ExitCode',  # Actual tool exit code
+    'Tags',
+    'InputBytes',  # test facts
+    'AllowedTimeout',  # Some measurements
+    'TimeUser',
+    'TimeSystem',
+    'TimeWall',
+    'RamUsageMiB'
+]
+csv_output = {}
 
 # Input files (.sv) path relative to repository's toplevel directory
 all_input_files: Set[str] = set()
 
 runner_names = []
-
 for r in [os.path.dirname(r) for r in glob(args.logs + "/*/")]:
     runner_name = os.path.basename(r)
     logger.debug("Found Runner: " + runner_name)
-
     runner_names.append(runner_name)
+
+logger.info("Generating {} from log files in '{}'".format(args.out, args.logs))
 
 with multiprocessing.Pool() as pool:
     results = pool.map(collect_logs, runner_names)
 
 for tool_name, tool_results in zip(runner_names, results):
-    report_data.tools[tool_name] = tool_results
-    for tag in tool_results.tags:
-        if tag not in database and tag not in report_data.tags:
-            logger.warning("Tag not present in the database: " + tag)
-        report_data.tags.setdefault(
-            tag,
-            TagInfo(description=database.get(tag, ""), url=urls.get(tag, "")))
-    for test_result in tool_results.tests.values():
-        all_input_files.update(test_result.input_files)
+    report_data.tools[tool_name] = tool_results["tool_info"]
+    partial_groups: Dict[str,
+                         PartialGroupData] = tool_results["partial_groups"]
+
+    for group_id, partial_group in partial_groups.items():
+        group = report_data.groups.setdefault(group_id, GroupData())
+        group.tests[tool_name] = partial_group.tests
+        group.summaries[tool_name] = partial_group.summary
+
+        for tag_id, tool_data in partial_group.tags.items():
+            tools = group.tags_tools.setdefault(tag_id, {})
+            tools[tool_name] = tool_data
+
+            if tag_id not in database and tag_id not in report_data.tags:
+                logger.warning("Tag not present in the database: " + tag_id)
+            report_data.tags.setdefault(
+                tag_id,
+                TagInfo(
+                    description=database.get(tag_id, ""),
+                    url=urls.get(tag_id, "")))
+
+        for test_result in partial_group.tests:
+            all_input_files.update(test_result.input_files)
+
+            unique_row = test_result.name + ":" + tool_name
+
+            csv_output[unique_row] = {
+                "TestName": test_result.name,
+                "Tool": tool_name,
+                "Group": test_result.results_group,
+                "Pass": test_result.status == TestStatus.PASSED,
+                "ExitCode": test_result.exit_code,
+                "Tags": " ".join(test_result.tags),
+                "InputBytes": test_result.total_input_files_size,
+                "AllowedTimeout": test_result.timeout,
+                "TimeUser": round(test_result.user_time, 6),
+                "TimeSystem": round(test_result.system_time, 6),
+                "TimeWall": round(test_result.total_time, 6),
+                "RamUsageMiB": round(test_result.ram_usage / 1024, 3),
+            }
 
 # Render input files
 rendered_count = 0
@@ -703,43 +844,6 @@ for input_file in all_input_files:
 logger.info(
     f"(Re)generated {rendered_count}/{len(all_input_files)} rendered input files."
 )
-
-# CamelCase or undscore_separator csv headers ?
-# We use CamelCase so that gnuplot getting header from CSV displays them
-# as-is and doesn't print the post-underscore letter a subscript.
-csv_header = [
-    'TestName',
-    'Tool',  # Parser/Compiler/Tool processing it
-    'Pass',  # result. True if we got expected result.
-    'ExitCode',  # Actual tool exit code
-    'Tags',
-    'InputBytes',  # test facts
-    'AllowedTimeout',  # Some measurements
-    'TimeUser',
-    'TimeSystem',
-    'TimeWall',
-    'RamUsageMiB'
-]
-
-csv_output = {}
-
-for tool_name, tool_results in report_data.tools.items():
-    for test_result in tool_results.tests.values():
-        unique_row = test_result.name + ":" + tool_name
-
-        csv_output[unique_row] = {
-            "TestName": test_result.name,
-            "Tool": tool_name,
-            "Pass": test_result.status == TestStatus.PASSED,
-            "ExitCode": test_result.exit_code,
-            "Tags": " ".join(test_result.tags),
-            "InputBytes": test_result.total_input_files_size,
-            "AllowedTimeout": test_result.timeout,
-            "TimeUser": round(test_result.user_time, 6),
-            "TimeSystem": round(test_result.system_time, 6),
-            "TimeWall": round(test_result.total_time, 6),
-            "RamUsageMiB": round(test_result.ram_usage / 1024, 3),
-        }
 
 try:
     with open(args.template, "r") as f:
