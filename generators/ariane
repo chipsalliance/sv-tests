@@ -19,6 +19,7 @@ templ = """/*
 :files: {0}
 :incdirs: {1}
 :tags: ariane
+:results_group: cores
 :top_module: {2}
 :timeout: 360
 */

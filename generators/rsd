@@ -20,6 +20,7 @@ templ = """/*
 :incdirs: {1}
 :tags: rsd
 :top_module: Core
+:results_group: cores
 :timeout: 100
 */
 """

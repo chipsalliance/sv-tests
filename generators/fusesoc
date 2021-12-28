@@ -14,6 +14,7 @@ templ = """/*
 :top_module: {5}
 :tags: {6}
 :timeout: {7}
+:results_group: cores
 :compatible-runners: {8}
 :type: {9}
 */
