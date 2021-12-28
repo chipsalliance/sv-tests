@@ -11,5 +11,6 @@
 		"p140.sv",
 		"p77.sv"
 	],
-	"type": "parsing"
+	"type": "parsing",
+	"results_group": "imported"
 }

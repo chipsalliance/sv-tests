@@ -39,5 +39,6 @@
 		"p886.sv",
 		"p940.sv"
 	],
-	"type": "parsing"
+	"type": "parsing",
+	"results_group": "imported"
 }

@@ -6,5 +6,6 @@
 	],
 	"matches": ["*.v"],
 	"blacklist": ["sparc_ffu_ctl_visctl.v", "operators.v", "pad_jbusl.v", "pad_jbusr.v", "fpu_in_ctl.v", "ifdef-2.v"],
-	"type": "parsing"
+	"type": "parsing",
+	"results_group": "imported"
 }

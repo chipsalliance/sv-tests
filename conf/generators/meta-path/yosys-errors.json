@@ -6,5 +6,6 @@
 		["tools", "yosys", "tests", "errors"]
 	],
 	"matches": ["*.v"],
-	"blacklist": ["syntax_err06.v", "syntax_err09.v", "syntax_err12.v", "syntax_err13.v"]
+	"blacklist": ["syntax_err06.v", "syntax_err09.v", "syntax_err12.v", "syntax_err13.v"],
+	"results_group": "imported"
 }
