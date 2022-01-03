@@ -53,6 +53,9 @@ jobs:
     env:
       RUNNERS_FILTER: ${{ matrix.tool.runners_filter }}
       CCACHE_DIR: "/root/sv-tests/sv-tests/.cache/"
+      # those generators can use a lot of RAM/cpu and starve other tests
+      # tests from those generators are run without "-j" flag
+      BIG_GENERATORS: "fusesoc black-parrot"
 
     name: ${{ matrix.tool.name }}
     runs-on: [self-hosted, Linux, X64]
@@ -129,8 +132,11 @@ jobs:
           make info
       - name: Run
         run: |
-          make ${{ matrix.tool.name }} generate-tests
-          make -j$(nproc)
+          BIG_GENERATORS_EXPR=$(echo $BIG_GENERATORS | sed 's/ /\\|/g')
+          export STABLE_GENERATORS=$(make list-generators | tr ' ' '\n' | grep -v "${BIG_GENERATORS_EXPR}")
+          export UNSTABLE_GENERATORS=$(make list-generators | tr ' ' '\n' | grep "${BIG_GENERATORS_EXPR}")
+          for gen in ${STABLE_GENERATORS}; do make generate-$gen -j$(nproc); make -j$(nproc); done
+          for gen in ${UNSTABLE_GENERATORS}; do make generate-$gen; make; done
       - name: Prepare Report
         run:
           mv out/report/report.csv out/report/${{ matrix.tool.name }}_report.csv
