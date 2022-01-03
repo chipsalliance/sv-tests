@@ -12,6 +12,7 @@
 :description: invalid stream unpack test
 :should_fail_because: stream is wider than assignment target
 :tags: 11.4.14.3
+:runner_verilator_flags: -Werror-WIDTH
 :type: simulation elaboration
 */
 module top();
