@@ -10,3 +10,4 @@ markupsafe
 pytablewriter
 GitPython
 git+https://github.com/lowRISC/fusesoc.git@ot
+orderedmultidict
