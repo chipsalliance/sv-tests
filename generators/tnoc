@@ -19,6 +19,7 @@ templ = """/*
 :files: {0}
 :tags: TNoC
 :top_module: tnoc
+:results_group: cores
 :timeout: 100
 */
 """

@@ -48,5 +48,6 @@
 		"bsg_sbox_ctrl_concentrate.v",
 		"bsg_pg_tree.v"
 	],
-	"fake_topmodule": true
+	"fake_topmodule": true,
+	"results_group": "imported"
 }

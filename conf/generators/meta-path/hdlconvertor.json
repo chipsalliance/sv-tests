@@ -17,5 +17,6 @@
 		"parity_using_function2.v",
 		"stm_import.sv"
 	],
-	"type": "parsing"
+	"type": "parsing",
+	"results_group": "imported"
 }

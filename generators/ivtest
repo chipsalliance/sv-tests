@@ -20,6 +20,7 @@ templ = """/*
 :files: {1}
 :incdirs: {3}
 :tags: ivtest
+:results_group: imported
 :type: simulation parsing
 {2}
 {4}
