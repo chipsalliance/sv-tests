@@ -56,6 +56,7 @@ jobs:
       # those generators can use a lot of RAM/cpu and starve other tests
       # tests from those generators are run without "-j" flag
       BIG_GENERATORS: "fusesoc black-parrot"
+      DEBIAN_FRONTEND: "noninteractive"
 
     name: ${{ matrix.tool.name }}
     runs-on: [self-hosted, Linux, X64]
@@ -165,6 +166,7 @@ jobs:
       CHANGES_SUMMARY_JSON: "$OUT_REPORT_DIR/tests_summary.json"
       CHANGES_SUMMARY_MD: "$OUT_REPORT_DIR/tests_summary.md"
       TESTS_SUMMARY_DIR: "tests_summary/"
+      DEBIAN_FRONTEND: "noninteractive"
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
