@@ -102,6 +102,9 @@ jobs:
           stack upgrade
       - name: Checkout the tool submodule
         run: |
+          # Github dropped support for unauthorized git: https://github.blog/2021-09-01-improving-git-protocol-security-github/
+          # Make sure we always use https:// instead of git://
+          git config --global url.https://github.com/.insteadOf git://github.com/
           if [[ ! -z "${{ matrix.tool.repo }}" ]]; then
             git submodule update --init --recursive third_party/tools/${{ matrix.tool.repo }}
           elif [[ -e third_party/tools/${{ matrix.tool.name }} ]]; then
