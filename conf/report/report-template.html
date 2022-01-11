@@ -115,7 +115,7 @@
           {%       endif %}
           {%     endfor %}
           {%   endfor %}
-          <tr data-types="{{types_used_in_the_row|join(' ')}}" data-tag="{{tag|e}}">
+          <tr data-types="{{types_used_in_the_row|join(' ')}}" data-tag="{{tag|lower|e}}">
             <th title="{{tag_info.description|escape_attr}}">
               {%- if tag_info.url -%}
               <a class="tag_link" target="_blank" href="{{tag_info.url}}">{{tag_info.description|e}}</a>
