@@ -130,7 +130,7 @@ $(INSTALL_DIR)/bin/parse_sv:
 moore: $(INSTALL_DIR)/bin/moore
 
 $(INSTALL_DIR)/bin/moore:
-	cargo install --git "https://github.com/fabianschuiki/moore" --root $(INSTALL_DIR) --bin moore
+	cargo install --path $(RDIR)/moore --root $(INSTALL_DIR) --bin moore
 
 # verible
 verible:
