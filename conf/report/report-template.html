@@ -95,7 +95,7 @@
       <table id="report_table-{{group}}" class="dataTable" data-group="{{group}}">
         <thead>
           <tr>
-            <th><h2>{{group|group_id_to_display_name|e}}</h2></th>
+            <th><h2>{{group|e}}</h2></th>
             <th></th>
             {% for tool, tool_info in report.tools|numeric_dictsort %}
             <th title="{{tool_info.version|escape_attr}}" style="--z: {{loop.length - loop.index}}">

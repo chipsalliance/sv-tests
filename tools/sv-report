@@ -159,18 +159,6 @@ def tagDictSort(d: Dict[str, Any]):
     return sorted(d.items(), key=lambda kv: tagSortKey(kv[0]))
 
 
-# Maps results_group ID to a name displayed in a report
-RESULTS_GROUP_DISPLAY_NAMES = {
-    "": "",
-    "cores": "Cores",
-}
-
-
-def getResultsGroupDisplayName(group_id):
-    # TODO: read display names from some config
-    return RESULTS_GROUP_DISPLAY_NAMES.get(group_id, "")
-
-
 # Initialize Jinja2 environment with custom filter
 
 jinja2env = jinja2.Environment(trim_blocks=True, lstrip_blocks=True)
@@ -180,7 +168,6 @@ jinja2env.filters["quote"] = surroundWithQuotes
 jinja2env.filters["numeric_sort"] = numericSort
 jinja2env.filters["numeric_dictsort"] = numericDictSort
 jinja2env.filters["tag_dictsort"] = tagDictSort
-jinja2env.filters["group_id_to_display_name"] = getResultsGroupDisplayName
 
 
 def exists_and_is_newer_than(target: str, sources: List[str]):
