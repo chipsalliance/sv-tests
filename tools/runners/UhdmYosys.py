@@ -55,8 +55,15 @@ class UhdmYosys(BaseRunner):
                 f"surelog -nopython -nobuiltin -parse -sverilog -nonote -noinfo -nowarning -DSYNTHESIS"
             )
 
+            # lowmem option
+            if "black-parrot" in params["tags"]:
+                f.write(' -lowmem')
+
+            if "earlgrey" in params["tags"]:
+                f.write(' -lowmem')
+
             if mode in ["parsing", "preprocessing"]:
-                f.write('-noelab')
+                f.write(' -noelab')
 
             for i in params["incdirs"]:
                 f.write(f" -I{i}")
