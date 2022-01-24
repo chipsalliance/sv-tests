@@ -52,7 +52,7 @@ class UhdmYosys(BaseRunner):
             f.write("set -e\n")
             f.write("set -x\n")
             f.write(
-                f"surelog -nopython -nobuiltin -parse -sverilog -nonote -noinfo -nowarning"
+                f"surelog -nopython -nobuiltin -parse -sverilog -nonote -noinfo -nowarning -DSYNTHESIS"
             )
 
             if mode in ["parsing", "preprocessing"]:

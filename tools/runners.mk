@@ -101,11 +101,13 @@ yosys-uhdm: $(INSTALL_DIR)/bin/yosys-uhdm
 
 $(INSTALL_DIR)/bin/yosys-uhdm:
 	mkdir -p $(INSTALL_DIR)
-	cd $(RDIR)/yosys-uhdm-plugin-integration/yosys && \
+	(export PATH=$(INSTALL_DIR)/bin/:${PATH} && \
+		export INSTALL_PATH=$(INSTALL_DIR) && \
+		cd $(RDIR)/yosys-uhdm-plugin-integration/yosys && \
+		git reset --hard HEAD && git clean -f && \
 		git apply ../yosys-patches/* && \
 		cd .. && \
-		./build_binaries.sh
-	cp -r $(RDIR)/yosys-uhdm-plugin-integration/image/* $(INSTALL_DIR)
+		./build_binaries.sh)
 	mv $(INSTALL_DIR)/bin/yosys $(INSTALL_DIR)/bin/yosys-uhdm
 
 # vanilla-yosys-uhdm-plugin
