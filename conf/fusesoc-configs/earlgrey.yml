@@ -9,11 +9,11 @@
 
 name: earlgrey
 description: Earlgrey design from opentitan
-top_module: top_earlgrey_nexysvideo
+top_module: chip_sim_tb
 tags: earlgrey
 path: third_party/cores/opentitan
-command: fusesoc --cores-root third_party/cores/opentitan run --target=sim lowrisc:systems:top_earlgrey:0.1
-conf_file: build/lowrisc_systems_top_earlgrey_0.1/sim-icarus/lowrisc_systems_top_earlgrey_0.1.scr
+command: fusesoc --cores-root third_party/cores/opentitan run --flag=fileset_top --target=sim lowrisc:dv:chip_verilator_sim
+conf_file: build/lowrisc_dv_chip_verilator_sim_0.1/sim-verilator/lowrisc_dv_chip_verilator_sim_0.1.vc
 test_file: earlgrey.sv
 timeout: 360
 compatible-runners: all
