@@ -20,7 +20,7 @@ templ = """/*
 :incdirs: {1}
 :top_module: {2}
 :tags: black-parrot
-:results_group: imported
+:results_group: cores
 :timeout: 1000
 */
 """
