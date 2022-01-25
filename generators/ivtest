@@ -279,7 +279,7 @@ for l in ivtest_lists:
 
             timeout = ''
             if name in ivtest_long:
-                timeout = ':timeout: 30'
+                timeout = ':timeout: 360'
 
             tests.append(
                 (
