@@ -17,4 +17,4 @@ conf_file: build/lowrisc_dv_chip_verilator_sim_0.1/sim-verilator/lowrisc_dv_chip
 test_file: earlgrey-sim.sv
 timeout: 360
 compatible-runners: verilator-uhdm verilator slang
-type: parsing elaboration
+type: parsing elaboration simulation
