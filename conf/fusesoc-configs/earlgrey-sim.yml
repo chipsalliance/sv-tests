@@ -14,7 +14,7 @@ tags: earlgrey
 path: third_party/cores/opentitan
 command: fusesoc --cores-root third_party/cores/opentitan run --flag=fileset_top --target=sim lowrisc:dv:chip_verilator_sim
 conf_file: build/lowrisc_dv_chip_verilator_sim_0.1/sim-verilator/lowrisc_dv_chip_verilator_sim_0.1.vc
-test_file: earlgrey.sv
+test_file: earlgrey-sim.sv
 timeout: 360
-compatible-runners: all
-type: parsing
+compatible-runners: verilator-uhdm verilator slang
+type: parsing elaboration
