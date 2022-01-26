@@ -21,7 +21,7 @@ templ = """/*
 :incdirs: {3}
 :tags: ivtest
 :results_group: imported
-:type: simulation parsing
+:type: simulation elaboration parsing
 {2}
 {4}
 */
