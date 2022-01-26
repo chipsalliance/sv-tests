@@ -17,7 +17,6 @@ templ = """/*
 :results_group: cores
 :compatible-runners: {8}
 :type: {9}
-*/
 """
 
 try:
@@ -131,3 +130,8 @@ for fusesoc_conf_file in fusesoc_conf_files:
                 yml_conf["name"], yml_conf["description"], sources, incdirs,
                 defines, top_module, yml_conf["tags"], yml_conf["timeout"],
                 yml_conf["compatible-runners"], yml_conf["type"]))
+
+        if yml_conf.get("no_run_simulation"):
+            f.write(":no_run_simulation: 1\n")
+
+        f.write("*/")

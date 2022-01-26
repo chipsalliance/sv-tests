@@ -18,3 +18,4 @@ test_file: earlgrey-sim.sv
 timeout: 360
 compatible-runners: verilator-uhdm verilator slang
 type: parsing elaboration simulation
+no_run_simulation: true
