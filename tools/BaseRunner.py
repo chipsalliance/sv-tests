@@ -68,7 +68,8 @@ class BaseRunner:
         # select the first mode from the list that matches both the runner and
         # the test
         modes_sorted = [
-            'simulation', 'elaboration', 'parsing', 'preprocessing'
+            'simulation', 'simulation_without_run', 'elaboration', 'parsing',
+            'preprocessing'
         ]
 
         for m in modes_sorted:

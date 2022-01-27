@@ -17,4 +17,4 @@ conf_file: build/lowrisc_ibex_ibex_simple_system_0/sim-verilator/lowrisc_ibex_ib
 test_file: ibex-sim.sv
 timeout: 100
 compatible-runners: verilator-uhdm verilator slang
-type: parsing elaboration
+type: parsing elaboration simulation_without_run

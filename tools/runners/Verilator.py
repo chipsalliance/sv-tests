@@ -18,8 +18,10 @@ from BaseRunner import BaseRunner
 class Verilator(BaseRunner):
     def __init__(self):
         super().__init__(
-            "verilator", "verilator",
-            {"preprocessing", "parsing", "elaboration", "simulation"})
+            "verilator", "verilator", {
+                "preprocessing", "parsing", "elaboration", "simulation",
+                "simulation_without_run"
+            })
 
         self.allowed_extensions.extend(['.vlt', '.cc'])
         self.url = "https://verilator.org"
@@ -37,15 +39,16 @@ class Verilator(BaseRunner):
         with open(scr, 'w') as f:
             f.write('set -x\n')
             f.write('{0} $@ || exit $?\n'.format(self.executable))
-            if mode == 'simulation':
+            if mode in ['simulation', 'simulation_without_run']:
                 f.write('make -C {} -f Vtop.mk\n'.format(build_dir))
+            if mode == 'simulation':
                 f.write('./vbuild/{}'.format(build_exe))
 
         # verilator executable is a script but it doesn't
         # have shell shebang on the first line
         self.cmd = ['sh', 'scr.sh']
 
-        if mode == 'simulation':
+        if mode in ['simulation', 'simulation_without_run']:
             self.cmd += ['--cc']
         elif mode == 'preprocessing':
             self.cmd += ['-P', '-E']
@@ -63,7 +66,7 @@ class Verilator(BaseRunner):
         for incdir in params['incdirs']:
             self.cmd.append('-I' + incdir)
 
-        if mode == 'simulation':
+        if mode in ['simulation', 'simulation_without_run']:
             self.cmd += [
                 '--Mdir', build_dir, '--prefix', 'Vtop', '--exe', '-o',
                 build_exe
