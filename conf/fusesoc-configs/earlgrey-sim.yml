@@ -12,7 +12,7 @@ description: Earlgrey design from opentitan
 top_module: chip_sim_tb
 tags: earlgrey
 path: third_party/cores/opentitan
-command: fusesoc --cores-root third_party/cores/opentitan run --flag=fileset_top --target=sim lowrisc:dv:chip_verilator_sim
+command: fusesoc --cores-root third_party/cores/opentitan run --flag=fileset_top --target=sim --setup lowrisc:dv:chip_verilator_sim
 conf_file: build/lowrisc_dv_chip_verilator_sim_0.1/sim-verilator/lowrisc_dv_chip_verilator_sim_0.1.vc
 test_file: earlgrey-sim.sv
 timeout: 360

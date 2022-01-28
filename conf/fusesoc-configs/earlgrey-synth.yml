@@ -12,7 +12,7 @@ description: Earlgrey design from opentitan
 top_module: chip_earlgrey_nexysvideo
 tags: earlgrey
 path: third_party/cores/opentitan
-command: fusesoc --cores-root third_party/cores/opentitan run --flag=fileset_top --target=synth lowrisc:systems:chip_earlgrey_nexysvideo
+command: fusesoc --cores-root third_party/cores/opentitan run --flag=fileset_top --target=synth --setup lowrisc:systems:chip_earlgrey_nexysvideo
 conf_file: build/lowrisc_systems_chip_earlgrey_nexysvideo_0.1/synth-vivado/lowrisc_systems_chip_earlgrey_nexysvideo_0.1.tcl
 test_file: earlgrey-synth.sv
 timeout: 360
