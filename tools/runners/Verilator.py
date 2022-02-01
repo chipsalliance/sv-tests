@@ -11,6 +11,7 @@
 
 import os
 import shutil
+import shlex
 
 from BaseRunner import BaseRunner
 
@@ -23,26 +24,14 @@ class Verilator(BaseRunner):
                 "simulation_without_run"
             })
 
-        self.allowed_extensions.extend(['.vlt', '.cc'])
+        self.c_extensions = ['.cc', '.c', '.cpp', '.h', '.hpp']
+        self.allowed_extensions.extend(['.vlt'] + self.c_extensions)
         self.url = "https://verilator.org"
 
     def prepare_run_cb(self, tmp_dir, params):
         mode = params['mode']
         conf = os.environ['CONF_DIR']
         scr = os.path.join(tmp_dir, 'scr.sh')
-
-        shutil.copy(os.path.join(conf, 'runners', 'vmain.cpp'), tmp_dir)
-
-        build_dir = 'vbuild'
-        build_exe = 'vmain'
-
-        with open(scr, 'w') as f:
-            f.write('set -x\n')
-            f.write('{0} $@ || exit $?\n'.format(self.executable))
-            if mode in ['simulation', 'simulation_without_run']:
-                f.write('make -C {} -f Vtop.mk\n'.format(build_dir))
-            if mode == 'simulation':
-                f.write('./vbuild/{}'.format(build_exe))
 
         # verilator executable is a script but it doesn't
         # have shell shebang on the first line
@@ -61,22 +50,49 @@ class Verilator(BaseRunner):
 
         top = self.get_top_module_or_guess(params)
         if top is not None:
-            self.cmd.append(f'--top-module {top}')
+            self.cmd += ['--top-module', top]
+
+        # top is None only if the test contains no module
+        # if that test would be run with simulation related options
+        # Verilator throws error on that test before the build stage
+        build_name = f'V{top}'
+        build_dir = 'vbuild'
 
         for incdir in params['incdirs']:
             self.cmd.append('-I' + incdir)
 
+        is_simple_test = False
+        if all(os.path.splitext(filename)[1] not in self.c_extensions
+               for filename in params['files']):
+            # Test doesn't contain any c related file,
+            # but one is required for the simulation.
+            # We need to provide file with main function
+            # and change the build_name to match with include in this file
+            is_simple_test = True
+            build_name = 'Vtop'
+
         if mode in ['simulation', 'simulation_without_run']:
             self.cmd += [
-                '--Mdir', build_dir, '--prefix', 'Vtop', '--exe', '-o',
-                build_exe
+                '--Mdir', build_dir, '--prefix', build_name, '--exe', '-o',
+                build_name
             ]
-            self.cmd.append('vmain.cpp')
+            if is_simple_test:
+                shutil.copy(
+                    os.path.join(conf, 'runners', 'vmain.cpp'), tmp_dir)
+                self.cmd.append('vmain.cpp')
 
         if 'runner_verilator_flags' in params:
-            self.cmd += [params['runner_verilator_flags']]
+            self.cmd += shlex.split(params['runner_verilator_flags'])
 
         for define in params['defines']:
             self.cmd.append('-D' + define)
 
         self.cmd += params['files']
+
+        with open(scr, 'w') as f:
+            f.write('set -x\n')
+            f.write('{0} "$@" || exit $?\n'.format(self.executable))
+            if mode in ['simulation', 'simulation_without_run']:
+                f.write(f'make -C {build_dir} -f {build_name}.mk\n')
+            if mode == 'simulation':
+                f.write(f'./{build_dir}/{build_name}')
