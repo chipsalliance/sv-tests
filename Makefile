@@ -50,6 +50,12 @@ endif
 
 runners:
 
+ifneq ($(RUNNER_KEEP_TMP),)
+RUNNER_PARAM := --keep-tmp
+else
+RUNNER_PARAM := --quiet
+endif
+
 # $(1) - runner name
 # $(2) - test
 define runner_test_gen
@@ -59,12 +65,6 @@ ifneq ($(USE_CGROUP),)
 $(OUT_DIR)/logs/$(1)/$(2).log : RUNNER = cgexec -g memory,cpu:$(USE_CGROUP)/$(1) ./tools/runner
 else
 $(OUT_DIR)/logs/$(1)/$(2).log : RUNNER = ./tools/runner
-endif
-
-ifneq ($(RUNNER_KEEP_TMP),)
-RUNNER_PARAM := --keep-tmp
-else
-RUNNER_PARAM := --quiet
 endif
 
 $(OUT_DIR)/logs/$(1)/$(2).log: $(TESTS_DIR)/$(2) | $(1)-cg
