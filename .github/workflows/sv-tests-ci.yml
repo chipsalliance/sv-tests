@@ -117,6 +117,8 @@ jobs:
           format: 'YYYY-MM-DD-HH-mm-ss'
       - name: Setup cache
         uses: actions/cache@v2
+        timeout-minutes: 3
+        continue-on-error: true
         with:
           path: "/root/sv-tests/sv-tests/.cache/"
           key: cache_${{ matrix.tool.name }}_${{ steps.cache_timestamp.outputs.time }}
