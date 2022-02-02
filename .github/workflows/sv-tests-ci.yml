@@ -18,6 +18,8 @@ jobs:
             deps: autoconf autotools-dev bison flex libfl-dev gperf
           - name: moore
             rust_ver: "1.60"
+            deps: cargo cmake clang
+            submodules: circt
           - name: odin
             repo: odin_ii
             deps: autoconf autotools-dev bison flex libfl-dev cmake pkg-config
