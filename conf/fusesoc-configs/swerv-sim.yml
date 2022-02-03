@@ -12,8 +12,8 @@ description: Full swerv core test
 top_module: swerv_wrapper
 tags: swerv
 path: third_party/cores/swerv
-command: fusesoc --cores-root third_party/cores/swerv run --target=sim --setup chipsalliance.org:cores:SweRV_EH1:1.8
-conf_file: build/chipsalliance.org_cores_SweRV_EH1_1.8/sim-verilator/chipsalliance.org_cores_SweRV_EH1_1.8.vc
+command: fusesoc --cores-root third_party/cores/swerv run --target=sim --setup --build-root build/swerv_sim chipsalliance.org:cores:SweRV_EH1:1.8
+conf_file: build/swerv_sim/sim-verilator/chipsalliance.org_cores_SweRV_EH1_1.8.vc
 test_file: swerv-sim.sv
 timeout: 180
 compatible-runners: verilator-uhdm verilator slang

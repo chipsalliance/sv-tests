@@ -12,8 +12,8 @@ description: Full swerv core test
 top_module: swerv_wrapper
 tags: swerv
 path: third_party/cores/swerv
-command: fusesoc --cores-root third_party/cores/swerv run --target=synth --setup chipsalliance.org:cores:SweRV_EH1:1.8
-conf_file: build/chipsalliance.org_cores_SweRV_EH1_1.8/synth-vivado/chipsalliance.org_cores_SweRV_EH1_1.8.tcl
+command: fusesoc --cores-root third_party/cores/swerv run --target=synth --setup --build-root build/swerv_synth chipsalliance.org:cores:SweRV_EH1:1.8
+conf_file: build/swerv_synth/synth-vivado/chipsalliance.org_cores_SweRV_EH1_1.8.tcl
 test_file: swerv-synth.sv
 timeout: 180
 compatible-runners: yosys-uhdm vanilla-yosys-uhdm-plugin yosys yosys-sv zachjs-sv2v icarus moore moore-parse odin sv-parser tree-sitter-verilog verible verible_extractor Surelog
