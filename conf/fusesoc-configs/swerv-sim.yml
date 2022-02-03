@@ -9,7 +9,7 @@
 
 name: swerv
 description: Full swerv core test
-top_module: swerv_wrapper
+top_module: tb_top
 tags: swerv
 path: third_party/cores/swerv
 command: fusesoc --cores-root third_party/cores/swerv run --target=sim --setup --build-root build/swerv_sim chipsalliance.org:cores:SweRV_EH1:1.8
