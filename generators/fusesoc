@@ -4,6 +4,8 @@ import os
 import sys
 import yaml
 import subprocess
+import collections
+import make_var
 
 templ = """/*
 :name: {0}
@@ -17,7 +19,6 @@ templ = """/*
 :results_group: cores
 :compatible-runners: {8}
 :type: {9}
-*/
 """
 
 try:
@@ -85,6 +86,7 @@ for fusesoc_conf_file in fusesoc_conf_files:
     incdirs = ''
     sources = ''
     defines = ''
+    runner_flags = collections.defaultdict(str)
 
     if core_conf_path.endswith(".vc") or core_conf_path.endswith(".scr"):
         with open(core_conf_path, "r") as f:
@@ -99,8 +101,22 @@ for fusesoc_conf_file in fusesoc_conf_files:
                     top_module = line.partition("--top-module ")[2]
                 elif line.startswith("-D"):
                     defines += line[2:] + ' '
+                elif line.startswith("-CFLAGS"):
+                    runner_flags["verilator"] += "-CFLAGS -I" + os.path.join(
+                        sources_path,
+                        line.partition("-CFLAGS -I")[2]) + ' '
+                elif line.startswith("-LDFLAGS"):
+                    runner_flags["verilator"] += line + ' '
                 elif not line.startswith("-") and line:
                     sources += os.path.join(sources_path, line) + ' '
+        try:
+            make_vars = make_var.make_vars(
+                cmd="make -pn -f " + os.path.join(sources_path, "config.mk"))
+            runner_flags["verilator"] += make_vars["makefile"][
+                "VERILATOR_OPTIONS"]
+        except:
+            pass
+
     elif core_conf_path.endswith(".tcl"):
         with open(core_conf_path, "r") as f:
             for line in f:
@@ -131,3 +147,6 @@ for fusesoc_conf_file in fusesoc_conf_files:
                 yml_conf["name"], yml_conf["description"], sources, incdirs,
                 defines, top_module, yml_conf["tags"], yml_conf["timeout"],
                 yml_conf["compatible-runners"], yml_conf["type"]))
+        for runner, flags in runner_flags.items():
+            f.write(f":runner_{runner}_flags: {flags}\n")
+        f.write("*/")
