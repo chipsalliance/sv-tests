@@ -220,6 +220,12 @@ ivtest_file_exclude = [
     # a strict reading of IEEE 1800-2017, $9.2.3 does not require this, even
     # though the non-blocking assignment will have no effect.
     'program3b',
+    # A wire with 'real' type is not allowed (commercial tools disallow)
+    'br_gh556',
+    # This test forgets to add parenthesis to a module instantiation.
+    'br_gh553',
+    # Provides connection for null port, LRM is unclear but all commercial tools disallow this
+    'pr1723367',
 ]
 
 ivtest_long = ['comp1000', 'comp1001']
