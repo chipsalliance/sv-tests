@@ -52,7 +52,7 @@ class VanillaYosysUhdmPlugin(BaseRunner):
             f.write("set -e\n")
             f.write("set -x\n")
             f.write(
-                f"surelog -nopython -nobuiltin -parse -sverilog -nonote -noinfo -nowarning -DSYNTHESIS"
+                f"surelog -nopython -nobuiltin -parse -sverilog -nonote -noinfo -nowarning -synth -DSYNTHESIS"
             )
 
             # lowmem option
