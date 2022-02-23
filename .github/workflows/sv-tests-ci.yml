@@ -191,6 +191,12 @@ jobs:
       - name: Extract
         run: |
           for file in $(find out/ -name *.tar -print); do tar -xf $file --strip-components=2 -C $(dirname $file); done
+      - name: Checkout third party tests and cores
+        run: |
+          git submodule update --init --recursive third_party/tests
+          git submodule update --init --recursive third_party/cores
+          # yosys tool also contains tests
+          git submodule update --init --recursive third_party/tools/yosys
       - name: Summary
         run: |
           ./.github/workflows/summary.sh
