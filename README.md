@@ -102,7 +102,7 @@ Finally the file containing the test case and metadata should be placed in `test
 
 ## Supported tools
 
-* [Yosys](http://www.clifford.at/yosys)
+* [Yosys](https://github.com/yosysHQ/yosys)
 * [Odin II](https://verilogtorouting.org)
 * [Verilator](https://verilator.org)
 * [Icarus](http://iverilog.icarus.com)
