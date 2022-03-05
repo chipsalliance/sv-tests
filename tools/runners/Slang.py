@@ -50,6 +50,10 @@ class Slang(BaseRunner):
         if "ariane" in tags:
             self.cmd.append("-DVERILATOR")
 
+        # The earlgrey core requires non-standard functionality, so enable VCS compat.
+        if "earlgrey" in tags:
+            self.cmd.append("--compat=vcs")
+
         # black-parrot has syntax errors where variables are used before they are declared.
         # This is being fixed upstream, but it might take a long time to make it to master
         # so this works around the problem in the meantime.
