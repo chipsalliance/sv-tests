@@ -56,10 +56,11 @@ class Slang(BaseRunner):
         if "black-parrot" in tags:
             self.cmd.append("--allow-use-before-declare")
 
-            # These two tests simply cannot be elaborated because they target
-            # modules that have invalid parameter values for a top-level module.
+            # These tests simply cannot be elaborated because they target
+            # modules that have invalid parameter values for a top-level module,
+            # or have an invalid configuration that results in $fatal calls.
             name = params["name"]
-            if 'bp_lce' in name or 'bp_uce' in name:
+            if 'bp_lce' in name or 'bp_uce' or 'bp_multicore' in name:
                 self.cmd.append("--parse-only")
 
         self.cmd += params['files']
