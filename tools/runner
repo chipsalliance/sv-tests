@@ -234,7 +234,10 @@ if not RESULTS_GROUP_PARAM_VALIDATOR_RE.fullmatch(
     test_params['results_group'] = fixed_group
 
 try:
-    tmp_dir = tempfile.mkdtemp()
+    tmp_parent = os.path.join(os.path.abspath(dirs['out']), "tmp")
+    os.makedirs(tmp_parent, exist_ok=True)
+
+    tmp_dir = tempfile.mkdtemp(dir=tmp_parent)
 except (PermissionError, FileExistsError) as e:
     logger.error(
         "Unable to create a temporary directory for test: {}".format(str(e)))
