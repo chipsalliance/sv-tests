@@ -55,6 +55,9 @@ class UhdmYosys(BaseRunner):
                 f"surelog -nopython -nobuiltin -parse -sverilog -nonote -noinfo -nowarning -DSYNTHESIS"
             )
 
+            if top is not None:
+                f.write(f' --top-module {top}')
+
             # lowmem option
             if "black-parrot" in params["tags"]:
                 f.write(' -lowmem')
