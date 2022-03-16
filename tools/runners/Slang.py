@@ -13,10 +13,12 @@ from BaseRunner import BaseRunner
 
 
 class Slang(BaseRunner):
-    def __init__(self):
+    def __init__(
+            self,
+            name="slang",
+            supported_features={'preprocessing', 'parsing', 'elaboration'}):
         super().__init__(
-            "slang", "slang-driver",
-            {'preprocessing', 'parsing', 'elaboration'})
+            name, executable="slang-driver", supported_features=supported_features)
 
         self.url = "https://github.com/MikePopoloski/slang"
 
@@ -57,7 +59,7 @@ class Slang(BaseRunner):
         # black-parrot has syntax errors where variables are used before they are declared.
         # This is being fixed upstream, but it might take a long time to make it to master
         # so this works around the problem in the meantime.
-        if "black-parrot" in tags:
+        if "black-parrot" in tags and mode != "parsing":
             self.cmd.append("--allow-use-before-declare")
 
             # These tests simply cannot be elaborated because they target
