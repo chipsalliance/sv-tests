@@ -14,4 +14,5 @@ from runners.Slang import Slang
 
 class Slang_parse(Slang):
     def __init__(self):
-        super().__init__("slang-parse", supported_features={'preprocessing', 'parsing'})
+        super().__init__(
+            "slang-parse", supported_features={'preprocessing', 'parsing'})

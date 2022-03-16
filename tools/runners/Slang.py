@@ -18,7 +18,9 @@ class Slang(BaseRunner):
             name="slang",
             supported_features={'preprocessing', 'parsing', 'elaboration'}):
         super().__init__(
-            name, executable="slang-driver", supported_features=supported_features)
+            name,
+            executable="slang-driver",
+            supported_features=supported_features)
 
         self.url = "https://github.com/MikePopoloski/slang"
 
