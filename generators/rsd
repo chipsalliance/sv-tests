@@ -41,8 +41,7 @@ except IndexError:
     sys.exit(1)
 
 rsd_path = os.path.abspath(
-    os.path.join(
-        third_party_dir, "cores", "rsd", "Processor", "Src"))
+    os.path.join(third_party_dir, "cores", "rsd", "Processor", "Src"))
 rsd_core_make = os.path.join(rsd_path, "Makefiles", "CoreSources.inc.mk")
 
 test_dir = os.path.join(tests_dir, 'generated', tests_subdir)
@@ -63,7 +62,7 @@ with open(rsd_core_make, "r") as f:
         # Find lines starting with "TYPES|CORE_MODULES=" and not ending with "\".
         m = re.search(r"^(TYPES|CORE_MODULES)[\s]*=(.+)$", line)
         if m:
-            line = m.group(2)   # Remove TYPES|CORE_MODULES=
+            line = m.group(2)  # Remove TYPES|CORE_MODULES=
             in_source_list = True
 
         if in_source_list:
