@@ -32,7 +32,7 @@ class UhdmYosys(BaseRunner):
 
         # generate yosys script
         with open(yosys_scr, "w") as f:
-            f.write("plugin -i uhdm\n")
+            f.write("plugin -i systemverilog\n")
             f.write("read_uhdm slpp_all/surelog.uhdm\n")
 
             # prep (without optimizations)
