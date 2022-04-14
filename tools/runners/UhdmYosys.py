@@ -33,26 +33,8 @@ class UhdmYosys(BaseRunner):
         # generate yosys script
         with open(yosys_scr, "w") as f:
             f.write("plugin -i systemverilog\n")
-            f.write("read_uhdm slpp_all/surelog.uhdm\n")
-
-            # prep (without optimizations)
             f.write(
-                f"hierarchy -top \\{top}\n"
-                "proc\n"
-                "check\n"
-                "memory_dff\n"
-                "memory_collect\n"
-                "stat\n"
-                "check\n"
-                "write_json\n"
-                "write_verilog\n")
-
-        # generate runner script
-        with open(runner_scr, "w") as f:
-            f.write("set -e\n")
-            f.write("set -x\n")
-            f.write(
-                f"surelog -nopython -nobuiltin -parse -sverilog -nonote -noinfo -nowarning -DSYNTHESIS"
+                "read_systemverilog -nopython -nobuiltin -parse -sverilog -nonote -noinfo -nowarning -DSYNTHESIS"
             )
 
             if top is not None:
@@ -80,7 +62,23 @@ class UhdmYosys(BaseRunner):
             f.write("\n")
 
             if mode == "elaboration":
-                f.write(f"cat {yosys_scr}\n")
-                f.write(f"{self.executable} -s {yosys_scr}\n")
+                # prep (without optimizations)
+                f.write(
+                    f"hierarchy -top \\{top}\n"
+                    "proc\n"
+                    "check\n"
+                    "memory_dff\n"
+                    "memory_collect\n"
+                    "stat\n"
+                    "check\n"
+                    "write_json\n"
+                    "write_verilog\n")
+
+        # generate runner script
+        with open(runner_scr, "w") as f:
+            f.write("set -e\n")
+            f.write("set -x\n")
+            f.write(f"cat {yosys_scr}\n")
+            f.write(f"{self.executable} -s {yosys_scr}\n")
 
         self.cmd = ["sh", runner_scr]
