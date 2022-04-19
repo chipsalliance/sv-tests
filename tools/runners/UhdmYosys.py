@@ -28,7 +28,7 @@ class UhdmYosys(BaseRunner):
         yosys_scr = os.path.join(tmp_dir, "yosys-script")
         mode = params['mode']
 
-        top = self.get_top_module_or_guess(params)
+        top = params['top_module'] or None
 
         # generate yosys script
         with open(yosys_scr, "w") as f:
