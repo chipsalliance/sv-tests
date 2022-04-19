@@ -34,7 +34,7 @@ class UhdmYosys(BaseRunner):
         with open(yosys_scr, "w") as f:
             f.write("plugin -i systemverilog\n")
             f.write(
-                "read_systemverilog -nopython -nobuiltin -parse -sverilog -nonote -noinfo -nowarning -DSYNTHESIS"
+                "read_systemverilog -nopython -parse -sverilog -nonote -noinfo -nowarning -DSYNTHESIS"
             )
 
             if mode != "elaboration":
