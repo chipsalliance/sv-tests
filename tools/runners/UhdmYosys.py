@@ -37,6 +37,9 @@ class UhdmYosys(BaseRunner):
                 "read_systemverilog -nopython -nobuiltin -parse -sverilog -nonote -noinfo -nowarning -DSYNTHESIS"
             )
 
+            if mode != "elaboration":
+                f.write(" -parse-only")
+
             if top is not None:
                 f.write(f' --top-module {top}')
 
