@@ -66,8 +66,12 @@ class UhdmYosys(BaseRunner):
 
             if mode == "elaboration":
                 # prep (without optimizations)
+                if top is not None:
+                    f.write(f"hierarchy -top \\{top}\n")
+                else:
+                    f.write("hierarchy -auto-top\n")
+
                 f.write(
-                    f"hierarchy -top \\{top}\n"
                     "proc\n"
                     "check\n"
                     "memory_dff\n"
