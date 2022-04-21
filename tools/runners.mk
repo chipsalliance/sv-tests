@@ -103,23 +103,9 @@ $(INSTALL_DIR)/bin/yosys-uhdm:
 	mkdir -p $(INSTALL_DIR)
 	(export PATH=$(INSTALL_DIR)/bin/:${PATH} && \
 		export INSTALL_PATH=$(INSTALL_DIR) && \
-		cd $(RDIR)/yosys-uhdm-plugin-integration/yosys && \
-		git reset --hard HEAD && git clean -f && \
-		git apply ../yosys-patches/* && \
-		cd .. && \
+                cd $(RDIR)/yosys-uhdm-plugin-integration && \
 		./build_binaries.sh)
 	mv $(INSTALL_DIR)/bin/yosys $(INSTALL_DIR)/bin/yosys-uhdm
-
-# vanilla-yosys-uhdm-plugin
-vanilla-yosys-uhdm-plugin: $(INSTALL_DIR)/bin/vanilla-yosys-uhdm-plugin
-
-$(INSTALL_DIR)/bin/vanilla-yosys-uhdm-plugin:
-	mkdir -p $(INSTALL_DIR)
-	(export PATH=$(INSTALL_DIR)/bin/:${PATH} && \
-		export INSTALL_PATH=$(INSTALL_DIR) && \
-		cd $(RDIR)/yosys-uhdm-plugin-integration && \
-		./build_binaries.sh)
-	mv $(INSTALL_DIR)/bin/yosys $(INSTALL_DIR)/bin/vanilla-yosys-uhdm-plugin
 
 # sv-parser
 sv-parser: $(INSTALL_DIR)/bin/parse_sv

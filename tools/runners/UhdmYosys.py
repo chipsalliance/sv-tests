@@ -28,32 +28,17 @@ class UhdmYosys(BaseRunner):
         yosys_scr = os.path.join(tmp_dir, "yosys-script")
         mode = params['mode']
 
-        top = self.get_top_module_or_guess(params)
+        top = params['top_module'] or None
 
         # generate yosys script
         with open(yosys_scr, "w") as f:
-            f.write("plugin -i uhdm\n")
-            f.write("read_uhdm slpp_all/surelog.uhdm\n")
-
-            # prep (without optimizations)
+            f.write("plugin -i systemverilog\n")
             f.write(
-                f"hierarchy -top \\{top}\n"
-                "proc\n"
-                "check\n"
-                "memory_dff\n"
-                "memory_collect\n"
-                "stat\n"
-                "check\n"
-                "write_json\n"
-                "write_verilog\n")
-
-        # generate runner script
-        with open(runner_scr, "w") as f:
-            f.write("set -e\n")
-            f.write("set -x\n")
-            f.write(
-                f"surelog -nopython -nobuiltin -parse -sverilog -nonote -noinfo -nowarning -DSYNTHESIS"
+                "read_systemverilog -nopython -parse -sverilog -nonote -noinfo -nowarning -DSYNTHESIS"
             )
+
+            if mode != "elaboration":
+                f.write(" -parse-only")
 
             if top is not None:
                 f.write(f' --top-module {top}')
@@ -80,7 +65,27 @@ class UhdmYosys(BaseRunner):
             f.write("\n")
 
             if mode == "elaboration":
-                f.write(f"cat {yosys_scr}\n")
-                f.write(f"{self.executable} -s {yosys_scr}\n")
+                # prep (without optimizations)
+                if top is not None:
+                    f.write(f"hierarchy -top \\{top}\n")
+                else:
+                    f.write("hierarchy -auto-top\n")
+
+                f.write(
+                    "proc\n"
+                    "check\n"
+                    "memory_dff\n"
+                    "memory_collect\n"
+                    "stat\n"
+                    "check\n"
+                    "write_json\n"
+                    "write_verilog\n")
+
+        # generate runner script
+        with open(runner_scr, "w") as f:
+            f.write("set -e\n")
+            f.write("set -x\n")
+            f.write(f"cat {yosys_scr}\n")
+            f.write(f"{self.executable} -s {yosys_scr}\n")
 
         self.cmd = ["sh", runner_scr]
