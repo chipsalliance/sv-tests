@@ -122,7 +122,7 @@ $(INSTALL_DIR)/bin/moore:
 
 # verible
 verible:
-	cd $(RDIR)/verible/ && bazel run :install --noshow_progress -c opt -- $(INSTALL_DIR)/bin
+	cd $(RDIR)/verible/ && bazel run :install --noshow_progress --//bazel:use_local_flex_bison -c opt -- $(INSTALL_DIR)/bin
 
 $(INSTALL_DIR)/bin/verible-verilog-kythe-extractor: verible
 
