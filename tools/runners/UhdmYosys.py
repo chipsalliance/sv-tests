@@ -43,13 +43,6 @@ class UhdmYosys(BaseRunner):
             if top is not None:
                 f.write(f' --top-module {top}')
 
-            # lowmem option
-            if "black-parrot" in params["tags"]:
-                f.write(' -lowmem')
-
-            if "earlgrey" in params["tags"]:
-                f.write(' -lowmem')
-
             if mode in ["parsing", "preprocessing"]:
                 f.write(' -noelab')
 
