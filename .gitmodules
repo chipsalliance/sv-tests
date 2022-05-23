@@ -68,9 +68,6 @@
 [submodule "third_party/tests/uvm"]
 	path = third_party/tests/uvm
 	url = https://github.com/SymbiFlow/uvm.git
-[submodule "third_party/cores/ibex-yosys-build"]
-	path = third_party/cores/ibex-yosys-build
-	url = https://github.com/SymbiFlow/ibex-yosys-build.git
 [submodule "third_party/cores/tnoc"]
 	path = third_party/cores/tnoc
 	url = https://github.com/taichi-ishitani/tnoc.git
