@@ -28,13 +28,6 @@ yosys: $(INSTALL_DIR)/bin/yosys
 $(INSTALL_DIR)/bin/yosys:
 	$(MAKE) -C $(RDIR)/yosys PREFIX=$(INSTALL_DIR) install
 
-# antmicro-yosys
-antmicro-yosys: $(INSTALL_DIR)/bin/antmicro-yosys
-
-$(INSTALL_DIR)/bin/antmicro-yosys:
-	$(MAKE) -C $(RDIR)/../cores/ibex-yosys-build/yosys ENABLE_TCL=0 ENABLE_ABC=0 ENABLE_GLOB=0 ENABLE_PLUGINS=0 ENABLE_READLINE=0 ENABLE_COVER=0
-	install -D $(RDIR)/../cores/ibex-yosys-build/yosys/yosys $@
-
 # icarus
 icarus: $(INSTALL_DIR)/bin/iverilog
 
@@ -129,6 +122,6 @@ $(INSTALL_DIR)/bin/verible-verilog-kythe-extractor: verible
 $(INSTALL_DIR)/bin/verilog_syntax: verible
 
 # setup the dependencies
-RUNNERS_TARGETS := odin yosys icarus verilator slang zachjs-sv2v tree-sitter-verilog sv-parser moore verible surelog antmicro-yosys yosys-uhdm vanilla-yosys-uhdm-plugin verilator-uhdm
+RUNNERS_TARGETS := odin yosys icarus verilator slang zachjs-sv2v tree-sitter-verilog sv-parser moore verible surelog yosys-uhdm vanilla-yosys-uhdm-plugin verilator-uhdm
 .PHONY: $(RUNNERS_TARGETS)
 runners: $(RUNNERS_TARGETS)
