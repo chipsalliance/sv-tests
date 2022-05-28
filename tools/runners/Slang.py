@@ -71,6 +71,11 @@ class Slang(BaseRunner):
             if 'bp_lce' in name or 'bp_uce' or 'bp_multicore' in name:
                 self.cmd.append("--parse-only")
 
+        # These cores use a non-standard extension to write to the same variable
+        # from multiple procedures.
+        if "earlgrey" in tags or "fx68k" in tags:
+            self.cmd.append("--allow-dup-initial-drivers")
+
         self.cmd += params['files']
 
     def get_version(self):
