@@ -226,6 +226,9 @@ ivtest_file_exclude = [
     'br_gh553',
     # Provides connection for null port, LRM is unclear but all commercial tools disallow this
     'pr1723367',
+    # Expects failure for using a slice in $readmemh but the LRM explicitly allows for this.
+    # VCS fails but other tools allow.
+    'readmemh5',
 ]
 
 ivtest_long = ['comp1000', 'comp1001']
