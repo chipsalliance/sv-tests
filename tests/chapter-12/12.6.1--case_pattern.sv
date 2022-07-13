@@ -28,7 +28,7 @@ module case_tb ();
 
 	u tmp;
 
-	initial case (v) matches
+	initial case (tmp) matches
 		tagged a '{.v, 0} : $display("a %d", v);
 		tagged a '{.v1, .v2} : $display("a %d %d", v1, v2);
 		tagged b '{.v1, .v2} : $display("b %d %d", v1, v2);
