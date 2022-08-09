@@ -54,6 +54,10 @@ jobs:
           MD_URL="[Download an archive containing all the details]($ARTIFACT_URL)"
           echo -e "\n\n$MD_URL" >> tests_summary.md
 
+      - name: Show summary
+        run: |
+          cat tests_summary.md > $GITHUB_STEP_SUMMARY
+
       - name: Prepare comment
         id: get-comment-body
         run: |
