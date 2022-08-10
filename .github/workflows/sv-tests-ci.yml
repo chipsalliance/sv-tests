@@ -223,7 +223,7 @@ jobs:
 
       - name: Post GitHub summary
         run: |
-          cat $TESTS_SUMMARY_DIR/tests_summary.md > $GITHUB_STEP_SUMMARY
+          cat $CHANGES_SUMMARY_MD > $GITHUB_STEP_SUMMARY
 
       - name: Upload artifacts for summary
         uses: actions/upload-artifact@v2
