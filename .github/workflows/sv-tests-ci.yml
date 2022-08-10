@@ -220,6 +220,11 @@ jobs:
           cp $OUT_REPORT_DIR/tests_summary.json $TESTS_SUMMARY_DIR
           cp $OUT_REPORT_DIR/tests_summary.md $TESTS_SUMMARY_DIR
           find out -name plot_*.svg -exec cp {} $TESTS_SUMMARY_DIR \;
+
+      - name: Post GitHub summary
+        run: |
+          cat $TESTS_SUMMARY_DIR/tests_summary.md > $GITHUB_STEP_SUMMARY
+
       - name: Upload artifacts for summary
         uses: actions/upload-artifact@v2
         if: github.event_name == 'pull_request'
