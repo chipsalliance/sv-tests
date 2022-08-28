@@ -29,7 +29,7 @@ Install other dependencies
 ```bash
 sudo apt-get install tcl-dev
 sudo apt-get install libreadline-dev
-sudo apt-get install npm cargo
+sudo apt-get install npm cargo uuid
 sudo npm install -g @bazel/bazelisk
 sudo apt-get install default-jre
 git clone https://github.com/kward/shunit2.git
