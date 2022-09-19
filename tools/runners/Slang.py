@@ -47,6 +47,11 @@ class Slang(BaseRunner):
         for define in params['defines']:
             self.cmd.extend(['-D', define])
 
+        # Some tests access array elements out of bounds. Make that not an error.
+        self.cmd.append("-Wno-error=index-oob")
+        self.cmd.append("-Wno-error=range-oob")
+        self.cmd.append("-Wno-error=range-width-oob")
+
         tags = params["tags"]
 
         # The Ariane core does not build correctly if VERILATOR is not defined -- it will attempt
