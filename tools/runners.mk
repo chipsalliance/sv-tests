@@ -26,7 +26,7 @@ $(INSTALL_DIR)/bin/odin_II:
 yosys: $(INSTALL_DIR)/bin/yosys
 
 $(INSTALL_DIR)/bin/yosys:
-	$(MAKE) -C $(RDIR)/yosys PREFIX=$(INSTALL_DIR) install
+	$(MAKE) -C $(RDIR)/yosys CONFIG=gcc PREFIX=$(INSTALL_DIR) install
 
 # icarus
 icarus: $(INSTALL_DIR)/bin/iverilog
@@ -115,7 +115,7 @@ $(INSTALL_DIR)/bin/moore:
 
 # verible
 verible:
-	cd $(RDIR)/verible/ && bazel run :install --noshow_progress --//bazel:use_local_flex_bison -c opt -- $(INSTALL_DIR)/bin
+	cd $(RDIR)/verible/ && bazel run :install --noshow_progress --//bazel:use_local_flex_bison -c opt -- $(INSTALL_DIR)/bin && bazel shutdown
 
 $(INSTALL_DIR)/bin/verible-verilog-kythe-extractor: verible
 
