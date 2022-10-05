@@ -37,6 +37,9 @@ class Verilator(BaseRunner):
         # have shell shebang on the first line
         self.cmd = ['sh', 'scr.sh']
 
+        # Enable timing control support:
+        self.cmd.append('--timing')
+
         if mode in ['simulation', 'simulation_without_run']:
             self.cmd += ['--cc']
         elif mode == 'preprocessing':
