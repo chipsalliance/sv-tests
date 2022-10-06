@@ -39,6 +39,9 @@ class UhdmVerilator(BaseRunner):
 
         self.cmd += ['--uhdm-ast', '-cc', 'slpp_all/surelog.uhdm']
 
+        # Remove once uhdm-verilator upgrades to Verilator 5:
+        self.cmd += ['-CFLAGS', '-DV4']
+
         # Flags for compliance testing:
         self.cmd += ['-Wno-fatal', '-Wno-UNOPTFLAT', '-Wno-BLKANDNBLK']
 
