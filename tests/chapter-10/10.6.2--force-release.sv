@@ -12,21 +12,31 @@
 :description: force-release statements test
 :tags: 10.6.2
 */
+module flop(clk, q, d);
+
+input clk, d;
+output q;
+logic q;
+
+always @(posedge clk)
+  q <= d;
+
+endmodule
+
 module top(clk, q, d, f1, f0);
 
 input clk, d, f1, f0;
 output q;
-logic q;
+wire q;
+
+flop u_flop (.*);
 
 always @(f1 or f0)
-	if (f0)
-		force q = 0;
-	else if (f1)
-		force q = 1;
-	else
-		release q;
-
-always @(posedge clk)
-	q <= d;
+  if (f0)
+    force u_flop.q = 0;
+  else if (f1)
+    force u_flop.q = 1;
+  else
+    release u_flop.q;
 
 endmodule
