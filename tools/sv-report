@@ -820,13 +820,28 @@ for tool_name, tool_results in zip(runner_names, results):
 
 # Render input files
 rendered_count = 0
-for input_file in all_input_files:
-    input_file_html = os.path.join(out_dir, input_file + ".html")
-    if exists_and_is_newer_than(input_file_html,
-                                [input_file, args.code_template, __file__]):
-        continue
-    rendered_count += 1
-    renderInputFileToHTMLFile(out_dir, input_file_html, input_file)
+
+
+def render_batch(input_files):
+    batch_rendered_count = 0
+    for input_file in input_files:
+        input_file_html = os.path.join(out_dir, input_file + ".html")
+        if exists_and_is_newer_than(
+                input_file_html, [input_file, args.code_template, __file__]):
+            continue
+        batch_rendered_count += 1
+        renderInputFileToHTMLFile(out_dir, input_file_html, input_file)
+    return batch_rendered_count
+
+
+ncpu = multiprocessing.cpu_count()
+batch_size = int(len(all_input_files) / ncpu) + 1
+file_batches = []
+for i in range(0, len(all_input_files), batch_size):
+    file_batches.append(list(all_input_files)[i:i + batch_size])
+
+with multiprocessing.Pool() as pool:
+    rendered_count = sum(pool.map(render_batch, file_batches))
 
 logger.info(
     f"(Re)generated {rendered_count}/{len(all_input_files)} rendered input files."
