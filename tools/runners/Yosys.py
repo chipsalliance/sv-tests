@@ -53,9 +53,7 @@ class Yosys(BaseRunner):
                     "memory_dff\n"
                     "memory_collect\n"
                     "stat\n"
-                    "check\n"
-                    "write_json\n"
-                    "write_verilog\n")
+                    "check\n")
 
         # prepare wrapper script
         with open(run, 'w') as f:

@@ -70,9 +70,7 @@ class UhdmYosys(BaseRunner):
                     "memory_dff\n"
                     "memory_collect\n"
                     "stat\n"
-                    "check\n"
-                    "write_json\n"
-                    "write_verilog\n")
+                    "check\n")
 
         # generate runner script
         with open(runner_scr, "w") as f:
