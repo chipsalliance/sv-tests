@@ -229,6 +229,15 @@ ivtest_file_exclude = [
     # Expects failure for using a slice in $readmemh but the LRM explicitly allows for this.
     # VCS fails but other tools allow.
     'readmemh5',
+    # Illegal; IEEE says parameters may be limited to 32 bits if no type is provided
+    'ilongint_test',
+    # Expects failure but IEEE does not disallow zero size arrays (parameters may cause this)
+    'br_ml20181012d_iv',
+    # Test does not compile without __ICARUS__
+    'implicit_cast12',
+    'implicit_cast13',
+    # Illegal, f_ffffffff has too many digits for int
+    'sv_class8',
 ]
 
 ivtest_long = ['comp1000', 'comp1001']
