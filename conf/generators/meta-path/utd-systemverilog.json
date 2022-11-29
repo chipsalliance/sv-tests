@@ -7,5 +7,16 @@
 	"matches": ["*.v"],
 	"blacklist": ["sparc_ffu_ctl_visctl.v", "operators.v", "pad_jbusl.v", "pad_jbusr.v", "fpu_in_ctl.v", "ifdef-2.v"],
 	"type": "parsing",
-	"results_group": "imported"
+	"results_group": "imported",
+	"blacklist": [
+	    "casez.v",
+	    "chip8_config.v",
+	    "core1_config.v",
+	    "expression_tostring.v",
+	    "forever-disable.v",
+	    "fpu.v",
+	    "fpu_div.v",
+	    "module-instance.v",
+	    "std-3.11.1-parameters.v"
+	]
 }

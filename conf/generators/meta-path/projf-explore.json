@@ -6,5 +6,12 @@
 	],
 	"matches": ["*.sv"],
 	"type": "parsing",
+	"blacklist": [
+	    "MMCME2_BASE.sv",
+	    "OBUFDS.sv",
+	    "OSERDESE2.sv",
+	    "SB_IO.sv",
+	    "SB_PLL40_PAD.sv"
+	],
 	"results_group": "imported"
 }
