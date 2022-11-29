@@ -10,6 +10,7 @@
 /*
 :name: aborting_productions_break_and_return_2
 :description: return statement test
+:type: simulation elaboration parsing
 :tags: 18.17.6
 */
 
@@ -24,3 +25,11 @@ function int F();
     endsequence
     return x;
 endfunction
+
+module top;
+   int x;
+   initial begin
+      x = F();
+      $display(":assert: (25 == %d)", x);
+   end
+endmodule

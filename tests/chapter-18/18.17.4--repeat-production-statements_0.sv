@@ -10,6 +10,7 @@
 /*
 :name: repeat_production_statements_0
 :description: repeat statement test
+:type: simulation elaboration parsing
 :tags: 18.17.4
 */
 
@@ -22,3 +23,11 @@ function int F();
     endsequence
     return x;
 endfunction
+
+module top;
+   int x;
+   initial begin
+      x = F();
+      $display(":assert: (10 == %d)", x);
+   end
+endmodule

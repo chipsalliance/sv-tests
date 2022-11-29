@@ -10,6 +10,7 @@
 /*
 :name: interleaving_productions_rand_join_0
 :description: rand join statement test
+:type: simulation elaboration parsing
 :tags: 18.17.5
 */
 
@@ -22,3 +23,11 @@ function int F();
     endsequence
     return x;
 endfunction
+
+module top;
+   int x;
+   initial begin
+      x = F();
+      $display(":assert: (10 == %d)", x);
+   end
+endmodule

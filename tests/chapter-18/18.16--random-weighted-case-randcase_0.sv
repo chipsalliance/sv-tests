@@ -11,6 +11,7 @@
 :name: random_weighted_case_randcase_0
 :description: randcase test
 :tags: 18.16
+:type: simulation elaboration parsing
 */
 
 function int F();
@@ -21,3 +22,11 @@ function int F();
     endcase
     return a;
 endfunction
+
+module top;
+   int x;
+   initial begin
+      x = F();
+      $display(":assert: (10 == %d)", x);
+   end
+endmodule
