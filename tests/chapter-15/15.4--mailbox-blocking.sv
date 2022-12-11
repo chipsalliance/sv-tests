@@ -11,10 +11,11 @@
 :name: mailbox_blocking
 :description: blocking mailbox test
 :tags: 15.4
+:type: simulation elaboration parsing
 */
 module top();
 
-mailbox m;
+mailbox #(string) m;
 
 initial begin
 	string msg = "abc";

@@ -11,20 +11,22 @@
 :name: mailbox_non_blocking
 :description: non-blocking mailbox test
 :tags: 15.4
+:type: simulation elaboration parsing
 */
 module top();
 
-mailbox m;
+mailbox #(string) m;
 
 initial begin
 	string msg = "abc";
 	string r;
 	string r_peek;
+	int i;
 	m = new();
-	m.try_put(msg);
+	i = m.try_put(msg);
 	m.peek(r_peek);
 	$display(":assert: (%d == 1)", m.num());
-	m.try_get(r);
+	i = m.try_get(r);
 	$display(":assert: ('%s' == '%s')", r, r_peek);
 end
 
