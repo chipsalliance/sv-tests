@@ -27,7 +27,7 @@ class Icarus(BaseRunner):
         self.cmd += ["-o", ofile]
 
         if params['top_module'] != '':
-            self.cmd.append('-s ' + params['top_module'])
+            self.cmd += ['-s', params['top_module']]
 
         for incdir in params['incdirs']:
             self.cmd.append('-I' + incdir)
