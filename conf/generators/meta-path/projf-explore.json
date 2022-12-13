@@ -66,6 +66,7 @@
 	    "sqrt_tb.sv",
 	    "starfield_tb.sv",
 	    "tmds_out.sv",
+	    "top.sv",
 	    "top_bounce.sv",
 	    "top_castle.sv",
 	    "top_colour.sv",
