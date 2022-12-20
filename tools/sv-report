@@ -31,6 +31,8 @@ from typing import Dict, Any, List, Set, Iterable
 import json
 import itertools
 
+
+
 # We only consider tests with minimum this size for the throughput
 # calculation, so that we skip the super-tiny few-line tests that are
 # not a true reflection of a common usage.
@@ -113,7 +115,9 @@ def init_templates(log_template_file, src_template_file):
     global _src_template
     global _src_template_file
 
-    jinja2env = ReportJinja2Env()
+
+    template_dir = os.path.dirname(log_template_file)
+    jinja2env = ReportJinja2Env(template_dir)
     if _log_template_file is None:
         _log_template_file = log_template_file
         with open(_log_template_file, "r") as templ:
@@ -163,8 +167,11 @@ def numericSortKey(s: str):
 
 
 class ReportJinja2Env(jinja2.Environment):
-    def __init__(self):
-        super().__init__(trim_blocks=True, lstrip_blocks=True)
+    def __init__(self, include_dir: str):
+        super().__init__(
+            trim_blocks=True,
+            lstrip_blocks=True,
+           loader=jinja2.FileSystemLoader(include_dir))
         self.filters["escape_attr"] = ReportJinja2Env.escapeXmlAttribute
         self.filters["escape_js_str"] = ReportJinja2Env.escapeJsString
         self.filters["quote"] = ReportJinja2Env.surroundWithQuotes
@@ -791,6 +798,11 @@ def main():
         default="conf/report/report-template.html")
 
     parser.add_argument(
+        "--navbar",
+        help="Path to the html navbar template",
+        default="conf/report/navbar-template.html")
+
+    parser.add_argument(
         "--code-template",
         help="Path to the html code preview template",
         default="conf/report/code-template.html")
@@ -922,7 +934,8 @@ def main():
     )
 
     try:
-        jinja2env = ReportJinja2Env()
+        template_dir = os.path.dirname(args.log_template)
+        jinja2env = ReportJinja2Env(template_dir)
         with open(args.template, "r") as f:
             report = jinja2env.from_string(f.read())
 
