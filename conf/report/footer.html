@@ -1,10 +1,14 @@
 <footer>
-    <div>      
+    <div>
         <p>
             Generated using <a href="https://github.com/chipsalliance/sv-tests">sv-tests</a>,
-            revision: <a href="https://github.com/chipsalliance/sv-tests/commit/local">local</a>,
-            build_id: local,
-            date: 2022-11-09 15:07:13.
+            revision: <a href="https://github.com/chipsalliance/sv-tests/commit/{{revision}}">{{revision}}</a>,
+            {% if build_id != 'local' %}
+            build_id: <a href="{{'https://github.com/chipsalliance/sv-tests/actions/runs/' ~ build_id|string}}">{{build_id}}</a>,
+            {% else %}
+            build_id: {{build_id}},
+            {% endif %}
+            date: {{datetime}}.
         </p>
     </div>
       <div class="footer">
