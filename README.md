@@ -1,7 +1,7 @@
 # SystemVerilog Tester
 
 [![License](https://img.shields.io/github/license/chipsalliance/sv-tests.svg)](https://github.com/chipsalliance/sv-tests/blob/master/LICENSE)
-[![Build Status](https://github.com/chipsalliance/sv-tests/workflows/sv-tests-ci/badge.svg)](https://github.com/chipsalliance/sv-tests/actions)
+[![Build Status](https://github.com/chipsalliance/sv-tests/workflows/sv-tests-ci/badge.svg?branch=master)](https://github.com/chipsalliance/sv-tests/actions)
 
 The purpose of this project is to find all the supported and missing SystemVerilog features in various Verilog tools.
 
