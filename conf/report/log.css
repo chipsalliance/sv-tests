@@ -7,8 +7,8 @@ section {
   width: 100%;
 }
 
-section.property-list.test-passed { background-color: #aaffaa; }
-section.property-list.test-failed { background-color: #ffaaaa; }
+section.property-list.test-passed { background-color: #C8EAC9; }
+section.property-list.test-failed { background-color: #F9C3BE; }
 
 section.property-list a:link {
   color: #00006f;
