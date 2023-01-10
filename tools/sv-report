@@ -31,8 +31,6 @@ from typing import Dict, Any, List, Set, Iterable
 import json
 import itertools
 
-
-
 # We only consider tests with minimum this size for the throughput
 # calculation, so that we skip the super-tiny few-line tests that are
 # not a true reflection of a common usage.
@@ -115,7 +113,6 @@ def init_templates(log_template_file, src_template_file):
     global _src_template
     global _src_template_file
 
-
     template_dir = os.path.dirname(log_template_file)
     jinja2env = ReportJinja2Env(template_dir)
     if _log_template_file is None:
@@ -171,7 +168,7 @@ class ReportJinja2Env(jinja2.Environment):
         super().__init__(
             trim_blocks=True,
             lstrip_blocks=True,
-           loader=jinja2.FileSystemLoader(include_dir))
+            loader=jinja2.FileSystemLoader(include_dir))
         self.filters["escape_attr"] = ReportJinja2Env.escapeXmlAttribute
         self.filters["escape_js_str"] = ReportJinja2Env.escapeJsString
         self.filters["quote"] = ReportJinja2Env.surroundWithQuotes
