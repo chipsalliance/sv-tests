@@ -162,6 +162,8 @@ report: init tests versions urls
 	./tools/sv-report --revision $(shell git rev-parse --short HEAD)
 	cp $(CONF_DIR)/report/*.css $(OUT_DIR)/report/
 	cp $(CONF_DIR)/report/*.js $(OUT_DIR)/report/
+	cp $(CONF_DIR)/report/*.png $(OUT_DIR)/report/
+	cp $(CONF_DIR)/report/*.svg $(OUT_DIR)/report/
 
 list-generators:
 	@echo $(GENERATORS)
