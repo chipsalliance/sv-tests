@@ -56,7 +56,7 @@ jobs:
 
     name: ${{ matrix.tool.name }}
     runs-on: [self-hosted, Linux, X64]
-    container: ubuntu:latest
+    container: ubuntu:jammy-20221130
     steps:
       - name: Cancel previous
         uses: styfle/cancel-workflow-action@0.8.0
@@ -155,7 +155,7 @@ jobs:
   Summary:
     name: Summary
     runs-on: [self-hosted, Linux, X64]
-    container: ubuntu:latest
+    container: ubuntu:jammy-20221130
     needs: Run
     env:
       ANALYZER: "$PWD/tools/report_analyzer.py"
