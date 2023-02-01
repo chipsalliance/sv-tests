@@ -10,7 +10,7 @@ jobs:
   Comment:
     name: Comment
     runs-on: [self-hosted, Linux, X64]
-    container: ubuntu:latest
+    container: ubuntu:jammy-20221130
     if: ${{ github.event.workflow_run.event == 'pull_request' && github.event.workflow_run.conclusion == 'success' }}
     steps:
       - name: Install dependencies
