@@ -37,6 +37,10 @@ class Slang(BaseRunner):
         # a single compilation unit, so ask slang to do that.
         self.cmd += ['--single-unit']
 
+        # Set a default timescale so we don't get errors about some
+        # modules not having one.
+        self.cmd += ['--timescale=1ns/1ns']
+
         top = params['top_module'].strip()
         if top:
             self.cmd.append('--top=' + top)
