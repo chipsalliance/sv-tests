@@ -497,7 +497,7 @@ table.dataTable > tfoot > tr, tfoot > tr> th:nth-of-type(1) {
 }
 
 @media only screen and (max-width: 670px){
-tfoot > tr > th:nth-of-type(1) {
+  tfoot > tr > th:nth-of-type(1) {
   max-width: 330px;}
 }
 
