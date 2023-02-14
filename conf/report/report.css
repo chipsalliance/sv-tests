@@ -34,6 +34,7 @@ h2{
   font-size: 15px;
   font-family: 'Lato', sans-serif;
   font-weight: 500;
+  padding-left: 10px;
 }
 
 h3{
@@ -73,12 +74,11 @@ body {
   background-color: var(--white);
   margin: 0;
   font-family: 'Roboto', sans-serif;
-  overflow-x: auto;
-   width: fit-content;
-   min-width: 100%;
-   font-family: sans-serif;
-   margin: 0;
-   padding: 0 0 var(--panel-height, 0) 0;
+  width: fit-content;
+  min-width: 100%;
+  font-family: sans-serif;
+  margin: 0;
+  padding: 0 0 var(--panel-height, 0) 0;
 }
 
 footer {
@@ -169,7 +169,7 @@ header {
 }
 @media (max-width: 700px) {
   .menu-button-container {
-  display: flex;
+  display: none;
   }
   .menu {
   position: absolute;
@@ -210,11 +210,14 @@ header {
 
 .top-nav {
   display: flex;
+  position: sticky;
+  left: 0;
   flex-direction: row;
   align-items: center;
   justify-content: space-between;
   background-color: var(--white);
   height: 100px;
+  width: calc(100vw - 30px);
   padding: var(--gap-m);
 }
 
@@ -336,6 +339,7 @@ dt {
 
 label {
   margin-right: 10px;
+  display: block;
 }
 
 #filter-section {
@@ -363,19 +367,20 @@ label {
 input[type="checkbox" i] {
   margin-right: 5px;
   width: 15px;
+  margin-top: 3px;
   height: 15px;
 }
 
 #report_table-_filter > label {
-  color:white;
+  color: var(--black);
 }
 
 #report_table-cores_filter > label {
-  color:white;
+  color: var(--black);
 }
 
 #report_table-imported_filter > label {
-  color:white;
+  color: var(--black);
 }
 
 form {
@@ -403,6 +408,10 @@ input[type="search"] {
 }
 
 /******** TABLE ********/
+
+table.dataTable thead th, table.dataTable thead td {
+  border-bottom: none;
+}
 
 table.dataTable {
   width:100%;
@@ -487,6 +496,15 @@ table.dataTable > tfoot > tr, tfoot > tr> th:nth-of-type(1) {
   background-color: var(--light-gray);
 }
 
+@media only screen and (max-width: 670px){
+  tfoot > tr > th:nth-of-type(1) {
+  max-width: 330px;}
+}
+
+table.dataTable, table.dataTable th, table.dataTable td {
+  box-sizing: border-box;
+}
+
 /******** TEST STATUS ********/
 
 .test-failed {
@@ -538,10 +556,11 @@ table.dataTable > * > tr > th:nth-of-type(2) {
   background-color: var(--white);
   min-width: 120px;
   width: 120px;
+  border-left: 0;
 }
 @media only screen and (max-width: 670px) {
   table.dataTable > * > tr > th:nth-of-type(2) {
-  left: 159px;
+  left: 160px;
   min-width: 100px;
   width: 100px;
   }
@@ -550,7 +569,12 @@ table.dataTable > * > tr > th:nth-of-type(2) {
 table.dataTable > thead > tr > th:nth-of-type(n+2) {
   position: sticky;
   z-index: calc(2 + var(--z, 0));
-  top: 0;
+  top: -1px;
+  min-width: 140px;
+}
+
+table.dataTable thead th, table.dataTable thead td {
+  padding: 0px 5px;
 }
 
 table.dataTable > thead > tr > th:nth-of-type(-n+2) {
@@ -560,7 +584,27 @@ table.dataTable > thead > tr > th:nth-of-type(-n+2) {
   background-color: var(--light-gray);
 }
 
+table.dataTable > tfoot > tr:nth-of-type(-n+2) > td {
+  color: white;
+  font-weight: bold;
+}
+
+table.dataTable tbody th, table.dataTable tbody td {
+  padding: 0px 15px;
+}
+
+table.dataTable tfoot th, table.dataTable tfoot td {
+  padding: 10px 18px 6px 15px;
+}
+
 /******** DETAILS ********/
+
+.c_test-details-panel .p_close-button {
+  background: var(--black);
+  float: top;
+  grid-area: "options";
+}
+
 
 .c_test-details-panel {
   position: fixed;
@@ -686,14 +730,14 @@ table.dataTable > tbody > tr > td:not(:empty).s_selected {
 header, .dataTables_filter {
   position: sticky;
   width: calc(100vw - 30px);
-  left: 20px;
+  left: 0;
   margin-left: 0 !important;
   margin-right: 0 !important;
 }
 
 #filter-section, .dataTables_info, #summary-section, footer {
   position: sticky;
-  width: calc(100vw - 20px);
+  width: calc(100vw - 30px);
   left: 10px;
   margin-left: 0;
   margin-right: 0;
