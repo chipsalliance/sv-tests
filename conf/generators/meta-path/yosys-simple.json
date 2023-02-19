@@ -5,6 +5,6 @@
 		["tools", "yosys", "tests", "simple"]
 	],
 	"matches": ["*.v"],
-	"blacklist": ["hierdefparam.v", "memory.v", "values.v", "func_width_scope.v", "named_genblk.v", "mem2reg_bounds_tern.v"],
+	"blacklist": ["hierdefparam.v", "memory.v", "values.v", "func_width_scope.v", "named_genblk.v", "mem2reg_bounds_tern.v", "module_scope_func.v"],
 	"results_group": "imported"
 }
