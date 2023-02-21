@@ -246,6 +246,30 @@ ivtest_file_exclude = [
     # negative tests
     'writememerror',
     'uwire_fail',
+    # Null object dereferenced
+    'br_gh104a',
+    # Some tools error others warn, it's not clear in LRM what the requirements are
+    'br_gh230_iv',
+    # Zero sized constant is illegal, but some tools warn and ignore
+    'br_gh60a',
+    # String type is not implicitly assignment compatible to a packed vector, but some allow
+    'br_ml20180227',
+    # Negative test wrong, what is tested appears legal on other simulators and by IEEE
+    'comment1',
+    # Checked values FAILED on multiple other simulators
+    'concat4',
+    # Illegal, but some tooks just warn
+    'enum_test3',
+    # Fails on others; does not appear to match IEEE's description of define identifiers
+    'escaped_macro_name',
+    # Checked values FAILED on multiple other simulators
+    'func_init_var3',
+    # Negative test that in some tools throws a warning rather than fatal error
+    'pr1938138',
+    # Unclear, most tools hard error but for some tools allow
+    'pr2794144',
+    # Specified --top-module 'top' was not found in design (sv-test driver limitation)
+    'vlg_pr1587634_iv',
 ]
 
 ivtest_long = ['comp1000', 'comp1001']
