@@ -599,6 +599,7 @@ table.dataTable tfoot th, table.dataTable tfoot td {
 
 /******** DETAILS ********/
 
+
 .c_test-details-panel .p_close-button {
   background: var(--black);
   float: top;
@@ -611,38 +612,78 @@ table.dataTable tfoot th, table.dataTable tfoot td {
   bottom: 0;
   z-index: 50;
   width: 100%;
-  display: grid;
-  grid-template-areas: "log file" "tests-list tests-list";
+  display: flex;
+  flex-direction: column;
   align-items: stretch;
   justify-items: stretch;
   justify-content: stretch;
   overflow-y: hidden;
   overflow-x: hidden;
-  background-color: #000;
+  background-color: white;
   font-family: "Courier New", Courier, monospace;
   align-content: space-evenly;
 }
 @media only screen and (max-width: 1000px) {
   .c_test-details-panel {
   display: flex;
-   flex-direction: column;
+  flex-direction: column;
+  }
+}
+
+.p_log {
+  width: 50vw;
+  min-height: 30vh;
+}
+@media only screen and (max-width: 1000px) {
+  .p_log {
+  width: 100vw;
+  }
+}
+
+.p_file {
+  width:50%;
+  min-height: 30vh;
+  background-color: white;
+}
+@media only screen and (max-width: 1000px) {
+  .p_file {
+  width: 100vw;
+  }
+}
+
+.test-details {
+  height: 60px;
+  background-color: var(--light-gray);
+  display: flex;
+  align-items: center;
+  flex-direction: row;
+  color: var(--dark-gray);
+  justify-content: space-between;
+  margin-left: 10px;
+  margin-right: 10px;
+}
+
+.wrapper {
+  width: 60px;
+}
+
+.grid-2{
+  display: flex;
+  flex-direction: row;
+}
+
+section.log {
+  background-color: white;
+}
+@media only screen and (max-width: 1000px) {
+  .grid-2 {
+  display: flex;
+  flex-direction: column;
   }
 }
 
 .c_test-details-panel.s_hidden {
   display: none;
-}
-
-.c_test-details-panel > .p_log {
-  grid-area: log;
-}
-
-.c_test-details-panel > .p_file {
-  grid-area: file;
-}
-
-.c_test-details-panel > .p_tests-list {
-  grid-area: tests-list;
 }
 
 .c_test-details-panel > iframe {
@@ -682,7 +723,13 @@ table.dataTable tfoot th, table.dataTable tfoot td {
 
 .c_test-details-panel .p_close-button {
   background: var(--black);
+  border-radius: 25px;
   float: top;
+  color: white;
+  padding: 12px;
+  width: 35px;
+  height: 35px;
+  display: flex;
 }
 
 .c_test-details-panel > .p_tests-list > .p_item {

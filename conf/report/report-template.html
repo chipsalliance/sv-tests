@@ -235,15 +235,25 @@
       </main>
       {% include 'footer.html' %}
       <div class="c_test-details-panel s_hidden">
-         <iframe class="p_log" name="log-frame"></iframe>
-         <iframe class="p_file" name="file-frame"></iframe>
+         <div class="test-details">
+            <div class="wrapper"></div>
+            <h2>TEST DETAILS</h2>
+            <button class="p_close-button">
+               <svg width="11" height="11" viewBox="0 0 11 11" fill="none" xmlns="http://www.w3.org/2000/svg">
+               <path fill-rule="evenodd" clip-rule="evenodd" d="M3.83579 5.25L0.292893 8.79289L1.70711 10.2071L5.25 6.66421L8.79289 10.2071L10.2071 8.79289L6.66421 5.25L10.2071 1.70711L8.79289 0.292893L5.25 3.83579L1.70711 0.292893L0.292893 1.70711L3.83579 5.25Z" fill="white"/>
+               </svg>
+            </button>
+         </div> 
+         <div class="grid-2">
+            <iframe class="p_log" name="log-frame"></iframe>
+            <iframe class="p_file" name="file-frame"></iframe>
+         </div>
          <div class="p_tests-list">
             <template class="p_item-template">
                <button class="p_item">
                   <slot name="test-name"></slot>
                </button>
             </template>
-            <button class="p_close-button">close</button>
          </div>
       </div>
    </body>
