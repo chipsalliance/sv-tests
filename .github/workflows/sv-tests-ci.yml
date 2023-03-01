@@ -55,7 +55,7 @@ jobs:
       DEBIAN_FRONTEND: "noninteractive"
 
     name: ${{ matrix.tool.name }}
-    runs-on: [self-hosted, Linux, X64]
+    runs-on: [self-hosted, Linux, X64, gcp-custom-runners]
     container: ubuntu:jammy-20221130
     steps:
       - name: Cancel previous
@@ -154,7 +154,7 @@ jobs:
 
   Summary:
     name: Summary
-    runs-on: [self-hosted, Linux, X64]
+    runs-on: [self-hosted, Linux, X64, gcp-custom-runners]
     container: ubuntu:jammy-20221130
     needs: Run
     env:
