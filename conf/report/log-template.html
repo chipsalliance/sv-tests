@@ -5,11 +5,11 @@
     <link rel="stylesheet" type="text/css" href="{{csspath}}">
   </head>
   <body>
-    <header>
-      <a href="{{log['runner_url']}}" target="_blank"><h1>{{log['runner']|e}}</h1></a>
-      <h2>{{result.name|e}}</h2>
+    <header id="header_log" class="{{result.status}} sticky-y">
+        <a href="{{log['runner_url']}}" target="_blank"><h1>{{log['runner']|e}}</h1></a>
+        <h2>{{result.name|e}}</h2>
     </header>
-    <section class="property-list {{result.status}}">
+    <section class="property-list">
       <dl>
         <div><dt>description</dt><dd>{{log['description']|e}}</dd></div>
         <div><dt>rc</dt><dd>{{result.exit_code}} (means success: {{log['tool_success']|e}})</dd></div>
