@@ -5,7 +5,7 @@
     <link rel="stylesheet" type="text/css" href="{{csspath}}">
   </head>
   <body>
-    <header id="header_log" class="{{result.status}} sticky-y">
+    <header class="{{result.status}}">
         <a href="{{log['runner_url']}}" target="_blank"><h1>{{log['runner']|e}}</h1></a>
         <h2>{{result.name|e}}</h2>
     </header>
@@ -48,5 +48,6 @@
       <pre>{{line}}</pre>
       {% endfor %}
     </section>
+  </div>
   </body>
 </html>
