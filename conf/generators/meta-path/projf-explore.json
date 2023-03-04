@@ -88,6 +88,7 @@
 	    "top_hello_jp.sv",
 	    "top_hitomezashi.sv",
 	    "top_hourglass.sv",
+	    "top_mandel.sv",
 	    "top_lfsr.sv",
 	    "top_life.sv",
 	    "top_pong.sv",
