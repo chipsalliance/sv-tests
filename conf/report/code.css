@@ -70,6 +70,13 @@ pre {
   margin: 0;
 }
 
+#header_code {
+  position:sticky;
+  left: 0;
+  top: 0;
+  width: calc(100vw - 13px);
+}
+
 .linenodiv a {
   color: #000000;
   text-decoration: none;
