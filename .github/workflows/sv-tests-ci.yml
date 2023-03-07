@@ -17,7 +17,7 @@ jobs:
           - name: icarus
             deps: autoconf autotools-dev bison flex libfl-dev gperf
           - name: moore
-            deps: cargo
+            rust_ver: 1.59
           - name: odin
             repo: odin_ii
             deps: autoconf autotools-dev bison flex libfl-dev cmake pkg-config
@@ -75,6 +75,7 @@ jobs:
         run: |
           apt -qq -y install apt-transport-https curl gnupg
           curl -fsSL https://bazel.build/bazel-release.pub.gpg | gpg --dearmor > bazel.gpg
+          chmod a+r bazel.gpg
           mv bazel.gpg /etc/apt/trusted.gpg.d/
           echo "deb [arch=amd64] https://storage.googleapis.com/bazel-apt stable jdk1.8" | tee /etc/apt/sources.list.d/bazel.list
           apt-get update -qq
@@ -92,6 +93,15 @@ jobs:
         if: ${{ matrix.tool.deps }}
         run: |
           apt -qq -y install ${{ matrix.tool.deps }}
+      - name: Setup Rust (if needed)
+        if: ${{ matrix.tool.rust_ver }}
+        run: |
+          apt -y install curl
+          curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs > setup.sh
+          sh setup.sh -y
+          source $HOME/.cargo/env
+          rustup install ${{ matrix.tool.rust_ver }}
+          rustup default ${{ matrix.tool.rust_ver }}
       - name: Update haskell (if needed)
         if: ${{ contains(matrix.tool.deps, 'haskell') }}
         run: |
@@ -119,19 +129,20 @@ jobs:
           path: "/root/sv-tests/sv-tests/.cache/"
           key: cache_${{ matrix.tool.name }}_${{ steps.cache_timestamp.outputs.time }}
           restore-keys: cache_${{ matrix.tool.name }}_
+      - name: Build
+        run: |
+          export PATH="/usr/lib/ccache:/usr/local/opt/ccache/libexec:$PATH"
+          [[ -f $HOME/.cargo/env ]] && source $HOME/.cargo/env
+          make ${{ matrix.tool.name }} -j$(nproc)
+      - name: Check
+        run:
+          make info
       - name: Checkout third party tests and cores
         run: |
           git submodule update --init --recursive third_party/tests
           git submodule update --init --recursive third_party/cores
           # yosys tool also contains tests
           git submodule update --init --recursive third_party/tools/yosys
-      - name: Build
-        run: |
-          export PATH="/usr/lib/ccache:/usr/local/opt/ccache/libexec:$PATH"
-          make ${{ matrix.tool.name }} -j$(nproc)
-      - name: Check
-        run:
-          make info
       - name: Run
         run: |
           BIG_GENERATORS_EXPR=$(echo $BIG_GENERATORS | sed 's/ /\\|/g')
