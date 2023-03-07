@@ -17,7 +17,7 @@ jobs:
           - name: icarus
             deps: autoconf autotools-dev bison flex libfl-dev gperf
           - name: moore
-            deps: cargo
+            rust_ver: 1.43
           - name: odin
             repo: odin_ii
             deps: autoconf autotools-dev bison flex libfl-dev cmake pkg-config
@@ -92,6 +92,15 @@ jobs:
         if: ${{ matrix.tool.deps }}
         run: |
           apt -qq -y install ${{ matrix.tool.deps }}
+      - name: Setup Rust (if needed)
+        if: ${{ matrix.tool.rust_ver }}
+        run: |
+          apt -y install curl
+          curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs > setup.sh
+          sh setup.sh -y
+          source $HOME/.cargo/env
+          rustup install ${{ matrix.tool.rust_ver }}
+          rustup default ${{ matrix.tool.rust_ver }}
       - name: Update haskell (if needed)
         if: ${{ contains(matrix.tool.deps, 'haskell') }}
         run: |
@@ -128,6 +137,7 @@ jobs:
       - name: Build
         run: |
           export PATH="/usr/lib/ccache:/usr/local/opt/ccache/libexec:$PATH"
+          [[ -f $HOME/.cargo/env ]] && source $HOME/.cargo/env
           make ${{ matrix.tool.name }} -j$(nproc)
       - name: Check
         run:
