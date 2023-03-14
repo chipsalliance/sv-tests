@@ -18,9 +18,10 @@ templ = """/*
 :description: Full ariane core test
 :files: {0}
 :incdirs: {1}
+:defines: {2}
 :tags: ariane
 :results_group: cores
-:top_module: {2}
+:top_module: {3}
 :timeout: 360
 */
 """
@@ -54,7 +55,8 @@ except:
 
 ver_cmd_comp = ver_cmd.split()
 incdirs = ''
-sources = ''
+defines = ''
+sources = set()
 # flag for the next line with the top module name
 get_top_module = False
 
@@ -75,7 +77,22 @@ for components in ver_cmd_comp:
         # nonexistent interface, so it otherwise breaks elaboration. This hack can be
         # removed if the problem gets fixed upstream.
         if 'axi2apb_wrap.sv' not in args and args not in sources:
-            sources += os.path.join(ariane_path, args) + ' '
+            sources.add(os.path.join(ariane_path, args))
+
+with open(os.path.join(ariane_path, "core/Flist.cva6")) as f:
+    for l in f.readlines():
+        l = l.strip()
+        if l.startswith("//"):
+            continue
+
+        l = l.replace("${CVA6_REPO_DIR}", ariane_path)
+        l = l.replace("${TARGET_CFG}", "cv64a6_imafdc_sv39")
+        if l.startswith("+incdir+"):
+            incdirs += l.partition("+incdir+")[2] + ' '
+        elif l.startswith("+define+"):
+            defines += l.partition("+define+")[2] + ' '
+        elif l.endswith(".sv"):
+            sources.add(l)
 
 os.chdir(main_path)
 test_dir = os.path.join(tests_dir, 'generated', tests_subdir)
@@ -85,5 +102,6 @@ if not os.path.isdir(test_dir):
 
 test_file = os.path.join(test_dir, "ariane.sv")
 
+sources_str = " ".join(sorted(list(sources)))
 with open(test_file, "w") as f:
-    f.write(templ.format(sources, incdirs, top_module))
+    f.write(templ.format(sources_str, incdirs, defines, top_module))
