@@ -57,20 +57,40 @@ ver_cmd_comp = ver_cmd.split()
 incdirs = ''
 defines = ''
 sources = set()
-# flag for the next line with the top module name
-get_top_module = False
 
-for components in ver_cmd_comp:
+
+def process_filelist(filelist):
+    global incdirs
+    global defines
+    global sources
+    with open(filelist) as f:
+        for l in f.readlines():
+            l = l.strip()
+            if l.startswith("//"):
+                continue
+
+            l = l.replace("${CVA6_REPO_DIR}", ariane_path)
+            l = l.replace("${TARGET_CFG}", "cv64a6_imafdc_sv39")
+            if l.startswith("+incdir+"):
+                incdirs += l.partition("+incdir+")[2] + ' '
+            elif l.startswith("+define+"):
+                defines += l.partition("+define+")[2] + ' '
+            elif l.endswith(".sv"):
+                sources.add(l)
+
+
+ver_cmd_comp_iter = iter(ver_cmd_comp)
+while (components := next(ver_cmd_comp_iter, False)):
     args = components.strip()
     if args.startswith("+incdir+"):
         incdirs += os.path.join(
             ariane_path,
             args.partition("+incdir+")[2]) + ' '
+    elif args.startswith("-f"):
+        filelist = next(ver_cmd_comp_iter)
+        process_filelist(os.path.join(ariane_path, filelist))
     elif args.startswith("--top-module"):
-        get_top_module = True
-    elif get_top_module:
-        top_module = args
-        get_top_module = False
+        top_module = next(ver_cmd_comp_iter)
     elif args.endswith('.sv'):
         # The Ariane file lists contains a reference to this file but the module itself
         # isn't instantiated anywhere. Problematically, it contains references to a
@@ -78,21 +98,6 @@ for components in ver_cmd_comp:
         # removed if the problem gets fixed upstream.
         if 'axi2apb_wrap.sv' not in args and args not in sources:
             sources.add(os.path.join(ariane_path, args))
-
-with open(os.path.join(ariane_path, "core/Flist.cva6")) as f:
-    for l in f.readlines():
-        l = l.strip()
-        if l.startswith("//"):
-            continue
-
-        l = l.replace("${CVA6_REPO_DIR}", ariane_path)
-        l = l.replace("${TARGET_CFG}", "cv64a6_imafdc_sv39")
-        if l.startswith("+incdir+"):
-            incdirs += l.partition("+incdir+")[2] + ' '
-        elif l.startswith("+define+"):
-            defines += l.partition("+define+")[2] + ' '
-        elif l.endswith(".sv"):
-            sources.add(l)
 
 os.chdir(main_path)
 test_dir = os.path.join(tests_dir, 'generated', tests_subdir)
