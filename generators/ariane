@@ -56,7 +56,7 @@ except:
 ver_cmd_comp = ver_cmd.split()
 incdirs = ''
 defines = ''
-sources = set()
+sources = []
 
 
 def process_filelist(filelist):
@@ -76,7 +76,7 @@ def process_filelist(filelist):
             elif l.startswith("+define+"):
                 defines += l.partition("+define+")[2] + ' '
             elif l.endswith(".sv"):
-                sources.add(l)
+                sources.append(l)
 
 
 ver_cmd_comp_iter = iter(ver_cmd_comp)
@@ -97,7 +97,7 @@ while (components := next(ver_cmd_comp_iter, False)):
         # nonexistent interface, so it otherwise breaks elaboration. This hack can be
         # removed if the problem gets fixed upstream.
         if 'axi2apb_wrap.sv' not in args and args not in sources:
-            sources.add(os.path.join(ariane_path, args))
+            sources.append(os.path.join(ariane_path, args))
 
 os.chdir(main_path)
 test_dir = os.path.join(tests_dir, 'generated', tests_subdir)
@@ -107,6 +107,6 @@ if not os.path.isdir(test_dir):
 
 test_file = os.path.join(test_dir, "ariane.sv")
 
-sources_str = " ".join(sorted(list(sources)))
+sources_str = " ".join(sources)
 with open(test_file, "w") as f:
     f.write(templ.format(sources_str, incdirs, defines, top_module))
