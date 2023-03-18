@@ -15,7 +15,7 @@
 module top #( parameter type T = type(logic[11:0]) )
    ();
    initial begin
-      case (type(T))
+      case (type(T)
         type(logic[11:0]) : ;
         default           : $stop;
       endcase
