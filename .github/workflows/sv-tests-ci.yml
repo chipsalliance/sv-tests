@@ -25,6 +25,7 @@ jobs:
             deps: cmake pkg-config
           - name: surelog
             repo: Surelog
+            submodules: third_party/UHDM third_party/antlr4 third_party/flatbuffers third_party/googletest
             deps: cmake default-jre pkg-config tclsh uuid-dev
           - name: sv-parser
             deps: cargo
@@ -36,12 +37,14 @@ jobs:
           - name: verilator
             deps: autoconf autotools-dev bison flex help2man libfl-dev libelf-dev
           - name: verilator-uhdm
+            submodules: Surelog vcddiff
             deps: autoconf autotools-dev bison default-jre flex help2man libfl-dev cmake pkg-config tclsh uuid-dev libelf-dev
             runners_filter: UhdmVerilator
           - name: yosys
             deps: bison clang tcl-dev flex libfl-dev pkg-config libreadline-dev
           - name: yosys-uhdm
             repo: yosys-uhdm-plugin-integration
+            submodules: yosys yosys-f4pga-plugins Surelog
             deps: cmake clang tcl-dev bison default-jre flex libfl-dev libreadline-dev pkg-config tclsh uuid-dev
             runners_filter: UhdmYosys
           - name: zachjs-sv2v
@@ -111,10 +114,15 @@ jobs:
           # Github dropped support for unauthorized git: https://github.blog/2021-09-01-improving-git-protocol-security-github/
           # Make sure we always use https:// instead of git://
           git config --global url.https://github.com/.insteadOf git://github.com/
+          REPOSITORY_NAME=${{ matrix.tool.name }}
           if [[ ! -z "${{ matrix.tool.repo }}" ]]; then
-            git submodule update --init --recursive third_party/tools/${{ matrix.tool.repo }}
-          elif [[ -e third_party/tools/${{ matrix.tool.name }} ]]; then
-            git submodule update --init --recursive third_party/tools/${{ matrix.tool.name }}
+            REPOSITORY_NAME=${{ matrix.tool.repo }}
+          fi
+          git submodule update --init third_party/tools/${REPOSITORY_NAME}
+          if [[ ! -z "${{ matrix.tool.submodules }}" ]]; then
+            pushd third_party/tools/${REPOSITORY_NAME}
+            git submodule update --init --recursive ${{ matrix.tool.submodules }}
+            popd
           fi
       - name: Create Cache Timestamp
         id: cache_timestamp
