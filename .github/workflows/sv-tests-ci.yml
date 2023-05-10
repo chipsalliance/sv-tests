@@ -56,6 +56,7 @@ jobs:
       # tests from those generators are run without "-j" flag
       BIG_GENERATORS: "fusesoc black-parrot"
       DEBIAN_FRONTEND: "noninteractive"
+      GHA_MACHINE_TYPE: "n2-highmem-16"
 
     name: ${{ matrix.tool.name }}
     runs-on: [self-hosted, Linux, X64, gcp-custom-runners]

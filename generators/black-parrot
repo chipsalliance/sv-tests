@@ -43,38 +43,40 @@ bp_path = os.path.abspath(
     os.path.join(third_party_dir, "cores", "black-parrot"))
 
 # BlackParrot has RTL in the main repo and in the BaseJump STL submodule
-cmd = "git submodule update --init --checkout {}".format(bp_path)
-os.system(cmd)
+cmd = f"git submodule update --init --checkout {bp_path}"
 print(cmd)
-cmd = "cd {}; git submodule update --init --recursive external/basejump_stl".format(
-    bp_path)
 os.system(cmd)
+cmd = f"cd {bp_path}; git submodule update --init --recursive external/basejump_stl"
 print(cmd)
-cmd = "cd {}; git submodule update --init --recursive external/HardFloat".format(
-    bp_path)
 os.system(cmd)
+cmd = f"cd {bp_path}; git submodule update --init --recursive external/HardFloat"
 print(cmd)
+os.system(cmd)
 
 lists = [
     {
-        'name': 'bp_fe',
-        'top': 'bp_fe_top',
-        'flist': 'bp_top/syn/flist.vcs'
-    }, {
-        'name': 'bp_be',
-        'top': 'bp_be_top',
-        'flist': 'bp_top/syn/flist.vcs'
-    }, {
-        'name': 'bp_cce',
-        'top': 'bp_cce',
+        'name': 'bp_default',
+        'cfg': 'e_bp_default_cfg',
         'flist': 'bp_top/syn/flist.vcs'
     }, {
         'name': 'bp_unicore',
-        'top': 'bp_unicore',
+        'cfg': 'e_bp_unicore_cfg',
         'flist': 'bp_top/syn/flist.vcs'
     }, {
-        'name': 'bp_multicore',
-        'top': 'bp_multicore',
+        'name': 'bp_multicore_1',
+        'cfg': 'e_bp_multicore_1_cfg',
+        'flist': 'bp_top/syn/flist.vcs'
+    }, {
+        'name': 'bp_multicore_1_cce_ucode',
+        'cfg': 'e_bp_multicore_1_cce_ucode_cfg',
+        'flist': 'bp_top/syn/flist.vcs'
+    }, {
+        'name': 'bp_multicore_4',
+        'cfg': 'e_bp_multicore_4_cfg',
+        'flist': 'bp_top/syn/flist.vcs'
+    }, {
+        'name': 'bp_multicore_4_cce_ucode_cfg',
+        'cfg': 'e_bp_multicore_4_cce_ucode_cfg',
         'flist': 'bp_top/syn/flist.vcs'
     }
 ]
@@ -117,7 +119,13 @@ for l in lists:
                 continue
             if len(line.strip()) > 0:
                 sources += expandPaths(line.strip()) + ' '
-
     test_file = os.path.join(test_dir, l['name'] + '.sv')
-    with open(test_file, "w") as f:
-        f.write(templ.format(sources, incdirs, l['top'], l['name']))
+    cfg = l['cfg']
+    cmd = f"sed 's/BP_CFG_FLOWVAR/{cfg}/g' {bp_path}/bp_top/test/tb/bp_tethered/wrapper.sv > {test_file}"
+    print(cmd)
+    os.system(cmd)
+    sources += os.path.realpath(test_file)
+    with open(test_file, "r+") as f:
+        content = f.read()
+        f.seek(0, 0)
+        f.write(templ.format(sources, incdirs, "wrapper", l['name']) + content)
