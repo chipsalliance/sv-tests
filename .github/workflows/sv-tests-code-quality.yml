@@ -10,10 +10,10 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
         with:
           submodules: true
-      - uses: actions/setup-python@v2
+      - uses: actions/setup-python@v4
         with:
           python-version: 3.7
       - name: Script
@@ -25,9 +25,6 @@ jobs:
       - name: Test
         run:
           test $(git status --porcelain | wc -l) -eq 0 || { git diff; false; }
-      - name: Clone submodules
-        run:
-          git submodule update --init --recursive
       - name: License
         uses: SymbiFlow/actions/checks@main
         with:
