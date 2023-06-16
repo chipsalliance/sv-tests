@@ -12,7 +12,7 @@
 		"reg [31:0] a;",
 		"wire [31:0] b;",
 		"assign b = 32'd{3};",
-		"initial begin",
+		"final begin",
 		"    a = 32'd{2};",
 		"    a {0}= b;",
 		"    $display(\":assert: (int(%s) == %d)\", \"{2}{0}{3}\", a);",

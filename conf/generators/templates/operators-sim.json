@@ -15,7 +15,7 @@
 		"assign a = 32'd{3};",
 		"assign b = 32'd{4};",
 		"assign c = a {0} b;",
-		"initial begin",
+		"final begin",
 		"    $display(\":assert: (int(%s) == %d)\", \"{3}{0}{4}\", c);",
 		"end",
 		"endmodule"

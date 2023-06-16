@@ -15,7 +15,7 @@
 		"assign a = {0};",
 		"assign b = {1};",
 		"assign c = a -> b;",
-		"initial begin",
+		"final begin",
 		"    $display(\":assert: ((%s) == %d)\", \"((not {0}) or {1})\", c);",
 		"end",
 		"endmodule"
