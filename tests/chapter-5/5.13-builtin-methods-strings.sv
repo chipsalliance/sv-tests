@@ -15,7 +15,7 @@
 module top();
   string a = "test";
 
-  initial begin;
+  initial begin
     $display("length check: %d\n", a.len());
   end
 endmodule

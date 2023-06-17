@@ -17,7 +17,7 @@ module top();
   bit   [7:0] b;
   logic [7:0] c;
 
-  initial begin;
+  initial begin
     a = "a";
     b = "b";
     c = "c";
