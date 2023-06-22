@@ -14,7 +14,7 @@
 */
 module top();
 
-  initial begin;
+  initial begin
     $display("one line");
   end
 
