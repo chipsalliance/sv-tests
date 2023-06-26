@@ -81,3 +81,4 @@ with open(test_file, "w") as f:
     f.write(templ.format(sources, incdirs))
     f.write("`define RSD_SYNTHESIS\n")
     f.write("`define RSD_SYNTHESIS_DESIGN_COMPILER\n")
+    f.write("`define RSD_MARCH_FP_PIPE\n")

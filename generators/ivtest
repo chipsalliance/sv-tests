@@ -270,6 +270,8 @@ ivtest_file_exclude = [
     'pr2794144',
     # Specified --top-module 'top' was not found in design (sv-test driver limitation)
     'vlg_pr1587634_iv',
+    # primitive table rows are invalid, fails on multiple commercial tools
+    "pr3587570",
 ]
 
 ivtest_long = ['comp1000', 'comp1001']
