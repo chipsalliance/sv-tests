@@ -47,7 +47,7 @@ sources = ''
 incdirs = ''
 
 files = []
-includes = ['includes']
+includes = ['includes', 'tb']
 
 for fname in flist:
     with open(os.path.join(scr1_path, fname)) as f:
