@@ -11,7 +11,7 @@
 :name: isunbounded_function
 :description: $isunbounded test
 :tags: 20.6
-:type: simulation parsing
+:type: simulation elaboration parsing
 */
 
 module top();

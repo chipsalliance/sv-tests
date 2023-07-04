@@ -12,7 +12,7 @@
 :description: unresolved interface class method name conflict
 :should_fail_because: unresolved interface class method name conflict
 :tags: 8.26.6.1
-:type: simulation
+:type: simulation elaboration
 */
 module class_tb ();
 	interface class ihello;

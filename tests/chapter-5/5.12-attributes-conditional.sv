@@ -16,7 +16,7 @@
 module top();
   bit a, b, c, d;
 
-  initial begin;
+  initial begin
     a = b ? (* no_glitch *) c : d;
   end
 

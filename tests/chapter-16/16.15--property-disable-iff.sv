@@ -10,7 +10,7 @@
 /*
 :name: property_disable_iff_test
 :description: property with disable iff
-:type: simulation parsing
+:type: simulation elaboration parsing
 :tags: 16.15
 */
 

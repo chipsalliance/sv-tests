@@ -11,7 +11,7 @@
 :name: insert-assign
 :description: Update queue by assignment (insert)
 :tags: 7.10.4
-:type: simulation parsing
+:type: simulation elaboration parsing
 */
 module top ();
 

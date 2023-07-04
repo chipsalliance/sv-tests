@@ -11,7 +11,7 @@
 :name: uvm_monitor_env
 :description: uvm monitor + env test
 :tags: uvm uvm-classes
-:type: simulation parsing
+:type: simulation elaboration parsing
 :timeout: 30
 */
 

@@ -12,7 +12,7 @@
 :description:  behavior of randomization methods test
 :should_fail_because: The randomize() method is built-in and cannot be overridden.
 :tags: uvm-random uvm
-:type: simulation
+:type: simulation elaboration
 */
 
 import uvm_pkg::*;

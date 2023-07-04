@@ -12,7 +12,7 @@
 :description: Test packed structures default value support
 :should_fail_because: members of packed structures shall not be assigned individual default member values.
 :tags: 7.2.2
-:type: simulation
+:type: simulation elaboration
 */
 module top ();
 

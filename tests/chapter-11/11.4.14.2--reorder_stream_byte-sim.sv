@@ -10,7 +10,7 @@
 /*
 :name: reorder_stream_byte_sim
 :description: stream reordering simulation test
-:type: simulation parsing
+:type: simulation elaboration parsing
 :tags: 11.4.14.2
 */
 module top();

@@ -11,7 +11,7 @@
 :name: associative-arrays-assignment
 :description: Test associative arrays assignment support
 :tags: 7.9.9 7.8
-:type: simulation parsing
+:type: simulation elaboration parsing
 */
 module top ();
 

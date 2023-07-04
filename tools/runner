@@ -113,7 +113,7 @@ test = os.path.abspath(os.path.join(dirs['tests'], args.test))
 supported_test_params = [
     "name", "tags", "description", "files", "incdirs", "top_module", "timeout",
     "type", "should_fail", "should_fail_because", "defines",
-    "compatible-runners", "allow_elaboration"
+    "compatible-runners", "results_group"
 ]
 
 test_params = {}
@@ -146,18 +146,19 @@ try:
 
         else:
             # set default values for optional metadata entries
+            test_params.setdefault('name', test)
             test_params.setdefault('files', test)
             test_params.setdefault('incdirs', os.path.dirname(test))
             test_params.setdefault('top_module', '')
             test_params.setdefault('timeout', "30")
-            test_params.setdefault('type', 'parsing')
+            test_params.setdefault('type', 'parsing elaboration')
             test_params.setdefault(
                 'should_fail',
                 ("0", "1")["should_fail_because" in test_params.keys()])
             test_params.setdefault('should_fail_because', "")
             test_params.setdefault('defines', "")
             test_params.setdefault('compatible-runners', "all")
-            test_params.setdefault('allow_elaboration', "False")
+            test_params.setdefault('results_group', "")
 
             if len(set(supported_test_params) - set(test_params.keys())) != 0:
                 missing = list(
@@ -209,8 +210,34 @@ for key in libs.keys():
 
 test_params['defines'] = test_params['defines'].split()
 
+# Filter test files based on what the runner claims to support.
+filtered_files = []
+for f in test_params['files']:
+    if os.path.splitext(f)[1] in runner_obj.allowed_extensions:
+        filtered_files.append(f)
+    else:
+        logger.info(
+            "Skipping '{}' with '{}' due to unsupported extension".format(
+                f, args.runner))
+
+test_params['files'] = filtered_files
+
+# Keep it simple to avoid problems with escaping.
+RESULTS_GROUP_PARAM_VALIDATOR_RE = re.compile(r"[a-z0-9_]*")
+if not RESULTS_GROUP_PARAM_VALIDATOR_RE.fullmatch(
+        test_params["results_group"]):
+    group = test_params["results_group"]
+    fixed_group = re.sub("[^a-z0-9_]", "_", group.lower())
+    logger.warning(
+        f"results_group '{group}' does not match pattern '[a-z0-9_]*'. Replacing with '{fixed_group}'."
+    )
+    test_params['results_group'] = fixed_group
+
 try:
-    tmp_dir = tempfile.mkdtemp()
+    tmp_parent = os.path.join(os.path.abspath(dirs['out']), "tmp")
+    os.makedirs(tmp_parent, exist_ok=True)
+
+    tmp_dir = tempfile.mkdtemp(dir=tmp_parent)
 except (PermissionError, FileExistsError) as e:
     logger.error(
         "Unable to create a temporary directory for test: {}".format(str(e)))

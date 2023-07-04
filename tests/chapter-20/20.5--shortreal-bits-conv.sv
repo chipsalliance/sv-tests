@@ -11,7 +11,7 @@
 :name: shortrealtobits_bitstoshortreal_functions
 :description: $shortrealtobits and $bitstoshortreal test
 :tags: 20.5
-:type: simulation parsing
+:type: simulation elaboration parsing
 */
 
 module top();

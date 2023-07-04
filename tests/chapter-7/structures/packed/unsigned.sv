@@ -11,7 +11,7 @@
 :name: packed-and-unsigned-structures
 :description: Test packed and unsigned structures support
 :tags: 7.2.1 7.2
-:type: simulation parsing
+:type: simulation elaboration parsing
 */
 module top ();
 

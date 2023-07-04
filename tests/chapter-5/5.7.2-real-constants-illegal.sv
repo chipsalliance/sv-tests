@@ -16,7 +16,7 @@
 module top();
   logic [31:0] a;
 
-  initial begin;
+  initial begin
     a = .12;
     a = 9.;
     a = 4.E3;

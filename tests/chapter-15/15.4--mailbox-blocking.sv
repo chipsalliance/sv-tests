@@ -11,16 +11,17 @@
 :name: mailbox_blocking
 :description: blocking mailbox test
 :tags: 15.4
+:type: simulation elaboration parsing
 */
 module top();
 
-mailbox m;
+mailbox #(string) m;
 
 initial begin
-	m = new();
 	string msg = "abc";
 	string r;
 	string r_peek;
+	m = new();
 	m.put(msg);
 	m.peek(r_peek);
 	$display(":assert: (%d == 1)", m.num());

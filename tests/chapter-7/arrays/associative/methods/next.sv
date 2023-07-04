@@ -11,7 +11,7 @@
 :name: associative-arrays-next
 :description: Test support of associative arrays methods (next)
 :tags: 7.9.6 7.9
-:type: simulation parsing
+:type: simulation elaboration parsing
 */
 module top ();
 

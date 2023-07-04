@@ -12,7 +12,7 @@
 :description: parametrized class invalid scope resolution
 :should_fail_because: parametrized class invalid scope resolution
 :tags: 8.25.1
-:type: simulation
+:type: simulation elaboration
 */
 module class_tb ();
 

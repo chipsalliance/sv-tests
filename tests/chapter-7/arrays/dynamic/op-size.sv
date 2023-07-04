@@ -11,7 +11,7 @@
 :name: dynamic-arrays-op-size
 :description: Test dynamic arrays operator size support
 :tags: 7.5.2
-:type: simulation parsing
+:type: simulation elaboration parsing
 */
 module top ();
 

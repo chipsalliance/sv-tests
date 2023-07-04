@@ -12,6 +12,7 @@
 import os
 import sys
 import glob
+import re
 
 templ = """/*
 :name: rsd
@@ -20,6 +21,7 @@ templ = """/*
 :incdirs: {1}
 :tags: rsd
 :top_module: Core
+:results_group: cores
 :timeout: 100
 */
 """
@@ -39,10 +41,8 @@ except IndexError:
     sys.exit(1)
 
 rsd_path = os.path.abspath(
-    os.path.join(
-        third_party_dir, "cores", "rsd", "Processor", "Project",
-        "DesignCompiler"))
-rsd_tcl = os.path.join(rsd_path, "compile.tcl")
+    os.path.join(third_party_dir, "cores", "rsd", "Processor", "Src"))
+rsd_core_make = os.path.join(rsd_path, "Makefiles", "CoreSources.inc.mk")
 
 test_dir = os.path.join(tests_dir, 'generated', tests_subdir)
 
@@ -52,20 +52,33 @@ if not os.path.isdir(test_dir):
 test_file = os.path.join(test_dir, "rsd.sv")
 
 sources = os.path.abspath(test_file) + ' '
-incdirs = os.path.join(rsd_path, "../../Src") + ' '
+incdirs = os.path.join(rsd_path, "") + ' '
 
-with open(rsd_tcl, "r") as f:
+with open(rsd_core_make, "r") as f:
+    in_source_list = False
     for line in f.readlines():
-        line = line.strip()
-        if line.startswith("../../Src"):
-            sources += os.path.join(rsd_path, line) + ' '
+        line = re.sub(r"#.+[\n\r]$", "", line)  # Remove comments
 
-# The compile.tcl file is missing some required sources for whatever reason.
-sources += os.path.join(rsd_path, "../../Src/Cache/CacheFlushManager.sv") + ' '
-sources += os.path.join(
-    rsd_path, "../../Src/Cache/CacheFlushManagerIF.sv") + ' '
+        # Find lines starting with "TYPES|CORE_MODULES=" and not ending with "\".
+        m = re.search(r"^(TYPES|CORE_MODULES)[\s]*=(.+)$", line)
+        if m:
+            line = m.group(2)  # Remove TYPES|CORE_MODULES=
+            in_source_list = True
+
+        if in_source_list:
+            # Find the end of source list
+            m = re.search(r"\\[\n\r]*$", line)
+            if not m:
+                in_source_list = False
+            # Remove backslash and spaces
+            line = re.sub(r"\\[\n\r]*$", "", line)
+            line = line.strip()
+            if (line != ""):
+                for i in line.split(r"\s+"):
+                    sources += os.path.join(rsd_path, i) + ' '
 
 with open(test_file, "w") as f:
     f.write(templ.format(sources, incdirs))
     f.write("`define RSD_SYNTHESIS\n")
     f.write("`define RSD_SYNTHESIS_DESIGN_COMPILER\n")
+    f.write("`define RSD_MARCH_FP_PIPE\n")

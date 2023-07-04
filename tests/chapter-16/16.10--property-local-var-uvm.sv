@@ -10,7 +10,7 @@
 /*
 :name: property_local_var_test_uvm
 :description: property with local variables in UVM
-:type: simulation parsing
+:type: simulation elaboration parsing
 :tags: uvm uvm-assertions
 :timeout: 60
 */

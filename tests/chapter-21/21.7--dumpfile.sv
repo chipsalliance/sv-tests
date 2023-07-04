@@ -11,7 +11,7 @@
 :name: vcd_dump_test
 :description: vcd dump tests
 :tags: 21.7
-:type: simulation parsing
+:type: simulation elaboration parsing
 */
 module top();
 

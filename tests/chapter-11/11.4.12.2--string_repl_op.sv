@@ -11,7 +11,7 @@
 :name: string_repl_op
 :description: string replication operator test
 :tags: 11.4.12.2
-:type: simulation parsing
+:type: simulation elaboration parsing
 */
 module top();
 

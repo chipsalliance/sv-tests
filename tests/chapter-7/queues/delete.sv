@@ -11,7 +11,7 @@
 :name: delete
 :description: Test queues delete function support
 :tags: 7.10.2.3 7.10.2
-:type: simulation parsing
+:type: simulation elaboration parsing
 */
 module top ();
 

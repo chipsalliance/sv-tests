@@ -11,7 +11,7 @@
 :name: name_conflict_resolved
 :description: resolved interface class method name conflict
 :tags: 8.26.6.1
-:type: simulation parsing
+:type: simulation elaboration parsing
 */
 module class_tb ();
 	interface class ihello;

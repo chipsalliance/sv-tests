@@ -11,7 +11,7 @@
 :name: event_control_simulation
 :description: Test event invocation
 :tags: 9.4.2
-:type: simulation
+:type: simulation elaboration
 */
 module top();
    event e;

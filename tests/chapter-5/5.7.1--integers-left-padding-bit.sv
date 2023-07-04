@@ -15,7 +15,7 @@
 module top();
   logic [15:0] a, b, c, d;
 
-  initial begin;
+  initial begin
     a = '0; // sets all 16 bits to 0
     b = '1; // sets all 16 bits to 1
     c = 'x; // sets all 16 bits to x

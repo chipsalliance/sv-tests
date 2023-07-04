@@ -1,189 +1,260 @@
-{% if False %}
-<!-- vim: set ts=2 sts=2 sw=2 et: -->
-{% endif %}
+{# vim: set ts=2 sts=2 sw=2 et: #}
 <!DOCTYPE html>
 <html>
-  <head>
-    <meta charset="UTF-8" />
-    <title>SystemVerilog Report</title>
-
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
-    <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
-    <link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/themes/smoothness/jquery-ui.css">
-
-    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.19/css/jquery.dataTables.css">
-    <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
-    <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/fixedheader/3.1.5/js/dataTables.fixedHeader.min.js"> </script>
-    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/fixedheader/3.1.5/css/fixedHeader.dataTables.min.css">
-    <link rel="stylesheet" type="text/css" href="report.css">
-    <script type="text/javascript" charset="utf8" src="report.js"></script>
-  </head>
-
-  <script>
-    $(document).ready( function () {
-      $('#report_table').DataTable( {
-        paging: false,
-        fixedHeader: true,
-        "order": [[ 1, "asc" ]],
-        "columnDefs": [ { "type": "sv-id", targets: 1 },
-                        { "orderable": false, targets: 0 }],
-        "columns": [
-          null,
-          null,
-          {% for tool in report %}
-          { "orderDataType": "test-status" },
-          {% endfor %}
-        ]
-      });
-    } );
-  </script>
-  <style type="text/css">
-    .report_table_result {
-      width: calc(80% / {{ report.keys()|length}} );
-    }
-  </style>
-
-  <body>
-    <h1 class="headline"><a href="https://github.com/SymbiFlow/sv-tests">SV-Tests</a></h1>
-    <p class="headline"><a href="https://github.com/SymbiFlow/sv-tests"><em>Test suite to check compliance with the SystemVerilog LRM by chapter as well as some real-world cores and test-cases.</em></a></p>
-    <table id="report_table">
-      <thead>
-        <tr class="fixed_header">
-          <th>  </th>
-          <th>  </th>
-          {% for tool, tooldata in report|dictsort %}
-          <th title='{{ report[tool]["version"] }}'>
-            <a class="tool_link" target=_blank href='{{ report[tool]["url"] }}'>{{ tool.lower() }}</a>
-          </th>
-          {% endfor %}
-        </tr>
-      </thead>
-        {% for tag, info in database.items() %}
-        <tr>
-          <th class="report_table_info" title="{{info}}">
-            {% if tag in database_urls %}
-            <a class="tag_link" target=_blank href="{{database_urls[tag]}}"> {{ info }} </a>
-            {% else %}
-            {{ info }}
-            {% endif %}
-          </th>
-          <th class="report_table_tag" title="{{info}}"> {{ tag }} </th>
-          {% for tool, tooldata in report|dictsort %}
-          <th class="report_table_result {{ tooldata["tags"][tag]["status"] }}
-            {% if "test-na" not in tooldata["tags"][tag]["status"] %} test-cell {% endif %}"
-            {% if "test-varied" in tooldata["tags"][tag]["status"] %} style='background-size: {{'%0.0f' | format(100.0 * tooldata["tags"][tag]["passed-num"] / tooldata["tags"][tag]["logs"]|length) }}% 100%' {% endif %}
-            {% if "test-na" not in tooldata["tags"][tag]["status"] %}
-            id='{{tool}}-{{tag}}-cell'
-            onclick='toggleLog("{{tool}}", "{{tag}}",
-                               "{{tooldata["tags"][tag]["logs"][tooldata["tags"][tag]["head_test"]]["name"]}}")'
-            {% endif %}
-          >
-            {% if "test-na" not in tooldata["tags"][tag]["status"] %}
-            {{ tooldata["tags"][tag]["passed-num"] }}/{{ tooldata["tags"][tag]["logs"]|length }}
-            {% endif %}
-          </th>
-          {% endfor %}
-        </tr>
-      {% endfor %}
-      <tfoot class="report_footer">
-        <tr class="report_summary_row">
-          <th class="report_summary_header" colspan="2"> Total tests passed </th>
-
-          {% for tool, tooldata in report|dictsort %}
-          <th class="report_table_result test-varied" style='background-size: {{'%0.0f'| format(100.0 * report[tool]["total"]["tests"] / report[tool]["tests"].keys()|length)}}% 100%;' title="{{ tool.lower() }} ({{'%0.0f'| format(100.0 * report[tool]["total"]["tests"] / report[tool]["tests"].keys()|length)}}%)" > {{ report[tool]["total"]["tests"] }}/{{ report[tool]["tests"].keys()|length }}</th>
-          {% endfor %}
-        </tr>
-        <tr class="report_summary_row">
-          <th class="report_summary_header" colspan="2"> Total tags passed </th>
-          {% for tool, tooldata in report|dictsort %}
-          <th class="report_table_result test-varied" style='background-size: {{'%0.0f'| format(100.0 * report[tool]["total"]["tags"] / report[tool]["total"]["tested_tags"])}}% 100%;' title="{{ tool.lower() }} ({{'%0.0f'| format(100.0 * report[tool]["total"]["tags"] / report[tool]["total"]["tested_tags"])}}%)" > {{ report[tool]["total"]["tags"]}}/{{ report[tool]["total"]["tested_tags"]}}</th>
-          {% endfor %}
-        </tr>
-        <tr class="report_summary_row">
-          <th class="report_summary_header" colspan="2"> Total time elapsed </th>
-          {% for tool, tooldata in report|dictsort %}
-          <th class="report_table_result" title="{{ tool.lower() }}" >
-            {{'%0.0f'| format(report[tool]["time_elapsed"])}}s </th>
-          {% endfor %}
-        </tr>
-        <tr class="report_summary_row">
-          <th class="report_table_info gray_header" colspan="2"> User time elapsed </th>
-          {% for tool, tooldata in report|dictsort %}
-          <th class="report_table_result" title="{{ tool.lower() }}" >
-            {{'%0.0f'| format(report[tool]["user_time"])}}s </th>
-          {% endfor %}
-        </tr>
-        <tr class="report_summary_row">
-          <th class="report_table_info gray_header" colspan="2"> System time elapsed </th>
-          {% for tool, tooldata in report|dictsort %}
-          <th class="report_table_result" title="{{ tool.lower() }}" >
-            {{'%0.0f'| format(report[tool]["system_time"])}}s </th>
-          {% endfor %}
-        </tr>
-        <tr class="report_summary_row">
-          <th class="report_table_info gray_header" colspan="2"> Maximum ram usage </th>
-          {% for tool, tooldata in report|dictsort %}
-          <th class="report_table_result" title="{{ tool.lower() }}" >
-            {{'%0.0f'| format(report[tool]["ram_usage"])}} MB </th>
-          {% endfor %}
-        </tr>
-	<tr class="report_summary_row">
-          <th class="report_table_info gray_header" colspan="2"> Average throughput passed for inputs &gt; 1KiB </th>
-          {% for tool, tooldata in report|dictsort %}
-          <th class="report_table_result" title="{{ tool.lower() }}" >
-            {{'%0.0f'| format(report[tool]["passed_throughput"]|float)}} KiB/s </th>
-          {% endfor %}
-        </tr>
-      </tfoot>
-    </table>
-    <br>
-    <a href="report.csv">Download a summary in csv</a>
-  </body>
-
-  <br> <br>
-  <footer id="footer">
-    Generated using <a href="https://github.com/SymbiFlow/sv-tests">sv-tests</a>,
-    revision: <a href="https://github.com/SymbiFlow/sv-tests/commit/{{revision}}">{{revision}}</a>.
-  </footer>
-
-  <div id="logfile-outer">
-    <div class="iframe-wrap">
-      <iframe class="iframe-log" name="log-frame"></iframe>
-    </div>
-    <div class="iframe-wrap">
-      <iframe class="iframe-log" name="file-frame"></iframe>
-    </div>
-    {% for tag, info in database.items() %}
-    {% for tool, tooldata in report.items() %}
-    {% if "test-na" not in tooldata["tags"][tag]["status"] %}
-    <div class="logfile"
-         id="{{ tool }}-{{ tag }}-logfile">
-      <div class="logtab-bar"
-           id="logtab-{{tool}}-{{tag}}-bar">
-        <button class="logtab-btn logtab-close-btn"
-                onclick='toggleLog("{{tool}}", "{{tag}}", null)'>
-          close
-        </button>
-        {% for test, output in tooldata["tags"][tag]["logs_sorted"] %}
-        <button class="logtab-btn
-                       logtab-tab-btn
-                       {{output["status"]}}
-                sorted
-                "
-                onclick='selectTab("{{output["fname"]}}",
-                                   "logtab-btn-{{tool}}-{{tag}}-{{output["name"]}}",
-                                   "{{output["first_file"]}}",
-                                   "{{output["name"]}}")',
-                id="logtab-btn-{{tool}}-{{tag}}-{{output['name']}}"
-        >
-          {{ output["name"] }}
-        </button>
-        {% endfor %}
+   <head>
+      <meta charset="UTF-8" />
+      <title>SystemVerilog Report</title>
+      <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+      <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
+      <link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/themes/smoothness/jquery-ui.css">
+      <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.19/css/jquery.dataTables.css">
+      <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
+      {# Global parameters for scripts and stylesheets #}
+      <script>
+         var TOOL_NAMES = [{{report.tools.keys()|numeric_sort|map('escape_js_str')|map('quote')|join(', ')}}];
+      </script>
+      <style>:root { --TOOLS_COUNT: {{report.tools|length}}; }</style>
+      <link rel="stylesheet" type="text/css" href="report.css">
+      <script type="text/javascript" charset="utf8" src="report.js"></script>
+      <script type="text/javascript" charset="utf8" src="filter.js"></script>
+   </head>
+   <body>
+      {% include 'navbar.html' %}
+      <main>
+         <section id="filter-section">
+            <details>
+               <summary>
+                  Advanced filters
+               </summary>
+               <button id="filter-apply-button" class="v_link-button" disabled>Apply</button>
+               <button id="filter-reset-button" class="v_link-button" disabled>Reset</button>
+               <span id="filter-error-msg"></span>
+               <dl class="c_filter">
+                  <dt>Tool</dt>
+                  <dd class="p_tool-filter">
+                     <div class="p_checkboxes">
+                        {% for tool, tool_info in report.tools|numeric_dictsort %}
+                        <label title="{{tool|escape_attr}}"><input type="checkbox" value="{{tool|lower|escape_attr}}" checked>{{tool|e}}</label>
+                        {% endfor %}
+                     </div>
+                     <div class="p_buttons-bar">
+                        <button class="p_select-all-button">Select all</button>
+                        <button class="p_invert-selection-button">Invert selection</button>
+                     </div>
+                  </dd>
+                  <dt>Coverage</dt>
+                  <dd class="p_coverage-filter">
+                     <div class="p_entry">
+                        <select class="p_entry-operator">
+                           <option value="&gt;=">&gt;=</option>
+                           <option value="&lt;=">&lt;=</option>
+                           <option value="&gt;">&gt;</option>
+                           <option value="&lt;">&lt;</option>
+                           <option value="==">==</option>
+                        </select>
+                        <input type="number" min="0" max="100" class="p_entry-value" value="0"><span>%</span>
+                     </div>
+                     <template class="p_entry-template">
+                        <div class="p_entry v_removable">
+                           <select class="p_entry-relation">
+                              <option value="&amp;&amp;">and</option>
+                              <option value="||">or</option>
+                           </select>
+                           <select class="p_entry-operator">
+                              <option value="&gt;=">&gt;=</option>
+                              <option value="&lt;=">&lt;=</option>
+                              <option value="&gt;">&gt;</option>
+                              <option value="&lt;">&lt;</option>
+                              <option value="==">==</option>
+                           </select>
+                           <input type="number" min="0" max="100" class="p_entry-value" value="0"><span>%</span>
+                           <button class="v_link-button p_remove-entry-button">(remove)</button>
+                        </div>
+                     </template>
+                     <button class="p_add-entry-button">Add condition</button>
+                  </dd>
+                  <dt>Type</dt>
+                  <dd class="p_type-filter">
+                     <div class="p_checkboxes">
+                        {% for type in ["Elaboration", "Parsing", "Simulation"] %}
+                        <label title="{{type|escape_attr}}"><input type="checkbox" value="{{type|lower|escape_attr}}" checked>{{type|e}}</label>
+                        {% endfor %}
+                     </div>
+                  </dd>
+               </dl>
+            </details>
+         </section>
+         {% for group, group_data in report.groups|numeric_dictsort %}
+         <table id="report_table-{{group}}" class="dataTable" data-group="{{group}}">
+            <thead>
+               <tr>
+                  <th>
+                     <h2>{{group|e}}</h2>
+                  </th>
+                  <th></th>
+                  {% for tool, tool_info in report.tools|numeric_dictsort %}
+                  <th title="{{tool_info.version|escape_attr}}" style="--z: {{loop.length - loop.index}}">
+                     <a class="tool_link" target="_blank" href="{{tool_info.url}}">{{tool|e}}</a>
+                  </th>
+                  {% endfor %}
+               </tr>
+            </thead>
+            <tbody>
+               {% for tag, tools in group_data.tags_tools|tag_dictsort %}
+               {%   set tag_info = report.tags[tag] %}
+               {%   set types_used_in_the_row = [] %}
+               {%   for tool, tool_data in tools.items() %}
+               {%     for type in tool_data.types %}
+               {%       if type not in types_used_in_the_row %}
+               {%         set _ = types_used_in_the_row.append(type) %}
+               {%       endif %}
+               {%     endfor %}
+               {%   endfor %}
+               <tr data-types="{{types_used_in_the_row|join(' ')}}" data-tag="{{tag|lower|e}}">
+                  <th title="{{tag_info.description|escape_attr}}">
+                     {%- if tag_info.url -%}
+                     <a class="tag_link" target="_blank" href="{{tag_info.url}}">{{tag_info.description|e}}</a>
+                     {%- else -%}
+                     {{tag_info.description|e}}
+                     {%- endif -%}
+                  </th>
+                  <th title="{{tag_info.description|escape_attr}}">{{tag|e}}</th>
+                  {% for tool in report.tools|numeric_sort %}
+                  {%   set attrs = [] %}
+                  {%   if tool in tools %}
+                  {%     set tool_data = tools[tool] %}
+                  {%     set test_status = tool_data.status|string %}
+                  {%     if test_status != 'test-na' %}
+                  {%       set _ = attrs.append('class=' ~ (test_status|quote)) %}
+                  {%       set _ = attrs.append('data-tool=' ~ (tool|lower|escape_attr|quote)) %}
+                  {%       if test_status == 'test-varied' %}
+                  {%         set percentage = '%0.0f'|format(100.0 * tool_data.passed_tests / tool_data.total_tests) %}
+                  {%         set _ = attrs.append('style="--val: '~(percentage)~'%"') %}
+                  {%       endif %}
+                  {%     endif %}
+                  {%   endif %}
+                  {%   if attrs|length %}
+                  <td {{attrs|join(' ')}}>{{tool_data.passed_tests}}/{{tool_data.total_tests}}</td>
+                  {%   else %}
+                  <td></td>
+                  {%   endif %}
+                  {% endfor %}
+               </tr>
+               {% endfor %}
+            </tbody>
+            <tfoot>
+               <tr>
+                  <th colspan="2">Total tests passed</th>
+                  {% for tool in report.tools|numeric_sort %}
+                  {%   if tool in group_data.summaries %}
+                  {%     set tool_summary = group_data.summaries[tool] %}
+                  {%     set passed_tests = tool_summary.total_passed_tests %}
+                  {%     set total_tests = tool_summary.total_tests %}
+                  {%     set passed_tests_percentage = '%0.0f'|format(100.0 * passed_tests / total_tests) %}
+                  <td class="test-varied" style="--val: {{passed_tests_percentage}}%" title="{{tool|lower|e}} ({{passed_tests_percentage}}%)">{{passed_tests}}/{{total_tests}}</td>
+                  {%   else %}
+                  <td></td>
+                  {%   endif %}
+                  {% endfor %}
+               </tr>
+               <tr>
+                  <th colspan="2">Total tags passed</th>
+                  {% for tool in report.tools|numeric_sort %}
+                  {%   if tool in group_data.summaries %}
+                  {%     set tool_summary = group_data.summaries[tool] %}
+                  {%     set passed_tags = tool_summary.total_passed_tags %}
+                  {%     set tested_tags = tool_summary.total_tested_tags %}
+                  {%     set passed_tags_percentage = '%0.0f'|format(100.0 * passed_tags / tested_tags) %}
+                  <td class="test-varied" style="--val: {{passed_tags_percentage}}%" title="{{tool|lower|e}} ({{passed_tags_percentage}}%)">{{passed_tags}}/{{tested_tags}}</td>
+                  {%   else %}
+                  <td></td>
+                  {%   endif %}
+                  {% endfor %}
+               </tr>
+               <tr>
+                  <th colspan="2">Total time elapsed</th>
+                  {% for tool in report.tools|numeric_sort %}
+                  {%   if tool in group_data.summaries %}
+                  {%     set tool_summary = group_data.summaries[tool] %}
+                  <td title="{{tool|lower|e}}">{{'%0.0f'|format(tool_summary.total_time)}}s</td>
+                  {%   else %}
+                  <td></td>
+                  {%   endif %}
+                  {% endfor %}
+               </tr>
+               <tr>
+                  <th colspan="2">User time elapsed</th>
+                  {% for tool in report.tools|numeric_sort %}
+                  {%   if tool in group_data.summaries %}
+                  {%     set tool_summary = group_data.summaries[tool] %}
+                  <td title="{{tool|lower|e}}">{{'%0.0f'|format(tool_summary.user_time)}}s</td>
+                  {%   else %}
+                  <td></td>
+                  {%   endif %}
+                  {% endfor %}
+               </tr>
+               <tr>
+                  <th colspan="2">System time elapsed</th>
+                  {% for tool in report.tools|numeric_sort %}
+                  {%   if tool in group_data.summaries %}
+                  {%     set tool_summary = group_data.summaries[tool] %}
+                  <td title="{{tool|lower|e}}">{{'%0.0f'|format(tool_summary.system_time)}}s</td>
+                  {%   else %}
+                  <td></td>
+                  {%   endif %}
+                  {% endfor %}
+               </tr>
+               <tr>
+                  <th colspan="2">Maximum ram usage</th>
+                  {% for tool in report.tools|numeric_sort %}
+                  {%   if tool in group_data.summaries %}
+                  {%     set tool_summary = group_data.summaries[tool] %}
+                  <td title="{{tool|lower|e}}">{{'%0.0f'|format(tool_summary.max_ram_usage)}} MB</td>
+                  {%   else %}
+                  <td></td>
+                  {%   endif %}
+                  {% endfor %}
+               </tr>
+               <tr>
+                  <th colspan="2">Average throughput passed for inputs &gt; 1KiB</th>
+                  {% for tool in report.tools|numeric_sort %}
+                  {%   if tool in group_data.summaries %}
+                  {%     set tool_summary = group_data.summaries[tool] %}
+                  <td title="{{tool|lower|e}}">{{'%0.0f'|format(tool_summary.passed_throughput|float)}} KiB/s</td>
+                  {%   else %}
+                  <td></td>
+                  {%   endif %}
+                  {% endfor %}
+               </tr>
+            </tfoot>
+         </table>
+         {% endfor %}
+         <section id="summary-section">
+            <a href="report.csv">Download a summary in csv</a>
+         </section>
+      </main>
+      {% include 'footer.html' %}
+      <div class="c_test-details-panel s_hidden">
+         <div class="test-details">
+            <div class="wrapper"></div>
+            <h2>TEST DETAILS</h2>
+            <button class="p_close-button">
+               <svg width="11" height="11" viewBox="0 0 11 11" fill="none" xmlns="http://www.w3.org/2000/svg">
+               <path fill-rule="evenodd" clip-rule="evenodd" d="M3.83579 5.25L0.292893 8.79289L1.70711 10.2071L5.25 6.66421L8.79289 10.2071L10.2071 8.79289L6.66421 5.25L10.2071 1.70711L8.79289 0.292893L5.25 3.83579L1.70711 0.292893L0.292893 1.70711L3.83579 5.25Z" fill="white"/>
+               </svg>
+            </button>
+         </div> 
+         <div class="grid-2">
+            <iframe class="p_log" name="log-frame"></iframe>
+            <iframe class="p_file" name="file-frame"></iframe>
+         </div>
+         <div class="p_tests-list">
+            <template class="p_item-template">
+               <button class="p_item">
+                  <slot name="test-name"></slot>
+               </button>
+            </template>
+         </div>
       </div>
-    </div>
-    {% endif %}
-    {% endfor %}
-    {% endfor %}
-  </div>
-
+   </body>
 </html>

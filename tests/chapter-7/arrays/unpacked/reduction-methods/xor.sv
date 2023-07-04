@@ -11,7 +11,7 @@
 :name: unpacked-array-reduction-method-xor
 :description: Test support of unpacked arrays reduction method xor
 :tags: 7.12.3 7.4.2
-:type: simulation parsing
+:type: simulation elaboration parsing
 */
 module top ();
 

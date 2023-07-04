@@ -11,7 +11,7 @@
 :name: dist_poisson_function
 :description: $dist_poisson test
 :tags: 20.15
-:type: simulation parsing
+:type: simulation elaboration parsing
 */
 
 module top();

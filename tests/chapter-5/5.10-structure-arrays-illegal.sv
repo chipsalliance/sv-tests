@@ -12,7 +12,7 @@
 :description: Structure array assignment tests
 :should_fail_because: C-like assignment is illegal
 :tags: 5.10
-:type: simulation
+:type: simulation elaboration
 */
 module top();
   typedef struct {

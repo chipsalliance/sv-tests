@@ -12,7 +12,7 @@
 :description: soft constraints test
 :should_fail_because: Soft constraints can only be specified on random variables; they may not be specified for randc variables.
 :tags: 18.5.14
-:type: simulation
+:type: simulation elaboration
 */
 
 

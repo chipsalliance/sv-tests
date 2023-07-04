@@ -18,7 +18,7 @@ module top();
   logic [7:0] b;
   logic [7:0] c;
 
-  initial begin;
+  initial begin
     a = b + (* mode = "cla" *) c;
   end
 

@@ -5,7 +5,7 @@
 		"/*",
 		":name: simple_{1}_logical_operator_sim",
 		":description: minimal {0} operator simulation test (without result verification)",
-        ":type: simulation parsing",
+		":type: simulation elaboration parsing",
 		":tags: 11.4.7",
 		"*/",
 		"module top(input a, input b, output c);",
@@ -15,7 +15,7 @@
 	"values": [
 		["&&", "and"],
 		["||", "or"],
-        ["<->", "equiv"],
-        ["->", "impl"]
-    ]
+		["<->", "equiv"],
+		["->", "impl"]
+	]
 }

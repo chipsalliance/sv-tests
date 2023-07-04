@@ -2,10 +2,10 @@
 <html>
   <head>
     <meta charset="UTF-8" />
-    <link rel="stylesheet" type="text/css" href="{{ csspath }}">
+    <link rel="stylesheet" type="text/css" href="{{csspath}}">
   </head>
-  <body>
-    {{ filename }}
+  <body>  
+    <header id="header_code"><h2>{{filename|e}}</h2></header>  
     {{ code }}
   </body>
 </html>

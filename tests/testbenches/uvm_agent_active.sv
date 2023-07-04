@@ -11,7 +11,7 @@
 :name: uvm_agent_active
 :description: uvm active agent (agent + monitor + driver + sequencer) test
 :tags: uvm uvm-agents
-:type: simulation parsing
+:type: simulation elaboration parsing
 :timeout: 30
 */
 

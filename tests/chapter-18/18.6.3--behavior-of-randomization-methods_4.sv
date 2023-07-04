@@ -12,7 +12,7 @@
 :description: behavior of randomization methods test
 :should_fail_because: The randomize() method is built-in and cannot be overridden.
 :tags: 18.6.3
-:type: simulation
+:type: simulation elaboration
 */
 
 class a;

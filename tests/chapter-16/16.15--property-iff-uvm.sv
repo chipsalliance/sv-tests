@@ -10,7 +10,7 @@
 /*
 :name: property_disable_iff_test_uvm
 :description: property with disable iff test with UVM
-:type: simulation parsing
+:type: simulation elaboration parsing
 :tags: uvm uvm-assertions
 :timeout: 60
 */

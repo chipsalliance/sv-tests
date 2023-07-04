@@ -10,7 +10,7 @@
 /*
 :name: sequence_local_var_test
 :description: sequence with local variables
-:type: simulation parsing
+:type: simulation elaboration parsing
 :tags: 16.10
 */
 

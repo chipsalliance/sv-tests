@@ -7,10 +7,16 @@
 	],
 	"matches": ["*.sv", "*.v"],
 	"blacklist": [
+		"aFifo.v",
+		"adder_implicit.v",
 		"aes.v",
-		"adder_implicit.sv",
-		"directive_verilogpp.sv",
+		"directive_verilogpp.v",
 		"fifo_rx.sv",
-		"parity_using_function2.v"
-	]
+		"hierarchical_name_of_type.sv",
+		"lfsr_updown_tb.v",
+		"parity_using_function2.v",
+		"stm_import.sv"
+	],
+	"type": "parsing",
+	"results_group": "imported"
 }

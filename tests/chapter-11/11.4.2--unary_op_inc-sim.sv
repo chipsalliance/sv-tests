@@ -10,7 +10,7 @@
 /*
 :name: unary_op_inc_sim
 :description: ++ operator simulation test
-type: simulation parsing
+type: simulation elaboration parsing
 :tags: 11.4.2
 */
 module top();

@@ -11,7 +11,7 @@
 :name: pow_function
 :description: $pow test
 :tags: 20.8
-:type: simulation parsing
+:type: simulation elaboration parsing
 */
 
 module top();

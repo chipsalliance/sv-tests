@@ -11,7 +11,7 @@
 :name: file_tasks
 :description: $fopen and $fclose test
 :tags: 21.3
-:type: simulation parsing
+:type: simulation elaboration parsing
 */
 module top();
 

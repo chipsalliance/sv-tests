@@ -1,29 +1,11 @@
 #!/bin/bash
-
-ANALYZER=$PWD"/tools/report_analyzer.py"
-OUT_DIR=$PWD"/out/report/"
-COMPARE_REPORT=$OUT_DIR"/tests_report.csv"
-BASE_REPORT=$OUT_DIR"/base_report.csv"
-CHANGES_SUMMARY_JSON=$OUT_DIR"/tests_summary.json"
-CHANGES_SUMMARY_MD=$OUT_DIR"/tests_summary.md"
-
 set -x
 set -e
 
-# Get a conda environment
-wget https://repo.continuum.io/miniconda/Miniconda3-latest-Linux-x86_64.sh -O miniconda.sh
-bash miniconda.sh -b -p $HOME/miniconda
-source "$HOME/miniconda/etc/profile.d/conda.sh"
-hash -r
-conda config --set always_yes yes --set changeps1 no
-
-conda env create --file conf/environment.yml
-conda activate sv-test-env
-hash -r
-conda info -a
+#environment variables for this file are set in sv-tests-ci.yml
 
 # Get base report from sv-tests master run
-wget https://symbiflow.github.io/sv-tests-results/report.csv -O $BASE_REPORT
+git clone https://github.com/chipsalliance/sv-tests-results.git --depth 120 $REPORTS_HISTORY
 
 # Delete headers from all report.csv
 for file in $(find ./out/report_* -name "*.csv" -print); do
@@ -38,6 +20,8 @@ sed -i 1i\ $(head -1 $(find ./out/report_* -name "*.csv.backup" -print -quit)) $
 
 python $ANALYZER $COMPARE_REPORT $BASE_REPORT -o $CHANGES_SUMMARY_JSON -t $CHANGES_SUMMARY_MD
 
+# generate history graph
+python $GRAPHER -n 120 -r $REPORTS_HISTORY
+
 set +e
 set +x
-

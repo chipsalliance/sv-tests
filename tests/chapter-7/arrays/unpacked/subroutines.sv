@@ -11,7 +11,7 @@
 :name: unpacked-arrays-as-arguments-to-subroutines
 :description: Test support of arrays as arugments to subroutines
 :tags: 7.7 7.4.2
-:type: simulation parsing
+:type: simulation elaboration parsing
 */
 module top ();
 

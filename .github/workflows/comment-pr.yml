@@ -9,20 +9,23 @@ on:
 jobs:
   Comment:
     name: Comment
-    runs-on: ubuntu-18.04
+    runs-on: [self-hosted, Linux, X64, gcp-custom-runners]
+    container: ubuntu:jammy-20221130
     if: ${{ github.event.workflow_run.event == 'pull_request' && github.event.workflow_run.conclusion == 'success' }}
     steps:
-      - name: Prepare output directories
-        run: mkdir -p out/report
-
-      - name: 'Download artifact'
+      - name: Install dependencies
+        run: |
+          apt-get update -qq
+          apt install -y unzip
+      - name: Download artifacts
+        id: get-artifacts
         uses: actions/github-script@v3.1.0
         with:
           script: |
             var artifacts = await github.actions.listWorkflowRunArtifacts({
                owner: context.repo.owner,
                repo: context.repo.repo,
-               run_id: ${{github.event.workflow_run.id }},
+               run_id: ${{ github.event.workflow_run.id }},
             });
             var matchArtifact = artifacts.data.artifacts.filter((artifact) => {
               return artifact.name == "tests_summary"
@@ -33,22 +36,41 @@ jobs:
                artifact_id: matchArtifact.id,
                archive_format: 'zip',
             });
+
+            console.log("::set-output name=artifact_id::" + matchArtifact.id);
             var fs = require('fs');
             fs.writeFileSync('${{github.workspace}}/tests_summary.zip', Buffer.from(download.data));
 
-      - run: unzip tests_summary.zip -d ./out/report
-
-      - id: get-comment-body
+      - name: Unpack artifacts
         run: |
-          body=$(cat ./out/report/tests_summary.md)
+          unzip tests_summary.zip
+          cat ./tests_summary.md
+
+      - name: Generate and append artifacts link
+        run: |
+          ARTIFACT_ID=${{ steps.get-artifacts.outputs.artifact_id}}
+          SUITE_ID=$(cat ./suite_id)
+          ARTIFACT_URL="https://github.com/chipsalliance/sv-tests/suites/$SUITE_ID/artifacts/$ARTIFACT_ID"
+          MD_URL="[Download an archive containing all the details]($ARTIFACT_URL)"
+          echo -e "\n\n$MD_URL" >> tests_summary.md
+
+      - name: Show summary
+        run: |
+          cat tests_summary.md > $GITHUB_STEP_SUMMARY
+
+      - name: Prepare comment
+        id: get-comment-body
+        run: |
+          body=$(cat ./tests_summary.md)
           body="${body//'%'/'%25'}"
           body="${body//$'\n'/'%0A'}"
           body="${body//$'\r'/'%0D'}"
           echo ::set-output name=body::$body
 
-      - id: get-pr-number
+      - name: Get PR number
+        id: get-pr-number
         run: |
-          num=$(cat ./out/report/issue_num)
+          num=$(cat ./issue_num)
           echo ::set-output name=num::$num
 
       - name: Post comment

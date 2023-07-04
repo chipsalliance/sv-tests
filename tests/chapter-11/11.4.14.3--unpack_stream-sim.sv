@@ -10,7 +10,7 @@
 /*
 :name: unpack_stream_sim
 :description: stream unpack simulation test
-:type: simulation parsing
+:type: simulation elaboration parsing
 :tags: 11.4.14.3
 */
 module top();

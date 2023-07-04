@@ -11,7 +11,7 @@
 :name: dist_uniform_function
 :description: $dist_uniform test
 :tags: 20.15
-:type: simulation parsing
+:type: simulation elaboration parsing
 */
 
 module top();

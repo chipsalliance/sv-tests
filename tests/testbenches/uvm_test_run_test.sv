@@ -11,7 +11,7 @@
 :name: uvm_test_run_test
 :description: test if uvm_test instance can be called by name
 :tags: uvm uvm-classes
-:type: simulation parsing
+:type: simulation elaboration parsing
 */
 
 import uvm_pkg::*;

@@ -11,7 +11,7 @@
 :name: associative-arrays-arg-traversal
 :description: Test support of associative arrays methods
 :tags: 7.9.8 7.9
-:type: simulation parsing
+:type: simulation elaboration parsing
 */
 module top ();
 

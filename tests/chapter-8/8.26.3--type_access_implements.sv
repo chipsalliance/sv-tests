@@ -11,7 +11,7 @@
 :name: type_access_implements
 :description: access interface class type with scope resolution operator
 :tags: 8.26.3
-:type: simulation parsing
+:type: simulation elaboration parsing
 */
 module class_tb ();
 	interface class ihello;

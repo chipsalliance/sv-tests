@@ -11,7 +11,7 @@
 :name: onehot_function
 :description: $onehot test
 :tags: 20.9
-:type: simulation parsing
+:type: simulation elaboration parsing
 */
 
 module top();

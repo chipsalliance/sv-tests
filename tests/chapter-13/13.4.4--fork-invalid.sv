@@ -12,7 +12,7 @@
 :description: function invalid fork test
 :should_fail_because: only fork-join_none is permitted inside a function
 :tags: 13.4.4
-:type: simulation
+:type: simulation elaboration
 */
 module top();
 

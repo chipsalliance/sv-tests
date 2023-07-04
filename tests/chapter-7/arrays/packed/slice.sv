@@ -11,7 +11,7 @@
 :name: operations-on-packed-arrays-slice-rw
 :description: Test packed arrays operations support (R&W slice)
 :tags: 7.4.3
-:type: simulation parsing
+:type: simulation elaboration parsing
 */
 module top ();
 

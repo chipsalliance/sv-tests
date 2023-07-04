@@ -11,7 +11,7 @@
 :name: push_front_assign
 :description: Update queue by assignment (push_front)
 :tags: 7.10.4
-:type: simulation parsing
+:type: simulation elaboration parsing
 */
 module top ();
 

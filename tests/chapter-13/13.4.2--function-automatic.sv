@@ -11,7 +11,7 @@
 :name: function_automatic
 :description: automatic function test
 :tags: 13.4.2
-:type: simulation parsing
+:type: simulation elaboration parsing
 */
 module top();
 

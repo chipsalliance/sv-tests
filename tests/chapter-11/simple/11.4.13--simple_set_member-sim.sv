@@ -10,7 +10,7 @@
 /*
 :name: simple_set_member_sim
 :description: minimal inside operator simulation test (without result verification)
-:type: simulation parsing
+:type: simulation elaboration parsing
 :tags: 11.4.13
 */
 module top(input [3:0] a, output b);

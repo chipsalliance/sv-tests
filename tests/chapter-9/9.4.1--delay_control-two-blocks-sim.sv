@@ -11,7 +11,7 @@
 :name: delay_control_two_blocks_sim
 :description: delay control simulation with two blocks
 :tags: 9.4.1
-:type: simulation
+:type: simulation elaboration
 */
 module top();
 

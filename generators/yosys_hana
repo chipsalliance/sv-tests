@@ -17,6 +17,7 @@ templ = """/*
 :name: {1}
 :description: Tests imported from yosys
 :files: {0}
+:results_group: imported
 :tags: yosys
 */
 """

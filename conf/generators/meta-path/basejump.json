@@ -34,11 +34,20 @@
 		"test_bsg_clock_params.v",
 		"bsg_cache_pkg.v",
 		"bsg_cache_non_blocking_pkg.v",
+		"bsg_cache_to_dram_ctrl.v",
 		"bsg_dmc_pkg.v",
 		"bsg_dramsim3_pkg.v",
+		"bsg_mem_banked_crossbar.v",
 		"bsg_mesh_router_pkg.v",
+		"bsg_sparse_to_dense_boolean.v",
 		"bsg_tag_pkg.v",
-		"bsg_wormhole_router_pkg.v"
+		"bsg_wormhole_router_pkg.v",
+		"bsg_1_to_n_tagged_fifo_shared.v",
+		"bsg_mem_multiport.v",
+		"bsg_sbox_ctrl.v",
+		"bsg_sbox_ctrl_concentrate.v",
+		"bsg_pg_tree.v"
 	],
-	"fake_topmodule": true
+	"fake_topmodule": true,
+	"results_group": "imported"
 }

@@ -11,7 +11,7 @@
 :name: uvm_driver_sequencer_env
 :description: uvm driver + sequencer + env test
 :tags: uvm uvm-classes
-:type: simulation parsing
+:type: simulation elaboration parsing
 :timeout: 30
 */
 

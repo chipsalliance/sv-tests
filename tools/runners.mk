@@ -26,15 +26,7 @@ $(INSTALL_DIR)/bin/odin_II:
 yosys: $(INSTALL_DIR)/bin/yosys
 
 $(INSTALL_DIR)/bin/yosys:
-	$(MAKE) -C $(RDIR)/yosys ENABLE_TCL=0 ENABLE_ABC=0 ENABLE_GLOB=0 ENABLE_PLUGINS=0 ENABLE_READLINE=0 ENABLE_COVER=0
-	install -D $(RDIR)/yosys/yosys $@
-
-# antmicro-yosys
-antmicro-yosys: $(INSTALL_DIR)/bin/antmicro-yosys
-
-$(INSTALL_DIR)/bin/antmicro-yosys:
-	$(MAKE) -C $(RDIR)/../cores/ibex-yosys-build/yosys ENABLE_TCL=0 ENABLE_ABC=0 ENABLE_GLOB=0 ENABLE_PLUGINS=0 ENABLE_READLINE=0 ENABLE_COVER=0
-	install -D $(RDIR)/../cores/ibex-yosys-build/yosys/yosys $@
+	$(MAKE) -C $(RDIR)/yosys CONFIG=gcc PREFIX=$(INSTALL_DIR) install
 
 # icarus
 icarus: $(INSTALL_DIR)/bin/iverilog
@@ -87,28 +79,26 @@ $(INSTALL_DIR)/lib/tree-sitter-verilog.so:
 	cd $(RDIR)/tree-sitter-verilog && npm install
 	/usr/bin/env python3 -c "from tree_sitter import Language; Language.build_library(\"$@\", [\"$(abspath $(RDIR)/tree-sitter-verilog)\"])"
 
-uhdm-common:
-	mkdir -p $(INSTALL_DIR)/bin/
-	cd $(RDIR)/uhdm-integration && $(MAKE) image/bin/surelog
-	cp $(RDIR)/uhdm-integration/Surelog/build/bin/surelog $(INSTALL_DIR)/bin/surelog-uhdm
-
 # surelog-uhdm-verilator
 verilator-uhdm: $(INSTALL_DIR)/bin/verilator-uhdm
 
 # cannot use 'make -C uhdm-integration <target> as uhdm relies on $PWD
-$(INSTALL_DIR)/bin/verilator-uhdm: uhdm-common
-	cd $(RDIR)/uhdm-integration && $(MAKE) image/bin/verilator
-	cp $(RDIR)/uhdm-integration/image/bin/verilator $(INSTALL_DIR)/bin/verilator-uhdm
-	sed -i 's/"verilator_bin"/"verilator_bin-uhdm"/g' $(INSTALL_DIR)/bin/verilator-uhdm
-	cp $(RDIR)/uhdm-integration/image/bin/verilator_bin $(INSTALL_DIR)/bin/verilator_bin-uhdm
+$(INSTALL_DIR)/bin/verilator-uhdm:
+	mkdir -p $(INSTALL_DIR)
+	cd $(RDIR)/verilator-uhdm && ./build_binaries.sh
+	cp -r $(RDIR)/verilator-uhdm/image/* $(INSTALL_DIR)
+	mv $(INSTALL_DIR)/bin/verilator $(INSTALL_DIR)/bin/verilator-uhdm
 
 # surelog-uhdm-yosys
 yosys-uhdm: $(INSTALL_DIR)/bin/yosys-uhdm
 
-# cannot use 'make -C uhdm-integration <target> as uhdm relies on $PWD
-$(INSTALL_DIR)/bin/yosys-uhdm: uhdm-common
-	cd $(RDIR)/uhdm-integration && $(MAKE) image/bin/yosys
-	cp $(RDIR)/uhdm-integration/image/bin/yosys $(INSTALL_DIR)/bin/yosys-uhdm
+$(INSTALL_DIR)/bin/yosys-uhdm:
+	mkdir -p $(INSTALL_DIR)
+	(export PATH=$(INSTALL_DIR)/bin/:${PATH} && \
+		export INSTALL_PATH=$(INSTALL_DIR) && \
+                cd $(RDIR)/yosys-uhdm-plugin-integration && \
+		./build_binaries.sh)
+	mv $(INSTALL_DIR)/bin/yosys $(INSTALL_DIR)/bin/yosys-uhdm
 
 # sv-parser
 sv-parser: $(INSTALL_DIR)/bin/parse_sv
@@ -121,17 +111,17 @@ $(INSTALL_DIR)/bin/parse_sv:
 moore: $(INSTALL_DIR)/bin/moore
 
 $(INSTALL_DIR)/bin/moore:
-	cargo install --git "https://github.com/fabianschuiki/moore" --root $(INSTALL_DIR) --bin moore
+	(export CARGO_NET_GIT_FETCH_WITH_CLI=true && cargo install --path $(RDIR)/moore --root $(INSTALL_DIR) --bin moore)
 
 # verible
 verible:
-	cd $(RDIR)/verible/ && bazel run :install --noshow_progress -c opt -- $(INSTALL_DIR)/bin
+	cd $(RDIR)/verible/ && bazel run :install --noshow_progress --//bazel:use_local_flex_bison -c opt -- $(INSTALL_DIR)/bin && bazel shutdown
 
 $(INSTALL_DIR)/bin/verible-verilog-kythe-extractor: verible
 
 $(INSTALL_DIR)/bin/verilog_syntax: verible
 
 # setup the dependencies
-RUNNERS_TARGETS := odin yosys icarus verilator slang zachjs-sv2v tree-sitter-verilog sv-parser moore verible surelog antmicro-yosys yosys-uhdm verilator-uhdm
+RUNNERS_TARGETS := odin yosys icarus verilator slang zachjs-sv2v tree-sitter-verilog sv-parser moore verible surelog yosys-uhdm vanilla-yosys-uhdm-plugin verilator-uhdm
 .PHONY: $(RUNNERS_TARGETS)
 runners: $(RUNNERS_TARGETS)

@@ -17,23 +17,50 @@ class Surelog(BaseRunner):
     def __init__(self):
         super().__init__("Surelog", "surelog")
 
-        self.url = "https://github.com/alainmarcel/Surelog"
+        self.url = "https://github.com/chipsalliance/Surelog"
 
     def prepare_run_cb(self, tmp_dir, params):
-        self.cmd = [self.executable, '-nopython', '-nobuiltin', '-parse']
+        self.cmd = [self.executable, '-nopython', '-parse']
 
-        if not strtobool(params['allow_elaboration']):
+        if params['mode'] in ["parsing", "preprocessing"]:
             self.cmd.append('-noelab')
 
+        # silence surelog
+        self.cmd.append("-nonote")
+        self.cmd.append("-noinfo")
+        self.cmd.append("-nowarning")
+
+        # force sverilog mode for .v files
         if "black-parrot" in params["tags"]:
             self.cmd.append('-sverilog')
 
+        if "basejump" in params["tags"]:
+            self.cmd.append('-sverilog')
+
+        if "ivtest" in params["tags"]:
+            self.cmd.append('-sverilog')
+
+        top = params['top_module'].strip()
+        if top:
+            self.cmd.append('--top-module ' + top)
+
+        # lowmem option
+        if "black-parrot" in params["tags"]:
+            self.cmd.append('-lowmem')
+
+        if "earlgrey" in params["tags"]:
+            self.cmd.append('-lowmem')
+
+        for define in params['defines']:
+            self.cmd.append('-D' + define)
+
+        # regular options
         for incdir in params['incdirs']:
             self.cmd.append('-I' + incdir)
 
         self.cmd += params['files']
 
     def is_success_returncode(self, rc, params):
-        # 1 << 4 means semantic error, but we're only interested in
-        # syntax and fatal errors.
-        return rc & 0x03 == 0
+        # We're only interested in
+        # syntax, fatal and errors.
+        return rc & 0x07 == 0

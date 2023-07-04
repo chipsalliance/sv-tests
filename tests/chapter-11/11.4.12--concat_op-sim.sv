@@ -10,7 +10,7 @@
 /*
 :name: concat_op_sim
 :description: concatenation operator simulation test
-:type: simulation parsing
+:type: simulation elaboration parsing
 :tags: 11.4.12
 */
 module top();

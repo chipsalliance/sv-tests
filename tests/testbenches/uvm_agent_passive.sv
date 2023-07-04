@@ -11,7 +11,7 @@
 :name: uvm_agent_passive
 :description: passive uvm_agent (agent + monitor + env) test
 :tags: uvm uvm-agents
-:type: simulation parsing
+:type: simulation elaboration parsing
 :timeout: 30
 */
 

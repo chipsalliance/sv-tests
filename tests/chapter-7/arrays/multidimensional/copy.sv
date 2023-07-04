@@ -11,7 +11,7 @@
 :name: copy
 :description: Test multidimensional word copy
 :tags: 7.4.5
-:type: simulation parsing
+:type: simulation elaboration parsing
 */
 
 module top ();

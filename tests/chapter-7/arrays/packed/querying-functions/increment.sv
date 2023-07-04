@@ -11,7 +11,7 @@
 :name: arrays-packed-quering-functions-increment
 :description: Test quering functions support on packed arrays
 :tags: 7.11 7.4.1
-:type: simulation parsing
+:type: simulation elaboration parsing
 */
 module top ();
 

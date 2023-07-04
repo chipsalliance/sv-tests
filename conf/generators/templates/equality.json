@@ -5,7 +5,7 @@
 		"/*",
 		":name: equality_operator_sim_{4}",
 		":description: equality operator test in simulation",
-        ":type: simulation parsing",
+        ":type: simulation elaboration parsing",
 		":tags: 11.4.5",
 		"*/",
 		"module top();",

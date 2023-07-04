@@ -12,7 +12,7 @@
 :description: real edge event tests
 :should_fail_because: it is illegal to use edge event controls on real type
 :tags: 6.12
-:type: simulation
+:type: simulation elaboration
 */
 module top();
 	real a = 0.5;

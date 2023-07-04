@@ -7,7 +7,13 @@
 	"matches": ["*.sv", "*.v"],
 	"blacklist": [
 		"p12.sv",
+		"p59.sv",
 		"p138.sv",
+		"p140.sv",
+		"p160_2.sv",
+		"p76.sv",
 		"p77.sv"
-	]
+	],
+	"type": "parsing",
+	"results_group": "imported"
 }

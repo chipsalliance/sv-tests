@@ -11,7 +11,7 @@
 :name: feof_function
 :description: $feof test
 :tags: 21.3
-:type: simulation parsing
+:type: simulation elaboration parsing
 */
 module top();
 

@@ -10,7 +10,7 @@
 /*
 :name: tagged_union_member_access_sim
 :description: tagged union member access simulation test
-:type: simulation parsing
+:type: simulation elaboration parsing
 :tags: 11.9
 */
 module top();

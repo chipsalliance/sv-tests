@@ -5,7 +5,7 @@
 		"/*",
 		":name: wildcard_operator_sim_{4}",
 		":description: wildcard operator test in simulation",
-        ":type: simulation parsing",
+		":type: simulation elaboration parsing",
 		":tags: 11.4.6",
 		"*/",
 		"module top();",
@@ -21,11 +21,11 @@
 	"values": [
 		["4'b1001", "4'bx001", "==?" , "1"],
 		["4'b1001", "4'bz001", "==?" , "1"],
-		["4'bx001", "4'b1001", "==?" , "0"],
-		["4'bz001", "4'b1001", "==?" , "0"],
+		["4'bx001", "4'b1001", "==?" , "x"],
+		["4'bz001", "4'b1001", "==?" , "x"],
 		["4'bz001", "4'bx001", "==?" , "1"],
 		["4'b1001", "4'bx001", "!=?" , "0"],
 		["4'bz001", "4'bx001", "!=?" , "0"],
-		["4'bz001", "4'b1001", "!=?" , "1"]
+		["4'bz001", "4'b1001", "!=?" , "x"]
 	]
 }

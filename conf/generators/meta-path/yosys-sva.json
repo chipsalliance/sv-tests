@@ -5,5 +5,6 @@
 		["tools", "yosys", "tests", "sva"]
 	],
 	"matches": ["*.sv"],
-	"blacklist": ["basic04.sv", "basic05.sv"]
+	"blacklist": ["basic04.sv", "basic05.sv"],
+	"results_group": "imported"
 }

@@ -11,7 +11,7 @@
 :name: uvm_scoreboard_monitor_agent_env
 :description: uvm scoreboard + monitor + agent + env test
 :tags: uvm uvm-scoreboards
-:type: simulation parsing
+:type: simulation elaboration parsing
 :timeout: 30
 */
 

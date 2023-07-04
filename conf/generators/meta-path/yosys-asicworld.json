@@ -5,5 +5,6 @@
 		["tools", "yosys", "tests", "asicworld"]
 	],
 	"matches": ["*.v"],
-	"blacklist": ["code_verilog_tutorial_counter_tb.v", "code_hdl_models_arbiter_tb.v", "code_verilog_tutorial_first_counter_tb.v", "code_verilog_tutorial_fsm_full_tb.v", "code_hdl_models_full_subtracter_gates.v", "simple_values.v", "svinterface_at_top.sv"]
+	"blacklist": ["code_verilog_tutorial_counter_tb.v", "code_hdl_models_arbiter_tb.v", "code_verilog_tutorial_first_counter_tb.v", "code_verilog_tutorial_fsm_full_tb.v", "code_hdl_models_full_subtracter_gates.v", "simple_values.v", "svinterface_at_top.sv"],
+	"results_group": "imported"
 }

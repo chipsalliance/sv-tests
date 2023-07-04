@@ -39,12 +39,9 @@ else:
 runners = list(sorted(runners))
 
 for runner in runners:
-    try:
-        module = import_module(runner)
-        runner_cls = getattr(module, runner)
-        runner_obj = runner_cls()
-    except Exception:
-        continue
+    module = import_module(runner)
+    runner_cls = getattr(module, runner)
+    runner_obj = runner_cls()
 
     new_path = [
         os.path.abspath(os.environ['OUT_DIR'] + "/runners/bin/"),

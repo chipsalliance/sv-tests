@@ -11,7 +11,7 @@
 :name: push_front
 :description: Test queues push_front function support
 :tags: 7.10.2.6 7.10.2
-:type: simulation parsing
+:type: simulation elaboration parsing
 */
 module top ();
 

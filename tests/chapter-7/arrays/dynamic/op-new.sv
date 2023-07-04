@@ -11,7 +11,7 @@
 :name: dynamic-arrays-op-new
 :description: Test dynamic arrays operator new support
 :tags: 7.5.1
-:type: simulation parsing
+:type: simulation elaboration parsing
 */
 module top ();
 

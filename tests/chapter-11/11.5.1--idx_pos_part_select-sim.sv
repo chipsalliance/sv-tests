@@ -10,7 +10,7 @@
 /*
 :name: idx_pos_part_select_sim
 :description: indexed positive part-select bit simulation test
-:type: simulation parsing
+:type: simulation elaboration parsing
 :tags: 11.5.1
 */
 module top();

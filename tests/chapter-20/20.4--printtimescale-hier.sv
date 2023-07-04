@@ -11,7 +11,7 @@
 :name: printtimescale_hier_task
 :description: $printtimescale hierarchy test
 :tags: 20.4
-:type: simulation parsing
+:type: simulation elaboration parsing
 */
 
 `timescale 1 ms / 1 us

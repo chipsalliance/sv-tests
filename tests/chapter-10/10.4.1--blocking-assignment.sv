@@ -11,7 +11,7 @@
 :name: blocking_assignment
 :description: blocking assignment test
 :tags: 10.4.1
-:type: simulation parsing
+:type: simulation elaboration parsing
 */
 module top();
 

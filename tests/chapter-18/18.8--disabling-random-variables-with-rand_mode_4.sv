@@ -12,7 +12,7 @@
 :description: rand_mode() test
 :should_fail_because: The rand_mode() method is built-in and cannot be overridden.
 :tags: 18.8
-:type: simulation
+:type: simulation elaboration
 */
 
 class a1;

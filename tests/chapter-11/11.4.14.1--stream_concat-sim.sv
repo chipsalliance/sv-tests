@@ -10,7 +10,7 @@
 /*
 :name: stream_concat_sim
 :description: stream concatenation simulation test
-:type: simulation parsing
+:type: simulation elaboration parsing
 :tags: 11.4.14.1
 */
 module top();

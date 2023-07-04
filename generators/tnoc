@@ -1,0 +1,96 @@
+#!/usr/bin/env python3
+# -*- coding: utf-8 -*-
+#
+# Copyright (C) 2020 The SymbiFlow Authors.
+#
+# Use of this source code is governed by a ISC-style
+# license that can be found in the LICENSE file or at
+# https://opensource.org/licenses/ISC
+#
+# SPDX-License-Identifier: ISC
+
+import os
+import sys
+import glob
+
+templ = """/*
+:name: TNoC
+:description: Full TNoC core test
+:files: {0}
+:tags: TNoC
+:top_module: tnoc
+:results_group: cores
+:timeout: 100
+*/
+"""
+
+wrapper_tmpl = """
+module tnoc (
+  input var i_clk,
+  input var i_rst_n
+);
+  import  tnoc_pkg::*;
+
+  localparam  tnoc_packet_config  PACKET_CONFIG = '{
+    size_x:           3,
+    size_y:           3,
+    virtual_channels: 2,
+    tags:             32,
+    address_width:    64,
+    data_width:       64,
+    max_data_width:   64,
+    max_byte_length:  32 * (64 / 8)
+  };
+
+  tnoc_types #(PACKET_CONFIG)   types();
+  tnoc_flit_if #(PACKET_CONFIG) receiver_if[9](types);
+  tnoc_flit_if #(PACKET_CONFIG) sender_if[9](types);
+
+  tnoc_fabric #(PACKET_CONFIG) u_fabric (.*);
+endmodule
+"""
+
+try:
+    third_party_dir = os.environ['THIRD_PARTY_DIR']
+    tests_dir = os.environ['TESTS_DIR']
+    conf_dir = os.environ['CONF_DIR']
+except KeyError:
+    print("Export the THIRD_PARTY_DIR, TESTS_DIR and CONF_DIR variables first")
+    sys.exit(1)
+
+try:
+    tests_subdir = sys.argv[1]
+except IndexError:
+    print("Usage: ./generator <subdir>")
+    sys.exit(1)
+
+test_dir = os.path.join(tests_dir, 'generated', tests_subdir)
+
+if not os.path.isdir(test_dir):
+    os.makedirs(test_dir, exist_ok=True)
+
+tnoc_path = os.path.abspath(os.path.join(third_party_dir, "cores", "tnoc"))
+tbcm_path = os.path.join(tnoc_path, "rtl", "bcm")
+tnoc_file_lists = [
+    os.path.join(tbcm_path, "compile.f"),
+    os.path.join(tnoc_path, "rtl", "common", "compile.f"),
+    os.path.join(tnoc_path, "rtl", "router", "compile.f"),
+    os.path.join(tnoc_path, "rtl", "fabric", "compile.f")
+]
+
+sources = ''
+
+for file_list in tnoc_file_lists:
+    with open(file_list, "r") as f:
+        for line in f.readlines():
+            sources += line.strip() + " "
+
+sources = sources.replace("${TBCM_HOME}", tbcm_path)
+sources = sources.replace("${TNOC_HOME}", tnoc_path)
+
+test_file = os.path.abspath(os.path.join(test_dir, "tnoc.sv"))
+sources += test_file
+
+with open(test_file, "w") as f:
+    f.write(templ.format(sources))
+    f.write(wrapper_tmpl)

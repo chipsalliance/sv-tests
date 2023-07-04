@@ -14,8 +14,6 @@
 */
 module top(input clk);
 
-wire clk;
-
 default clocking @(posedge clk);
 	default input #10ns output #5ns;
 endclocking

@@ -11,14 +11,14 @@
 :name: event_sequence
 :description: sequence event test
 :tags: 9.4.2.4
-:type: simulation parsing
+:type: simulation elaboration parsing
 */
 module seq_tb ();
-	wire a = 0;
-	wire b = 0;
-	wire c = 0;
-	wire y = 0;
-	wire clk = 0;
+	logic a = 0;
+	logic b = 0;
+	logic c = 0;
+	logic y = 0;
+	logic clk = 0;
 
 	sequence seq;
 		@(posedge clk) a ##1 b ##1 c;

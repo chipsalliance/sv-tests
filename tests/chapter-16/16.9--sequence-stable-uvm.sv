@@ -10,7 +10,7 @@
 /*
 :name: sequence_stable_test_uvm
 :description: sequence with "stable" task in UVM
-:type: simulation parsing
+:type: simulation elaboration parsing
 :tags: uvm uvm-assertions
 :timeout: 60
 */

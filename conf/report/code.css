@@ -1,9 +1,10 @@
-body {
-    font-family: "Courier New", Consolas, monospace;
-    font-size: 80%
+@import 'details-view.css';
+
+:root {
+  font-family: "Courier New", Consolas, monospace;
 }
 pre {
-    font-family: "Courier New", Consolas, monospace;
+  margin: 0; padding: 4px;
 }
 
 .highlight .hll { background-color: #ffffcc }
@@ -69,6 +70,13 @@ pre {
   margin: 0;
 }
 
+#header_code {
+  position:sticky;
+  left: 0;
+  top: 0;
+  width: calc(100vw - 13px);
+}
+
 .linenodiv a {
   color: #000000;
   text-decoration: none;
@@ -77,4 +85,3 @@ pre {
 .linenodiv a:hover {
   text-decoration: underline;
 }
-

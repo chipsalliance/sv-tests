@@ -19,7 +19,7 @@
 :name: function_recursive
 :description: recursive function test
 :tags: 13.4.2
-:type: simulation parsing
+:type: simulation elaboration parsing
 */
 module top();
 

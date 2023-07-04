@@ -5,122 +5,256 @@ on:
     branches:
       - master
   pull_request:
+  schedule:
+    - cron: '0 1 * * *' # run daily at 01:00 am (UTC)
 
 jobs:
-  Test:
-    name: "Code Quality Checks"
-    runs-on: ubuntu-18.04
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v2
-        with:
-          submodules: true
-      - uses: actions/setup-python@v2
-        with:
-          python-version: 3.7
-      - name: Script
-        run:
-          pip install -r conf/requirements.txt
-      - name: Make
-        run:
-          make format
-      - name: Test
-        run:
-          test $(git status --porcelain | wc -l) -eq 0 || { git diff; false; }
-      - name: Clone submodules
-        run:
-          ./.github/add-local-submodules.sh "$GITHUB_REPOSITORY"
-      - name: License
-        uses: SymbiFlow/actions/checks@main
-        with:
-          exclude_directory: |
-            ./.git/
-            ./.github/
-            ./.dependabot/
-            ./miniconda.sh
-            ./build/
-          third_party: |
-            ./third_party/cores/
-            ./third_party/tests/
-            ./third_party/tools/
-
   Run:
     strategy:
       fail-fast: false
       matrix:
-        env:
-          - { JOB_NAME: iverilog, MAKEFLAGS: -j2 }
-          - { JOB_NAME: moore, MAKEFLAGS: -j2 }
-          - { JOB_NAME: odin_ii, MAKEFLAGS: -j2 }
-          - { JOB_NAME: slang, MAKEFLAGS: -j2 }
-          - { JOB_NAME: sv-parser, MAKEFLAGS: -j2 }
-          - { JOB_NAME: surelog, MAKEFLAGS: -j2 }
-          - { JOB_NAME: tree-sitter-verilog, MAKEFLAGS: -j2 }
-          - { JOB_NAME: yosys, MAKEFLAGS: -j2 }
-          - { JOB_NAME: antmicro-yosys-complete, MAKEFLAGS: -j2 }
-          - { JOB_NAME: verible, MAKEFLAGS: -j2 }
-          - { JOB_NAME: verilator, MAKEFLAGS: -j2 }
-          - { JOB_NAME: verilator-uhdm, MAKEFLAGS: -j2 RUNNERS_FILTER=UhdmVerilator }
-          - { JOB_NAME: yosys-uhdm, MAKEFLAGS: -j2 RUNNERS_FILTER=UhdmYosys }
-          - { JOB_NAME: zachjs-sv2v, MAKEFLAGS: -j2 }
+        tool:
+          - name: icarus
+            deps: autoconf autotools-dev bison flex libfl-dev gperf
+          - name: moore
+            rust_ver: "1.60"
+          - name: odin
+            repo: odin_ii
+            deps: autoconf autotools-dev bison flex libfl-dev cmake pkg-config
+          - name: slang
+            deps: cmake pkg-config
+          - name: surelog
+            repo: Surelog
+            submodules: third_party/UHDM third_party/antlr4 third_party/flatbuffers third_party/googletest
+            deps: cmake default-jre pkg-config tclsh uuid-dev
+          - name: sv-parser
+            deps: cargo
+          - name: tree-sitter-verilog
+            deps: npm
+          - name: verible
+            deps: bazel=5.4.0 bison flex libfl-dev
+            skip-ccache: 1
+          - name: verilator
+            deps: autoconf autotools-dev bison flex help2man libfl-dev libelf-dev
+          - name: verilator-uhdm
+            submodules: Surelog vcddiff
+            deps: autoconf autotools-dev bison default-jre flex help2man libfl-dev cmake pkg-config tclsh uuid-dev libelf-dev
+            runners_filter: UhdmVerilator
+          - name: yosys
+            deps: bison clang tcl-dev flex libfl-dev pkg-config libreadline-dev
+          - name: yosys-uhdm
+            repo: yosys-uhdm-plugin-integration
+            submodules: yosys yosys-f4pga-plugins Surelog
+            deps: cmake clang tcl-dev bison default-jre flex libfl-dev libreadline-dev pkg-config tclsh uuid-dev
+            runners_filter: UhdmYosys
+          - name: zachjs-sv2v
+            deps: haskell-stack
+    env:
+      RUNNERS_FILTER: ${{ matrix.tool.runners_filter }}
+      CCACHE_DIR: "/root/sv-tests/sv-tests/.cache/"
+      # those generators can use a lot of RAM/cpu and starve other tests
+      # tests from those generators are run without "-j" flag
+      BIG_GENERATORS: "fusesoc black-parrot"
+      DEBIAN_FRONTEND: "noninteractive"
+      GHA_MACHINE_TYPE: "n2-highmem-16"
 
-    name: ${{ matrix.env.JOB_NAME }}
-    env: ${{ matrix.env }}
-    runs-on: ubuntu-18.04
+    name: ${{ matrix.tool.name }}
+    runs-on: [self-hosted, Linux, X64, gcp-custom-runners]
+    container: ubuntu:jammy-20221130
     steps:
+      - name: Cancel previous
+        uses: styfle/cancel-workflow-action@0.8.0
+        with:
+          access_token: ${{ github.token }}
+      - name: Show shell
+        run: |
+          echo "$SHELL"
       - name: Checkout code
         uses: actions/checkout@v2
-      - uses: actions/setup-python@v2
+      - name: Update apt repos
+        run: |
+          apt-get update -qq
+      - name: Add bazel repo (if needed)
+        if: ${{ contains(matrix.tool.deps, 'bazel') }}
+        run: |
+          apt -qq -y install apt-transport-https curl gnupg
+          curl -fsSL https://bazel.build/bazel-release.pub.gpg | gpg --dearmor > bazel.gpg
+          chmod a+r bazel.gpg
+          mv bazel.gpg /etc/apt/trusted.gpg.d/
+          echo "deb [arch=amd64] https://storage.googleapis.com/bazel-apt stable jdk1.8" | tee /etc/apt/sources.list.d/bazel.list
+          apt-get update -qq
+      - name: Install common dependencies
+        run: |
+          apt install -y python3 python3-pip git wget
+          update-alternatives --install /usr/bin/python python /usr/bin/python3 1
+          update-alternatives --install /usr/bin/pip pip /usr/bin/pip3 1
+          pip install -r conf/requirements.txt
+      - name: Install ccache
+        if: ${{ !matrix.tool.skip-ccache }}
+        run: |
+          apt install -y ccache
+      - name: Install tool-specific dependencies
+        if: ${{ matrix.tool.deps }}
+        run: |
+          apt -qq -y install ${{ matrix.tool.deps }}
+      - name: Setup Rust (if needed)
+        if: ${{ matrix.tool.rust_ver }}
+        run: |
+          apt -y install curl
+          curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs > setup.sh
+          sh setup.sh -y
+          source $HOME/.cargo/env
+          rustup install ${{ matrix.tool.rust_ver }}
+          rustup default ${{ matrix.tool.rust_ver }}
+      - name: Update haskell (if needed)
+        if: ${{ contains(matrix.tool.deps, 'haskell') }}
+        run: |
+          stack upgrade
+      - name: Checkout the tool submodule
+        run: |
+          # Github dropped support for unauthorized git: https://github.blog/2021-09-01-improving-git-protocol-security-github/
+          # Make sure we always use https:// instead of git://
+          git config --global url.https://github.com/.insteadOf git://github.com/
+          REPOSITORY_NAME=${{ matrix.tool.name }}
+          if [[ ! -z "${{ matrix.tool.repo }}" ]]; then
+            REPOSITORY_NAME=${{ matrix.tool.repo }}
+          fi
+          git submodule update --init third_party/tools/${REPOSITORY_NAME}
+          if [[ ! -z "${{ matrix.tool.submodules }}" ]]; then
+            pushd third_party/tools/${REPOSITORY_NAME}
+            git submodule update --init --recursive ${{ matrix.tool.submodules }}
+            popd
+          fi
+      - name: Create Cache Timestamp
+        id: cache_timestamp
+        uses: nanzm/get-time-action@v1.1
         with:
-          python-version: 3.7
-      - name: Install
+          format: 'YYYY-MM-DD-HH-mm-ss'
+      - name: Setup cache
+        uses: actions/cache@v2
+        timeout-minutes: 3
+        continue-on-error: true
+        with:
+          path: "/root/sv-tests/sv-tests/.cache/"
+          key: cache_${{ matrix.tool.name }}_${{ steps.cache_timestamp.outputs.time }}
+          restore-keys: cache_${{ matrix.tool.name }}_
+      - name: Build
+        run: |
+          export PATH="/usr/lib/ccache:/usr/local/opt/ccache/libexec:$PATH"
+          [[ -f $HOME/.cargo/env ]] && source $HOME/.cargo/env
+          make ${{ matrix.tool.name }} -j$(nproc)
+      - name: Check
         run:
-          ./.github/workflows/install.sh ${{ matrix.env.MAKEFLAGS }}
+          make info
+      - name: Checkout third party tests and cores
+        run: |
+          git submodule update --init --recursive third_party/tests
+          git submodule update --init --recursive third_party/cores
+          # yosys tool also contains tests
+          git submodule update --init --recursive third_party/tools/yosys
       - name: Run
-        run:
-          ./.github/workflows/run.sh ${{ matrix.env.MAKEFLAGS }}
+        run: |
+          BIG_GENERATORS_EXPR=$(echo $BIG_GENERATORS | sed 's/ /\\|/g')
+          export STABLE_GENERATORS=$(make list-generators | tr ' ' '\n' | grep -v "${BIG_GENERATORS_EXPR}")
+          export UNSTABLE_GENERATORS=$(make list-generators | tr ' ' '\n' | grep "${BIG_GENERATORS_EXPR}")
+          for gen in ${STABLE_GENERATORS}; do make generate-$gen -j$(nproc); make -j$(nproc); done
+          for gen in ${UNSTABLE_GENERATORS}; do make generate-$gen; make; done
       - name: Prepare Report
         run:
-          ./.github/workflows/tool_report_prepare.sh
+          mv out/report/report.csv out/report/${{ matrix.tool.name }}_report.csv
+      - name: Pack results
+        run: |
+          tar -cvf out_${{ matrix.tool.name }}.tar ./out/report/${{ matrix.tool.name }}_report.csv ./out/logs/
       - uses: actions/upload-artifact@v2
         with:
-          name: report_${{ matrix.env.JOB_NAME }}
+          name: report_${{ matrix.tool.name }}
           path: |
-            ./out/report/${{ matrix.env.JOB_NAME }}_report.csv
+            out_${{ matrix.tool.name }}.tar
+            **/plot_*.svg
 
   Summary:
     name: Summary
-    runs-on: ubuntu-18.04
+    runs-on: [self-hosted, Linux, X64, gcp-custom-runners]
+    container: ubuntu:jammy-20221130
     needs: Run
+    env:
+      ANALYZER: "$PWD/tools/report_analyzer.py"
+      GRAPHER: "$PWD/tools/history-graph"
+      OUT_REPORT_DIR: "$PWD/out/report/"
+      COMPARE_REPORT: "$OUT_REPORT_DIR/report.csv"
+      REPORTS_HISTORY: "$(mktemp -d --suffix='.history')"
+      BASE_REPORT: "$REPORTS_HISTORY/report.csv"
+      CHANGES_SUMMARY_JSON: "$OUT_REPORT_DIR/tests_summary.json"
+      CHANGES_SUMMARY_MD: "$OUT_REPORT_DIR/tests_summary.md"
+      TESTS_SUMMARY_DIR: "tests_summary/"
+      DEBIAN_FRONTEND: "noninteractive"
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
-      - uses: actions/setup-python@v2
-        with:
-          python-version: 3.7
+      - name: Setup python
+        run: |
+          apt-get update -qq
+          apt install -y python3 python3-pip wget git curl jq
+          update-alternatives --install /usr/bin/python python /usr/bin/python3 1
+          update-alternatives --install /usr/bin/pip pip /usr/bin/pip3 1
+          pip install -r conf/requirements.txt
       - name: Prepare output directories
-        run: mkdir -p out/report
+        run: |
+          mkdir -p out/report
       - uses: actions/download-artifact@v2
         with:
           path: ./out/
-      - name: Summary
-        run:
-          ./.github/workflows/summary.sh
-      - name: Save PR number
+      - name: Extract
         run: |
-          echo ${{ github.event.number }} > ./out/report/issue_num
-      - uses: actions/upload-artifact@v2
+          for file in $(find out/ -name *.tar -print); do tar -xf $file --strip-components=2 -C $(dirname $file); done
+      - name: Checkout third party tests and cores
+        run: |
+          git submodule update --init --recursive third_party/tests
+          git submodule update --init --recursive third_party/cores
+          # yosys tool also contains tests
+          git submodule update --init --recursive third_party/tools/yosys
+      - name: Summary
+        run: |
+          ./.github/workflows/summary.sh
+          ./.github/workflows/report.sh
+      - name: Update sv-tests-results repository
+        if: github.ref == 'refs/heads/master'
+        run: |
+          eval $(ssh-agent -s)
+          ssh-add - <<< "${{ secrets.REPORT_DEPLOY_KEY }}"
+          mkdir -p ~/.ssh
+          chmod 700 ~/.ssh
+          ssh-keyscan -t rsa github.com >> ~/.ssh/known_hosts
+          ./.github/workflows/update_report.sh
+      - name: Prepare artifacts for PR commenter
+        if: github.event_name == 'pull_request'
+        run: |
+          mkdir $TESTS_SUMMARY_DIR
+          echo ${{ github.event.number }} > $TESTS_SUMMARY_DIR/issue_num
+          SUITE_INFO=`curl -s https://api.github.com/repos/${GITHUB_REPOSITORY}/actions/runs/${GITHUB_RUN_ID}`
+          SUITE_ID=`echo $SUITE_INFO | jq -r '.check_suite_id'`
+          echo $SUITE_ID > $TESTS_SUMMARY_DIR/suite_id
+          cp $COMPARE_REPORT $TESTS_SUMMARY_DIR/report_base.csv
+          cp $OUT_REPORT_DIR/report.csv $TESTS_SUMMARY_DIR/report_new.csv
+          cp $OUT_REPORT_DIR/new_*csv $TESTS_SUMMARY_DIR
+          cp $OUT_REPORT_DIR/tests_summary.json $TESTS_SUMMARY_DIR
+          cp $OUT_REPORT_DIR/tests_summary.md $TESTS_SUMMARY_DIR
+          find out -name plot_*.svg -exec cp {} $TESTS_SUMMARY_DIR \;
+
+      - name: Post GitHub summary
+        run: |
+          cat $CHANGES_SUMMARY_MD > $GITHUB_STEP_SUMMARY
+
+      - name: Upload artifacts for summary
+        uses: actions/upload-artifact@v2
+        if: github.event_name == 'pull_request'
         with:
           name: tests_summary
           path: |
-            ./out/report/tests_summary.json
-            ./out/report/tests_summary.md
-            ./out/report/tests_report.csv
-            ./out/report/base_report.csv
-            ./out/report/issue_num
-            ./out/report/new_passes.csv
-            ./out/report/new_failures.csv
-      - id: get-artifacts-to-delete
+            ./tests_summary/
+      - name: Find artifacts that are no longer needed
+        id: get-artifacts-to-delete
+        if: github.event_name == 'pull_request'
         run: |
           artifacts=$(find ./out -type d -name 'report_*' -exec basename {} \;)
           echo $artifacts
@@ -130,6 +264,26 @@ jobs:
           echo ::set-output name=artifacts::$artifacts
           echo $artifacts
       - name: Delete Old Artifacts
+        if: github.event_name == 'pull_request'
         uses: geekyeggo/delete-artifact@v1
         with:
           name: ${{ steps.get-artifacts-to-delete.outputs.artifacts }}
+  Automerge:
+    name: Automerge dependabot pull requests
+    permissions:
+      pull-requests: write
+      contents: write
+    runs-on: ubuntu-latest
+    needs: Summary
+    if: ${{ github.event_name == 'pull_request' && github.event.pull_request.user.login == 'dependabot[bot]' }}
+    steps:
+      - name: Dependabot metadata
+        id: metadata
+        uses: dependabot/fetch-metadata@v1.1.1
+        with:
+          github-token: "${{ secrets.GITHUB_TOKEN }}"
+      - name: Enable auto-merge for Dependabot PRs
+        run: gh pr merge --auto --merge "$PR_URL"
+        env:
+          PR_URL: ${{ github.event.pull_request.html_url }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

@@ -5,5 +5,6 @@
 		["tools", "yosys", "tests", "memories"]
 	],
 	"matches": ["*.v"],
-	"blacklist": ["issue00335.v"]
+	"blacklist": ["issue00335.v"],
+	"results_group": "imported"
 }

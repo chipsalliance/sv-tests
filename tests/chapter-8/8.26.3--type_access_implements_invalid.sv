@@ -12,7 +12,7 @@
 :description: access types from implemented class
 :should_fail_because: typedefs are not inherited by implements operator
 :tags: 8.26.3
-:type: simulation
+:type: simulation elaboration
 */
 module class_tb ();
 	interface class ihello;

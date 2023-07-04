@@ -11,7 +11,7 @@
 :name: basic-packed-unions
 :description: Test basic union support
 :tags: 7.3.1
-:type: simulation parsing
+:type: simulation elaboration parsing
 */
 module top ();
 

@@ -10,7 +10,7 @@
 /*
 :name: sequence_past_test_uvm
 :description: sequence with "past" task in UVM
-:type: simulation parsing
+:type: simulation elaboration parsing
 :tags: uvm uvm-assertions
 :timeout: 60
 */

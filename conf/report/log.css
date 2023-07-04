@@ -1,0 +1,95 @@
+@import 'details-view.css';
+
+:root {
+  /* Colors */
+  --white: #FFFFFF;
+  --light-gray: #F9F9F9;
+  --gray: #E6E6E6;
+  --dark-gray: #8E8E93;
+  --black: #2C2C2E;
+  --red: #ED5545;
+  --green: #63C366;
+  --accent: #1226AA;
+  /* Padding */
+  --gap-l:30px;
+  --gap-m:20px;
+  --gap-s:10px;
+  /* Breakpoints */
+  --mobile:670px;
+  --tablet:1280px;
+  --desktop:1920px;
+}
+
+section {
+  margin: 0;
+  padding: 4px;
+  overflow: hidden;
+  width: 100%;
+}
+
+section.property-list.test-passed { background-color: #D7ECD4; }
+section.property-list.test-failed { background-color: #F5CFCA; }
+
+section.property-list a:link {
+  color: #00006f;
+}
+
+section.property-list > dl {
+  margin: 0;
+}
+
+section.property-list > dl > div {
+  display: block;
+  line-height: 1.2em;
+}
+
+header.test-passed {
+  background-color: var(--green);
+  position: sticky;
+  left: 0;
+  top: 0;
+  width: calc(100vw - 15px);
+}
+
+header.test-failed {
+  background-color: var(--red);
+  position: sticky;
+  left: 0;
+  top: 0;
+  width: calc(100vw - 15px);
+}
+
+section.property-list > dl dt {
+  display: inline;
+  font-weight: bold;
+}
+section.property-list > dl dt::after {
+  content: ":";
+}
+
+section.property-list > dl dd {
+  margin: 0 0 0 0.5em;
+  display: inline;
+}
+
+section.property-list > dl dd ul {
+  margin: 0 0 0.5rem 1rem;
+  padding: 0;
+}
+
+section.property-list > dl dd ul li {
+  list-style-type: none;
+}
+
+section.log {
+  padding: 4px;
+  background-color: white;
+}
+
+section.log > pre {
+  margin: 0;
+  padding: 0;
+  font-family: "Courier New", Consolas, monospace;
+}
+
+

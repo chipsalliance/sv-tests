@@ -11,7 +11,7 @@
 :name: parameters
 :description: parametrized class test
 :tags: 8.5 8.25
-:type: simulation parsing
+:type: simulation elaboration parsing
 */
 module class_tb ();
 	class test_cls #(parameter a = 12);

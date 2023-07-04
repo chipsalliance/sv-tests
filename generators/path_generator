@@ -55,6 +55,15 @@ for cfg in glob.glob(os.path.join(conf_dir, 'generators', 'meta-path',
         commons = data.get('commons', [])
         incdirs = data.get('incdirs', [])
         timeouts = data.get('timeouts', {})
+        test_type = data.get('type', None)
+        results_group = data.get('results_group', None)
+
+        if test_type is not None:
+            global_extra_tags.append(f":type: {test_type}")
+
+        if results_group is not None:
+            global_extra_tags.append(f":results_group: {results_group}")
+
         if 'fake_topmodule' in data:
             global_extra_tags.append(":top_module: top")
             extra_code = "module top; endmodule"
@@ -66,8 +75,9 @@ for cfg in glob.glob(os.path.join(conf_dir, 'generators', 'meta-path',
 
     for path in paths:
         for match in matches:
-            for f in glob.glob(os.path.abspath(os.path.join(third_party_dir,
-                                                            *path, match))):
+            search_path = os.path.abspath(
+                os.path.join(third_party_dir, *path, match))
+            for f in glob.glob(search_path):
 
                 # make a copy of extra tags for a particular test
                 extra_tags = global_extra_tags[:]
@@ -75,8 +85,14 @@ for cfg in glob.glob(os.path.join(conf_dir, 'generators', 'meta-path',
                 if blacklist.count(basename) > 0:
                     print("Skipping blacklisted file: {}".format(f))
                     continue
-
                 fname = name + '_' + os.path.basename(os.path.splitext(f)[0])
+                # check if this file is in folder inside test directory
+                folder_path = f.replace(
+                    os.path.commonprefix([f, search_path]), "")
+                folder_path = os.path.dirname(folder_path)
+                folder_path = folder_path.replace("/", "_")
+                if folder_path != "":
+                    fname = folder_path + "_" + fname
                 test_file = os.path.join(test_dir, fname + '.sv')
 
                 incs = os.path.dirname(f)

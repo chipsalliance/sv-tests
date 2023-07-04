@@ -11,7 +11,7 @@
 :name: const_function
 :description: const function test
 :tags: 13.4.3
-:type: simulation parsing
+:type: simulation elaboration parsing
 */
 module top();
 

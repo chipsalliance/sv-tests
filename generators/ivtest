@@ -18,11 +18,12 @@ templ = """/*
 :name: {0}
 :description: Test imported from ivtest
 :files: {1}
-:incdirs: {4}
+:incdirs: {3}
 :tags: ivtest
+:results_group: imported
+:type: simulation elaboration parsing
 {2}
-{3}
-{5}
+{4}
 */
 """
 
@@ -169,6 +170,108 @@ ivtest_file_exclude = [
     # The following tests need to be looked at and verified
     'pr1723367',  # scalar with vectored net
     'undef',  # undefined macro behaviour is ambiguous
+    'sformatf',  # Too many arguments passed to $sformatf
+    'format',  # Missing argument to $display
+    # These tests use procedural continuous assigns with bit selects on the lhs,
+    # which is not allowed according to the LRM.
+    'array_lval_select3a',
+    'assign32E',
+    'assign_deassign_pv',
+    'force_lval_part',
+    'force_release_reg_pv',
+    'pr1832097b',
+    'pr2943394',
+    # These tests are marked 'designed to fail' but are actually valid.
+    'sv_port_default14',
+    'br995',
+    'br_gh306a',
+    'br_gh306b',
+    'case5synfail',
+    'casesynth8',
+    'dffsynth8',
+    'br1015a',
+    'br1027a',
+    'br1027c',
+    'br1027e',
+    'br_gh25a',
+    'br_gh25b',
+    'check_constant_3',
+    'function4',
+    'no_timescale_in_module',
+    'pr1704013',
+    'scope2b',
+    'event_array',
+    # $dumpvars with bit selects, doesn't appear to be legal and commercial tools disallow
+    'array_word_check',
+    'dump_memword',
+    # defparam targeting a localparam isn't allowed
+    'br_gh157',
+    'scoped_events',
+    # Module ANSI ports are redeclared in body
+    'br_ml20150606',
+    # This expects failure because of unsized literal in a concat, but pretty much
+    # all tools allow this (usually with a warning) as an extension because tons of code
+    # in the wild does it.
+    'indef_width_concat',
+    # Primitive port connections cannot use the '.name()' syntax
+    'pr938b',
+    'udp_dff',
+    # Icarus checks that final-blocks do not have non-blocking assignments but
+    # a strict reading of IEEE 1800-2017, $9.2.3 does not require this, even
+    # though the non-blocking assignment will have no effect.
+    'program3b',
+    # A wire with 'real' type is not allowed (commercial tools disallow)
+    'br_gh556',
+    # This test forgets to add parenthesis to a module instantiation.
+    'br_gh553',
+    # Provides connection for null port, LRM is unclear but all commercial tools disallow this
+    'pr1723367',
+    # Expects failure for using a slice in $readmemh but the LRM explicitly allows for this.
+    # VCS fails but other tools allow.
+    'readmemh5',
+    # Illegal; IEEE says parameters may be limited to 32 bits if no type is provided
+    'ilongint_test',
+    # Expects failure but IEEE does not disallow zero size arrays (parameters may cause this)
+    'br_ml20181012d_iv',
+    # Test does not compile without __ICARUS__
+    'implicit_cast12',
+    'implicit_cast13',
+    # Illegal, f_ffffffff has too many digits for int
+    'sv_class8',
+    # output directory doesn't exist
+    'writememb1',
+    'writememb2',
+    'writememh1',
+    'writememh2',
+    # negative tests
+    'writememerror',
+    'uwire_fail',
+    # Null object dereferenced
+    'br_gh104a',
+    # Some tools error others warn, it's not clear in LRM what the requirements are
+    'br_gh230_iv',
+    # Zero sized constant is illegal, but some tools warn and ignore
+    'br_gh60a',
+    # String type is not implicitly assignment compatible to a packed vector, but some allow
+    'br_ml20180227',
+    # Negative test wrong, what is tested appears legal on other simulators and by IEEE
+    'comment1',
+    # Checked values FAILED on multiple other simulators
+    'concat4',
+    # Illegal, but some tooks just warn
+    'enum_test3',
+    # Fails on others; does not appear to match IEEE's description of define identifiers
+    'escaped_macro_name',
+    # Checked values FAILED on multiple other simulators
+    'func_init_var3',
+    # Negative test that in some tools throws a warning rather than fatal error
+    'pr1938138',
+    # Unclear, most tools hard error but for some tools allow
+    'pr2794144',
+    # Specified --top-module 'top' was not found in design (sv-test driver limitation)
+    'vlg_pr1587634_iv',
+    # primitive table rows are invalid, fails on multiple commercial tools
+    "pr3587570",
 ]
 
 ivtest_long = ['comp1000', 'comp1001']
@@ -222,20 +325,18 @@ for l in ivtest_lists:
             if name in ivtest_file_exclude:
                 continue
 
-            type_ = ''
             for t in type_should_fail:
                 if re.match(t, line[1]):
                     should_fail_because = ':should_fail_because: this test was imported from ivtest and is designed to fail'
-                    type_ = ':type: simulation'
 
             timeout = ''
             if name in ivtest_long:
-                timeout = ':timeout: 30'
+                timeout = ':timeout: 360'
 
             tests.append(
                 (
                     list_filename + '_' + name + '_iv', path,
-                    should_fail_because, type_, ' '.join(incdirs), timeout))
+                    should_fail_because, ' '.join(incdirs), timeout))
 
 test_dir = os.path.join(tests_dir, 'generated', tests_subdir)
 

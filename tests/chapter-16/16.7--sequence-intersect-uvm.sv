@@ -10,7 +10,7 @@
 /*
 :name: sequence_intersect_op_test_uvm
 :description: sequence with "intersect" operator in UVM
-:type: simulation parsing
+:type: simulation elaboration parsing
 :tags: uvm uvm-assertions
 :timeout: 60
 */

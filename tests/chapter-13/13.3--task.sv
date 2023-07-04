@@ -11,7 +11,7 @@
 :name: task
 :description: task test
 :tags: 13.3
-:type: simulation parsing
+:type: simulation elaboration parsing
 */
 module top();
 

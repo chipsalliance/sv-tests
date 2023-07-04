@@ -18,11 +18,6 @@ import os
 import re
 
 
-def set_process_limits():
-    """Make sure processes behave. Limit memory to 4GiB"""
-    resource.setrlimit(resource.RLIMIT_DATA, (4 << 30, 4 << 30))
-
-
 def kill_child_processes(parent_pid, sig=signal.SIGKILL):
     try:
         parent = psutil.Process(parent_pid)
@@ -48,7 +43,7 @@ class BaseRunner:
             self,
             name,
             executable=None,
-            supported_features={'preprocessing', 'parsing', 'simulation'}):
+            supported_features={'preprocessing', 'parsing', 'elaboration'}):
         """Base runner class constructor
         Arguments:
         name -- runner name.
@@ -59,6 +54,7 @@ class BaseRunner:
         self.name = name
         self.executable = executable
         self.supported_features = supported_features
+        self.allowed_extensions = ['.v', '.sv', '.vh', '.svh']
 
         self.url = "https://github.com/symbiflow/sv-tests"
 
@@ -68,19 +64,19 @@ class BaseRunner:
         if "all" not in compatible_runners:
             if self.name not in compatible_runners:
                 return None
-        basic_features = ['parsing', 'preprocessing']
-        previous_required = False
-        for feature in basic_features:
-            if feature in test_features and feature not in self.supported_features and previous_required:
-                return None
-            if feature in test_features and feature in self.supported_features:
-                previous_required = True
 
-        features = ['simulation', *basic_features]
+        # select the first mode from the list that matches both the runner and
+        # the test
+        modes_sorted = [
+            'simulation', 'simulation_without_run', 'elaboration', 'parsing',
+            'preprocessing'
+        ]
 
-        for feature in features:
-            if feature in test_features and feature in self.supported_features:
-                return feature
+        for m in modes_sorted:
+            if m in test_features and m in self.supported_features:
+                return m
+
+        return None
 
     def run(self, tmp_dir, params):
         """Run the provided test case
@@ -118,7 +114,6 @@ class BaseRunner:
         proc = subprocess.Popen(
             self.cmd,
             cwd=tmp_dir,
-            preexec_fn=set_process_limits,
             stdout=subprocess.PIPE,
             stderr=subprocess.STDOUT)
 
@@ -197,10 +192,7 @@ class BaseRunner:
             cmd = self.get_version_cmd()
 
             proc = subprocess.Popen(
-                cmd,
-                preexec_fn=set_process_limits,
-                stdout=subprocess.PIPE,
-                stderr=subprocess.STDOUT)
+                cmd, stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
 
             log, _ = proc.communicate()
 

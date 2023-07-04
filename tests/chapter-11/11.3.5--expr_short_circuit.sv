@@ -10,7 +10,7 @@
 /*
 :name: expr_short_circuit
 :description: expression short circuiting test
-:type: simulation parsing
+:type: simulation elaboration parsing
 :tags: 11.3.5
 */
 module top();

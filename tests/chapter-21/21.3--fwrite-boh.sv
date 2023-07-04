@@ -11,7 +11,7 @@
 :name: fwrite_boh
 :description: $fwrite test
 :tags: 21.3
-:type: simulation parsing
+:type: simulation elaboration parsing
 */
 module top();
 

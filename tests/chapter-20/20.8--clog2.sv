@@ -11,7 +11,7 @@
 :name: clog2_function
 :description: $clog2 test
 :tags: 20.8
-:type: simulation parsing
+:type: simulation elaboration parsing
 */
 
 module top();

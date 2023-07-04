@@ -11,7 +11,7 @@
 :name: strobe_task
 :description: $strobe test
 :tags: 21.2
-:type: simulation parsing
+:type: simulation elaboration parsing
 */
 module top();
 

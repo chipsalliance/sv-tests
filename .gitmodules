@@ -43,15 +43,12 @@
 [submodule "third_party/cores/scr1"]
 	path = third_party/cores/scr1
 	url = https://github.com/syntacore/scr1
-[submodule "third_party/cores/taiga"]
-	path = third_party/cores/taiga
-	url = https://gitlab.com/sfu-rcl/Taiga.git
 [submodule "third_party/tools/verible"]
 	path = third_party/tools/verible
-	url = https://github.com/google/verible.git
+	url = https://github.com/chipsalliance/verible.git
 [submodule "third_party/tools/Surelog"]
 	path = third_party/tools/Surelog
-	url = https://github.com/alainmarcel/Surelog.git
+	url = https://github.com/chipsalliance/Surelog.git
 [submodule "third_party/cores/rsd"]
 	path = third_party/cores/rsd
 	url = https://github.com/rsd-devel/rsd
@@ -64,21 +61,34 @@
 [submodule "third_party/cores/black-parrot"]
 	path = third_party/cores/black-parrot
 	url = https://github.com/black-parrot/black-parrot
+	branch = dev
 [submodule "third_party/tests/easyUVM"]
 	path = third_party/tests/easyUVM
 	url = https://github.com/antmicro/easyUVM.git
 [submodule "third_party/tests/uvm"]
 	path = third_party/tests/uvm
 	url = https://github.com/SymbiFlow/uvm.git
-[submodule "third_party/tools/uhdm-integration"]
-	path = third_party/tools/uhdm-integration
-	url = https://github.com/alainmarcel/uhdm-integration.git
-[submodule "third_party/cores/ibex-yosys-build"]
-	path = third_party/cores/ibex-yosys-build
-	url = https://github.com/SymbiFlow/ibex-yosys-build.git
-[submodule "third_party/tools/antmicro-yosys"]
-	path = third_party/tools/antmicro-yosys
-	url = https://github.com/antmicro/yosys
+[submodule "third_party/cores/tnoc"]
+	path = third_party/cores/tnoc
+	url = https://github.com/taichi-ishitani/tnoc.git
+[submodule "third_party/tests/utd-sv"]
+	path = third_party/tests/utd-sv
+	url = https://github.com/SymbiFlow/utd-sv.git
+[submodule "third_party/tests/axi-vip"]
+	path = third_party/tests/axi-vip
+	url = https://github.com/SymbiFlow/axi-vip.git
+[submodule "third_party/tools/yosys-uhdm-plugin-integration"]
+	path = third_party/tools/yosys-uhdm-plugin-integration
+	url = https://github.com/antmicro/yosys-uhdm-plugin-integration.git
+[submodule "third_party/tests/projf-explore"]
+	path = third_party/tests/projf-explore
+	url = https://github.com/projf/projf-explore.git
+[submodule "third_party/tools/verilator-uhdm"]
+	path = third_party/tools/verilator-uhdm
+	url = https://github.com/antmicro/verilator
+[submodule "third_party/tools/moore"]
+	path = third_party/tools/moore
+	url = https://github.com/fabianschuiki/moore.git
 [submodule "third_party/cores/rggen-sample"]
 	path = third_party/cores/rggen-sample
 	url = https://github.com/rggen/rggen-sample.git

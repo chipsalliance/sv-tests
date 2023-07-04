@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@3.5.0/dist/chart.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chartjs-adapter-date-fns@2.0.0/dist/chartjs-adapter-date-fns.bundle.min.js"></script>
+</head>
+
+<body>
+  <canvas id="line-chart" width=300" height="150"></canvas>
+  <script>
+
+    function handleHover(evt, item, legend) {
+      legend.chart.data.datasets.forEach((line) => {
+        line.borderColorOrig = line.borderColor;
+        if (item.text != line.label) {
+          line.borderColor = line.borderColor + "0c";
+        }
+      });
+      legend.chart.update();
+    };
+    function handleLeave(evt, item, legend) {
+      legend.chart.data.datasets.forEach((line) => {
+          line.borderColor = line.borderColorOrig;
+      });
+      legend.chart.update();
+    };
+
+    new Chart(document.getElementById("line-chart"), {
+      type: 'line',
+      data: {
+        labels: [ {{ labels }} ],
+        datasets: [
+          {% for tool in datasets | sort %}
+            {
+              data: [ {{ datasets[tool] }} ],
+              label: "{{ tool }}" ,
+              borderColor: "{{ colors[tool] }}",
+              stepped: true,
+              fill: false
+            },
+          {% endfor %}
+        ]
+      },
+      options: {
+        responsive: true,
+        plugins: {
+          title: {
+            display: true,
+            text: 'SV-Tests results history'
+          },
+          legend: {
+            onHover: handleHover,
+            onLeave: handleLeave
+          }
+        },
+        scales: {
+          x: {
+            display: true,
+            type: 'time',
+            title: {
+              display: true,
+              text: 'Date of the build'
+            }
+          },
+          y: {
+            display: true,
+            title: {
+              display: true,
+              text: 'Tests passed [%]'
+            },
+          }
+        }
+      },
+    });
+  </script>
+</body>
+</html>

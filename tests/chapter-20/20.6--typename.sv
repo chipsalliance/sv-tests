@@ -11,7 +11,7 @@
 :name: typename_function
 :description: $typename test
 :tags: 20.6
-:type: simulation parsing
+:type: simulation elaboration parsing
 */
 
 module top();

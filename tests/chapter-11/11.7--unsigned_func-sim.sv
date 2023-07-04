@@ -10,7 +10,7 @@
 /*
 :name: unsigned_func_sim
 :description: $unsigned() simulation test
-:type: simulation parsing
+:type: simulation elaboration parsing
 :tags: 11.7
 */
 module top();

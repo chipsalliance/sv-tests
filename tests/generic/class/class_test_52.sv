@@ -16,7 +16,6 @@ class uvm_sequence_item;
 endclass
 class how_wide #(type DT=int) extends uvm_sequence_item;
   localparam Max_int = {$bits(DT) - 1{1'b1}};
-  localparam Min_int = {$bits(int) - $bits(DT){1'b1}};
 endclass
 
 module test;

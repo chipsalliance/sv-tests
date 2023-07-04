@@ -5,7 +5,7 @@
 		"/*",
 		":name: logical_impl_operator_sim_{2}",
 		":description: logical implication operator test in simulation",
-        ":type: simulation parsing",
+		":type: simulation elaboration parsing",
 		":tags: 11.4.7",
 		"*/",
 		"module top();",
@@ -21,9 +21,9 @@
 		"endmodule"
 	],
 	"values": [
-        ["0", "0"],
-        ["0", "1"],
-        ["1", "0"],
-        ["1", "1"]
+		["0", "0"],
+		["0", "1"],
+		["1", "0"],
+		["1", "1"]
 	]
 }

@@ -28,14 +28,15 @@ class VeribleExtractor(BaseRunner):
         script_path = os.path.join(tmp_dir, "run.sh")
 
         with open(src_list_path, "w") as src_list:
-            print("\n".join(params.get("files", [])), file=src_list)
+            files = [os.path.abspath(f) for f in params.get("files", [])]
+            print("\n".join(files), file=src_list)
 
         inc_dirs = ",".join(params.get("incdirs", []))
 
         with open(script_path, "w") as script:
             command = (
                 '{executable}'
-                ' --file_list_root ""'
+                ' --file_list_root "/"'
                 ' --include_dir_paths {inc_dirs}'
                 ' --file_list_path {src_list_path}').format(
                     executable=self.executable,

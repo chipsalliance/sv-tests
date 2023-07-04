@@ -11,7 +11,7 @@
 :name: operations-on-unpacked-arrays-slice-equality
 :description: Test unpacked arrays operations support (slice equality)
 :tags: 7.4.3
-:type: simulation parsing
+:type: simulation elaboration parsing
 */
 module top ();
 

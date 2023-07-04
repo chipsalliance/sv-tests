@@ -18,7 +18,7 @@ module top();
 
   bit b;
 
-  initial begin;
+  initial begin
 
     (* full_case, parallel_case *)
     case (a)

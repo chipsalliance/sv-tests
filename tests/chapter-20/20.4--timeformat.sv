@@ -11,7 +11,7 @@
 :name: timeformat_task
 :description: $timeformat test
 :tags: 20.4
-:type: simulation parsing
+:type: simulation elaboration parsing
 */
 
 `timescale 1 fs / 1 fs

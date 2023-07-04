@@ -1,13 +1,15 @@
 # SystemVerilog Tester
 
-[![License](https://img.shields.io/github/license/SymbiFlow/sv-tests.svg)](https://github.com/SymbiFlow/sv-tests/blob/master/LICENSE)
-[![Build Status](https://github.com/symbiflow/sv-tests/workflows/sv-tests-ci/badge.svg)](https://github.com/SymbiFlow/sv-tests/actions)
-[![Tests](http://storage.googleapis.com/symbiflow-badges/sv-tests/continuous.svg)](http://storage.googleapis.com/symbiflow-badges/sv-tests/continuous.html)
+[![License](https://img.shields.io/github/license/chipsalliance/sv-tests.svg)](https://github.com/chipsalliance/sv-tests/blob/master/LICENSE)
+[![Build Status](https://github.com/chipsalliance/sv-tests/workflows/sv-tests-ci/badge.svg?branch=master)](https://github.com/chipsalliance/sv-tests/actions)
 
 The purpose of this project is to find all the supported and missing SystemVerilog features in various Verilog tools.
 
-The report generated from the last passing master build can be viewed [on a dedicated dashboard:](https://symbiflow.github.io/sv-tests/)
-[![Grid](./img/sv-test-grid.png)](https://symbiflow.github.io/sv-tests/)
+The report generated from the last passing master build can be viewed [on a dedicated dashboard:](https://chipsalliance.github.io/sv-tests-results/)
+[![Grid](./img/sv-test-grid.png)](https://chipsalliance.github.io/sv-tests-results/)
+
+History of the builds is also tracked and can be seen [on a separate page:](https://chipsalliance.github.io/sv-tests-results/history)
+[![History](./img/sv-test-history.png)](https://chipsalliance.github.io/sv-tests-results/history)
 
 # Running
 
@@ -83,15 +85,9 @@ Finally the file containing the test case and metadata should be placed in `test
 
 ## Adding a new tool
 
-1. Make the tool available from [Anaconda](https://anaconda.org/) by either:
-   * Adding the tool to the [SymbiFlow/conda-packages](https://github.com/SymbiFlow/conda-packages) repository.
-   * Adding the tool to any other `conda` channel.
-
-   If the tool is already available as a `conda` package you can skip this step.
-2. Add the conda package as a dependency in `conf/environment.yml`.
-3. Add the tool as a submodule to this repository via `git submodule add <git_url> third_party/tools/<name>`.
-4. Add a target for building and installing the tool manually in `tools/runners.mk`
-5. Create a new runner script in `tools/runners/<name>.py` that will contain a subclass of `BaseRunner` named `<name>`.
+1. Add the tool as a submodule to this repository via `git submodule add <git_url> third_party/tools/<name>`.
+2. Add a target for building and installing the tool manually in `tools/runners.mk`
+3. Create a new runner script in `tools/runners/<name>.py` that will contain a subclass of `BaseRunner` named `<name>`.
    This subclass will need to at least implement the following methods:
    * `__init__` to provide general information about the tool.
    * `prepare_run_cb` to prepare correct tool invocation that will be used during tests.
@@ -100,7 +96,7 @@ Finally the file containing the test case and metadata should be placed in `test
 
 ## Supported tools
 
-* [Yosys](http://www.clifford.at/yosys)
+* [Yosys](https://github.com/yosysHQ/yosys)
 * [Odin II](https://verilogtorouting.org)
 * [Verilator](https://verilator.org)
 * [Icarus](http://iverilog.icarus.com)

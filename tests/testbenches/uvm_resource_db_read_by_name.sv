@@ -11,7 +11,7 @@
 :name: uvm_resource_db_read_by_name
 :description: uvm resource_db::read_by_name test
 :tags: uvm
-:type: simulation parsing
+:type: simulation elaboration parsing
 */
 
 import uvm_pkg::*;

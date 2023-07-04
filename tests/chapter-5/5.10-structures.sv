@@ -20,7 +20,7 @@ module top();
 
   ms_t ms;
 
-  initial begin;
+  initial begin
     ms = '{ 0, 1};
 
     ms = '{ default:1, int:1};

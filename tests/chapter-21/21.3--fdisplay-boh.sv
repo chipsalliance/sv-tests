@@ -11,7 +11,7 @@
 :name: fdisplay_boh
 :description: $fdisplay test
 :tags: 21.3
-:type: simulation parsing
+:type: simulation elaboration parsing
 */
 module top();
 

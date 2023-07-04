@@ -11,7 +11,7 @@
 :name: ceil_function
 :description: $ceil test
 :tags: 20.8
-:type: simulation parsing
+:type: simulation elaboration parsing
 */
 
 module top();

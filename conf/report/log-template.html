@@ -1,30 +1,52 @@
-<head>
-  <style>
-    .log { font-family: "Courier New", Consolas, monospace; font-size: 80%; }
-    .test-failed { background-color: #ffaaaa; }
-    .test-passed { background-color: #aaffaa; }
-  </style>
-</head>
-<body>
-<h3><a href="{{runner_url}}" target="_blank">{{runner}}</a></h3>
-<pre class="{{status}}">
-description: {{description|e}}
-rc: {{rc|e}} (means success: {{tool_success|e}})
-{% if should_fail_because|length %}
-should_fail_because: {{should_fail_because|e}}
-{% endif %}
-tags: {{tags|e}}
-incdirs: {{incdirs|e}}
-top_module: {{top_module|e}}
-type: {{type|e}}
-mode: {{mode|e}}
-files: {{file_urls}}
-defines: {{defines|e}}
-completed: {{date_completed}}
-time_elapsed: {{'%0.3f'| format(time_elapsed|float)}}s
-ram usage: {{'%d'| format(ram_usage|int)}} KB
-</pre>
-<pre class="log">
-{{log_urls}}
-</pre>
-</body>
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="stylesheet" type="text/css" href="{{csspath}}">
+  </head>
+  <body>
+    <header class="{{result.status}}">
+        <a href="{{log['runner_url']}}" target="_blank"><h1>{{log['runner']|e}}</h1></a>
+        <h2>{{result.name|e}}</h2>
+    </header>
+    <section class="property-list">
+      <dl>
+        <div><dt>description</dt><dd>{{log['description']|e}}</dd></div>
+        <div><dt>rc</dt><dd>{{result.exit_code}} (means success: {{log['tool_success']|e}})</dd></div>
+        {% if should_fail_because|length %}
+        <div><dt>should_fail_because</dt><dd> {{log['should_fail_because']|e}}</dd></div>
+        {% endif %}
+        <div><dt>tags</dt><dd>{{result.tags|join(' ')|e}}</dd></div>
+        <div>
+          <dt>incdirs</dt>
+          <dd><ul>
+            {% for dir in log['incdirs'].split(' ') %}
+            <li>{{dir}}<li>
+            {% endfor %}
+          </ul></dd>
+        </div>
+        <div><dt>top module</dt><dd>{{log['top_module']|e}}</dd></div>
+        <div><dt>type</dt><dd>{{result.types|join(' ')|e}}</dd></div>
+        <div><dt>results group</dt><dd>{% if result.results_group|length %}{{result.results_group|e}}{% else %}<em></em>{% endif %}</dd></div>
+        <div><dt>mode</dt><dd>{{log['mode']|e}}</dd></div>
+        <div>
+          <dt>files</dt>
+          <dd><ul>
+            {% for f, f_html in input_files_map.items() %}
+            <li><a href="{{f_html}}" target="file-frame">{{f|e}}</a><li>
+            {% endfor %}
+          </ul></dd>
+        </div>
+        <div><dt>defines</dt><dd><code>{{log['defines']|e}}</code></dd></div>
+        <div><dt>completed</dt><dd>{{log['date_completed']|e}}</dd></div>
+        <div><dt>time elapsed</dt><dd>{{'%0.3f'| format(result.total_time|float)}}s</dd></div>
+        <div><dt>ram usage</dt><dd>{{'%d'| format(result.ram_usage|int)}} KB</dd></div>
+      </dl>
+    </section>
+    <section class="log">
+      {% for line in content.split('\n') %}
+      <pre>{{line}}</pre>
+      {% endfor %}
+    </section>
+  </body>
+</html>

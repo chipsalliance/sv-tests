@@ -11,7 +11,7 @@
 :name: bounded-queues
 :description: Test bounded queues support
 :tags: 7.10.5 7.10 7.10.2.7 7.10.2.1
-:type: simulation parsing
+:type: simulation elaboration parsing
 */
 module top ();
 
