@@ -89,3 +89,9 @@
 [submodule "third_party/tools/moore"]
 	path = third_party/tools/moore
 	url = https://github.com/fabianschuiki/moore.git
+[submodule "third_party/cores/rggen-sample"]
+	path = third_party/cores/rggen-sample
+	url = https://github.com/rggen/rggen-sample.git
+[submodule "third_party/cores/rggen-sv-rtl"]
+	path = third_party/cores/rggen-sv-rtl
+	url = https://github.com/rggen/rggen-sv-rtl.git
