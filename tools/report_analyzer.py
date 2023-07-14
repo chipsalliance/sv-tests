@@ -135,8 +135,9 @@ def prepare_comment(summary, table_path):
         matrix.append(vals)
 
     writer = pytablewriter.MarkdownTableWriter()
-    writer.table_name = "Compared test results"
-    writer.header_list = cols
+    writer.table_name = "Changes In Tests"
+    pretty_cols = [c.replace("_", " ").title() for c in cols]
+    writer.headers = pretty_cols
     writer.value_matrix = matrix
     writer.write_table()
     with open(table_path, "w") as f:
