@@ -67,7 +67,8 @@
 	url = https://github.com/antmicro/easyUVM.git
 [submodule "third_party/tests/uvm"]
 	path = third_party/tests/uvm
-	url = https://github.com/SymbiFlow/uvm.git
+	url = https://github.com/antmicro/uvm-verilator.git
+	branch = current-patches
 [submodule "third_party/cores/tnoc"]
 	path = third_party/cores/tnoc
 	url = https://github.com/taichi-ishitani/tnoc.git
