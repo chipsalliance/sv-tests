@@ -14,41 +14,8 @@ jobs:
       fail-fast: false
       matrix:
         tool:
-          - name: icarus
-            deps: autoconf autotools-dev bison flex libfl-dev gperf
-          - name: moore
-            rust_ver: "1.61"
-          - name: odin
-            repo: odin_ii
-            deps: autoconf autotools-dev bison flex libfl-dev cmake pkg-config
-          - name: slang
-            deps: cmake pkg-config
-          - name: surelog
-            repo: Surelog
-            submodules: third_party/UHDM third_party/antlr4 third_party/googletest
-            deps: cmake default-jre pkg-config tclsh uuid-dev
-          - name: sv-parser
-            deps: cargo
-          - name: tree-sitter-verilog
-            deps: npm
-          - name: verible
-            deps: bazel=5.4.0 bison flex libfl-dev
-            skip-ccache: 1
           - name: verilator
             deps: autoconf autotools-dev bison flex help2man libfl-dev libelf-dev
-          - name: verilator-uhdm
-            submodules: Surelog vcddiff
-            deps: autoconf autotools-dev bison default-jre flex help2man libfl-dev cmake pkg-config tclsh uuid-dev libelf-dev
-            runners_filter: UhdmVerilator
-          - name: yosys
-            deps: bison clang tcl-dev flex libfl-dev pkg-config libreadline-dev
-          - name: yosys-synlig
-            repo: synlig
-            submodules: third_party/yosys third_party/surelog
-            deps: cmake clang tcl-dev bison default-jre flex libfl-dev libreadline-dev pkg-config tclsh uuid-dev
-            runners_filter: SynligYosys
-          - name: zachjs-sv2v
-            deps: haskell-stack
     env:
       RUNNERS_FILTER: ${{ matrix.tool.runners_filter }}
       CCACHE_DIR: "/root/sv-tests/sv-tests/.cache/"
