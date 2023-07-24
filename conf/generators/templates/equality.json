@@ -15,7 +15,7 @@
 		"assign a = {0};",
 		"assign b = {1};",
 		"assign c = a {2} b;",
-		"initial begin",
+		"final begin",
 		"    $display(\":assert: ('%s' == '%d')\", \"{3}\", c);",
 		"end",
 		"endmodule"
