@@ -20,6 +20,7 @@ templ = """/*
 :files: {0}
 :tags: RgGen
 :top_module: rggen
+:results_group: cores
 :timeout: 100
 */
 """
