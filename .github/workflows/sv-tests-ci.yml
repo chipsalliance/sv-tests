@@ -25,7 +25,7 @@ jobs:
             deps: cmake pkg-config
           - name: surelog
             repo: Surelog
-            submodules: third_party/UHDM third_party/antlr4 third_party/flatbuffers third_party/googletest
+            submodules: third_party/UHDM third_party/antlr4 third_party/googletest
             deps: cmake default-jre pkg-config tclsh uuid-dev
           - name: sv-parser
             deps: cargo
