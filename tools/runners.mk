@@ -111,7 +111,13 @@ $(INSTALL_DIR)/bin/parse_sv:
 moore: $(INSTALL_DIR)/bin/moore
 
 $(INSTALL_DIR)/bin/moore:
-	(export CARGO_NET_GIT_FETCH_WITH_CLI=true && cargo install --path $(RDIR)/moore --root $(INSTALL_DIR) --bin moore)
+	mkdir -p $(INSTALL_DIR)
+	(export CIRCT_SYS_CIRCT_DIR=$(RDIR)/circt && \
+		cd $(RDIR)/moore/ && \
+		./.github/build-llvm.sh && \
+		./.github/build-circt.sh && \
+		export CARGO_NET_GIT_FETCH_WITH_CLI=true && \
+		cargo install --path $(RDIR)/moore --root $(INSTALL_DIR) --bin moore)
 
 # verible
 verible:
