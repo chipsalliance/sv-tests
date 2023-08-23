@@ -111,7 +111,7 @@ $(INSTALL_DIR)/bin/parse_sv:
 moore: $(INSTALL_DIR)/bin/moore
 
 $(INSTALL_DIR)/bin/moore:
-	(export CARGO_NET_GIT_FETCH_WITH_CLI=true && cargo update -p backtrace --precise 0.3.68 --manifest-path $(RDIR)/moore/Cargo.toml && cargo install --path $(RDIR)/moore --root $(INSTALL_DIR) --bin moore)
+	(export CARGO_NET_GIT_FETCH_WITH_CLI=true && cargo update -p backtrace --precise 0.3.68 --manifest-path $(RDIR)/moore/Cargo.toml && cargo install --path $(RDIR)/moore --root $(INSTALL_DIR) --bin moore --locked)
 
 # verible
 verible:
