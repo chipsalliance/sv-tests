@@ -7,14 +7,14 @@
 # SPDX-License-Identifier: ISC
 
 
-name: swerv
-description: Full swerv core test
+name: veer-eh1
+description: Full VeeR EH1 core test
 top_module: tb_top
-tags: swerv
-path: third_party/cores/swerv
-command: fusesoc --cores-root third_party/cores/swerv run --target=sim --setup --build-root build/swerv_sim chipsalliance.org:cores:SweRV_EH1:1.8
-conf_file: build/swerv_sim/sim-verilator/chipsalliance.org_cores_SweRV_EH1_1.8.vc
-test_file: swerv-sim.sv
+tags: veer-eh1
+path: third_party/cores/veer-eh1
+command: fusesoc --cores-root third_party/cores/veer-eh1 run --target=sim --setup --build-root build/veer-eh1_sim chipsalliance.org:cores:VeeR_EH1:1.8
+conf_file: build/veer-eh1_sim/sim-verilator/chipsalliance.org_cores_VeeR_EH1_1.8.vc
+test_file: veer-eh1-sim.sv
 timeout: 180
 compatible-runners: verilator-uhdm verilator slang
 type: parsing elaboration simulation_without_run

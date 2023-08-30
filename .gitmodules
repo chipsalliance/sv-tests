@@ -25,9 +25,9 @@
 [submodule "third_party/tools/zachjs-sv2v"]
 	path = third_party/tools/zachjs-sv2v
 	url = https://github.com/zachjs/sv2v
-[submodule "third_party/cores/swerv"]
-	path = third_party/cores/swerv
-	url = https://github.com/chipsalliance/Cores-SweRV
+[submodule "third_party/cores/veer-eh1"]
+	path = third_party/cores/veer-eh1
+	url = https://github.com/chipsalliance/Cores-VeeR-EH1
 [submodule "third_party/cores/ibex"]
 	path = third_party/cores/ibex
 	url = https://github.com/lowRISC/ibex
