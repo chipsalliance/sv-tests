@@ -95,3 +95,6 @@
 [submodule "third_party/cores/rggen-sv-rtl"]
 	path = third_party/cores/rggen-sv-rtl
 	url = https://github.com/rggen/rggen-sv-rtl.git
+[submodule "third_party/cores/veer-el2"]
+	path = third_party/cores/veer-el2
+	url = https://github.com/chipsalliance/Cores-VeeR-EL2.git
