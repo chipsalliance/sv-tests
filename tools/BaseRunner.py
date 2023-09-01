@@ -212,7 +212,11 @@ class BaseRunner:
         """
 
         try:
-            cmd = ["git", "rev-parse", "HEAD:" + self.submodule]
+            path = "HEAD"
+            if self.submodule:
+                path += ":" + self.submodule
+
+            cmd = ["git", "rev-parse", path]
 
             proc = subprocess.Popen(
                 cmd, stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
