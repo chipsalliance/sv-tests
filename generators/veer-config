@@ -1,0 +1,137 @@
+#!/usr/bin/env python3
+# -*- coding: utf-8 -*-
+#
+# Copyright (C) 2020 The SymbiFlow Authors.
+#
+# Use of this source code is governed by a ISC-style
+# license that can be found in the LICENSE file or at
+# https://opensource.org/licenses/ISC
+#
+# SPDX-License-Identifier: ISC
+
+import os
+import sys
+import subprocess
+
+variants = [
+    {
+        "test_type": "sim",
+        "name": "veer-el2",
+        "description": "Full VeeR EL2 core test",
+        "top_module": "tb_top",
+        "tags": "veer-el2",
+        "compatible-runners": "verilator-uhdm verilator slang",
+        "type": "parsing elaboration simulation_without_run",
+    },
+    {
+        "test_type": "synth",
+        "name": "veer-el2",
+        "description": "Full VeeR EL2 core test",
+        "top_module": "veer-el2_wrapper",
+        "tags": "veer-el2",
+        "compatible-runners":
+        "yosys-uhdm vanilla-yosys-uhdm-plugin yosys yosys-sv zachjs-sv2v icarus moore moore-parse odin sv-parser tree-sitter-verilog verible verible_extractor Surelog slang-parse",
+        "type": "parsing elaboration",
+    },
+]
+
+templ = """/*
+:name: {0}
+:description: {1}
+:files: {2}
+:incdirs: {3}
+:top_module: {4}
+:tags: {5}
+:timeout": 1000
+:results_group: cores
+:compatible-runners: {6}
+:type: {7}
+{8}
+*/
+"""
+
+try:
+    tests_dir = os.environ['TESTS_DIR']
+    third_party_dir = os.environ['THIRD_PARTY_DIR']
+except KeyError:
+    print("Export the TESTS_DIR and THIRD_PARTY_DIR variables first")
+    print(os.environ)
+    sys.exit(1)
+
+for v in variants:
+    test_type = v["test_type"]
+    name = v["name"]
+    description = v["description"]
+    top_module = v["top_module"]
+    tags = v["tags"]
+    compatible_runners = v["compatible-runners"]
+    type = v["type"]
+    include_dir = os.path.abspath(
+        os.path.join(third_party_dir, "cores", name, "design", "include"))
+    testbench_dir = os.path.abspath(
+        os.path.join(third_party_dir, "cores", name, "testbench"))
+    build_dir = os.path.abspath(
+        os.path.join(
+            tests_dir, "generated", "veer-config", name + "_" + test_type))
+    os.environ["BUILD_PATH"] = build_dir
+    os.makedirs(build_dir, exist_ok=True)
+
+    # Generate VeeR config headers
+    veer_config = os.path.join(
+        third_party_dir, "cores", name, "configs", "veer.config")
+    ret = subprocess.run([veer_config], capture_output=True)
+
+    if ret.returncode != 0:
+        print(ret.stderr)
+        print("VeeR configuration failed!")
+        exit(ret.returncode)
+
+    # Setup common VeeR sources
+    sources = ""
+    for (dirpath, dirnames, filenames) in os.walk(os.path.join(third_party_dir,
+                                                               "cores", name,
+                                                               "design")):
+        if dirpath.endswith("include"):
+            continue
+        for f in filenames:
+            if f.endswith(("sv", "v")):
+                sources += os.path.abspath(os.path.join(dirpath, f)) + " "
+
+    # Setup simulation specific sources and verilator args
+    incdirs = build_dir + " " + include_dir
+    extra_args = ""
+    if test_type == "sim":
+        incdirs += " " + testbench_dir
+        for (dirpath, dirnames,
+             filenames) in os.walk(os.path.join(third_party_dir, "cores", name,
+                                                "testbench")):
+            for f in filenames:
+                if f.endswith(("sv", "v")):
+                    sources += os.path.abspath(os.path.join(dirpath, f)) + " "
+
+        extra_args += ":runner_verilator_flags:"
+        extra_args += " -CFLAGS -I" + build_dir
+        extra_args += " -CFLAGS -I" + include_dir
+        extra_args += " -CFLAGS -I" + testbench_dir
+        extra_args += " --trace --Wno-fatal"
+
+    # Insert common configuration header before common VeeR sources
+    sources = os.path.abspath(
+        os.path.join(build_dir, "common_defines.vh")) + " " + sources
+
+    # Insert VeeR includes before other sources
+    for (dirpath, dirnames,
+         filenames) in os.walk(os.path.join(third_party_dir, "cores", name,
+                                            "design", "include")):
+        for f in filenames:
+            if f.endswith(("sv", "v")):
+                sources = os.path.abspath(
+                    os.path.join(dirpath, f)) + " " + sources
+
+    # Write generated test to a file
+    test_file = os.path.join(build_dir, name + "_" + test_type + ".sv")
+    with open(test_file, "w") as tf:
+        tf.write(
+            templ.format(
+                name, description, sources, incdirs, top_module, tags,
+                compatible_runners, type, extra_args))

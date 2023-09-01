@@ -7,14 +7,14 @@
 # SPDX-License-Identifier: ISC
 
 
-name: swerv
-description: Full swerv core test
-top_module: swerv_wrapper
-tags: swerv
-path: third_party/cores/swerv
-command: fusesoc --cores-root third_party/cores/swerv run --target=synth --setup --build-root build/swerv_synth chipsalliance.org:cores:SweRV_EH1:1.8
-conf_file: build/swerv_synth/synth-vivado/chipsalliance.org_cores_SweRV_EH1_1.8.tcl
-test_file: swerv-synth.sv
+name: veer-eh1
+description: Full VeeR EH1 core test
+top_module: veer-eh1_wrapper
+tags: veer-eh1
+path: third_party/cores/veer-eh1
+command: fusesoc --cores-root third_party/cores/veer-eh1 run --target=synth --setup --build-root build/veer-eh1_synth chipsalliance.org:cores:VeeR_EH1:1.8
+conf_file: build/veer-eh1_synth/synth-vivado/chipsalliance.org_cores_VeeR_EH1_1.8.tcl
+test_file: veer-eh1-synth.sv
 timeout: 180
 compatible-runners: yosys-uhdm vanilla-yosys-uhdm-plugin yosys yosys-sv zachjs-sv2v icarus moore moore-parse odin sv-parser tree-sitter-verilog verible verible_extractor Surelog slang-parse
 type: parsing elaboration
