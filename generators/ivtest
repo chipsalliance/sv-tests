@@ -268,8 +268,17 @@ ivtest_file_exclude = [
     'pr1938138',
     # Unclear, most tools hard error but for some tools allow
     'pr2794144',
-    # Specified --top-module 'top' was not found in design (sv-test driver limitation)
-    'vlg_pr1587634_iv',
+    # Modules ignored due to module ordering sv-test driver limitation
+    'br_gh104b',
+    'def_nettype_none',
+    'implicit-port2',
+    'implicit-port3',
+    'implicit-port6',
+    'mhead_task',
+    'pr1587634',
+    'pr1698659',
+    'pr2076425',
+    'shellho1',
     # primitive table rows are invalid, fails on multiple commercial tools
     "pr3587570",
 ]
