@@ -19,7 +19,9 @@ class Yosys(BaseRunner):
         super().__init__(
             "yosys", "yosys", {"preprocessing", "parsing", "elaboration"})
 
-        self.url = "https://github.com/YosysHQ/yosys"
+        self.submodule = "third_party/tools/yosys"
+        commit = self.get_commit()
+        self.url = "https://github.com/YosysHQ/yosys/tree/" + commit
 
     def prepare_run_cb(self, tmp_dir, params):
         run = os.path.join(tmp_dir, "run.sh")

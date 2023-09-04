@@ -22,7 +22,9 @@ class Slang(BaseRunner):
             executable="slang-driver",
             supported_features=supported_features)
 
-        self.url = "https://github.com/MikePopoloski/slang"
+        self.submodule = "third_party/tools/slang"
+        commit = self.get_commit()
+        self.url = "https://github.com/MikePopoloski/slang/tree/" + commit
 
     def prepare_run_cb(self, tmp_dir, params):
         mode = params['mode']

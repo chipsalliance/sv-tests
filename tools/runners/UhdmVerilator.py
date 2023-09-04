@@ -26,7 +26,9 @@ class UhdmVerilator(BaseRunner):
 
         self.c_extensions = ['.cc', '.c', '.cpp', '.h', '.hpp']
         self.allowed_extensions.extend(['.vlt'] + self.c_extensions)
-        self.url = "https://github.com/antmicro/verilator"
+        self.submodule = "third_party/tools/verilator-uhdm"
+        commit = self.get_commit()
+        self.url = "https://github.com/antmicro/verilator/tree/" + commit
 
     def prepare_run_cb(self, tmp_dir, params):
         mode = params['mode']

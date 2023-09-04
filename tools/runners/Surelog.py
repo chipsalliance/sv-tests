@@ -17,7 +17,9 @@ class Surelog(BaseRunner):
     def __init__(self):
         super().__init__("Surelog", "surelog")
 
-        self.url = "https://github.com/chipsalliance/Surelog"
+        self.submodule = "third_party/tools/Surelog"
+        commit = self.get_commit()
+        self.url = "https://github.com/chipsalliance/Surelog/tree/" + commit
 
     def prepare_run_cb(self, tmp_dir, params):
         self.cmd = [self.executable, '-nopython', '-parse']
