@@ -42,7 +42,7 @@ templ = """/*
 :incdirs: {3}
 :top_module: {4}
 :tags: {5}
-:timeout": 1000
+:timeout: 1000
 :results_group: cores
 :compatible-runners: {6}
 :type: {7}
@@ -86,8 +86,13 @@ for v in variants:
         print("VeeR configuration failed!")
         exit(ret.returncode)
 
-    # Setup common VeeR sources
     sources = ""
+    # Insert common configuration header before common VeeR sources
+    common_defines = os.path.abspath(
+        os.path.join(build_dir, "common_defines.vh"))
+    sources += common_defines + " "
+
+    # Setup common VeeR sources
     for (dirpath, dirnames, filenames) in os.walk(os.path.join(third_party_dir,
                                                                "cores", name,
                                                                "design")):
@@ -113,11 +118,10 @@ for v in variants:
         extra_args += " -CFLAGS -I" + build_dir
         extra_args += " -CFLAGS -I" + include_dir
         extra_args += " -CFLAGS -I" + testbench_dir
-        extra_args += " --trace --Wno-fatal"
+        extra_args += " -Wno-WIDTH"
 
-    # Insert common configuration header before common VeeR sources
-    sources = os.path.abspath(
-        os.path.join(build_dir, "common_defines.vh")) + " " + sources
+        with open(common_defines, 'a') as cdf:
+            cdf.write("`undef RV_ASSERT_ON")
 
     # Insert VeeR includes before other sources
     for (dirpath, dirnames,
