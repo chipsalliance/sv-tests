@@ -26,8 +26,7 @@ class tree_sitter_verilog(BaseRunner):
         super().__init__("tree-sitter-verilog", None, {"parsing"})
 
         self.submodule = "third_party/tools/tree-sitter-verilog"
-        commit = self.get_commit()
-        self.url = "https://github.com/tree-sitter/tree-sitter-verilog/tree/" + commit
+        self.url = f"https://github.com/tree-sitter/tree-sitter-verilog/tree/{self.get_commit()}"
 
     def find_lib(self):
         local_lib = ''

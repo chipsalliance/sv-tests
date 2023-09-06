@@ -17,8 +17,7 @@ class Verible(BaseRunner):
         super().__init__("verible", "verible-verilog-syntax", {"parsing"})
 
         self.submodule = "third_party/tools/verible"
-        commit = self.get_commit()
-        self.url = "https://github.com/chipsalliance/verible/tree/" + commit
+        self.url = f"https://github.com/chipsalliance/verible/tree/{self.get_commit()}"
 
     def prepare_run_cb(self, tmp_dir, params):
         self.cmd = [self.executable]

@@ -19,8 +19,7 @@ class Sv2v_zachjs(BaseRunner):
             {"preprocessing", "parsing", "elaboration"})
 
         self.submodule = "third_party/tools/zachjs-sv2v"
-        commit = self.get_commit()
-        self.url = "https://github.com/zachjs/sv2v/tree/" + commit
+        self.url = f"https://github.com/zachjs/sv2v/tree/{self.get_commit()}"
 
     def prepare_run_cb(self, tmp_dir, params):
         self.cmd = [self.executable]
