@@ -16,7 +16,8 @@ class Odin(BaseRunner):
     def __init__(self):
         super().__init__("odin", "odin_II", {"preprocessing", "parsing"})
 
-        self.url = "https://verilogtorouting.org/"
+        self.submodule = "third_party/tools/odin_ii"
+        self.url = f"https://github.com/verilog-to-routing/vtr-verilog-to-routing/tree/{self.get_commit()}"
 
     def prepare_run_cb(self, tmp_dir, params):
 

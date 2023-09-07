@@ -21,7 +21,8 @@ class moore(BaseRunner):
         super().__init__(
             name, executable="moore", supported_features=supported_features)
 
-        self.url = "http://llhd.io/"
+        self.submodule = "third_party/tools/moore"
+        self.url = f"https://github.com/fabianschuiki/moore/tree/{self.get_commit()}"
 
     def prepare_run_cb(self, tmp_dir, params):
         self.cmd = [self.executable]

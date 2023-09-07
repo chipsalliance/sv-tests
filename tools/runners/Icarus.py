@@ -21,7 +21,8 @@ class Icarus(BaseRunner):
                 'simulation_without_run'
             })
 
-        self.url = "http://iverilog.icarus.com/"
+        self.submodule = "third_party/tools/icarus"
+        self.url = f"https://github.com/steveicarus/iverilog/tree/{self.get_commit()}"
 
     def prepare_run_cb(self, tmp_dir, params):
         ofile = 'iverilog.out'

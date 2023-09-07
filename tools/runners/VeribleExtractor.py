@@ -21,7 +21,8 @@ class VeribleExtractor(BaseRunner):
             "verible_extractor", "verible-verilog-kythe-extractor",
             {"parsing"})
 
-        self.url = "https://github.com/google/verible"
+        self.submodule = "third_party/tools/verible"
+        self.url = f"https://github.com/google/verible/tree/{self.get_commit()}"
 
     def prepare_run_cb(self, tmp_dir, params):
         src_list_path = os.path.join(tmp_dir, "src_list")

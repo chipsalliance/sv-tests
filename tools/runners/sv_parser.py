@@ -16,7 +16,8 @@ class sv_parser(BaseRunner):
     def __init__(self):
         super().__init__("sv-parser", "parse_sv", {"preprocessing", "parsing"})
 
-        self.url = "https://github.com/dalance/sv-parser"
+        self.submodule = "third_party/tools/sv-parser"
+        self.url = f"https://github.com/dalance/sv-parser/tree/{self.get_commit()}"
 
     def prepare_run_cb(self, tmp_dir, params):
         self.cmd = [self.executable]
