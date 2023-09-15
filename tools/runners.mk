@@ -89,16 +89,15 @@ $(INSTALL_DIR)/bin/verilator-uhdm:
 	cp -r $(RDIR)/verilator-uhdm/image/* $(INSTALL_DIR)
 	mv $(INSTALL_DIR)/bin/verilator $(INSTALL_DIR)/bin/verilator-uhdm
 
-# surelog-uhdm-yosys
-yosys-uhdm: $(INSTALL_DIR)/bin/yosys-uhdm
+# yosys-synlig
+yosys-synlig: $(INSTALL_DIR)/bin/yosys-synlig
 
-$(INSTALL_DIR)/bin/yosys-uhdm:
+$(INSTALL_DIR)/bin/yosys-synlig:
 	mkdir -p $(INSTALL_DIR)
 	(export PATH=$(INSTALL_DIR)/bin/:${PATH} && \
-		export INSTALL_PATH=$(INSTALL_DIR) && \
-                cd $(RDIR)/yosys-uhdm-plugin-integration && \
-		./build_binaries.sh)
-	mv $(INSTALL_DIR)/bin/yosys $(INSTALL_DIR)/bin/yosys-uhdm
+		cd $(RDIR)/synlig && \
+		$(MAKE) -rR -Oline -f build_binaries.mk install-yosys install-plugin INSTALL_DIR=$(INSTALL_DIR))
+	mv $(INSTALL_DIR)/bin/yosys $(INSTALL_DIR)/bin/yosys-synlig
 
 # sv-parser
 sv-parser: $(INSTALL_DIR)/bin/parse_sv
@@ -124,6 +123,6 @@ $(INSTALL_DIR)/bin/verible-verilog-kythe-extractor: verible
 $(INSTALL_DIR)/bin/verilog_syntax: verible
 
 # setup the dependencies
-RUNNERS_TARGETS := odin yosys icarus verilator slang zachjs-sv2v tree-sitter-verilog sv-parser moore verible surelog yosys-uhdm vanilla-yosys-uhdm-plugin verilator-uhdm
+RUNNERS_TARGETS := odin yosys icarus verilator slang zachjs-sv2v tree-sitter-verilog sv-parser moore verible surelog yosys-synlig verilator-uhdm
 .PHONY: $(RUNNERS_TARGETS)
 runners: $(RUNNERS_TARGETS)

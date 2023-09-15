@@ -15,14 +15,14 @@ import sys
 from BaseRunner import BaseRunner
 
 
-class UhdmYosys(BaseRunner):
+class SynligYosys(BaseRunner):
     def __init__(self):
         super().__init__(
-            "yosys-uhdm", "yosys-uhdm",
+            "yosys-synlig", "yosys-synlig",
             {"preprocessing", "parsing", "elaboration"})
 
-        self.submodule = "third_party/tools/yosys-uhdm-plugin-integration"
-        self.url = f"https://github.com/antmicro/yosys-uhdm-plugin-integration/tree/{self.get_commit()}"
+        self.submodule = "third_party/tools/synlig"
+        self.url = f"https://github.com/chipsalliance/synlig/tree/{self.get_commit()}"
 
     def prepare_run_cb(self, tmp_dir, params):
         runner_scr = os.path.join(tmp_dir, "scr.sh")

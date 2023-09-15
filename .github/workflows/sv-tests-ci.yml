@@ -42,11 +42,11 @@ jobs:
             runners_filter: UhdmVerilator
           - name: yosys
             deps: bison clang tcl-dev flex libfl-dev pkg-config libreadline-dev
-          - name: yosys-uhdm
-            repo: yosys-uhdm-plugin-integration
-            submodules: yosys yosys-f4pga-plugins Surelog
+          - name: yosys-synlig
+            repo: synlig
+            submodules: third_party/yosys third_party/surelog
             deps: cmake clang tcl-dev bison default-jre flex libfl-dev libreadline-dev pkg-config tclsh uuid-dev
-            runners_filter: UhdmYosys
+            runners_filter: SynligYosys
           - name: zachjs-sv2v
             deps: haskell-stack
     env:
