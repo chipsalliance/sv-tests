@@ -88,7 +88,7 @@ class Verilator(BaseRunner):
         if 'runner_verilator_flags' in params:
             self.cmd += shlex.split(params['runner_verilator_flags'])
 
-        self.cmd += ['-DUVM_NO_DPI', '-DUVM_MAX_STREAMBITS=64']
+        self.cmd += ['-DUVM_NO_DPI']
         for define in params['defines']:
             self.cmd.append('-D' + define)
 
