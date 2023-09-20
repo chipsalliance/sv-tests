@@ -223,7 +223,7 @@ jobs:
           name: tests_summary
           path: |
             ./tests_summary/
-            ./out/
+            ./out/logs/Verilator/generated/uvm*
       - name: Find artifacts that are no longer needed
         id: get-artifacts-to-delete
         if: github.event_name == 'pull_request'
