@@ -10,6 +10,7 @@ INSTALL_DIR := $(abspath $(OUT_DIR)/runners/)
 
 RDIR := $(abspath third_party/tools)
 TDIR := $(abspath tools)
+CDIR := $(abspath conf)
 
 .PHONY: runners
 
@@ -109,10 +110,12 @@ $(INSTALL_DIR)/bin/parse_sv:
 # moore
 moore: $(INSTALL_DIR)/bin/moore
 
-$(INSTALL_DIR)/bin/moore:
+$(INSTALL_DIR)/bin/moore: $(RDIR)/moore/Cargo.lock
 	(export CARGO_NET_GIT_FETCH_WITH_CLI=true && \
-        cargo update --manifest-path $(RDIR)/moore/Cargo.toml --package backtrace --precise 0.3.68 && \
         cargo install --locked --path $(RDIR)/moore --root $(INSTALL_DIR) --bin moore)
+
+$(RDIR)/moore/Cargo.lock: $(CDIR)/runners/Cargo.lock
+	cp -f $(CDIR)/runners/Cargo.lock $(RDIR)/moore/Cargo.lock
 
 # verible
 verible:
