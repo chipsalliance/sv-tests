@@ -11,6 +11,7 @@
 :name: {0}_3
 :description: {0} class test
 :tags: uvm uvm-classes
+:timeout: 3600
 :type: simulation elaboration parsing
 */
 
