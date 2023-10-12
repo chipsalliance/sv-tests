@@ -13,6 +13,7 @@
 :should_fail_because: pipeline increments value by 4 but sequence expects incrementation by 3
 :type: simulation
 :tags: 16.10
+:unsynthesizable: 1
 */
 
 module clk_gen(

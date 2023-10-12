@@ -12,6 +12,7 @@
 :description: uvm resource_db::read_by_name test
 :tags: uvm
 :type: simulation elaboration parsing
+:unsynthesizable: 1
 */
 
 import uvm_pkg::*;

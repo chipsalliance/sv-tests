@@ -11,8 +11,9 @@
 :name: forever_loop
 :description: A module testing forever loop
 :tags: 12.7.6
+:unsynthesizable: 1
 */
-module foreach_tb ();
+module forever_tb ();
    initial begin
       forever begin : loop
 	 disable loop;

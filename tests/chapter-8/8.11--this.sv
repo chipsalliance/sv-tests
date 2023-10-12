@@ -11,6 +11,7 @@
 :name: this
 :description: this keyword test
 :tags: 8.11
+:unsynthesizable: 1
 */
 module class_tb ();
 	class test_cls;

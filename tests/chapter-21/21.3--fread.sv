@@ -12,6 +12,7 @@
 :description: $fread test
 :tags: 21.3
 :type: simulation elaboration parsing
+:unsynthesizable: 1
 */
 module top();
 

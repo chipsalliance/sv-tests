@@ -11,6 +11,7 @@
 :name: urandom_1
 :description: urandom() test
 :tags: uvm-random uvm
+:unsynthesizable: 1
 */
 
 import uvm_pkg::*;

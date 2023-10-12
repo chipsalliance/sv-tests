@@ -12,6 +12,7 @@
 :description: Trigger named event, non-blocking
 :tags: 15.5
 :top_module: top
+:unsynthesizable: 1
 */
 
 

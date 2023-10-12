@@ -11,6 +11,7 @@
 :name: in-line_constraint_checker_1
 :description: in-line constraint checker test
 :tags: uvm-random uvm
+:unsynthesizable: 1
 */
 
 import uvm_pkg::*;

@@ -11,6 +11,7 @@
 :name: distribution_1
 :description: distribution test
 :tags: uvm-random uvm
+:unsynthesizable: 1
 */
 
 import uvm_pkg::*;

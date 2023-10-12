@@ -11,6 +11,7 @@
 :name: nettype_resolution_fn
 :description: user-defined nettype with resolution function tests
 :tags: 6.6.7
+:unsynthesizable: 1
 */
 module top();
 	function automatic real real_sum (input real driver[]);

@@ -11,6 +11,7 @@
 :name: dynamic_constraint_modification_0
 :description: dynamic constraint modification test
 :tags: uvm-random uvm
+:unsynthesizable: 1
 */
 
 import uvm_pkg::*;

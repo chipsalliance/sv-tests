@@ -284,6 +284,7 @@ class TestResult:
     tags: Set[str] = dataclasses.field(default_factory=set)
     types: Set[str] = dataclasses.field(default_factory=set)
     results_group: str = ""
+    unsynthesizable: str = ""
     input_files: List[str] = dataclasses.field(default_factory=list)
     # Unit: bytes
     total_input_files_size: int = 0
@@ -549,7 +550,7 @@ def collect_logs(runner_name: str):
             "runner_url", "time_elapsed", "type", "mode", "timeout",
             "user_time", "system_time", "ram_usage", "tool_success",
             "should_fail_because", "defines", "compatible-runners",
-            "results_group"
+            "unsynthesizable", "results_group"
         }
         test_log_data: Dict[str, Any] = {}
         log_content = ""
@@ -596,6 +597,7 @@ def collect_logs(runner_name: str):
         # Test Result
 
         test_result.name = test_log_data["name"]
+        test_result.unsynthesizable = test_log_data["unsynthesizable"]
         test_result.results_group = test_log_data["results_group"]
 
         # Convert splitted "tags" to set() and append all meta-tags

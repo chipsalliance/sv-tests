@@ -11,6 +11,7 @@
 :name: uniqueness_constraints_1
 :description: uniqueness constraints test
 :tags: uvm-random uvm
+:unsynthesizable: 1
 */
 
 import uvm_pkg::*;

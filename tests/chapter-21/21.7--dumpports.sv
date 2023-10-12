@@ -12,6 +12,7 @@
 :description: vcd dump ports tests
 :tags: 21.7
 :type: simulation elaboration parsing
+:unsynthesizable: 1
 */
 module top();
 

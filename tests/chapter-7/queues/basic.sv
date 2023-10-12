@@ -11,6 +11,7 @@
 :name: queues-basic
 :description: Test queues support
 :tags: 7.10
+:unsynthesizable: 1
 */
 module top ();
 

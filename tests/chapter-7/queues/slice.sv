@@ -12,6 +12,7 @@
 :description: Test queues slice support
 :tags: 7.10.1 7.10.2
 :type: simulation elaboration parsing
+:unsynthesizable: 1
 */
 module top ();
 

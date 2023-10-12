@@ -12,6 +12,7 @@
 :description: Test support of arrays as arugments to subroutines
 :tags: 7.7 7.4.2
 :type: simulation elaboration parsing
+:unsynthesizable: 1
 */
 module top ();
 

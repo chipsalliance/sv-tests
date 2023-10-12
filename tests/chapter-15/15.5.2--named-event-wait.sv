@@ -12,6 +12,7 @@
 :description: Wait for a named event
 :tags: 15.5
 :top_module: top
+:unsynthesizable: 1
 */
 
 

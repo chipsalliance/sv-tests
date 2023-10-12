@@ -11,6 +11,7 @@
 :name: sequence_test
 :description: sequence test
 :tags: 16.7
+:unsynthesizable: 1
 */
 
 module top();

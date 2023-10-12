@@ -12,6 +12,7 @@
 :description: Trigger named event, blocking
 :tags: 15.5
 :top_module: top
+:unsynthesizable: 1
 */
 
 

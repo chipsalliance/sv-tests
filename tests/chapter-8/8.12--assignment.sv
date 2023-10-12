@@ -11,6 +11,7 @@
 :name: assignment
 :description: object assignment
 :tags: 8.12
+:unsynthesizable: 1
 */
 module class_tb ();
 	class test_cls;

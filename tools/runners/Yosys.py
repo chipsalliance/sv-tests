@@ -22,6 +22,12 @@ class Yosys(BaseRunner):
         self.submodule = "third_party/tools/yosys"
         self.url = f"https://github.com/YosysHQ/yosys/tree/{self.get_commit()}"
 
+    def get_mode(self, params):
+        unsynthesizable = int(params['unsynthesizable'])
+        if unsynthesizable:
+            return None
+        return super().get_mode(params)
+
     def prepare_run_cb(self, tmp_dir, params):
         run = os.path.join(tmp_dir, "run.sh")
         scr = os.path.join(tmp_dir, 'scr.ys')

@@ -24,6 +24,12 @@ class SynligYosys(BaseRunner):
         self.submodule = "third_party/tools/synlig"
         self.url = f"https://github.com/chipsalliance/synlig/tree/{self.get_commit()}"
 
+    def get_mode(self, params):
+        unsynthesizable = int(params['unsynthesizable'])
+        if unsynthesizable:
+            return None
+        return super().get_mode(params)
+
     def prepare_run_cb(self, tmp_dir, params):
         runner_scr = os.path.join(tmp_dir, "scr.sh")
         yosys_scr = os.path.join(tmp_dir, "yosys-script")

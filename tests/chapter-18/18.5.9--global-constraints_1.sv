@@ -11,6 +11,7 @@
 :name: global_constraints_1
 :description: global constraints test
 :tags: uvm-random uvm
+:unsynthesizable: 1
 */
 
 import uvm_pkg::*;

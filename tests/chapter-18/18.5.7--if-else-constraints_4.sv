@@ -11,6 +11,7 @@
 :name: if_else_constraints_4
 :description: if-else constraints test
 :tags: uvm-random uvm
+:unsynthesizable: 1
 */
 
 import uvm_pkg::*;

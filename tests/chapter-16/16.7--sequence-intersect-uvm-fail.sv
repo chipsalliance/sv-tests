@@ -13,6 +13,7 @@
 :should_fail_because: intersecting sequences must start and end at the same time but gnt1 is asserted later
 :type: simulation
 :tags: uvm uvm-assertions
+:unsynthesizable: 1
 */
 
 import uvm_pkg::*;

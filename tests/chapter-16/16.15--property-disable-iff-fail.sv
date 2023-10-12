@@ -13,6 +13,7 @@
 :should_fail_because: disable iff uses wrong reset polarity
 :type: simulation
 :tags: 16.15
+:unsynthesizable: 1
 */
 
 module clk_gen(

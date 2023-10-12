@@ -11,6 +11,7 @@
 :name: statement_labels_par
 :description: parallel block labels check
 :tags: 9.3.5
+:unsynthesizable: 1
 */
 module block_tb ();
 	reg a = 0;

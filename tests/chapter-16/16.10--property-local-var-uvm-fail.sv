@@ -13,6 +13,7 @@
 :should_fail_because: pipeline increments value by 4 but property expects incrementation by 3
 :type: simulation
 :tags: uvm uvm-assertions
+:unsynthesizable: 1
 */
 
 import uvm_pkg::*;

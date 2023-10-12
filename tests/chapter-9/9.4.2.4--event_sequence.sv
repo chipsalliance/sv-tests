@@ -12,6 +12,7 @@
 :description: sequence event test
 :tags: 9.4.2.4
 :type: simulation elaboration parsing
+:unsynthesizable: 1
 */
 module seq_tb ();
 	logic a = 0;

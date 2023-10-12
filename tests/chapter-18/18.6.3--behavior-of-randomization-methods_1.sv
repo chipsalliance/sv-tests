@@ -11,6 +11,7 @@
 :name: behavior_of_randomization_methods_1
 :description: static random variables test
 :tags: uvm-random uvm
+:unsynthesizable: 1
 */
 
 import uvm_pkg::*;

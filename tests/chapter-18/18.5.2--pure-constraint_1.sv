@@ -11,6 +11,7 @@
 :name: pure_constraint_1
 :description: pure constraint test
 :tags: uvm-random uvm
+:unsynthesizable: 1
 */
 
 import uvm_pkg::*;

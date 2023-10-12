@@ -11,6 +11,7 @@
 :name: in-line_constraints--randomize_1
 :description: in-line constraints test - randomize()
 :tags: 18.7
+:unsynthesizable: 1
 */
 
 class a1;

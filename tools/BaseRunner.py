@@ -59,9 +59,12 @@ class BaseRunner:
         self.url = "https://github.com/symbiflow/sv-tests"
         self.submodule = ""
 
-    def get_mode(self, test_features, compatible_runners):
+    def get_mode(self, params):
         """Determine correct run mode or return None when incompatible
         """
+        test_features = params['type'].split()
+        compatible_runners = params['compatible-runners'].split()
+
         if "all" not in compatible_runners:
             if self.name not in compatible_runners:
                 return None

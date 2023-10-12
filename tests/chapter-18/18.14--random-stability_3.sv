@@ -11,6 +11,7 @@
 :name: random_stability_3
 :description: random stability - randcase test
 :tags: uvm-random uvm
+:unsynthesizable: 1
 */
 
 import uvm_pkg::*;

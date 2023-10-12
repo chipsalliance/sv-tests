@@ -11,6 +11,7 @@
 :name: sequence_nonconsecutive_repetition_test
 :description: sequence with nonconsecutive repetition operator test
 :tags: 16.9
+:unsynthesizable: 1
 */
 
 module top();

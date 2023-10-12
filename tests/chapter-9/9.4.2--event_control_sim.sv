@@ -12,6 +12,7 @@
 :description: Test event invocation
 :tags: 9.4.2
 :type: simulation elaboration
+:unsynthesizable: 1
 */
 module top();
    event e;

@@ -11,6 +11,7 @@
 :name: process_control
 :description: process control
 :tags: 9.7
+:unsynthesizable: 1
 */
 module process_tb ();
 	task automatic test (int N);

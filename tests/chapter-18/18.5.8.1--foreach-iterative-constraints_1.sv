@@ -11,6 +11,7 @@
 :name: foreach_iterative_constraints_1
 :description: foreach iterative constraints test
 :tags: uvm-random uvm
+:unsynthesizable: 1
 */
 
 import uvm_pkg::*;

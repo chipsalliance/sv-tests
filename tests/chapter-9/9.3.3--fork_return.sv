@@ -13,6 +13,7 @@
 :should_fail_because: illegal return from fork
 :tags: 9.3.3
 :type: simulation elaboration
+:unsynthesizable: 1
 */
 module block_tb ();
 	task fork_test;

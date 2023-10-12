@@ -13,6 +13,7 @@
 :should_fail_because: dut asserts read and write at the same time
 :type: simulation
 :tags: uvm uvm-assertions
+:unsynthesizable: 1
 */
 
 import uvm_pkg::*;

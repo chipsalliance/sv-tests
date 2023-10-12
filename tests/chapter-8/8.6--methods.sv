@@ -11,6 +11,7 @@
 :name: methods
 :description: class method test
 :tags: 8.6
+:unsynthesizable: 1
 */
 module class_tb ();
 	class test_cls;

@@ -11,6 +11,7 @@
 :name: parallel_block_join
 :description: parallel block check
 :tags: 9.3.2
+:unsynthesizable: 1
 */
 module parallel_tb ();
 	reg a = 0;

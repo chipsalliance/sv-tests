@@ -13,6 +13,7 @@
 :should_fail_because: mem_ctrl asserts read and write at the same time and property checks that one or the other is asserted
 :type: simulation
 :tags: uvm uvm-assertions
+:unsynthesizable: 1
 */
 
 import uvm_pkg::*;

@@ -12,6 +12,7 @@
 :description: test if uvm_test instance can be called by name
 :tags: uvm uvm-classes
 :type: simulation elaboration parsing
+:unsynthesizable: 1
 */
 
 import uvm_pkg::*;

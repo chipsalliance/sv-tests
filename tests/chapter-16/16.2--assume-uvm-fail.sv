@@ -13,6 +13,7 @@
 :should_fail_because: adder returns wrong value and assume expects correct result (a+b)
 :type: simulation
 :tags: uvm uvm-assertions
+:unsynthesizable: 1
 */
 
 import uvm_pkg::*;

@@ -12,6 +12,7 @@
 :description: $printtimescale test
 :tags: 20.4
 :type: simulation elaboration parsing
+:unsynthesizable: 1
 */
 
 `timescale 1 ms / 1 us

@@ -12,6 +12,7 @@
 :description: Test
 :tags: 22.7
 :type: preprocessing
+:unsynthesizable: 1
 */
 `timescale 10 ns / 1 ns
 module test;
