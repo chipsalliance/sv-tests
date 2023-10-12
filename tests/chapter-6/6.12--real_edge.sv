@@ -13,6 +13,7 @@
 :should_fail_because: it is illegal to use edge event controls on real type
 :tags: 6.12
 :type: simulation elaboration
+:unsynthesizable: 1
 */
 module top();
 	real a = 0.5;

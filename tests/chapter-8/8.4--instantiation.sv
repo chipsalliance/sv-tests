@@ -11,6 +11,7 @@
 :name: instantiation
 :description: simple class instantiation test
 :tags: 8.4
+:unsynthesizable: 1
 */
 module class_tb ();
 	class test_cls;

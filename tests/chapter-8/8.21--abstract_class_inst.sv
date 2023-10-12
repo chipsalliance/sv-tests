@@ -13,6 +13,7 @@
 :should_fail_because: instantiating abstract class
 :tags: 8.21
 :type: simulation elaboration
+:unsynthesizable: 1
 */
 module class_tb ();
 	virtual class base_cls;

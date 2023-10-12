@@ -11,6 +11,7 @@
 :name: dynamic_method_lookup
 :description: dynamic method selection with abstract base class
 :tags: 8.22
+:unsynthesizable: 1
 */
 module class_tb ();
 	virtual class base_cls;

@@ -11,6 +11,7 @@
 :name: parametrized_class_extend
 :description: parametrized class extending another parametrized class
 :tags: 8.25
+:unsynthesizable: 1
 */
 module class_tb ();
 	class base_cls #(int b = 20);

@@ -11,6 +11,7 @@
 :name: inheritance
 :description: class inheritance test
 :tags: 8.13
+:unsynthesizable: 1
 */
 module class_tb ();
 	class super_cls;

@@ -11,6 +11,7 @@
 :name: class_member_test_41
 :description: Test
 :tags: 8.3
+:unsynthesizable: 1
 */
 class constructible;
 function new ();

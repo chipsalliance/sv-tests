@@ -11,6 +11,7 @@
 :name: typed_constructor
 :description: class typed constructor test
 :tags: 8.8
+:unsynthesizable: 1
 */
 module class_tb ();
 	class super_cls;

@@ -11,6 +11,7 @@
 :name: parametrized_class_scope_resolution
 :description: parametrized class scope resolution
 :tags: 8.25.1
+:unsynthesizable: 1
 */
 module class_tb ();
 

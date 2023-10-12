@@ -11,6 +11,7 @@
 :name: pure_constraint_0
 :description: pure constraint test
 :tags: 18.5.2
+:unsynthesizable: 1
 */
 
 virtual class a;

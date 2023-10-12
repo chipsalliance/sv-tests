@@ -11,6 +11,7 @@
 :name: real
 :description: real type tests
 :tags: 6.12
+:unsynthesizable: 1
 */
 module top();
 	real a = 0.5;

@@ -12,6 +12,7 @@
 :description: access interface class type with scope resolution operator
 :tags: 8.26.3
 :type: simulation elaboration parsing
+:unsynthesizable: 1
 */
 module class_tb ();
 	interface class ihello;

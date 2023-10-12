@@ -13,6 +13,7 @@
 :should_fail_because: implementing forward typedef for an interface class should fail
 :tags: 8.26.4
 :type: simulation elaboration
+:unsynthesizable: 1
 */
 module class_tb ();
 	typedef interface class ihello;

@@ -11,6 +11,7 @@
 :name: event_sequence_controls
 :description: event sequence
 :tags: 9.4.3
+:unsynthesizable: 1
 */
 module block_tb ();
 	reg a = 0;

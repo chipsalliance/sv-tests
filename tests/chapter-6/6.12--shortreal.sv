@@ -11,6 +11,7 @@
 :name: shortreal
 :description: shortreal type tests
 :tags: 6.12
+:unsynthesizable: 1
 */
 module top();
 	shortreal a = 0.5;

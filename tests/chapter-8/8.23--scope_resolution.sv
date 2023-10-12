@@ -11,6 +11,7 @@
 :name: scope_resolution
 :description: access static method using scope resolution operator
 :tags: 8.23
+:unsynthesizable: 1
 */
 module class_tb ();
 	class test_cls;

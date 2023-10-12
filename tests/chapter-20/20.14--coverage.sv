@@ -12,6 +12,7 @@
 :description: coverage routine test
 :tags: 20.14
 :type: simulation elaboration parsing
+:unsynthesizable: 1
 */
 
 module DUT;

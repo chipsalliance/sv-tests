@@ -11,6 +11,7 @@
 :name: cast_func
 :description: $cast function test
 :tags: 8.16
+:unsynthesizable: 1
 */
 module class_tb ();
 	typedef enum { aaa, bbb, ccc, ddd, eee } values;

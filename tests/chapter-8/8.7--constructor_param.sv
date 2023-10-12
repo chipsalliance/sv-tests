@@ -12,6 +12,7 @@
 :description: class constructor with arguments test
 :tags: 8.7
 :type: simulation elaboration parsing
+:unsynthesizable: 1
 */
 module class_tb ();
 	class test_cls;

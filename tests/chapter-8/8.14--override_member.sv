@@ -11,6 +11,7 @@
 :name: override_member
 :description: class member override test
 :tags: 8.14
+:unsynthesizable: 1
 */
 module class_tb ();
 	class super_cls;

@@ -11,6 +11,7 @@
 :name: type_op
 :description: type operator tests
 :tags: 6.23
+:unsynthesizable: 1
 */
 module top();
 	real a = 4.76;

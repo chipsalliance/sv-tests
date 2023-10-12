@@ -12,6 +12,7 @@
 :description: resolved interface class method name conflict
 :tags: 8.26.6.1
 :type: simulation elaboration parsing
+:unsynthesizable: 1
 */
 module class_tb ();
 	interface class ihello;

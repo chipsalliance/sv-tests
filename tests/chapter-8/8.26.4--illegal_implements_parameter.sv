@@ -13,6 +13,7 @@
 :should_fail_because: implementing parameter that resolves to an interface class is not allowed
 :tags: 8.26.4
 :type: simulation elaboration
+:unsynthesizable: 1
 */
 module class_tb ();
 	interface class ihello;

@@ -11,6 +11,7 @@
 :name: chandle
 :description: chandle type tests
 :tags: 6.14
+:unsynthesizable: 1
 */
 module top();
 	chandle a;

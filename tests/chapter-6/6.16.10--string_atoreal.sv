@@ -11,6 +11,7 @@
 :name: string_atoreal
 :description: string.atoreal()  tests
 :tags: 6.16.10
+:unsynthesizable: 1
 */
 module top();
 	string a = "4.76";

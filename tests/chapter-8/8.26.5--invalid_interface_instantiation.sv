@@ -13,6 +13,7 @@
 :should_fail_because: instantiating an interface class
 :tags: 8.26.5
 :type: simulation elaboration
+:unsynthesizable: 1
 */
 module class_tb ();
 	interface class ihello;

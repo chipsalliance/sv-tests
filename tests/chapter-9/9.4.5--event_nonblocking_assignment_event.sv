@@ -11,6 +11,7 @@
 :name: event_nonblocking_assignment_event
 :description: event non blk assignment event
 :tags: 9.4.5
+:unsynthesizable: 1
 */
 module block_tb ();
 	reg a = 0;

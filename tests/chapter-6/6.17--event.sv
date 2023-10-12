@@ -11,6 +11,7 @@
 :name: event
 :description: event type tests
 :tags: 6.17
+:unsynthesizable: 1
 */
 module top();
 	event a;

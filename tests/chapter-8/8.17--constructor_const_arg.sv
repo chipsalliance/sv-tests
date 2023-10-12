@@ -11,6 +11,7 @@
 :name: constructor_const_arg
 :description: class inheritance with a constant constructor argument
 :tags: 8.17
+:unsynthesizable: 1
 */
 module class_tb ();
 	class super_cls;

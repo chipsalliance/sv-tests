@@ -11,6 +11,7 @@
 :name: global_clocking_block
 :description: global clocking block test
 :tags: 14.3
+:unsynthesizable: 1
 */
 module top(input clk);
 

@@ -11,6 +11,7 @@
 :name: partial_implementation
 :description: virtual classes can implement their interfaces partially
 :tags: 8.26.7
+:unsynthesizable: 1
 */
 module class_tb ();
 	interface class ihello;

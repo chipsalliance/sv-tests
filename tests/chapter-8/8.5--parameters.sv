@@ -12,6 +12,7 @@
 :description: parametrized class test
 :tags: 8.5 8.25
 :type: simulation elaboration parsing
+:unsynthesizable: 1
 */
 module class_tb ();
 	class test_cls #(parameter a = 12);
