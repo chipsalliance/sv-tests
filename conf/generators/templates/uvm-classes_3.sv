@@ -12,6 +12,7 @@
 :description: {0} class test
 :tags: uvm uvm-classes
 :type: simulation elaboration parsing
+:unsynthesizable: 1
 */
 
 import uvm_pkg::*;
@@ -28,7 +29,7 @@ endclass
 
 module top;
     C obj;
-    
+
     initial begin
         obj = new("C");
     end
