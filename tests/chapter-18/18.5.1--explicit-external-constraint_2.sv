@@ -11,6 +11,7 @@
 :name: explicit_external_constraint_2
 :description: explicit external constraint test
 :tags: uvm-random uvm
+:unsynthesizable: 1
 */
 
 import uvm_pkg::*;

@@ -12,6 +12,7 @@
 :description: delay control simulation
 :tags: 9.4.1
 :type: simulation elaboration
+:unsynthesizable: 1
 */
 module top();
 

@@ -12,6 +12,7 @@
 :description: break statement test
 :type: simulation elaboration parsing
 :tags: 18.17.6
+:unsynthesizable: 1
 */
 
 function int F();

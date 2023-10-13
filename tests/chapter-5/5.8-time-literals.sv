@@ -11,6 +11,7 @@
 :name: time-literals
 :description: Examples of time literals
 :tags: 5.8
+:unsynthesizable: 1
 */
 
 `timescale 100ps/10ps

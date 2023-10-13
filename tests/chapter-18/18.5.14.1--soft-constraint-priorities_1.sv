@@ -11,6 +11,7 @@
 :name: soft_constraint_priorities_1
 :description: soft constraint priorities test
 :tags: uvm-random uvm
+:unsynthesizable: 1
 */
 
 import uvm_pkg::*;

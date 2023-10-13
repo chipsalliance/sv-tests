@@ -11,6 +11,7 @@
 :name: clocking_block_signals
 :description: clocking block with signals test
 :tags: 14.3
+:unsynthesizable: 1
 */
 module top(input clk, input a, output logic b, output logic c);
 

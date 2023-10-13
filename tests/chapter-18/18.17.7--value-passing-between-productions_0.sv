@@ -12,6 +12,7 @@
 :description: value passing in randsequence test
 :type: simulation elaboration parsing
 :tags: 18.17.7
+:unsynthesizable: 1
 */
 
 function int F();

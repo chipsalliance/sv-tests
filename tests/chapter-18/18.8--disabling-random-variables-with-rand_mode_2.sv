@@ -11,6 +11,7 @@
 :name: disabling-random-variables-with-rand_mode_2
 :description: rand_mode() test
 :tags: uvm-random uvm
+:unsynthesizable: 1
 */
 
 import uvm_pkg::*;

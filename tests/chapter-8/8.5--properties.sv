@@ -12,6 +12,7 @@
 :description: class properties test
 :tags: 8.5
 :type: simulation elaboration parsing
+:unsynthesizable: 1
 */
 module class_tb ();
 	class test_cls;

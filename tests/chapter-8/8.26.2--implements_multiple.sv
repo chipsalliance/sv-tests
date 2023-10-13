@@ -11,6 +11,7 @@
 :name: implements_multiple
 :description: class implementing multiple interfaces
 :tags: 8.26.2
+:unsynthesizable: 1
 */
 module class_tb ();
 	interface class ihello;

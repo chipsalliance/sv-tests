@@ -12,6 +12,7 @@
 :description: Update queue by assignment (delete)
 :tags: 7.10.4
 :type: simulation elaboration parsing
+:unsynthesizable: 1
 */
 module top ();
 

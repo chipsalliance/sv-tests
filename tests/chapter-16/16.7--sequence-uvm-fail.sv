@@ -13,6 +13,7 @@
 :should_fail_because: mem_ctrl interleaves reads and writes and sequence requires to keep reading
 :type: simulation
 :tags: uvm uvm-assertions
+:unsynthesizable: 1
 */
 
 import uvm_pkg::*;

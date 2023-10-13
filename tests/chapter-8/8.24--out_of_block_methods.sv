@@ -11,6 +11,7 @@
 :name: out_of_block_methods
 :description: out-of-body method declaration
 :tags: 8.24
+:unsynthesizable: 1
 */
 module class_tb ();
 	class test_cls;

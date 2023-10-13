@@ -13,6 +13,7 @@
 :type: simulation elaboration parsing
 :tags: uvm uvm-assertions
 :timeout: 60
+:unsynthesizable: 1
 */
 
 import uvm_pkg::*;

@@ -11,6 +11,7 @@
 :name: srandom_0
 :description: srandom() test
 :tags: uvm-random uvm
+:unsynthesizable: 1
 */
 
 import uvm_pkg::*;

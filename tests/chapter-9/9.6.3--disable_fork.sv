@@ -11,6 +11,7 @@
 :name: disable_fork
 :description: disable fork
 :tags: 9.6.3
+:unsynthesizable: 1
 */
 module fork_tb ();
 	reg a = 0;

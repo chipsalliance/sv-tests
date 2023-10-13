@@ -12,6 +12,7 @@
 :description: function valid fork test
 :tags: 13.4.4
 :type: simulation elaboration parsing
+:unsynthesizable: 1
 */
 module top();
 

@@ -11,6 +11,7 @@
 :name: super
 :description: accessing superclass methods via super
 :tags: 8.15
+:unsynthesizable: 1
 */
 module class_tb ();
 	class super_cls;

@@ -11,6 +11,7 @@
 :name: thread_stability_0
 :description: thread stability test
 :tags: uvm-random uvm
+:unsynthesizable: 1
 */
 
 import uvm_pkg::*;

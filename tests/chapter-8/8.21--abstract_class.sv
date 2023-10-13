@@ -11,6 +11,7 @@
 :name: abstract_class
 :description: class extending abstract class
 :tags: 8.21
+:unsynthesizable: 1
 */
 module class_tb ();
 	virtual class base_cls;

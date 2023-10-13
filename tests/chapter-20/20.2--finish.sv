@@ -11,6 +11,7 @@
 :name: finish_task
 :description: $finish test
 :tags: 20.2
+:unsynthesizable: 1
 */
 module top();
 

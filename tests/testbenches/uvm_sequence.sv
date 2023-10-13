@@ -12,6 +12,7 @@
 :description: uvm_sequence test
 :tags: uvm uvm-classes
 :type: simulation elaboration parsing
+:unsynthesizable: 1
 */
 
 import uvm_pkg::*;

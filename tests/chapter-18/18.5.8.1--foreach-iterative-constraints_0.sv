@@ -11,6 +11,7 @@
 :name: foreach_iterative_constraints_0
 :description: foreach iterative constraints test
 :tags: 18.5.8.1
+:unsynthesizable: 1
 */
 
 class a;

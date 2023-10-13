@@ -11,6 +11,7 @@
 :name: virtual_method
 :description: class with virtual methods
 :tags: 8.20
+:unsynthesizable: 1
 */
 module class_tb ();
 	class super_cls;

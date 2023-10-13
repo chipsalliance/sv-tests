@@ -11,6 +11,7 @@
 :name: constructor_super
 :description: class constructor super test
 :tags: 8.7 8.17
+:unsynthesizable: 1
 */
 module class_tb ();
 	class super_cls;

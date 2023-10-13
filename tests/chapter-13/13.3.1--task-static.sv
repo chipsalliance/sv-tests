@@ -12,6 +12,7 @@
 :description: static task test
 :tags: 13.3.1
 :type: simulation elaboration parsing
+:unsynthesizable: 1
 */
 module top();
 

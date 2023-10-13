@@ -11,6 +11,7 @@
 :name: behavior_of_randomization_methods_0
 :description: static random variables test
 :tags: 18.6.3
+:unsynthesizable: 1
 */
 
 class a;

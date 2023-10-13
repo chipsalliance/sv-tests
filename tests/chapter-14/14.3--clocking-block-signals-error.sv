@@ -13,6 +13,7 @@
 :should_fail_because: assigning to net from procedural context
 :type: simulation elaboration
 :tags: 14.3
+:unsynthesizable: 1
 */
 module top(input clk, input a, output b, output c);
 

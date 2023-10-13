@@ -13,6 +13,7 @@
 :should_fail_because: disable iff uses wrong reset polarity
 :type: simulation
 :tags: uvm uvm-assertions
+:unsynthesizable: 1
 */
 
 import uvm_pkg::*;

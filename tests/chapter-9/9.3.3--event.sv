@@ -11,6 +11,7 @@
 :name: event_order
 :description: event order test
 :tags: 9.3.3
+:unsynthesizable: 1
 */
 module block_tb ();
 	event ev;

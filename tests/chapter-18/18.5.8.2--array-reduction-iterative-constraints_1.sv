@@ -11,6 +11,7 @@
 :name: array_reduction_iterative_constraints_1
 :description: array reduction iterative constraints test
 :tags: uvm-random uvm
+:unsynthesizable: 1
 */
 
 import uvm_pkg::*;

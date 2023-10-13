@@ -13,6 +13,7 @@
 :should_fail_because: unresolved interface class method name conflict
 :tags: 8.26.6.1
 :type: simulation elaboration
+:unsynthesizable: 1
 */
 module class_tb ();
 	interface class ihello;

@@ -13,6 +13,7 @@
 :should_fail_because: parametrized class invalid scope resolution
 :tags: 8.25.1
 :type: simulation elaboration
+:unsynthesizable: 1
 */
 module class_tb ();
 

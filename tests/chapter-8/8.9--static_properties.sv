@@ -11,6 +11,7 @@
 :name: static_properties
 :description: static class properties test
 :tags: 8.9
+:unsynthesizable: 1
 */
 module class_tb ();
 	class test_cls;

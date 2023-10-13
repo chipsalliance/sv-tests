@@ -11,6 +11,7 @@
 :name: properties_enum
 :description: enum defined inside class
 :tags: 8.5
+:unsynthesizable: 1
 */
 module class_tb ();
 	class test_cls;

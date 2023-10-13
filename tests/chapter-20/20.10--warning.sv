@@ -14,6 +14,7 @@
 :type: parsing
   Note this is not a simulation test, as the $warning may result in some
   simulators returning bad exit status.
+:unsynthesizable: 1
 */
 
 module top();

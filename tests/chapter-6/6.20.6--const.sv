@@ -11,6 +11,7 @@
 :name: const
 :description: const test
 :tags: 6.20.6
+:unsynthesizable: 1
 */
 module top();
 	class test_cls;

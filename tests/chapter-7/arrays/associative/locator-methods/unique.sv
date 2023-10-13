@@ -12,6 +12,7 @@
 :description: Test support of array locator methods
 :tags: 7.12.1 7.12 7.10 7.12.2
 :type: simulation elaboration parsing
+:unsynthesizable: 1
 */
 module top ();
 

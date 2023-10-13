@@ -11,6 +11,7 @@
 :name: exit_task
 :description: $exit test
 :tags: 20.2
+:unsynthesizable: 1
 */
 module top();
 

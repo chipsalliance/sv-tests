@@ -11,6 +11,7 @@
 :name: block_start_finish
 :description: block start finish check
 :tags: 9.3.3
+:unsynthesizable: 1
 */
 module block_tb ();
 	reg [3:0] a = 0;

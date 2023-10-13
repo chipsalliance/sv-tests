@@ -11,6 +11,7 @@
 :name: realtime
 :description: realtime type tests
 :tags: 6.12
+:unsynthesizable: 1
 */
 module top();
 	realtime a = 0.5;

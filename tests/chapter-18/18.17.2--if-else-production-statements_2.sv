@@ -12,6 +12,7 @@
 :description: randcase if-else test
 :type: simulation elaboration parsing
 :tags: 18.17.2
+:unsynthesizable: 1
 */
 
 function int F();

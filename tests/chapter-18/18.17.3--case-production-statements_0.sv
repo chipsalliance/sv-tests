@@ -12,6 +12,7 @@
 :description: randcase case statement test
 :type: simulation elaboration parsing
 :tags: 18.17.3
+:unsynthesizable: 1
 */
 
 function int F();

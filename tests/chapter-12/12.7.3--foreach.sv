@@ -11,6 +11,7 @@
 :name: foreach_loop
 :description: A module testing foreach loop
 :tags: 12.7.3
+:unsynthesizable: 1
 */
 module foreach_tb ();
 	string test [4] = '{"111", "222", "333", "444"};

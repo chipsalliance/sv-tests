@@ -11,6 +11,7 @@
 :name: discarding_soft_constraints_1
 :description: discarding soft constraints test
 :tags: uvm-random uvm
+:unsynthesizable: 1
 */
 
 import uvm_pkg::*;

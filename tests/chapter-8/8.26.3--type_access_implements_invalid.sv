@@ -13,6 +13,7 @@
 :should_fail_because: typedefs are not inherited by implements operator
 :tags: 8.26.3
 :type: simulation elaboration
+:unsynthesizable: 1
 */
 module class_tb ();
 	interface class ihello;

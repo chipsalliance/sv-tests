@@ -11,6 +11,7 @@
 :name: process_cls_self
 :description: process class self method
 :tags: 9.7
+:unsynthesizable: 1
 */
 module process_tb ();
 	task automatic test (int N);

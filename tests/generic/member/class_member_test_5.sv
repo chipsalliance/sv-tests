@@ -13,6 +13,7 @@
 :should_fail_because: pure virtual methods can only be declared in virtual classes
 :tags: 8.3
 :type: elaboration
+:unsynthesizable: 1
 */
 class myclass;
 pure virtual task pure_task1;

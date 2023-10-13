@@ -11,6 +11,7 @@
 :name: sequence_goto_repetition_test
 :description: sequence with goto repetition operator test
 :tags: 16.9
+:unsynthesizable: 1
 */
 
 module top();

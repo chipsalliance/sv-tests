@@ -13,6 +13,7 @@
 :should_fail_because: read is asserted every 2 cycles
 :type: simulation
 :tags: uvm uvm-assertions
+:unsynthesizable: 1
 */
 
 import uvm_pkg::*;

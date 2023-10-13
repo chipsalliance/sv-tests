@@ -11,6 +11,7 @@
 :name: wait_fork
 :description: wait fork test
 :tags: 9.6.1
+:unsynthesizable: 1
 */
 module fork_tb ();
 	reg a = 0;

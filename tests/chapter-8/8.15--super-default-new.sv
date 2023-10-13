@@ -11,6 +11,7 @@
 :name: super-def-new
 :description: Base class has no user-defined constructor, derived class accesses superclass new()
 :tags: 8.15
+:unsynthesizable: 1
 */
 package test_pkg;
 

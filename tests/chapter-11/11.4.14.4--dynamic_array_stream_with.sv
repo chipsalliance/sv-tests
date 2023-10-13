@@ -11,6 +11,7 @@
 :name: dynamic_array_unpack_stream_with
 :description: stream unpack test with dynamic array using with
 :tags: 11.4.14.4
+:unsynthesizable: 1
 */
 module top();
 

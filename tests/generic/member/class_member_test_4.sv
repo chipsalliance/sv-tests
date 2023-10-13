@@ -11,6 +11,7 @@
 :name: class_member_test_4
 :description: Test
 :tags: 8.3
+:unsynthesizable: 1
 */
 class myclass;
 extern virtual task subtask(int arg);

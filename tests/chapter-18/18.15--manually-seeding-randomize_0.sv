@@ -11,6 +11,7 @@
 :name: manually_seeding_randomize_0
 :description: manually seeding randomize test
 :tags: 18.15
+:unsynthesizable: 1
 */
 
 class a;

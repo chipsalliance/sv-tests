@@ -11,6 +11,7 @@
 :name: randomization_of_scope_variables_1
 :description: Randomization of scope variables - std::randomize() test
 :tags: uvm-random uvm
+:unsynthesizable: 1
 */
 
 import uvm_pkg::*;

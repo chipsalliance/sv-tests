@@ -12,6 +12,7 @@
 :description: $strobe test
 :tags: 21.2
 :type: simulation elaboration parsing
+:unsynthesizable: 1
 */
 module top();
 

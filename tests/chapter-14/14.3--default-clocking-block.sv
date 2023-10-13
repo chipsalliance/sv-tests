@@ -11,6 +11,7 @@
 :name: default_clocking_block
 :description: default clocking block test
 :tags: 14.3
+:unsynthesizable: 1
 */
 module top(input clk);
 

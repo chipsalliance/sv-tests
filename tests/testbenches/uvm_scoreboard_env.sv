@@ -13,6 +13,7 @@
 :tags: uvm uvm-scoreboards
 :type: simulation elaboration parsing
 :timeout: 30
+:unsynthesizable: 1
 */
 
 import uvm_pkg::*;

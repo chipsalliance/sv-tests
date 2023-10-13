@@ -11,6 +11,7 @@
 :name: static_constraint_blocks_1
 :description: static constraint blocks test
 :tags: uvm-random uvm
+:unsynthesizable: 1
 */
 
 import uvm_pkg::*;

@@ -11,6 +11,7 @@
 :name: stime_task
 :description: $stime test
 :tags: 20.3
+:unsynthesizable: 1
 */
 module top();
 

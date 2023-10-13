@@ -12,5 +12,6 @@
 :description: basic UVM test
 :tags: uvm
 :timeout: 100
+:unsynthesizable: 1
 */
 

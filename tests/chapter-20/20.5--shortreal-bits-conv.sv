@@ -12,6 +12,7 @@
 :description: $shortrealtobits and $bitstoshortreal test
 :tags: 20.5
 :type: simulation elaboration parsing
+:unsynthesizable: 1
 */
 
 module top();

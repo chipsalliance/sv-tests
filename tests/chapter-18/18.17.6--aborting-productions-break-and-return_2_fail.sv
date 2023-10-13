@@ -13,6 +13,7 @@
 :should_fail_because: typo in production name
 :type: elaboration
 :tags: 18.17.6
+:unsynthesizable: 1
 */
 
 function int F();

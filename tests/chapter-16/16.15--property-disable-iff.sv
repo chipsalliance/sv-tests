@@ -12,6 +12,7 @@
 :description: property with disable iff
 :type: simulation elaboration parsing
 :tags: 16.15
+:unsynthesizable: 1
 */
 
 module clk_gen(

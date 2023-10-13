@@ -12,6 +12,7 @@
 :description: $info test
 :tags: 20.10
 :type: simulation elaboration parsing
+:unsynthesizable: 1
 */
 
 module top();

@@ -12,6 +12,7 @@
 :description: property with local variables
 :type: simulation elaboration parsing
 :tags: 16.10
+:unsynthesizable: 1
 */
 
 module clk_gen(

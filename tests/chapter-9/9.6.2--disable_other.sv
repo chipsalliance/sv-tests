@@ -11,6 +11,7 @@
 :name: disable_other
 :description: disable other task
 :tags: 9.6.2
+:unsynthesizable: 1
 */
 module fork_tb ();
 	reg a = 0;

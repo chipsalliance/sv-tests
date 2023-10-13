@@ -12,6 +12,7 @@
 :description: $timeformat test
 :tags: 20.4
 :type: simulation elaboration parsing
+:unsynthesizable: 1
 */
 
 `timescale 1 fs / 1 fs

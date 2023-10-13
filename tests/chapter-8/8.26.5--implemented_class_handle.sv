@@ -11,6 +11,7 @@
 :name: implemented_class_handle
 :description: it should be possible to assign object handle to a variable of an implemented class type
 :tags: 8.26.5
+:unsynthesizable: 1
 */
 module class_tb ();
 	interface class ihello;

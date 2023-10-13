@@ -11,6 +11,7 @@
 :name: class_member_test_27
 :description: Test
 :tags: 8.3
+:unsynthesizable: 1
 */
 class report_server; endclass
 typedef int uvm_phase;

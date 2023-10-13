@@ -11,6 +11,7 @@
 :name: class_test_55
 :description: Test
 :tags: 6.15 8.3
+:unsynthesizable: 1
 */
 class Packet;
 endclass

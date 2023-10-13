@@ -12,6 +12,7 @@
 :description: stream unpack simulation test with dynamic array
 :type: simulation elaboration parsing
 :tags: 11.4.14.4
+:unsynthesizable: 1
 */
 module top();
 

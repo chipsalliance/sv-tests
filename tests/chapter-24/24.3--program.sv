@@ -12,6 +12,7 @@
 :description: program construct test
 :tags: 24.3
 :type: simulation elaboration parsing
+:unsynthesizable: 1
 */
 program prog(input wire a, input wire b);
 	initial $display(":assert: (%d == %d)", a, b);

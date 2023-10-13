@@ -12,6 +12,7 @@
 :description: Test passing associative array as arugments support
 :tags: 7.9.10 7.8
 :type: simulation elaboration parsing
+:unsynthesizable: 1
 */
 module top ();
 

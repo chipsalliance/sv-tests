@@ -11,6 +11,7 @@
 :name: cast_between_interface_classes
 :description: it should be possible to cast between implemented interface classes
 :tags: 8.26.2
+:unsynthesizable: 1
 */
 module class_tb ();
 	interface class ihello;
@@ -20,7 +21,7 @@ module class_tb ();
 	interface class itest;
 		pure virtual function void test();
 	endclass
-	
+
 	class Hello implements ihello, itest;
 		virtual function void hello();
 			$display("hello world");

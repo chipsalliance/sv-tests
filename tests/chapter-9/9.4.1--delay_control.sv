@@ -11,6 +11,7 @@
 :name: delay_control
 :description: delay control
 :tags: 9.4.1
+:unsynthesizable: 1
 */
 module block_tb ();
 	reg [3:0] a = 0;

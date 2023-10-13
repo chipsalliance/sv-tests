@@ -11,6 +11,7 @@
 :name: instance_constant
 :description: class with instance constant variable
 :tags: 8.19
+:unsynthesizable: 1
 */
 module class_tb ();
 	class a_cls;

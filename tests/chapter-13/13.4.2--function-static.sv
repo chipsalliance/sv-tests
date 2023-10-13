@@ -11,6 +11,7 @@
 :name: function_static
 :description: static function test
 :tags: 13.4.2
+:unsynthesizable: 1
 */
 module top();
 

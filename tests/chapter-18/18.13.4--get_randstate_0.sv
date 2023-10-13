@@ -11,6 +11,7 @@
 :name: get_randstate_0
 :description: get_randstate() test
 :tags: uvm-random uvm
+:unsynthesizable: 1
 */
 
 import uvm_pkg::*;
