@@ -17,7 +17,10 @@ from BaseRunner import BaseRunner
 class Yosys(BaseRunner):
     def __init__(self):
         super().__init__(
-            "yosys", "yosys", {"preprocessing", "parsing", "elaboration"})
+            "yosys", "yosys", {
+                "preprocessing", "parsing", "elaboration", "simulation",
+                "simulation_without_run"
+            })
 
         self.submodule = "third_party/tools/yosys"
         self.url = f"https://github.com/YosysHQ/yosys/tree/{self.get_commit()}"
@@ -33,7 +36,7 @@ class Yosys(BaseRunner):
         scr = os.path.join(tmp_dir, 'scr.ys')
         mode = params['mode']
         defer = ""
-        if mode != "elaboration":
+        if mode in ["preprocessing", "parsing"]:
             defer = "-defer"
 
         top = self.get_top_module_or_guess(params)
@@ -51,7 +54,7 @@ class Yosys(BaseRunner):
             for svf in params['files']:
                 f.write(f'read_verilog {defer} -sv {inc} {defs} {svf}\n')
 
-            if mode == "elaboration":
+            if mode not in ["preprocessing", "parsing"]:
                 # prep (without optimizations)
                 f.write(
                     f"hierarchy -top \\{top}\n"
@@ -61,6 +64,8 @@ class Yosys(BaseRunner):
                     "memory_collect\n"
                     "stat\n"
                     "check\n")
+            if mode in ['simulation', 'simulation_without_run']:
+                f.write("sim -assert\n")
 
         # prepare wrapper script
         with open(run, 'w') as f:
