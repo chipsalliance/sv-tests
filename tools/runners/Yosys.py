@@ -39,7 +39,15 @@ class Yosys(BaseRunner):
         if mode in ["preprocessing", "parsing"]:
             defer = "-defer"
 
-        top = self.get_top_module_or_guess(params)
+        nodisplay = ""
+        if mode in ["simulation", "simulation_without_run"]:
+            nodisplay = "-nodisplay"
+
+        top = params['top_module'] or None
+        if (top is not None):
+            top_opt = "-top \\{top}"
+        else:
+            top_opt = "-auto-top"
 
         inc = ""
         for incdir in params['incdirs']:
@@ -52,14 +60,17 @@ class Yosys(BaseRunner):
         # prepare yosys script
         with open(scr, 'w') as f:
             for svf in params['files']:
-                f.write(f'read_verilog {defer} -sv {inc} {defs} {svf}\n')
+                f.write(
+                    f'read_verilog {defer} -sv {nodisplay} {inc} {defs} {svf}\n'
+                )
 
             if mode not in ["preprocessing", "parsing"]:
                 # prep (without optimizations)
                 f.write(
-                    f"hierarchy -top \\{top}\n"
+                    f"hierarchy {top_opt}\n"
                     "proc\n"
                     "check\n"
+                    "clean\n"
                     "memory_dff\n"
                     "memory_collect\n"
                     "stat\n"
