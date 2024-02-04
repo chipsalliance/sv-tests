@@ -26,8 +26,25 @@ $(INSTALL_DIR)/bin/odin_II:
 # yosys
 yosys: $(INSTALL_DIR)/bin/yosys
 
-$(INSTALL_DIR)/bin/yosys:
+$(INSTALL_DIR)/bin/yosys $(INSTALL_DIR)/bin/yosys-config:
 	$(MAKE) -C $(RDIR)/yosys CONFIG=gcc PREFIX=$(INSTALL_DIR) install
+
+# yosys-slang
+yosys-slang: $(INSTALL_DIR)/bin/yosys-slang
+
+$(INSTALL_DIR)/bin/yosys-slang: $(INSTALL_DIR)/bin/yosys-config
+	mkdir -p $(INSTALL_DIR)
+	(export PATH=$(INSTALL_DIR)/bin/:${PATH} && \
+		cd $(RDIR)/yosys-slang && \
+		cmake -S slang -B build/slang -DCMAKE_INSTALL_PREFIX=build/slang_install -DSLANG_USE_MIMALLOC=OFF && \
+		make -C build/slang -j$(nproc) && \
+		make -C build/slang install && \
+		mkdir -p $(INSTALL_DIR)/share/yosys/plugins && \
+		yosys-config --build $(INSTALL_DIR)/share/yosys/plugins/slang.so \
+				slang_frontend.cc -Ibuild/slang_install/include -std=c++20 \
+				-DSLANG_BOOST_SINGLE_HEADER -Lbuild/slang_install/lib \
+				-lsvlang -lfmt)
+	cp $(INSTALL_DIR)/bin/yosys $(INSTALL_DIR)/bin/yosys-slang
 
 # icarus
 icarus: $(INSTALL_DIR)/bin/iverilog
@@ -126,6 +143,6 @@ $(INSTALL_DIR)/bin/verible-verilog-kythe-extractor: verible
 $(INSTALL_DIR)/bin/verilog_syntax: verible
 
 # setup the dependencies
-RUNNERS_TARGETS := odin yosys icarus verilator slang zachjs-sv2v tree-sitter-verilog sv-parser moore verible surelog yosys-synlig verilator-uhdm
+RUNNERS_TARGETS := yosys-slang
 .PHONY: $(RUNNERS_TARGETS)
 runners: $(RUNNERS_TARGETS)
