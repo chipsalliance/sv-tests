@@ -17,9 +17,7 @@ from BaseRunner import BaseRunner
 
 class yosys_slang(BaseRunner):
     def __init__(self):
-        super().__init__(
-            "yosys-slang", "yosys-slang",
-            {"elaboration"})
+        super().__init__("yosys-slang", "yosys-slang", {"elaboration"})
 
         self.submodule = "third_party/tools/yosys-slang"
         self.url = f"https://github.com/povik/yosys-slang/tree/{self.get_commit()}"
@@ -92,7 +90,6 @@ class yosys_slang(BaseRunner):
                 "memory_dff\n"
                 "memory_collect\n"
                 "stat\n"
-                "check\n"
-            )
+                "check\n")
 
         self.cmd = [self.executable, "-s", yosys_scr]
