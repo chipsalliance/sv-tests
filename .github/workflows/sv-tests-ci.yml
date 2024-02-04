@@ -49,6 +49,9 @@ jobs:
             runners_filter: SynligYosys
           - name: zachjs-sv2v
             deps: haskell-stack
+          - name: yosys-slang
+            deps: bison clang tcl-dev flex libfl-dev pkg-config libreadline-dev cmake pkg-config
+            submodules: slang
     env:
       RUNNERS_FILTER: ${{ matrix.tool.runners_filter }}
       CCACHE_DIR: "/root/sv-tests/sv-tests/.cache/"
@@ -129,6 +132,8 @@ jobs:
             git submodule update --init --recursive ${{ matrix.tool.submodules }}
             popd
           fi
+          # yosys tool contains tests, is a dependency of other tools
+          git submodule update --init --recursive third_party/tools/yosys
       - name: Create Cache Timestamp
         id: cache_timestamp
         uses: nanzm/get-time-action@v1.1
@@ -154,8 +159,6 @@ jobs:
         run: |
           git submodule update --init --recursive third_party/tests
           git submodule update --init --recursive third_party/cores
-          # yosys tool also contains tests
-          git submodule update --init --recursive third_party/tools/yosys
       - name: Run
         run: |
           BIG_GENERATORS_EXPR=$(echo $BIG_GENERATORS | sed 's/ /\\|/g')
