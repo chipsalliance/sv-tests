@@ -98,3 +98,6 @@
 [submodule "third_party/cores/veer-el2"]
 	path = third_party/cores/veer-el2
 	url = https://github.com/chipsalliance/Cores-VeeR-EL2.git
+[submodule "third_party/tools/yosys-slang"]
+	path = third_party/tools/yosys-slang
+	url = https://github.com/povik/yosys-slang.git

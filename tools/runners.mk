@@ -125,6 +125,23 @@ $(INSTALL_DIR)/bin/verible-verilog-kythe-extractor: verible
 
 $(INSTALL_DIR)/bin/verilog_syntax: verible
 
+# yosys-slang
+yosys-slang: $(INSTALL_DIR)/bin/yosys-slang
+
+$(INSTALL_DIR)/bin/slang-yosys $(INSTALL_DIR)/bin/slang-yosys-config:
+	# TODO: set to CXXSTD=c++20 to match slang once yosys upstream issues are resolved
+	$(MAKE) -C $(RDIR)/yosys CONFIG=gcc CXXSTD=c++11 ENABLE_ABC=0 \
+				PROGRAM_PREFIX=slang- PREFIX=$(INSTALL_DIR) install
+
+$(INSTALL_DIR)/bin/yosys-slang: $(INSTALL_DIR)/bin/slang-yosys-config
+	mkdir -p $(INSTALL_DIR)
+	(export PATH=$(INSTALL_DIR)/bin/:${PATH} && \
+		cd $(RDIR)/yosys-slang && \
+		TARGET=$(INSTALL_DIR)/share/slang-yosys/plugins/slang.so YOSYS_PREFIX=slang- ./build.sh)
+	# copy slang-yosys, which was the result of compiling yosys with PROGRAM_PREFIX=slang-,
+	# to yosys-slang, which is the executable registered in tools/runners/yosys_slang.py
+	cp $(INSTALL_DIR)/bin/slang-yosys $(INSTALL_DIR)/bin/yosys-slang
+
 # setup the dependencies
 RUNNERS_TARGETS := odin yosys icarus verilator slang zachjs-sv2v tree-sitter-verilog sv-parser moore verible surelog yosys-synlig verilator-uhdm
 .PHONY: $(RUNNERS_TARGETS)
