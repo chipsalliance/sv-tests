@@ -29,6 +29,7 @@ jobs:
             deps: cmake default-jre pkg-config tclsh uuid-dev
           - name: sv-parser
             deps: cargo
+            rust_ver: "1.74"
           - name: tree-sitter-verilog
             deps: npm
           - name: verible
