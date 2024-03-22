@@ -110,6 +110,10 @@ for v in variants:
         for (dirpath, dirnames,
              filenames) in os.walk(os.path.join(third_party_dir, "cores", name,
                                                 "testbench")):
+            if 'uvm' in dirnames:
+                # Skip uvm dir as it uses a custom Makefile
+                dirnames.remove('uvm')
+
             for f in filenames:
                 if f.endswith(("sv", "v")):
                     sources += os.path.abspath(os.path.join(dirpath, f)) + " "
