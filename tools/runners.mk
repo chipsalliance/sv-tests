@@ -166,6 +166,6 @@ $(INSTALL_DIR)/bin/circt-verilog:
 	ninja && ninja install
 
 # setup the dependencies
-RUNNERS_TARGETS := odin yosys icarus verilator slang zachjs-sv2v tree-sitter-verilog sv-parser moore verible surelog yosys-synlig verilator-uhdm circt-verilog
+RUNNERS_TARGETS := circt-verilog
 .PHONY: $(RUNNERS_TARGETS)
 runners: $(RUNNERS_TARGETS)
