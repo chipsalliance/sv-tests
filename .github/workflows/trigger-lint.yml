@@ -4,7 +4,7 @@ on:
 
 jobs:
   upload_event_file:
-    runs-on: [self-hosted, Linux, X64, pure-u22-x64-2]
+    runs-on: [self-hosted, Linux, X64, gcp-custom-runners]
     container: ubuntu:jammy-20221130
     steps:
       - uses: actions/checkout@v2
