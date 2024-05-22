@@ -146,7 +146,7 @@ $(INSTALL_DIR)/bin/yosys-slang: $(INSTALL_DIR)/bin/slang-yosys-config
 circt-verilog: $(INSTALL_DIR)/bin/circt-verilog
 
 $(INSTALL_DIR)/bin/circt-verilog:
-    mkdir -p $(RDIR)/circt-verilog/build
+	mkdir -p $(RDIR)/circt-verilog/build
 	mkdir -p $(RDIR)/circt-verilog/llvm/build
 	cd $(RDIR)/circt-verilog/llvm/build && cmake -G Ninja .. \
 	-DCMAKE_BUILD_TYPE=Release \
