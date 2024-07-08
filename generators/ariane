@@ -78,6 +78,9 @@ def process_filelist(filelist):
                 incdirs += l.partition("+incdir+")[2] + ' '
             elif l.startswith("+define+"):
                 defines += l.partition("+define+")[2] + ' '
+            elif l.startswith("-F"):
+                # recursively parse filelists
+                process_filelist(l.partition(' ')[2])
             elif l.endswith(".sv"):
                 sources.append(l)
 
