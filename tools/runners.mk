@@ -94,10 +94,11 @@ $(INSTALL_DIR)/bin/verilator-uhdm:
 yosys-synlig: $(INSTALL_DIR)/bin/yosys-synlig
 
 $(INSTALL_DIR)/bin/yosys-synlig:
-	mkdir -p $(INSTALL_DIR)
-	(export PATH=$(INSTALL_DIR)/bin/:${PATH} && \
+	mkdir -p $(INSTALL_DIR)/bin
+	(export PATH=$(INSTALL_DIR)/bin/:$(RDIR)/synlig/out/current/bin/:${PATH} && \
 		cd $(RDIR)/synlig && \
-		$(MAKE) -rR -Oline -f build_binaries.mk install-yosys install-plugin INSTALL_DIR=$(INSTALL_DIR))
+		$(MAKE) -rR -Oline install)
+	mv $(RDIR)/synlig/out/current/bin/* $(INSTALL_DIR)/bin/
 	mv $(INSTALL_DIR)/bin/yosys $(INSTALL_DIR)/bin/yosys-synlig
 
 # sv-parser
