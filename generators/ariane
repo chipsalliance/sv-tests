@@ -70,11 +70,17 @@ def process_filelist(filelist):
                 continue
 
             l = l.replace("${CVA6_REPO_DIR}", ariane_path)
+            l = l.replace(
+                "${HPDCACHE_DIR}",
+                f"{ariane_path}/core/cache_subsystem/hpdcache")
             l = l.replace("${TARGET_CFG}", "cv64a6_imafdc_sv39")
             if l.startswith("+incdir+"):
                 incdirs += l.partition("+incdir+")[2] + ' '
             elif l.startswith("+define+"):
                 defines += l.partition("+define+")[2] + ' '
+            elif l.startswith("-F"):
+                # recursively parse filelists
+                process_filelist(l.partition(' ')[2])
             elif l.endswith(".sv"):
                 sources.append(l)
 

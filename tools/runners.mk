@@ -97,7 +97,7 @@ $(INSTALL_DIR)/bin/yosys-synlig:
 	mkdir -p $(INSTALL_DIR)
 	(export PATH=$(INSTALL_DIR)/bin/:${PATH} && \
 		cd $(RDIR)/synlig && \
-		$(MAKE) -rR -Oline -f build_binaries.mk install-yosys install-plugin INSTALL_DIR=$(INSTALL_DIR))
+		$(MAKE) -rR -Oline install CFG_OUT_DIR=$(INSTALL_DIR)/)
 	mv $(INSTALL_DIR)/bin/yosys $(INSTALL_DIR)/bin/yosys-synlig
 
 # sv-parser
