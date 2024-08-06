@@ -8,6 +8,8 @@ on:
 
 jobs:
   Comment:
+    permissions:
+      pull-requests: write
     name: Comment
     runs-on: [self-hosted, Linux, X64, gcp-custom-runners]
     container: ubuntu:jammy-20221130
@@ -75,8 +77,6 @@ jobs:
 
       - name: Post comment
         uses: KeisukeYamashita/create-comment@v1
-        permissions:
-          pull-requests: write
         with:
           number: ${{ steps.get-pr-number.outputs.num }}
           check-only-first-line: "true"
