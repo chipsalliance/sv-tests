@@ -129,8 +129,7 @@ $(INSTALL_DIR)/bin/verilog_syntax: verible
 yosys-slang: $(INSTALL_DIR)/bin/yosys-slang
 
 $(INSTALL_DIR)/bin/slang-yosys $(INSTALL_DIR)/bin/slang-yosys-config:
-	# TODO: set to CXXSTD=c++20 to match slang once yosys upstream issues are resolved
-	$(MAKE) -C $(RDIR)/yosys CONFIG=gcc CXXSTD=c++11 ENABLE_ABC=0 \
+	$(MAKE) -C $(RDIR)/yosys CONFIG=gcc CXXSTD=c++20 ENABLE_ABC=0 \
 				PROGRAM_PREFIX=slang- PREFIX=$(INSTALL_DIR) install
 
 $(INSTALL_DIR)/bin/yosys-slang: $(INSTALL_DIR)/bin/slang-yosys-config
