@@ -55,7 +55,6 @@ jobs:
             submodules: slang
           - name: circt-verilog
             deps: cmake clang ninja-build lld
-            submodules: third_party/circt-verilog
     env:
       RUNNERS_FILTER: ${{ matrix.tool.runners_filter }}
       CCACHE_DIR: "/root/sv-tests/sv-tests/.cache/"
