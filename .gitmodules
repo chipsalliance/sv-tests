@@ -104,3 +104,4 @@
 [submodule "third_party/tools/circt-verilog"]
 	path = third_party/tools/circt-verilog
 	url = https://github.com/llvm/circt.git
+	branch = main
