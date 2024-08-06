@@ -36,8 +36,6 @@ class circt_verilog(BaseRunner):
             self.cmd += ['-E']
         elif mode == 'parsing':
             self.cmd += ('--parse-only')
-        else:
-            self.cmd += ['--lint-only']
         
         # Setting for additional include search paths.
         for incdir in params['incdirs']:
