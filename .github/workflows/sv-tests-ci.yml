@@ -54,7 +54,7 @@ jobs:
             deps: bison clang tcl-dev flex libfl-dev pkg-config libreadline-dev cmake pkg-config
             submodules: slang
           - name: circt-verilog
-            deps: cmake bison clang flex pkg-config autoconf
+            deps: cmake clang ninja-build lld
             submodules: third_party/circt-verilog
     env:
       RUNNERS_FILTER: ${{ matrix.tool.runners_filter }}
