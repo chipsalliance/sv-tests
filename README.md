@@ -106,3 +106,4 @@ Finally the file containing the test case and metadata should be placed in `test
 * [sv-parser](https://github.com/dalance/sv-parser)
 * [moore](http://llhd.io)
 * [verible](https://github.com/google/verible)
+* [yosys-slang](https://github.com/povik/yosys-slang)
