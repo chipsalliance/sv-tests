@@ -52,7 +52,7 @@ jobs:
             deps: haskell-stack
           - name: yosys-slang
             deps: bison clang tcl-dev flex libfl-dev pkg-config libreadline-dev cmake pkg-config
-            submodules: slang
+            submodules: third_party/slang
     env:
       RUNNERS_FILTER: ${{ matrix.tool.runners_filter }}
       CCACHE_DIR: "/root/sv-tests/sv-tests/.cache/"
