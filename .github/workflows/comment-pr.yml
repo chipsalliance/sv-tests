@@ -75,6 +75,8 @@ jobs:
 
       - name: Post comment
         uses: KeisukeYamashita/create-comment@v1
+        permissions:
+          pull-requests: write
         with:
           number: ${{ steps.get-pr-number.outputs.num }}
           check-only-first-line: "true"
