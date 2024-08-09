@@ -1,4 +1,5 @@
 out
+build
 tests/generated
 __pycache__
 venv
