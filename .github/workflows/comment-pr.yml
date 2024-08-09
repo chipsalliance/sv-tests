@@ -8,6 +8,8 @@ on:
 
 jobs:
   Comment:
+    permissions:
+      pull-requests: write
     name: Comment
     runs-on: [self-hosted, Linux, X64, gcp-custom-runners]
     container: ubuntu:jammy-20221130
