@@ -19,8 +19,9 @@ class circt_verilog(BaseRunner):
         supported_features={"preprocessing", "parsing", "elaboration"},
     ):
         super().__init__(
-            name, executable="circt-verilog", supported_features=supported_features
-        )
+            name,
+            executable="circt-verilog",
+            supported_features=supported_features)
 
         self.submodule = "third_party/tools/circt-verilog"
         self.url = f"https://github.com/llvm/circt/tree/{self.get_commit()}"
