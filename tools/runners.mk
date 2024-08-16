@@ -153,6 +153,8 @@ $(INSTALL_DIR)/bin/circt-verilog:
 	    -DCMAKE_BUILD_TYPE=Release \
 	    -DLLVM_USE_LINKER=lld \
 	    -DLLVM_CCACHE_BUILD=ON \
+		-DCMAKE_C_COMPILER=clang \
+		-DCMAKE_CXX_COMPILER=clang++ \
 	    -DLLVM_ENABLE_PROJECTS="mlir" \
 	    -DLLVM_INSTALL_UTILS=ON \
 	    -DLLVM_OPTIMIZED_TABLEGEN=ON \
@@ -162,6 +164,8 @@ $(INSTALL_DIR)/bin/circt-verilog:
 	    -G Ninja \
 	    -DCMAKE_BUILD_TYPE=Release \
 	    -DLLVM_USE_LINKER=lld \
+		-DCMAKE_C_COMPILER=clang \
+		-DCMAKE_CXX_COMPILER=clang++ \
 	    -DMLIR_DIR=$(RDIR)/circt-verilog/llvm/build/lib/cmake/mlir \
 	    -DLLVM_DIR=$(RDIR)/circt-verilog/llvm/build/lib/cmake/llvm \
 	    -DCIRCT_SLANG_FRONTEND_ENABLED=ON \
