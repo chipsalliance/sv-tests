@@ -141,7 +141,38 @@ $(INSTALL_DIR)/bin/yosys-slang: $(INSTALL_DIR)/bin/slang-yosys-config
 	# to yosys-slang, which is the executable registered in tools/runners/yosys_slang.py
 	cp $(INSTALL_DIR)/bin/slang-yosys $(INSTALL_DIR)/bin/yosys-slang
 
+# circt-verilog
+circt-verilog: $(INSTALL_DIR)/bin/circt-verilog
+
+$(INSTALL_DIR)/bin/circt-verilog:
+	mkdir -p $(RDIR)/circt-verilog/build && \
+	mkdir -p $(RDIR)/circt-verilog/llvm/build && \
+	cd $(RDIR)/circt-verilog/llvm/build && \
+	cmake ../llvm \
+	    -G Ninja \
+	    -DCMAKE_BUILD_TYPE=Release \
+	    -DLLVM_USE_LINKER=lld \
+	    -DLLVM_CCACHE_BUILD=ON \
+	    -DCMAKE_C_COMPILER=clang \
+	    -DCMAKE_CXX_COMPILER=clang++ \
+	    -DLLVM_ENABLE_PROJECTS="mlir" \
+	    -DLLVM_INSTALL_UTILS=ON \
+	    -DLLVM_OPTIMIZED_TABLEGEN=ON \
+	    -DLLVM_TARGETS_TO_BUILD="host" && \
+	ninja && cd $(RDIR)/circt-verilog/build && \
+	cmake .. \
+	    -G Ninja \
+	    -DCMAKE_BUILD_TYPE=Release \
+	    -DLLVM_USE_LINKER=lld \
+	    -DCMAKE_C_COMPILER=clang \
+	    -DCMAKE_CXX_COMPILER=clang++ \
+	    -DMLIR_DIR=$(RDIR)/circt-verilog/llvm/build/lib/cmake/mlir \
+	    -DLLVM_DIR=$(RDIR)/circt-verilog/llvm/build/lib/cmake/llvm \
+	    -DCIRCT_SLANG_FRONTEND_ENABLED=ON \
+	    -DCMAKE_INSTALL_PREFIX=$(INSTALL_DIR) && \
+	ninja && ninja install
+
 # setup the dependencies
-RUNNERS_TARGETS := odin yosys icarus verilator slang zachjs-sv2v tree-sitter-verilog sv-parser moore verible surelog yosys-synlig verilator-uhdm
+RUNNERS_TARGETS := odin yosys icarus verilator slang zachjs-sv2v tree-sitter-verilog sv-parser moore verible surelog yosys-synlig verilator-uhdm circt-verilog
 .PHONY: $(RUNNERS_TARGETS)
 runners: $(RUNNERS_TARGETS)
