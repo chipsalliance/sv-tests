@@ -212,7 +212,7 @@ jobs:
       - name: Prepare output directories
         run: |
           mkdir -p out/report
-      - uses: actions/download-artifact@v2
+      - uses: actions/download-artifact@v4.1.7
         with:
           path: ./out/
       - name: Extract
