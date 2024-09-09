@@ -9,6 +9,7 @@ make_var
 markupsafe
 pytablewriter
 GitPython
+simplesat==0.8.2
 git+https://github.com/lowRISC/edalize.git@ot
 git+https://github.com/lowRISC/fusesoc.git@ot
 orderedmultidict
