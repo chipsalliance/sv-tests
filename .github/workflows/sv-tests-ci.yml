@@ -176,7 +176,7 @@ jobs:
       - name: Pack results
         run: |
           tar -cvf out_${{ matrix.tool.name }}.tar ./out/report/${{ matrix.tool.name }}_report.csv ./out/logs/
-      - uses: actions/upload-artifact@v2
+      - uses: actions/upload-artifact@v4
         with:
           name: report_${{ matrix.tool.name }}
           path: |
@@ -212,7 +212,7 @@ jobs:
       - name: Prepare output directories
         run: |
           mkdir -p out/report
-      - uses: actions/download-artifact@v2
+      - uses: actions/download-artifact@v4
         with:
           path: ./out/
       - name: Extract
@@ -257,7 +257,7 @@ jobs:
           cat $CHANGES_SUMMARY_MD > $GITHUB_STEP_SUMMARY
 
       - name: Upload artifacts for summary
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v4
         if: github.event_name == 'pull_request'
         with:
           name: tests_summary
@@ -276,7 +276,7 @@ jobs:
           echo $artifacts
       - name: Delete Old Artifacts
         if: github.event_name == 'pull_request'
-        uses: geekyeggo/delete-artifact@v1
+        uses: geekyeggo/delete-artifact@v5
         with:
           name: ${{ steps.get-artifacts-to-delete.outputs.artifacts }}
   Automerge:
