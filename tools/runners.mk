@@ -80,6 +80,15 @@ $(INSTALL_DIR)/lib/tree-sitter-verilog.so:
 	cd $(RDIR)/tree-sitter-verilog && npm install
 	/usr/bin/env python3 -c "from tree_sitter import Language; Language.build_library(\"$@\", [\"$(abspath $(RDIR)/tree-sitter-verilog)\"])"
 
+# tree-sitter-systemverilog
+tree-sitter-systemverilog: $(INSTALL_DIR)/lib/tree-sitter-systemverilog.so
+
+$(INSTALL_DIR)/lib/tree-sitter-systemverilog.so:
+	mkdir -p $(INSTALL_DIR)/lib
+	cd $(RDIR)/tree-sitter-systemverilog && \
+		cc -fPIC -c -I. src/parser.c && \
+		cc -fPIC -shared *.o -o $@
+
 # surelog-uhdm-verilator
 verilator-uhdm: $(INSTALL_DIR)/bin/verilator-uhdm
 
