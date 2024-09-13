@@ -19,29 +19,10 @@ jobs:
         run: |
           apt-get update -qq
           apt install -y unzip
-      - name: Download artifacts
-        id: get-artifacts
-        uses: actions/github-script@v3.1.0
-        with:
-          script: |
-            var artifacts = await github.actions.listWorkflowRunArtifacts({
-               owner: context.repo.owner,
-               repo: context.repo.repo,
-               run_id: ${{ github.event.workflow_run.id }},
-            });
-            var matchArtifact = artifacts.data.artifacts.filter((artifact) => {
-              return artifact.name == "tests_summary"
-            })[0];
-            var download = await github.actions.downloadArtifact({
-               owner: context.repo.owner,
-               repo: context.repo.repo,
-               artifact_id: matchArtifact.id,
-               archive_format: 'zip',
-            });
 
-            console.log("::set-output name=artifact_id::" + matchArtifact.id);
-            var fs = require('fs');
-            fs.writeFileSync('${{github.workspace}}/tests_summary.zip', Buffer.from(download.data));
+      - uses: actions/download-artifact@v4
+        with:
+          name: tests_summary.zip
 
       - name: Unpack artifacts
         run: |
@@ -50,9 +31,8 @@ jobs:
 
       - name: Generate and append artifacts link
         run: |
-          ARTIFACT_ID=${{ steps.get-artifacts.outputs.artifact_id}}
           SUITE_ID=$(cat ./suite_id)
-          ARTIFACT_URL="https://github.com/chipsalliance/sv-tests/suites/$SUITE_ID/artifacts/$ARTIFACT_ID"
+          ARTIFACT_URL="https://github.com/chipsalliance/sv-tests/suites/$SUITE_ID"
           MD_URL="[Download an archive containing all the details]($ARTIFACT_URL)"
           echo -e "\n\n$MD_URL" >> tests_summary.md
 
