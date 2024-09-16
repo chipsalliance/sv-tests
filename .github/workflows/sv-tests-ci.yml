@@ -30,6 +30,8 @@ jobs:
           - name: sv-parser
             deps: cargo
             rust_ver: "1.74"
+          - name: tree-sitter-systemverilog
+            deps: gcc
           - name: tree-sitter-verilog
             deps: npm
           - name: verible
