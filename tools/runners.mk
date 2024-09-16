@@ -77,8 +77,9 @@ tree-sitter-verilog: $(INSTALL_DIR)/lib/tree-sitter-verilog.so
 
 $(INSTALL_DIR)/lib/tree-sitter-verilog.so:
 	mkdir -p $(INSTALL_DIR)/lib
-	cd $(RDIR)/tree-sitter-verilog && npm install
-	/usr/bin/env python3 -c "from tree_sitter import Language; Language.build_library(\"$@\", [\"$(abspath $(RDIR)/tree-sitter-verilog)\"])"
+	cd $(RDIR)/tree-sitter-verilog/src && \
+		cc -fPIC -c -I. parser.c && \
+		cc -fPIC -shared *.o -o $@
 
 # tree-sitter-systemverilog
 tree-sitter-systemverilog: $(INSTALL_DIR)/lib/tree-sitter-systemverilog.so

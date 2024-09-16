@@ -1,6 +1,6 @@
 pyyaml
 jinja2
-tree_sitter==0.20.4
+git+https://github.com/tree-sitter/py-tree-sitter.git@191c2de2e0
 pygments
 yapf==0.30.0
 psutil
