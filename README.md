@@ -102,6 +102,7 @@ Finally the file containing the test case and metadata should be placed in `test
 * [Icarus](http://iverilog.icarus.com)
 * [slang](https://github.com/MikePopoloski/slang)
 * [sv2v(zachjs)](https://github.com/zachjs/sv2v)
+* [tree-sitter-systemverilog](https://github.com/gmlarumbe/tree-sitter-systemverilog)
 * [tree-sitter-verilog](https://github.com/tree-sitter/tree-sitter-verilog)
 * [sv-parser](https://github.com/dalance/sv-parser)
 * [moore](http://llhd.io)
