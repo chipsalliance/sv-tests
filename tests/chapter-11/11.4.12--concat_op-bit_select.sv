@@ -8,10 +8,10 @@
 
 
 /*
- :name: concat_op-bit_select
- :description: concatenation operator w/ bit selection test
- :tags: 11.4.12
- */
+:name: concat_op-bit_select
+:description: concatenation operator w/ bit selection test
+:tags: 11.4.12
+*/
 module top();
 
   bit [3:0] a;
