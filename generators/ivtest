@@ -279,6 +279,8 @@ ivtest_file_exclude = [
     'pr1698659',
     'pr2076425',
     'shellho1',
+    # needs data text file that this test harness doesn't enable finding
+    'pr2800985a',
     # primitive table rows are invalid, fails on multiple commercial tools
     "pr3587570",
 ]
