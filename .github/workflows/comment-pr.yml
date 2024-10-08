@@ -22,7 +22,7 @@ jobs:
 
       - uses: actions/download-artifact@v4
         with:
-          name: tests_summary
+          name: tests_summary.zip
 
       - name: Unpack artifacts
         run: |
