@@ -43,6 +43,8 @@
 		"bsg_dramsim3_pkg.sv",
 		"bsg_mem_banked_crossbar.sv",
 		"bsg_mem_multiport.sv",
+		"bsg_mem_multiport_latch_write_banked_bypassing.sv",
+		"bsg_mem_multiport_latch_write_banked_bypassing_sync.sv",
 		"bsg_mesh_router_pkg.sv",
 		"bsg_nonsynth_mixin_motherboard.sv",
 		"bsg_pg_tree.sv",
