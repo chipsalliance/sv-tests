@@ -271,9 +271,9 @@ ivtest_file_exclude = [
     # Modules ignored due to module ordering sv-test driver limitation
     'br_gh104b',
     'def_nettype_none',
-    'implicit-port2',
-    'implicit-port3',
-    'implicit-port6',
+    'implicitport2',
+    'implicitport3',
+    'implicitport6',
     'mhead_task',
     'pr1587634',
     'pr1698659',
