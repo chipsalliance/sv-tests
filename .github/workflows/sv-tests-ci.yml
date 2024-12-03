@@ -128,6 +128,9 @@ jobs:
           # Github dropped support for unauthorized git: https://github.blog/2021-09-01-improving-git-protocol-security-github/
           # Make sure we always use https:// instead of git://
           git config --global url.https://github.com/.insteadOf git://github.com/
+          # take verilator from github (some tested tools still use a submodule
+          # from veripool)
+          git config --global url."https://github.com/verilator/verilator".insteadOf http://git.veripool.org/git/verilator
           REPOSITORY_NAME=${{ matrix.tool.name }}
           if [[ ! -z "${{ matrix.tool.repo }}" ]]; then
             REPOSITORY_NAME=${{ matrix.tool.repo }}
@@ -222,6 +225,8 @@ jobs:
           for file in $(find out/ -name *.tar -print); do tar -xf $file --strip-components=2 -C $(dirname $file); done
       - name: Checkout third party tests and cores
         run: |
+          # take verilator from github
+          git config --global url."https://github.com/verilator/verilator".insteadOf http://git.veripool.org/git/verilator
           git submodule update --init --recursive third_party/tests
           git submodule update --init --recursive third_party/cores
           # yosys tool also contains tests
