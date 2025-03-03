@@ -150,7 +150,7 @@ jobs:
         with:
           format: 'YYYY-MM-DD-HH-mm-ss'
       - name: Setup cache
-        uses: actions/cache@v2
+        uses: actions/cache@v4
         timeout-minutes: 3
         continue-on-error: true
         with:
