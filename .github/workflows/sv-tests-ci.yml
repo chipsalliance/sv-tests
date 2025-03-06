@@ -136,14 +136,14 @@ jobs:
           if [[ ! -z "${{ matrix.tool.repo }}" ]]; then
             REPOSITORY_NAME=${{ matrix.tool.repo }}
           fi
-          git submodule update --init third_party/tools/${REPOSITORY_NAME}
+          git submodule update --init --depth 1 third_party/tools/${REPOSITORY_NAME}
           if [[ ! -z "${{ matrix.tool.submodules }}" ]]; then
             pushd third_party/tools/${REPOSITORY_NAME}
-            git submodule update --init --recursive ${{ matrix.tool.submodules }}
+            git submodule update --init --recursive --depth 1 ${{ matrix.tool.submodules }}
             popd
           fi
           # yosys tool contains tests, is a dependency of other tools
-          git submodule update --init --recursive third_party/tools/yosys
+          git submodule update --init --recursive --depth 1 third_party/tools/yosys
       - name: Create Cache Timestamp
         id: cache_timestamp
         uses: nanzm/get-time-action@v1.1
@@ -167,8 +167,8 @@ jobs:
           make info
       - name: Checkout third party tests and cores
         run: |
-          git submodule update --init --recursive third_party/tests
-          git submodule update --init --recursive third_party/cores
+          git submodule update --init --recursive --depth 1 third_party/tests
+          git submodule update --init --recursive --depth 1 third_party/cores
       - name: Run
         run: |
           BIG_GENERATORS_EXPR=$(echo $BIG_GENERATORS | sed 's/ /\\|/g')
@@ -229,10 +229,10 @@ jobs:
         run: |
           # take verilator from github
           git config --global url."https://github.com/verilator/verilator".insteadOf http://git.veripool.org/git/verilator
-          git submodule update --init --recursive third_party/tests
-          git submodule update --init --recursive third_party/cores
+          git submodule update --init --recursive --depth 1 third_party/tests
+          git submodule update --init --recursive --depth 1 third_party/cores
           # yosys tool also contains tests
-          git submodule update --init --recursive third_party/tools/yosys
+          git submodule update --init --recursive --depth 1 third_party/tools/yosys
       - name: Summary
         run: |
           ./.github/workflows/summary.sh
