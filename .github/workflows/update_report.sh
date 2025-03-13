@@ -21,7 +21,7 @@ git add .
 
 GIT_MESSAGE_FILE=/tmp/git-message
   cat > $GIT_MESSAGE_FILE <<EOF
-Deploy $GIT_REF (build $GITHUB_RUN_ID)
+Deploy $GITHUB_REF (build $GITHUB_RUN_ID)
 Build from $GITHUB_SHA
 EOF
 
