@@ -216,6 +216,10 @@ jobs:
           update-alternatives --install /usr/bin/pip pip /usr/bin/pip3 1
           pip install --upgrade setuptools
           pip install -r conf/requirements.txt
+      - name: Install VeeR dependencies
+        run: |
+          apt install -y cpanminus
+          cpanm Bit::Vector JSON
       - name: Prepare output directories
         run: |
           mkdir -p out/report
