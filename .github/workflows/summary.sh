@@ -1,4 +1,5 @@
 #!/bin/bash
+set -euxo pipefail
 set -x
 set -e
 
