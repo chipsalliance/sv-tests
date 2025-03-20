@@ -33,7 +33,7 @@ jobs:
           - name: tree-sitter-systemverilog
             deps: gcc
           - name: tree-sitter-verilog
-            deps: npm
+            deps: gcc
           - name: verible
             deps: bazel=7.6.1 bison flex libfl-dev
             skip-ccache: 1
@@ -76,6 +76,13 @@ jobs:
           echo "$SHELL"
       - name: Checkout code
         uses: actions/checkout@v2
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Check PATH
+        run: |
+          echo $PATH
       - name: Update apt repos
         run: |
           apt-get update -qq
