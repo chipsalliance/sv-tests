@@ -77,7 +77,8 @@ tree-sitter-verilog: $(INSTALL_DIR)/lib/tree-sitter-verilog.so
 
 $(INSTALL_DIR)/lib/tree-sitter-verilog.so:
 	mkdir -p $(INSTALL_DIR)/lib
-	cd $(RDIR)/tree-sitter-verilog && npm install
+	cd $(RDIR)/tree-sitter-verilog && npm install tree-sitter-cli
+	cd $(RDIR)/tree-sitter-verilog && ./node_modules/tree-sitter-cli/tree-sitter generate
 	/usr/bin/env python3 -c "from tree_sitter import Language; Language.build_library(\"$@\", [\"$(abspath $(RDIR)/tree-sitter-verilog)\"])"
 
 # tree-sitter-systemverilog
