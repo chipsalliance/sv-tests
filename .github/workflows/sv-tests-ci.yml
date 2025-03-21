@@ -31,9 +31,9 @@ jobs:
             deps: cargo
             rust_ver: "1.81"
           - name: tree-sitter-systemverilog
-            deps: gcc
+            deps: gcc npm
           - name: tree-sitter-verilog
-            deps: npm
+            deps: gcc npm
           - name: verible
             deps: bazel=5.4.0 bison flex libfl-dev
             skip-ccache: 1
