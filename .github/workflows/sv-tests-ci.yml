@@ -87,6 +87,8 @@ jobs:
       - name: Check PATH
         run: |
           echo $PATH
+          npm --version
+          node --version
       - name: Update apt repos
         run: |
           apt-get update -qq
