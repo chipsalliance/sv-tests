@@ -285,7 +285,7 @@ jobs:
           artifacts="${artifacts//'%'/'%25'}"
           artifacts="${artifacts//$'\n'/'%0A'}"
           artifacts="${artifacts//$'\r'/'%0D'}"
-          echo ::set-output name=artifacts::$artifacts
+          echo "artifacts=$artifacts" >> GITHUB_OUTPUT
           echo $artifacts
       - name: Delete Old Artifacts
         if: github.event_name == 'pull_request'
