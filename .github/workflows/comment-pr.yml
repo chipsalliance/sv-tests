@@ -39,7 +39,7 @@ jobs:
                archive_format: 'zip',
             });
 
-            console.log("::set-output name=artifact_id::" + matchArtifact.id);
+            console.log("artifact_id=" + matchArtifact.id " >> $GITHUB_OUTPUT");
             var fs = require('fs');
             fs.writeFileSync('${{github.workspace}}/tests_summary.zip', Buffer.from(download.data));
 
@@ -67,13 +67,13 @@ jobs:
           body="${body//'%'/'%25'}"
           body="${body//$'\n'/'%0A'}"
           body="${body//$'\r'/'%0D'}"
-          echo ::set-output name=body::$body
+          echo "body=$body" >> $GITHUB_OUTPUT
 
       - name: Get PR number
         id: get-pr-number
         run: |
           num=$(cat ./issue_num)
-          echo ::set-output name=num::$num
+          echo "num=$num" >> $GITHUB_OUTPUT
 
       - name: Post comment
         uses: KeisukeYamashita/create-comment@v1
