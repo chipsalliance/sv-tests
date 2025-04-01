@@ -14,18 +14,21 @@ import shutil
 
 from BaseRunner import BaseRunner
 
+
 class tree_sitter_systemverilog(BaseRunner):
     def __init__(self):
-        super().__init__("tree-sitter-systemverilog", "tree-sitter", {"parsing"})
+        super().__init__(
+            "tree-sitter-systemverilog", "tree-sitter", {"parsing"})
 
         self.submodule = "third_party/tools/tree-sitter-systemverilog"
         self.url = f"https://github.com/gmlarumbe/tree-sitter-systemverilog/tree/{self.get_commit()}"
 
     def prepare_run_cb(self, tmp_dir, params):
-        src_dir = os.path.join((os.environ['THIRD_PARTY_DIR']), 'tools/tree-sitter-systemverilog/src')
+        src_dir = os.path.join(
+            (os.environ['THIRD_PARTY_DIR']),
+            'tools/tree-sitter-systemverilog/src')
         dst_dir = tmp_dir
         shutil.copy(src_dir, dst_dir)
 
         self.cmd = [self.executable, 'parse']
         self.cmd += params['files']
-
