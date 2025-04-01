@@ -76,6 +76,7 @@ $(INSTALL_DIR)/bin/zachjs-sv2v:
 tree-sitter-systemverilog: $(INSTALL_DIR)/bin/tree-sitter
 	(export PATH=$(INSTALL_DIR)/bin/:${PATH} && \
 		cd $(RDIR)/tree-sitter-systemverilog && tree-sitter generate)
+	cp -r $(RDIR)/tree-sitter-systemverilog/src $(abspath $(OUT_DIR)/tmp/)
 	# cd $(RDIR)/tree-sitter-systemverilog && tree-sitter generate
 
 
