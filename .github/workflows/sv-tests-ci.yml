@@ -76,16 +76,16 @@ jobs:
           echo "$SHELL"
       - name: Checkout code
         uses: actions/checkout@v2
-      - name: Setup Node
-        uses: actions/setup-node@v4
-        with:
-          node-version: '22'
-      - name: Check PATH
-        run: |
-          echo $PATH
       - name: Update apt repos
         run: |
           apt-get update -qq
+      - name: Setup Node
+        run: |
+          apt -qq -y install curl
+          # From https://nodejs.org/en/download
+          curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.40.2/install.sh | bash
+          . "$HOME/.nvm/nvm.sh"
+          nvm install 22
       - name: Add bazel repo (if needed)
         if: ${{ contains(matrix.tool.deps, 'bazel') }}
         run: |
