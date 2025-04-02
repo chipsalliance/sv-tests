@@ -283,6 +283,8 @@ ivtest_file_exclude = [
     'pr2800985a',
     # primitive table rows are invalid, fails on multiple commercial tools
     "pr3587570",
+    # Compilation errors with other simulators
+    "pr1520314",
 ]
 
 ivtest_long = ['comp1000', 'comp1001']
