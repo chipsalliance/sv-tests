@@ -16,10 +16,10 @@
 module top();
 
   task mytask;
-	$display(":assert: True");
+    $display(":assert: True");
   endtask : mytask
 
   initial
-	mytask;
+    mytask;
 
 endmodule
