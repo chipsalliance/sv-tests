@@ -8,7 +8,7 @@
 
 
 /*
- :name: module_definition
+ :name: module-label
  :description: module w/ named end test
  :tags: 23.2
  */

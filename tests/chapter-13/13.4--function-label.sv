@@ -8,7 +8,7 @@
 
 
 /*
- :name: function
+ :name: function-label
  :description: function w/ named end test
  :tags: 13.4
  :type: simulation elaboration parsing
