@@ -11,8 +11,7 @@ jobs:
     permissions:
       pull-requests: write
     name: Comment
-    runs-on: [self-hosted, Linux, X64, gcp-custom-runners]
-    container: ubuntu:jammy-20221130
+    runs-on: [ubuntu-latest]
     if: ${{ github.event.workflow_run.event == 'pull_request' && github.event.workflow_run.conclusion == 'success' }}
     steps:
       - name: Install dependencies
