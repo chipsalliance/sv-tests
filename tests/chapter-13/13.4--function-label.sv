@@ -8,11 +8,11 @@
 
 
 /*
- :name: function
- :description: function w/ named end test
- :tags: 13.4
- :type: simulation elaboration parsing
- */
+:name: function
+:description: function w/ named end test
+:tags: 13.4
+:type: simulation elaboration parsing
+*/
 module top();
 
   function int test(int val);
