@@ -11,6 +11,7 @@
 :name: module_definition
 :description: module w/ named end test
 :tags: 23.2
+:type: simulation elaboration parsing
 */
 module top();
 
