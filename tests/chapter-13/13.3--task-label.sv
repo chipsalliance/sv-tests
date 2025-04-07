@@ -8,11 +8,11 @@
 
 
 /*
- :name: task-label
- :description: test w/ named end test
- :tags: 13.3
- :type: simulation elaboration parsing
- */
+:name: task-label
+:description: test w/ named end test
+:tags: 13.3
+:type: simulation elaboration parsing
+*/
 module top();
 
   task mytask;

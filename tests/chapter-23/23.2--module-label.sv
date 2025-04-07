@@ -8,10 +8,10 @@
 
 
 /*
- :name: module_definition
- :description: module w/ named end test
- :tags: 23.2
- */
+:name: module_definition
+:description: module w/ named end test
+:tags: 23.2
+*/
 module top();
 
 endmodule : top
