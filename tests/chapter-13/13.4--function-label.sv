@@ -16,10 +16,10 @@
 module top();
 
   function int test(int val);
-	return val + 1;
+    return val + 1;
   endfunction : test
 
   initial
-	$display(":assert: (%d == 2)", test(1));
+    $display(":assert: (%d == 2)", test(1));
 
 endmodule
