@@ -35,7 +35,7 @@ jobs:
           - name: tree-sitter-verilog
             deps: npm
           - name: verible
-            deps: bazel=5.4.0 bison flex libfl-dev
+            deps: bazel=7.6.1 bison flex libfl-dev
             skip-ccache: 1
           - name: verilator
             deps: autoconf autotools-dev bison flex help2man libfl-dev libelf-dev
