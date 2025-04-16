@@ -117,7 +117,7 @@ module top();
         @(posedge dif.clk) (dif.req ##5 dif.gnt0) intersect (dif.req ##[1:9] dif.gnt1);
     endsequence
 
-    assert property (dif.gnt2 throughout seq) else `uvm_error(label, $sformatf("seq failed :assert: (False)"));
+    assert property (@(posedge dif.clk) dif.gnt2 throughout seq) else `uvm_error(label, $sformatf("seq failed :assert: (False)"));
 
     initial begin
         forever begin
