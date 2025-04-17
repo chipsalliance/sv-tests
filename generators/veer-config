@@ -87,10 +87,11 @@ for v in variants:
         exit(ret.returncode)
 
     sources = ""
-    # Insert common configuration header before common VeeR sources
+    # Insert common configuration headers before common VeeR sources
     common_defines = os.path.abspath(
         os.path.join(build_dir, "common_defines.vh"))
-    sources += common_defines + " "
+    el2_pdef = os.path.abspath(os.path.join(build_dir, "el2_pdef.vh"))
+    sources += common_defines + " " + el2_pdef + " "
 
     # Setup common VeeR sources
     for (dirpath, dirnames, filenames) in os.walk(os.path.join(third_party_dir,
@@ -115,6 +116,11 @@ for v in variants:
                 dirnames.remove('uvm')
 
             for f in filenames:
+                if 'axi_crossbar_wrap_2x1' in f:
+                    # Skip this file as it's unused without a specific define
+                    # and contains invalid syntax that can cause tools to fail
+                    continue
+
                 if f.endswith(("sv", "v")):
                     sources += os.path.abspath(os.path.join(dirpath, f)) + " "
 
