@@ -26,6 +26,16 @@ class yosys_slang(BaseRunner):
         unsynthesizable = int(params['unsynthesizable'])
         if unsynthesizable:
             return None
+
+        # These tests simply cannot be elaborated because they target
+        # modules that have invalid parameter values for a top-level module,
+        # or have an invalid configuration that results in $fatal calls.
+        name = params["name"]
+        tags = params["tags"]
+        if "black-parrot" in tags and ('bp_lce' in name or 'bp_uce'
+                                       or 'bp_multicore' in name):
+            return None
+
         return super().get_mode(params)
 
     def prepare_run_cb(self, tmp_dir, params):
@@ -66,6 +76,12 @@ class yosys_slang(BaseRunner):
         # The earlgrey core requires non-standard functionality, so enable VCS compat.
         if "earlgrey" in tags:
             slang_cmd.append("--compat=vcs")
+
+        # black-parrot has syntax errors where variables are used before they are declared.
+        # This is being fixed upstream, but it might take a long time to make it to master
+        # so this works around the problem in the meantime.
+        if "black-parrot" in tags:
+            slang_cmd.append("--allow-use-before-declare")
 
         # These cores use a non-standard extension to write to the same variable
         # from multiple procedures.
