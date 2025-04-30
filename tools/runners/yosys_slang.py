@@ -42,7 +42,15 @@ class yosys_slang(BaseRunner):
         yosys_scr = os.path.join(tmp_dir, "yosys-script")
         mode = params['mode']
 
-        slang_cmd = []
+        slang_cmd = ['-DSYNTHESIS']
+
+        # Ignore content which is unsynthesizable or likely irrelevant for synthesis. The inclusion
+        # of `--ignore-initial` is objectionable as it means the frontend won't pick up memory
+        # initialization.
+        slang_cmd += [
+            '--ignore-timing', '--ignore-initial', '--ignore-assertions'
+        ]
+
         # Some tests expect that all input files will be concatenated into
         # a single compilation unit, so ask slang to do that.
         slang_cmd += ['--single-unit']
