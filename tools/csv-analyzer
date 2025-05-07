@@ -1,0 +1,63 @@
+#!/usr/bin/env python3
+
+import matplotlib.pyplot as plt
+import argparse
+import csv
+import os
+
+parser = argparse.ArgumentParser()
+
+parser.add_argument("files", metavar='N', type=str, nargs='+')
+
+args = parser.parse_args()
+
+results = {}
+
+runner_lst = []
+
+for f in args.files:
+    name = os.path.splitext(os.path.basename(f))[0]
+    results[name] = {}
+    with open(f, newline='') as csvfile:
+        reader = csv.DictReader(csvfile)
+        runners = reader.fieldnames[3:]
+        runner_lst += runners
+        for runner in runners:
+            results[name][runner] = 0
+        for row in reader:
+            for runner in runners:
+                if row[runner] == 'True':
+                    results[name][runner] += 1
+
+runner_lst = set(runner_lst)
+
+dates = []
+tools = {}
+
+for d in results:
+    dates.append(d)
+    for runner in runner_lst:
+        val = int(results[d].get(runner, '0'))
+        try:
+            tools[runner].append(val)
+        except KeyError:
+            tools[runner] = [val]
+
+fig, ax = plt.subplots()
+
+for tool in tools:
+    ax.plot(dates, tools[tool], label=tool)
+
+ax.legend()
+plt.setp(ax.get_xticklabels(), rotation=45)
+ax.grid(True)
+plt.savefig('out.png', bbox_inches='tight', dpi=300)
+
+with open('out.csv', 'w', newline='') as csvfile:
+    writer = csv.writer(csvfile)
+    writer.writerow(['date', *runner_lst])
+    for d in results:
+        row = [d]
+        for runner in runner_lst:
+            row.append(results[d].get(runner, '0'))
+        writer.writerow(row)
