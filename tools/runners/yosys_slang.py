@@ -26,13 +26,31 @@ class yosys_slang(BaseRunner):
         unsynthesizable = int(params['unsynthesizable'])
         if unsynthesizable:
             return None
+
+        # These tests simply cannot be elaborated because they target
+        # modules that have invalid parameter values for a top-level module,
+        # or have an invalid configuration that results in $fatal calls.
+        name = params["name"]
+        tags = params["tags"]
+        if "black-parrot" in tags and ('bp_lce' in name or 'bp_uce'
+                                       or 'bp_multicore' in name):
+            return None
+
         return super().get_mode(params)
 
     def prepare_run_cb(self, tmp_dir, params):
         yosys_scr = os.path.join(tmp_dir, "yosys-script")
         mode = params['mode']
 
-        slang_cmd = []
+        slang_cmd = ['-DSYNTHESIS']
+
+        # Ignore content which is unsynthesizable or likely irrelevant for synthesis. The inclusion
+        # of `--ignore-initial` is objectionable as it means the frontend won't pick up memory
+        # initialization.
+        slang_cmd += [
+            '--ignore-timing', '--ignore-initial', '--ignore-assertions'
+        ]
+
         # Some tests expect that all input files will be concatenated into
         # a single compilation unit, so ask slang to do that.
         slang_cmd += ['--single-unit']
@@ -66,6 +84,12 @@ class yosys_slang(BaseRunner):
         # The earlgrey core requires non-standard functionality, so enable VCS compat.
         if "earlgrey" in tags:
             slang_cmd.append("--compat=vcs")
+
+        # black-parrot has syntax errors where variables are used before they are declared.
+        # This is being fixed upstream, but it might take a long time to make it to master
+        # so this works around the problem in the meantime.
+        if "black-parrot" in tags:
+            slang_cmd.append("--allow-use-before-declare")
 
         # These cores use a non-standard extension to write to the same variable
         # from multiple procedures.
