@@ -37,6 +37,9 @@ class circt_verilog(BaseRunner):
         elif mode == "parsing":
             self.cmd += ["--parse-only"]
 
+        # The following options are mostly borrowed from the Slang runner, since circt-verilog
+        # uses Slang as its Verilog frontend.
+
         # Setting for additional include search paths.
         for incdir in params["incdirs"]:
             self.cmd.extend(["-I", incdir])
@@ -51,13 +54,41 @@ class circt_verilog(BaseRunner):
         # Combine all input files for the tests that need a single compilation unit.
         self.cmd += ["--single-unit"]
 
+        # Disable certain warnings to make the output less noisy.
+        # Some tests access array elements out of bounds. Make that not an error.
+        self.cmd += [
+            "-Wno-implicit-conv",
+            "-Wno-index-oob",
+            "-Wno-range-oob",
+            "-Wno-range-width-oob",
+        ]
+
         top = self.get_top_module_or_guess(params)
         if top is not None:
             self.cmd += ["--top=" + top]
 
+        tags = params["tags"]
+
+        # The Ariane core does not build correctly if VERILATOR is not defined -- it will attempt
+        # to reference nonexistent modules, for example.
+        if "ariane" in tags:
+            self.cmd += ["-DVERILATOR"]
+
+        # The earlgrey core requires non-standard functionality, so enable VCS compat.
+        if "earlgrey" in tags:
+            self.cmd += ["--compat=vcs"]
+
+        # black-parrot has syntax errors where variables are used before they are declared.
+        # This is being fixed upstream, but it might take a long time to make it to master
+        # so this works around the problem in the meantime.
+        if "black-parrot" in tags and mode != "parsing":
+            self.cmd += ["--allow-use-before-declare"]
+
+            # These tests simply cannot be elaborated because they target
+            # modules that have invalid parameter values for a top-level module,
+            # or have an invalid configuration that results in $fatal calls.
+            name = params["name"]
+            if 'bp_lce' in name or 'bp_uce' or 'bp_multicore' in name:
+                self.cmd += ["--parse-only"]
+
         self.cmd += params["files"]
-
-    def get_version(self):
-        version = super().get_version()
-
-        return " ".join([self.name, version.splitlines()[4].split()[2]])
