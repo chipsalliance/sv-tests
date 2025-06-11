@@ -105,3 +105,6 @@
 	path = third_party/tools/circt-verilog
 	url = https://github.com/llvm/circt.git
 	branch = main
+[submodule "third_party/tools/verilator"]
+	path = third_party/tools/verilator
+	url = https://github.com/verilator/verilator
