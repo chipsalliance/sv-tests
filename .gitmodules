@@ -13,9 +13,6 @@
 [submodule "third_party/tools/icarus"]
 	path = third_party/tools/icarus
 	url = https://github.com/steveicarus/iverilog.git
-[submodule "third_party/tools/verilator"]
-	path = third_party/tools/verilator
-	url = https://github.com/verilator/verilator.git
 [submodule "third_party/tools/slang"]
 	path = third_party/tools/slang
 	url = https://github.com/MikePopoloski/slang.git
