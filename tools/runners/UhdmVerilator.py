@@ -97,9 +97,6 @@ class UhdmVerilator(BaseRunner):
             if "black-parrot" in params["tags"]:
                 f.write(' -lowmem')
 
-            if "earlgrey" in params["tags"]:
-                f.write(' -lowmem')
-
             if mode in ["parsing", "preprocessing"]:
                 f.write(' -noelab')
 
