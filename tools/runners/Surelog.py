@@ -49,9 +49,6 @@ class Surelog(BaseRunner):
         if "black-parrot" in params["tags"]:
             self.cmd.append('-lowmem')
 
-        if "earlgrey" in params["tags"]:
-            self.cmd.append('-lowmem')
-
         for define in params['defines']:
             self.cmd.append('-D' + define)
 

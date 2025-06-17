@@ -64,10 +64,6 @@ class Slang(BaseRunner):
         if "ariane" in tags:
             self.cmd.append("-DVERILATOR")
 
-        # The earlgrey core requires non-standard functionality, so enable VCS compat.
-        if "earlgrey" in tags:
-            self.cmd.append("--compat=vcs")
-
         # black-parrot has syntax errors where variables are used before they are declared.
         # This is being fixed upstream, but it might take a long time to make it to master
         # so this works around the problem in the meantime.
@@ -83,7 +79,7 @@ class Slang(BaseRunner):
 
         # These cores use a non-standard extension to write to the same variable
         # from multiple procedures.
-        if "earlgrey" in tags or "fx68k" in tags:
+        if "fx68k" in tags:
             self.cmd.append("--allow-dup-initial-drivers")
 
         self.cmd += params['files']
