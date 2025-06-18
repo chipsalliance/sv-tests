@@ -89,16 +89,6 @@ $(INSTALL_DIR)/lib/tree-sitter-systemverilog.so:
 		cc -fPIC -c -I. src/parser.c && \
 		cc -fPIC -shared *.o -o $@
 
-# surelog-uhdm-verilator
-verilator-uhdm: $(INSTALL_DIR)/bin/verilator-uhdm
-
-# cannot use 'make -C uhdm-integration <target> as uhdm relies on $PWD
-$(INSTALL_DIR)/bin/verilator-uhdm:
-	mkdir -p $(INSTALL_DIR)
-	cd $(RDIR)/verilator-uhdm && ./build_binaries.sh
-	cp -r $(RDIR)/verilator-uhdm/image/* $(INSTALL_DIR)
-	mv $(INSTALL_DIR)/bin/verilator $(INSTALL_DIR)/bin/verilator-uhdm
-
 # yosys-synlig
 yosys-synlig: $(INSTALL_DIR)/bin/yosys-synlig
 
@@ -184,6 +174,6 @@ $(INSTALL_DIR)/bin/circt-verilog:
 	ninja && ninja install
 
 # setup the dependencies
-RUNNERS_TARGETS := odin yosys icarus verilator slang zachjs-sv2v tree-sitter-systemverilog tree-sitter-verilog sv-parser moore verible surelog yosys-synlig verilator-uhdm circt-verilog
+RUNNERS_TARGETS := odin yosys icarus verilator slang zachjs-sv2v tree-sitter-systemverilog tree-sitter-verilog sv-parser moore verible surelog yosys-synlig circt-verilog
 .PHONY: $(RUNNERS_TARGETS)
 runners: $(RUNNERS_TARGETS)
