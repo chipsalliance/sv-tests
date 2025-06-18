@@ -80,9 +80,6 @@
 [submodule "third_party/tests/projf-explore"]
 	path = third_party/tests/projf-explore
 	url = https://github.com/projf/projf-explore.git
-[submodule "third_party/tools/verilator-uhdm"]
-	path = third_party/tools/verilator-uhdm
-	url = https://github.com/antmicro/verilator
 [submodule "third_party/tools/moore"]
 	path = third_party/tools/moore
 	url = https://github.com/fabianschuiki/moore.git
