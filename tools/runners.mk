@@ -81,7 +81,7 @@ tree-sitter-systemverilog: $(INSTALL_DIR)/bin/tree-sitter
 
 tree-sitter-verilog: $(INSTALL_DIR)/bin/tree-sitter
 	(export PATH=$(INSTALL_DIR)/bin/:${PATH} && \
-		cd $(RDIR)/tree-sitter-verilog && tree-sitter generate)
+		cd $(RDIR)/tree-sitter-verilog && tree-sitter generate --abi 14)
 
 $(INSTALL_DIR)/bin/tree-sitter:
 	wget https://github.com/tree-sitter/tree-sitter/releases/download/v0.25.3/tree-sitter-linux-x64.gz
