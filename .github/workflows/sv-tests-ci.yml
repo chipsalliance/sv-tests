@@ -39,10 +39,6 @@ jobs:
             skip-ccache: 1
           - name: verilator
             deps: autoconf autotools-dev bison flex help2man libfl-dev libelf-dev
-          - name: verilator-uhdm
-            submodules: Surelog vcddiff
-            deps: autoconf autotools-dev bison default-jre flex help2man libfl-dev cmake pkg-config tclsh uuid-dev libelf-dev
-            runners_filter: UhdmVerilator
           - name: yosys
             deps: bison clang tcl-dev flex libfl-dev pkg-config libreadline-dev
           - name: yosys-synlig

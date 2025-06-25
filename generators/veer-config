@@ -20,7 +20,7 @@ variants = [
         "description": "Full VeeR EL2 core test",
         "top_module": "tb_top",
         "tags": "veer-el2",
-        "compatible-runners": "verilator-uhdm verilator slang",
+        "compatible-runners": "verilator slang",
         "type": "parsing elaboration simulation_without_run",
     },
     {
