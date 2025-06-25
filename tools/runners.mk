@@ -72,22 +72,21 @@ $(INSTALL_DIR)/bin/zachjs-sv2v:
 	$(MAKE) -C $(RDIR)/zachjs-sv2v
 	install -D $(RDIR)/zachjs-sv2v/bin/sv2v $@
 
-# tree-sitter-verilog
-tree-sitter-verilog: $(INSTALL_DIR)/lib/tree-sitter-verilog.so
+# tree-sitter-verilog & tree-sitter-systemverilog
+tree-sitter-systemverilog: $(INSTALL_DIR)/bin/tree-sitter
+	(export PATH=$(INSTALL_DIR)/bin/:${PATH} && \
+		cd $(RDIR)/tree-sitter-systemverilog && tree-sitter generate)
+	cp -r $(RDIR)/tree-sitter-systemverilog/src $(abspath $(OUT_DIR)/tmp/)
 
-$(INSTALL_DIR)/lib/tree-sitter-verilog.so:
-	mkdir -p $(INSTALL_DIR)/lib
-	cd $(RDIR)/tree-sitter-verilog && npm install
-	/usr/bin/env python3 -c "from tree_sitter import Language; Language.build_library(\"$@\", [\"$(abspath $(RDIR)/tree-sitter-verilog)\"])"
 
-# tree-sitter-systemverilog
-tree-sitter-systemverilog: $(INSTALL_DIR)/lib/tree-sitter-systemverilog.so
+tree-sitter-verilog: $(INSTALL_DIR)/bin/tree-sitter
+	(export PATH=$(INSTALL_DIR)/bin/:${PATH} && \
+		cd $(RDIR)/tree-sitter-verilog && tree-sitter generate --abi 14)
 
-$(INSTALL_DIR)/lib/tree-sitter-systemverilog.so:
-	mkdir -p $(INSTALL_DIR)/lib
-	cd $(RDIR)/tree-sitter-systemverilog && \
-		cc -fPIC -c -I. src/parser.c && \
-		cc -fPIC -shared *.o -o $@
+$(INSTALL_DIR)/bin/tree-sitter:
+	wget https://github.com/tree-sitter/tree-sitter/releases/download/v0.25.3/tree-sitter-linux-x64.gz
+	gunzip tree-sitter-linux-x64.gz
+	install -D tree-sitter-linux-x64 $@
 
 # yosys-synlig
 yosys-synlig: $(INSTALL_DIR)/bin/yosys-synlig

@@ -33,7 +33,7 @@ jobs:
           - name: tree-sitter-systemverilog
             deps: gcc
           - name: tree-sitter-verilog
-            deps: npm
+            deps: gcc
           - name: verible
             deps: bazel=7.6.1 bison flex libfl-dev
             skip-ccache: 1
@@ -79,6 +79,14 @@ jobs:
       - name: Update apt repos
         run: |
           apt-get update -qq
+      - name: Setup Node
+        run: |
+          apt -qq -y install curl
+          touch "$HOME/.bash_profile"
+          # From https://nodejs.org/en/download
+          curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.40.2/install.sh | bash
+          . "$HOME/.nvm/nvm.sh"
+          nvm install 22
       - name: Add bazel repo (if needed)
         if: ${{ contains(matrix.tool.deps, 'bazel') }}
         run: |
@@ -157,6 +165,7 @@ jobs:
         run: |
           export PATH="/usr/lib/ccache:/usr/local/opt/ccache/libexec:$PATH"
           [[ -f $HOME/.cargo/env ]] && source $HOME/.cargo/env
+          . "$HOME/.bash_profile"  # GitHub Actions runs bash with --noprofile
           make ${{ matrix.tool.name }} -j$(nproc)
       - name: Check
         run:
