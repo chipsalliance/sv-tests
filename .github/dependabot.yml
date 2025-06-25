@@ -6,4 +6,4 @@ updates:
     interval: daily
     # UTC
     time: "22:00"
-  open-pull-requests-limit: 30
+  open-pull-requests-limit: 100
