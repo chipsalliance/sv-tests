@@ -16,8 +16,8 @@ jobs:
     steps:
       - name: Install dependencies
         run: |
-          apt-get update -qq
-          apt install -y unzip
+          sudo apt-get update -qq
+          sudo apt install -y unzip
       - name: Download artifacts
         id: get-artifacts
         uses: actions/github-script@v7
