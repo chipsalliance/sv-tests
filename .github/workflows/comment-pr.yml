@@ -38,7 +38,7 @@ jobs:
                archive_format: 'zip',
             });
 
-            console.log("artifact_id=" + matchArtifact.id " >> $GITHUB_OUTPUT");
+            console.log("artifact_id=" + matchArtifact.id + " >> $GITHUB_OUTPUT");
             var fs = require('fs');
             fs.writeFileSync('${{github.workspace}}/tests_summary.zip', Buffer.from(download.data));
 
