@@ -52,9 +52,6 @@
 [submodule "third_party/cores/rsd"]
 	path = third_party/cores/rsd
 	url = https://github.com/rsd-devel/rsd
-[submodule "third_party/tests/ivtest"]
-	path = third_party/tests/ivtest
-	url = https://github.com/steveicarus/ivtest.git
 [submodule "third_party/cores/black-parrot"]
 	path = third_party/cores/black-parrot
 	url = https://github.com/black-parrot/black-parrot

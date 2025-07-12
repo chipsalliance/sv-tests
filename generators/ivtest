@@ -289,7 +289,8 @@ ivtest_file_exclude = [
 
 ivtest_long = ['comp1000', 'comp1001']
 
-ivtest_dir = os.path.abspath(os.path.join(third_party_dir, "tests", "ivtest"))
+ivtest_dir = os.path.abspath(
+    os.path.join(third_party_dir, "tools", "icarus", "ivtest"))
 ivtest_list_exclude = set(
     map(lambda x: os.path.join(ivtest_dir, x), ivtest_list_exclude))
 ivtest_lists = sorted(
