@@ -24,5 +24,7 @@ class tree_sitter_systemverilog(BaseRunner):
         self.url = f"https://github.com/gmlarumbe/tree-sitter-systemverilog/tree/{self.get_commit()}"
 
     def prepare_run_cb(self, tmp_dir, params):
-        self.cmd = [self.executable, 'parse']
+        self.cmd = [
+            self.executable, 'parse', '--scope', 'source.systemverilog'
+        ]
         self.cmd += params['files']
