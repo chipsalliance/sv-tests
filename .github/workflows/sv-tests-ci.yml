@@ -244,6 +244,8 @@ jobs:
           git submodule update --init --recursive --depth 1 third_party/cores
           # yosys tool also contains tests
           git submodule update --init --recursive --depth 1 third_party/tools/yosys
+          # icarus contains tests
+          git submodule update --init --depth 1 third_party/tools/icarus
       - name: Summary
         run: |
           ./.github/workflows/summary.sh
