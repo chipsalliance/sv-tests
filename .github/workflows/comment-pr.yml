@@ -14,10 +14,6 @@ jobs:
     runs-on: [ubuntu-latest]
     if: ${{ github.event.workflow_run.event == 'pull_request' && github.event.workflow_run.conclusion == 'success' }}
     steps:
-      - name: Install dependencies
-        run: |
-          sudo apt-get update -qq
-          sudo apt install -y unzip
       - name: Download artifacts
         id: get-artifacts
         uses: actions/github-script@v7
@@ -38,7 +34,8 @@ jobs:
                archive_format: 'zip',
             });
 
-            console.log("artifact_id=" + matchArtifact.id + " >> $GITHUB_OUTPUT");
+            core.setOutput('artifact_id', matchArtifact.id);
+
             var fs = require('fs');
             fs.writeFileSync('${{github.workspace}}/tests_summary.zip', Buffer.from(download.data));
 
@@ -50,8 +47,7 @@ jobs:
       - name: Generate and append artifacts link
         run: |
           ARTIFACT_ID=${{ steps.get-artifacts.outputs.artifact_id}}
-          SUITE_ID=$(cat ./suite_id)
-          ARTIFACT_URL="https://github.com/chipsalliance/sv-tests/suites/$SUITE_ID/artifacts/$ARTIFACT_ID"
+          ARTIFACT_URL="https://github.com/${{ github.repository }}/actions/runs/${{ github.event.workflow_run.id }}/artifacts/$ARTIFACT_ID"
           MD_URL="[Download an archive containing all the details]($ARTIFACT_URL)"
           echo -e "\n\n$MD_URL" >> tests_summary.md
 
