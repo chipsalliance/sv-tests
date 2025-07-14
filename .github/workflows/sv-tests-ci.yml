@@ -264,9 +264,6 @@ jobs:
         run: |
           mkdir $TESTS_SUMMARY_DIR
           echo ${{ github.event.number }} > $TESTS_SUMMARY_DIR/issue_num
-          SUITE_INFO=`curl -s https://api.github.com/repos/${GITHUB_REPOSITORY}/actions/runs/${GITHUB_RUN_ID}`
-          SUITE_ID=`echo $SUITE_INFO | jq -r '.check_suite_id'`
-          echo $SUITE_ID > $TESTS_SUMMARY_DIR/suite_id
           cp $COMPARE_REPORT $TESTS_SUMMARY_DIR/report_base.csv
           cp $OUT_REPORT_DIR/report.csv $TESTS_SUMMARY_DIR/report_new.csv
           cp $OUT_REPORT_DIR/new_*csv $TESTS_SUMMARY_DIR
