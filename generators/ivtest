@@ -270,6 +270,7 @@ ivtest_file_exclude = [
     'pr2794144',
     # Modules ignored due to module ordering sv-test driver limitation
     'br_gh104b',
+    'check_constant_2',
     'def_nettype_none',
     'implicitport2',
     'implicitport3',
@@ -278,13 +279,42 @@ ivtest_file_exclude = [
     'pr1587634',
     'pr1698659',
     'pr2076425',
+    'pr2792883',
     'shellho1',
     # needs data text file that this test harness doesn't enable finding
     'pr2800985a',
     # primitive table rows are invalid, fails on multiple commercial tools
-    "pr3587570",
+    'pr3587570',
     # Compilation errors with other simulators
-    "pr1520314",
+    'pr1520314',
+    # Synthesis one-hot assertion fails
+    'onehot',
+    # Primitive connect to real
+    'br_gh1182',
+    # Intentional assertion failures
+    'sv_deferred_assert1',
+    'sv_deferred_assert2',
+    'sv_deferred_assume1',
+    'sv_deferred_assume2',
+    'sv_immediate_assert',
+    'sv_immediate_assume',
+    # IEEE 22.2 directives must be on same line
+    'br_gh782b',
+    'br_gh782c',
+    'br_gh782e',
+    'br_gh782f',
+    # Requires iv-specific $abstime/$is_signed
+    'pr2590274a',
+    'pr2590274b',
+    'pr2590274c',
+    'struct_member_signed',
+    'struct_signed',
+    # '%d' with string argument
+    'sv_cast_typedef',
+    # IEEE does not disallow void' of a void function/task, 4 of 5 simulators take it
+    # (Useful in macros that void-call a passed func/task name without knowing dtype)
+    'sv_void_cast_fail1',
+    'sv_void_cast_fail2',
 ]
 
 ivtest_long = ['comp1000', 'comp1001']
