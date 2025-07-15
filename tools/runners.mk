@@ -76,12 +76,19 @@ $(INSTALL_DIR)/bin/zachjs-sv2v:
 tree-sitter-systemverilog: $(INSTALL_DIR)/bin/tree-sitter
 	(export PATH=$(INSTALL_DIR)/bin/:${PATH} && \
 		cd $(RDIR)/tree-sitter-systemverilog && tree-sitter generate)
-	cp -r $(RDIR)/tree-sitter-systemverilog/src $(abspath $(OUT_DIR)/tmp/)
+	mkdir -p $(abspath $(OUT_DIR)/tmp)
+	cp -r $(RDIR)/tree-sitter-systemverilog/src $(abspath $(OUT_DIR)/tmp/tree-sitter-systemverilog)
 
 
-tree-sitter-verilog: $(INSTALL_DIR)/bin/tree-sitter
+tree-sitter-verilog: $(INSTALL_DIR)/lib/tree-sitter-verilog.so
+
+$(INSTALL_DIR)/lib/tree-sitter-verilog.so: $(INSTALL_DIR)/bin/tree-sitter
+	mkdir -p $(INSTALL_DIR)/lib
 	(export PATH=$(INSTALL_DIR)/bin/:${PATH} && \
 		cd $(RDIR)/tree-sitter-verilog && tree-sitter generate --abi 14)
+	cd $(RDIR)/tree-sitter-verilog && \
+		gcc -fPIC -c -I./src -Os src/parser.c && \
+		gcc -fPIC -shared -Os parser.o -o $@
 
 $(INSTALL_DIR)/bin/tree-sitter:
 	wget https://github.com/tree-sitter/tree-sitter/releases/download/v0.25.3/tree-sitter-linux-x64.gz
