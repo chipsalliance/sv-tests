@@ -26,3 +26,10 @@ class tree_sitter_systemverilog(BaseRunner):
     def prepare_run_cb(self, tmp_dir, params):
         self.cmd = [self.executable, 'parse']
         self.cmd += params['files']
+
+    def can_run(self):
+        src_path = os.path.join(
+            os.environ.get('OUT_DIR', 'out'), 'tmp',
+            'tree-sitter-systemverilog', 'parser.c')
+
+        return os.path.exists(src_path) and super().can_run()
