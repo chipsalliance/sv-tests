@@ -12,6 +12,10 @@ RDIR := $(abspath third_party/tools)
 TDIR := $(abspath tools)
 CDIR := $(abspath conf)
 
+TREE_SITTER_SVERILOG_PARSER_DIR := $(abspath $(OUT_DIR)/tmp/tree-sitter-systemverilog/parser)
+
+export TREE_SITTER_SVERILOG_PARSER_DIR
+
 .PHONY: runners
 
 runners:
@@ -76,9 +80,8 @@ $(INSTALL_DIR)/bin/zachjs-sv2v:
 tree-sitter-systemverilog: $(INSTALL_DIR)/bin/tree-sitter
 	(export PATH=$(INSTALL_DIR)/bin/:${PATH} && \
 		cd $(RDIR)/tree-sitter-systemverilog && tree-sitter generate)
-	mkdir -p $(abspath $(OUT_DIR)/tmp)
-	cp -r $(RDIR)/tree-sitter-systemverilog/src $(abspath $(OUT_DIR)/tmp/tree-sitter-systemverilog)
-
+	mkdir -p $(abspath $(OUT_DIR)/tmp/tree-sitter-systemverilog)
+	mv $(RDIR)/tree-sitter-systemverilog/src $(TREE_SITTER_SVERILOG_PARSER_DIR)
 
 tree-sitter-verilog: $(INSTALL_DIR)/lib/tree-sitter-verilog.so
 
@@ -94,6 +97,7 @@ $(INSTALL_DIR)/bin/tree-sitter:
 	wget https://github.com/tree-sitter/tree-sitter/releases/download/v0.25.3/tree-sitter-linux-x64.gz
 	gunzip tree-sitter-linux-x64.gz
 	install -D tree-sitter-linux-x64 $@
+	rm tree-sitter-linux-x64
 
 # yosys-synlig
 yosys-synlig: $(INSTALL_DIR)/bin/yosys-synlig

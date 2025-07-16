@@ -123,7 +123,8 @@ FILTER := --filter $(RUNNERS_FILTER)
 endif
 
 RUNNERS := $(sort $(shell OUT_DIR=$(OUT_DIR) RUNNERS_DIR=$(RUNNERS_DIR) \
-                          ./tools/check-runners $(RUNNERS_FOUND) $(FILTER)))
+                          TREE_SITTER_SVERILOG_PARSER_DIR=$(TREE_SITTER_SVERILOG_PARSER_DIR) \
+			  ./tools/check-runners $(RUNNERS_FOUND) $(FILTER)))
 TESTS := $(shell find $(TESTS_DIR) -type f -iname *.sv)
 TESTS := $(TESTS:$(TESTS_DIR)/%=%)
 GENERATORS := $(wildcard $(GENERATORS_DIR)/*)
