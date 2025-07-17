@@ -1,6 +1,7 @@
 name: lint-review
 on:
   pull_request:
+  workflow_dispatch:
 
 jobs:
   lint_review:
