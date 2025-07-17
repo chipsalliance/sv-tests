@@ -13,8 +13,10 @@ TDIR := $(abspath tools)
 CDIR := $(abspath conf)
 
 TREE_SITTER_SVERILOG_PARSER_DIR := $(abspath $(OUT_DIR)/tmp/tree-sitter-systemverilog/parser)
+TREE_SITTER_VERILOG_PARSER_DIR := $(abspath $(OUT_DIR)/tmp/tree-sitter-verilog/parser)
 
 export TREE_SITTER_SVERILOG_PARSER_DIR
+export TREE_SITTER_VERILOG_PARSER_DIR
 
 .PHONY: runners
 
@@ -83,15 +85,11 @@ tree-sitter-systemverilog: $(INSTALL_DIR)/bin/tree-sitter
 	mkdir -p $(abspath $(OUT_DIR)/tmp/tree-sitter-systemverilog)
 	mv $(RDIR)/tree-sitter-systemverilog/src $(TREE_SITTER_SVERILOG_PARSER_DIR)
 
-tree-sitter-verilog: $(INSTALL_DIR)/lib/tree-sitter-verilog.so
-
-$(INSTALL_DIR)/lib/tree-sitter-verilog.so: $(INSTALL_DIR)/bin/tree-sitter
-	mkdir -p $(INSTALL_DIR)/lib
+tree-sitter-verilog: $(INSTALL_DIR)/bin/tree-sitter
 	(export PATH=$(INSTALL_DIR)/bin/:${PATH} && \
-		cd $(RDIR)/tree-sitter-verilog && tree-sitter generate --abi 14)
-	cd $(RDIR)/tree-sitter-verilog && \
-		gcc -fPIC -c -I./src -Os src/parser.c && \
-		gcc -fPIC -shared -Os parser.o -o $@
+		cd $(RDIR)/tree-sitter-verilog && tree-sitter generate)
+	mkdir -p $(abspath $(OUT_DIR)/tmp/tree-sitter-verilog)
+	mv $(RDIR)/tree-sitter-verilog/src $(TREE_SITTER_VERILOG_PARSER_DIR)
 
 $(INSTALL_DIR)/bin/tree-sitter:
 	wget https://github.com/tree-sitter/tree-sitter/releases/download/v0.25.3/tree-sitter-linux-x64.gz

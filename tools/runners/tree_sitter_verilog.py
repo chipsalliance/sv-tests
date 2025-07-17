@@ -10,94 +10,30 @@
 # SPDX-License-Identifier: ISC
 
 import os
-import sys
-import resource
+import shutil
 
-from tree_sitter import Language, Parser
 from BaseRunner import BaseRunner
 
 
 class tree_sitter_verilog(BaseRunner):
-    libname = 'tree-sitter-verilog.so'
-    locpath = ['runners', 'lib', libname]
-    conpath = ['lib', libname]
-
     def __init__(self):
-        super().__init__("tree-sitter-verilog", None, {"parsing"})
+        super().__init__("tree-sitter-verilog", "tree-sitter", {"parsing"})
 
         self.submodule = "third_party/tools/tree-sitter-verilog"
         self.url = f"https://github.com/tree-sitter/tree-sitter-verilog/tree/{self.get_commit()}"
+        self.parser_dir = os.path.abspath(
+            os.environ['TREE_SITTER_VERILOG_PARSER_DIR'])
 
-    def find_lib(self):
-        local_lib = ''
-        conda_lib = ''
-        try:
-            out = os.environ['OUT_DIR']
-            local_lib = os.path.abspath(os.path.join(out, *self.locpath))
-        except KeyError:
-            pass
+    def prepare_run_cb(self, tmp_dir, params):
+        # Tree‑sitter expects the grammar.json in $CWD/src/grammar.json,
+        # so we symlink the parser directory.
+        symlink_path = os.path.join(tmp_dir, 'src')
+        if os.path.exists(symlink_path) is False:
+            os.symlink(self.parser_dir, symlink_path, True)
 
-        try:
-            prefix = os.environ['CONDA_PREFIX']
-            conda_lib = os.path.abspath(os.path.join(prefix, *self.conpath))
-        except KeyError:
-            pass
-
-        return local_lib if os.path.isfile(local_lib) else conda_lib
-
-    def log_error(self, fname, row, col, err):
-        self.log += '{}:{}:{}: error: {}\n'.format(fname, row, col, err)
-
-    def walk(self, node, fname):
-        if not node.has_error:
-            return False
-
-        last_err = True
-
-        for child in node.children:
-            if self.walk(child, fname):
-                last_err = False
-
-        if last_err:
-            self.log_error(fname, *node.start_point, 'node type: ' + node.type)
-
-        return True
-
-    def run(self, tmp_dir, params):
-        self.ret = 0
-        self.log = ''
-
-        try:
-            lib = self.find_lib()
-
-            lang = Language(lib, 'verilog')
-
-            parser = Parser()
-            parser.set_language(lang)
-        except Exception as e:
-            self.log += f'{e}\n'
-            self.ret = 1
-
-        for src in params['files']:
-            f = None
-            try:
-                f = open(src, 'rb')
-            except IOError:
-                self.ret = 1
-                self.log_error(src, '', '', 'failed to open file')
-                continue
-
-            try:
-                tree = parser.parse(f.read())
-                if self.walk(tree.root_node, src):
-                    self.ret = 1
-            except Exception as e:
-                self.log_error(src, '', '', 'unknown error: ' + str(e))
-                self.ret = 1
-        usage = resource.getrusage(resource.RUSAGE_SELF)
-        profiling_data = (usage.ru_utime, usage.ru_stime, usage.ru_maxrss)
-
-        return (self.log, self.ret) + profiling_data
+        self.cmd = [self.executable, 'parse']
+        self.cmd += params['files']
 
     def can_run(self):
-        return os.path.isfile(self.find_lib())
+        parser_c_path = os.path.join(self.parser_dir, 'parser.c')
+        return os.path.exists(parser_c_path) and super().can_run()
