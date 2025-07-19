@@ -221,9 +221,14 @@ ivtest_file_exclude = [
     # though the non-blocking assignment will have no effect.
     'program3b',
     # A wire with 'real' type is not allowed (commercial tools disallow)
+    'br_gh156',
     'br_gh556',
     # This test forgets to add parenthesis to a module instantiation.
     'br_gh553',
+    # Expects failure for out-of-bounds access but most tools warn instead of hard error
+    # and LRM specifies what the runtime behavior is.
+    'br_gh840a',
+    'br_gh840b',
     # Provides connection for null port, LRM is unclear but all commercial tools disallow this
     'pr1723367',
     # Expects failure for using a slice in $readmemh but the LRM explicitly allows for this.
@@ -315,6 +320,34 @@ ivtest_file_exclude = [
     # (Useful in macros that void-call a passed func/task name without knowing dtype)
     'sv_void_cast_fail1',
     'sv_void_cast_fail2',
+    # Declares ports in the module body without declaring them in the header.
+    # The LRM does not allow this. All tools tried fail on this.
+    'module_output_port_sv_var2',
+    'module_output_port_var2',
+    # References a compilation unit-level item from within a package, which is not allowed
+    'sv_ps_type_class1',
+    # These need to be run in a Verilog-specific mode once sv-tests has one, since they expect
+    # failure even though SystemVerilog allows them.
+    'br_gh956a',
+    'module_inout_port_type',
+    'module_input_port_list_def',
+    'module_input_port_type',
+    'parameter_in_generate1',
+    'parameter_no_default',
+    'parameter_omit1',
+    'parameter_omit2',
+    'parameter_omit3',
+    'unnamed_block_var_decl',
+    'unnamed_fork_var_decl',
+    # References a non-existent module
+    'macro_args',
+    # Nested block comments are disallowed in SystemVerilog
+    'macro_comment_multiline',
+    # It's not illegal to declare a range on a non-ANSI port declaration even
+    # if the 'direction' declaration for the port does not have it. LRM does not
+    # specify such a restriction, all tools support it.
+    'module_nonansi_vec_fail2',
+    'task_nonansi_vec_fail3',
 ]
 
 ivtest_long = ['comp1000', 'comp1001']
