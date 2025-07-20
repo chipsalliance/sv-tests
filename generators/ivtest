@@ -225,8 +225,8 @@ ivtest_file_exclude = [
     'br_gh556',
     # This test forgets to add parenthesis to a module instantiation.
     'br_gh553',
-    # Expects failure for out-of-bounds access but most tools warn instead of hard error
-    # and LRM specifies what the runtime behavior is.
+    # Expects pass or failure for out-of-bounds access but most tools warn instead of
+    # hard error and LRM specifies what the runtime behavior is.
     'br_gh840a',
     'br_gh840b',
     'assign_op_oob',
@@ -336,7 +336,6 @@ ivtest_file_exclude = [
     'module_inout_port_type',
     'module_input_port_list_def',
     'module_input_port_type',
-    'par_mismatch',
     'parameter_in_generate1',
     'parameter_no_default',
     'parameter_omit1',
@@ -346,9 +345,9 @@ ivtest_file_exclude = [
     'unnamed_fork_var_decl',
     # References a non-existent module
     'macro_args',
-    # Nested block comments are disallowed in SystemVerilog, however
+    # Nested block comments are disallowed currently in SystemVerilog, however
     # all simulators take this, so allowing it.
-    # 'macro_comment_multiline',
+    'macro_comment_multiline',
     # It's not illegal to declare a range on a non-ANSI port declaration even
     # if the 'direction' declaration for the port does not have it. LRM does not
     # specify such a restriction, all tools support it.
