@@ -166,7 +166,7 @@ ivtest_file_exclude = [
     'always_latch_no_sens',
     # '@ *' is valid and supported by commercial tools
     'case3',
-    'wildsense'
+    'wildsense',
     # The following tests need to be looked at and verified
     'pr1723367',  # scalar with vectored net
     'undef',  # undefined macro behaviour is ambiguous
@@ -221,9 +221,16 @@ ivtest_file_exclude = [
     # though the non-blocking assignment will have no effect.
     'program3b',
     # A wire with 'real' type is not allowed (commercial tools disallow)
+    'br_gh156',
     'br_gh556',
     # This test forgets to add parenthesis to a module instantiation.
     'br_gh553',
+    # Expects pass or failure for out-of-bounds access but most tools warn instead of
+    # hard error and LRM specifies what the runtime behavior is.
+    'br_gh840a',
+    'br_gh840b',
+    'assign_op_oob',
+    'assign_op_real_array_oob',
     # Provides connection for null port, LRM is unclear but all commercial tools disallow this
     'pr1723367',
     # Expects failure for using a slice in $readmemh but the LRM explicitly allows for this.
@@ -232,7 +239,7 @@ ivtest_file_exclude = [
     # Illegal; IEEE says parameters may be limited to 32 bits if no type is provided
     'ilongint_test',
     # Expects failure but IEEE does not disallow zero size arrays (parameters may cause this)
-    'br_ml20181012d_iv',
+    'br_ml20181012d',
     # Test does not compile without __ICARUS__
     'implicit_cast12',
     'implicit_cast13',
@@ -249,7 +256,7 @@ ivtest_file_exclude = [
     # Null object dereferenced
     'br_gh104a',
     # Some tools error others warn, it's not clear in LRM what the requirements are
-    'br_gh230_iv',
+    'br_gh230',
     # Zero sized constant is illegal, but some tools warn and ignore
     'br_gh60a',
     # String type is not implicitly assignment compatible to a packed vector, but some allow
@@ -298,6 +305,8 @@ ivtest_file_exclude = [
     'sv_deferred_assume2',
     'sv_immediate_assert',
     'sv_immediate_assume',
+    'case_priority',
+    'case_unique',
     # IEEE 22.2 directives must be on same line
     'br_gh782b',
     'br_gh782c',
@@ -315,6 +324,51 @@ ivtest_file_exclude = [
     # (Useful in macros that void-call a passed func/task name without knowing dtype)
     'sv_void_cast_fail1',
     'sv_void_cast_fail2',
+    # Declares ports in the module body without declaring them in the header.
+    # The LRM does not allow this. All tools tried fail on this.
+    'module_output_port_sv_var2',
+    'module_output_port_var2',
+    # References a compilation unit-level item from within a package, which is not allowed
+    'sv_ps_type_class1',
+    # These need to be run in a Verilog-specific mode once sv-tests has one, since they expect
+    # failure even though SystemVerilog allows them.
+    'br_gh956a',
+    'module_inout_port_type',
+    'module_input_port_list_def',
+    'module_input_port_type',
+    'parameter_in_generate1',
+    'parameter_no_default',
+    'parameter_omit1',
+    'parameter_omit2',
+    'parameter_omit3',
+    'unnamed_block_var_decl',
+    'unnamed_fork_var_decl',
+    # References a non-existent module
+    'macro_args',
+    # Nested block comments are disallowed currently in SystemVerilog, however
+    # all simulators take this, so allowing it.
+    'macro_comment_multiline',
+    # It's not illegal to declare a range on a non-ANSI port declaration even
+    # if the 'direction' declaration for the port does not have it. LRM does not
+    # specify such a restriction, all tools support it.
+    'module_nonansi_vec_fail2',
+    'task_nonansi_vec_fail3',
+    # Wrapper script doesn't pass parameter to non-Icarus tools, so test fails
+    'parameter_no_default_toplvl',
+    # Wrapper script doean't give a top-module and fails as `celldefine's are
+    # assumed part of libraries and not automatically processed otherwise
+    'specify1',
+    # Declares "x" twice (Unlike modules, task/func 'dtype x'
+    # must be after 'input x'. All non-Icarus simulators agree.
+    'task_nonansi_enum2',
+    'task_nonansi_int2',
+    'task_nonansi_integer2',
+    'task_nonansi_parray2',
+    'task_nonansi_real2',
+    'task_nonansi_time2',
+    'task_nonansi_vec2',
+    # Test should expect fail: IEEE does not allow .* to connect to empty ports
+    'br_gh530',
 ]
 
 ivtest_long = ['comp1000', 'comp1001']
