@@ -60,7 +60,8 @@
 		"bsg_test_BaseJumpSTL_bsg_nonsynth_axi_mem.sv",
 		"bsg_wormhole_router_pkg.sv",
 		"test_bsg_clock_params.sv",
-		"bsg_dmc_xilinx_ui_trace_replay.sv"
+		"bsg_dmc_xilinx_ui_trace_replay.sv",
+		"bsg_nonsynth_profiler.sv"
 	],
 	"fake_topmodule": true,
 	"results_group": "imported"

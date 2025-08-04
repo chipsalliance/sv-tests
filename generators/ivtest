@@ -369,6 +369,12 @@ ivtest_file_exclude = [
     'task_nonansi_vec2',
     # Test should expect fail: IEEE does not allow .* to connect to empty ports
     'br_gh530',
+    # The LRM does not seem to support the idea of leaking enum members out of a surrounding
+    # struct scope, though some tools support it. VCS does not.
+    'enum_in_struct',
+    # All tools allow this. The LRM contains some conflicting wording on this, but shows
+    # an example that implies it should be allowed.
+    'sv_export_fail1',
 ]
 
 ivtest_long = ['comp1000', 'comp1001']
