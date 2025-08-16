@@ -52,7 +52,7 @@ module top();
         @(posedge clk) disable iff (~rst) out;
     endproperty
 
-    assert property (prop) else $error($sformatf("property check failed :assert: (False)"));
+    assert property (prop) else $error($sformatf("property check failed :assert: (True)"));
 
     initial begin
         forever begin
