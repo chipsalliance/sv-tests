@@ -154,32 +154,15 @@ $(INSTALL_DIR)/bin/yosys-slang: $(INSTALL_DIR)/bin/slang-yosys-config
 circt-verilog: $(INSTALL_DIR)/bin/circt-verilog
 
 $(INSTALL_DIR)/bin/circt-verilog:
-	mkdir -p $(RDIR)/circt-verilog/build && \
-	mkdir -p $(RDIR)/circt-verilog/llvm/build && \
-	cd $(RDIR)/circt-verilog/llvm/build && \
-	cmake ../llvm \
-	    -G Ninja \
-	    -DCMAKE_BUILD_TYPE=Release \
-	    -DLLVM_USE_LINKER=lld \
-	    -DLLVM_CCACHE_BUILD=ON \
-	    -DCMAKE_C_COMPILER=clang \
-	    -DCMAKE_CXX_COMPILER=clang++ \
-	    -DLLVM_ENABLE_PROJECTS="mlir" \
-	    -DLLVM_INSTALL_UTILS=ON \
-	    -DLLVM_OPTIMIZED_TABLEGEN=ON \
-	    -DLLVM_TARGETS_TO_BUILD="host" && \
-	ninja && cd $(RDIR)/circt-verilog/build && \
-	cmake .. \
-	    -G Ninja \
-	    -DCMAKE_BUILD_TYPE=Release \
-	    -DLLVM_USE_LINKER=lld \
-	    -DCMAKE_C_COMPILER=clang \
-	    -DCMAKE_CXX_COMPILER=clang++ \
-	    -DMLIR_DIR=$(RDIR)/circt-verilog/llvm/build/lib/cmake/mlir \
-	    -DLLVM_DIR=$(RDIR)/circt-verilog/llvm/build/lib/cmake/llvm \
-	    -DCIRCT_SLANG_FRONTEND_ENABLED=ON \
-	    -DCMAKE_INSTALL_PREFIX=$(INSTALL_DIR) && \
-	ninja && ninja install
+	cd $(RDIR)/circt-verilog && cmake llvm/llvm -B build \
+		-DCMAKE_INSTALL_PREFIX=$(INSTALL_DIR) \
+		-DCMAKE_BUILD_TYPE=Release \
+		-DLLVM_TARGETS_TO_BUILD=host \
+		-DLLVM_ENABLE_PROJECTS=mlir \
+		-DLLVM_EXTERNAL_PROJECTS=circt \
+		-DLLVM_EXTERNAL_CIRCT_SOURCE_DIR=$(RDIR)/circt-verilog \
+		-DCIRCT_SLANG_FRONTEND_ENABLED=ON
+	$(MAKE) -C $(RDIR)/circt-verilog/build install-circt-verilog
 
 # setup the dependencies
 RUNNERS_TARGETS := odin yosys icarus verilator slang zachjs-sv2v tree-sitter-systemverilog tree-sitter-verilog sv-parser moore verible surelog yosys-synlig circt-verilog
