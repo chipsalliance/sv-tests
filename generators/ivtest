@@ -375,6 +375,9 @@ ivtest_file_exclude = [
     # All tools allow this. The LRM contains some conflicting wording on this, but shows
     # an example that implies it should be allowed.
     'sv_export_fail1',
+    # Redefining the same UDP is above what IEEE specifies; it's an error on some tools,
+    # warning on others (which pick first or last defined), and ignored on yet others.
+    'br_gh1175f',
 ]
 
 ivtest_long = ['comp1000', 'comp1001']
