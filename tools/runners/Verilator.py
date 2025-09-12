@@ -42,11 +42,14 @@ class Verilator(BaseRunner):
         self.cmd.append('--timing')
 
         if mode in ['simulation', 'simulation_without_run']:
-            self.cmd += ['--cc']
+            self.cmd += ['--binary']
         elif mode == 'preprocessing':
             self.cmd += ['-P', '-E']
         else:  # parsing and elaboration
             self.cmd += ['--lint-only']
+
+        # Allow UVM builds within reasonable timeout
+        self.cmd += ['--build-jobs', '0']
 
         self.cmd += ['-Wno-fatal', '-Wno-UNOPTFLAT', '-Wno-BLKANDNBLK']
         # Flags for compliance testing:
@@ -67,18 +70,14 @@ class Verilator(BaseRunner):
         for incdir in params['incdirs']:
             self.cmd.append('-I' + incdir)
 
-        if all(os.path.splitext(filename)[1] not in self.c_extensions
-               for filename in params['files']):
-            # Test doesn't contain any c related file,
-            # but one is required for the simulation.
-            # We need to provide file with main function
-            is_simple_test = True
-            self.cmd.append('--main')
+        # No tests require UVM DPI, and we don't currently have a nice
+        # way of knowing when it is needed to put it on the command line.
+        # Also avoids compile time of the DPI C code.
+        self.cmd.append('-DUVM_NO_DPI')
 
         if mode in ['simulation', 'simulation_without_run']:
             self.cmd += [
-                '--Mdir', build_dir, '--prefix', build_name, '--exe', '-o',
-                build_name
+                '--Mdir', build_dir, '--prefix', build_name, '-o', build_name
             ]
 
         if 'runner_verilator_flags' in params:
@@ -92,7 +91,5 @@ class Verilator(BaseRunner):
         with open(scr, 'w') as f:
             f.write('set -x\n')
             f.write('{0} "$@" || exit $?\n'.format(self.executable))
-            if mode in ['simulation', 'simulation_without_run']:
-                f.write(f'make -C {build_dir} -f {build_name}.mk\n')
             if mode == 'simulation':
-                f.write(f'./{build_dir}/{build_name}')
+                f.write(f'./{build_dir}/{build_name}\n')
