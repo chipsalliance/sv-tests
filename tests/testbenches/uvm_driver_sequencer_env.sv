@@ -111,7 +111,7 @@ endclass
 
 class env extends uvm_env;
     virtual output_if vif;
-    int data;
+    static int data;
     sequence_in seq;
     sequencer sqr;
     driver  drv;

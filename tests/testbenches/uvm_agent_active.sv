@@ -177,7 +177,7 @@ endclass
 class env extends uvm_env;
     agent_active   agent;
     virtual output_if vif;
-    int data;
+    static int data;
     sequence_in seq;
 
     `uvm_component_utils(env)
