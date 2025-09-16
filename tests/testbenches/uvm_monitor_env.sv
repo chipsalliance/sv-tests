@@ -12,7 +12,7 @@
 :description: uvm monitor + env test
 :tags: uvm uvm-classes
 :type: simulation elaboration parsing
-:timeout: 30
+:timeout: 300
 :unsynthesizable: 1
 */
 

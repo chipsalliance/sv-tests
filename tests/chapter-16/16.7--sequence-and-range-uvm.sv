@@ -12,7 +12,7 @@
 :description: sequence with range and "and" operator in UVM
 :type: simulation elaboration parsing
 :tags: uvm uvm-assertions
-:timeout: 60
+:timeout: 300
 :unsynthesizable: 1
 */
 

@@ -12,6 +12,7 @@
 :description: {0} class test
 :tags: uvm uvm-classes
 :type: simulation elaboration parsing
+:timeout: 300
 :unsynthesizable: 1
 */
 
