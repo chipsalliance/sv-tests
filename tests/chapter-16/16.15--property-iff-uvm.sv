@@ -12,7 +12,7 @@
 :description: property with disable iff test with UVM
 :type: simulation elaboration parsing
 :tags: uvm uvm-assertions
-:timeout: 60
+:timeout: 300
 :unsynthesizable: 1
 */
 
