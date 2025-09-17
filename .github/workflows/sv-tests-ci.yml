@@ -40,6 +40,7 @@ jobs:
             skip-ccache: 1
           - name: verilator
             deps: autoconf autotools-dev bison flex help2man libfl-dev libelf-dev
+            make_jobs_max: 4
           - name: yosys
             deps: bison clang tcl-dev flex libfl-dev pkg-config libreadline-dev
           - name: yosys-synlig
@@ -182,8 +183,10 @@ jobs:
           BIG_GENERATORS_EXPR=$(echo $BIG_GENERATORS | sed 's/ /\\|/g')
           export STABLE_GENERATORS=$(make list-generators | tr ' ' '\n' | grep -v "${BIG_GENERATORS_EXPR}")
           export UNSTABLE_GENERATORS=$(make list-generators | tr ' ' '\n' | grep "${BIG_GENERATORS_EXPR}")
-          for gen in ${STABLE_GENERATORS}; do make generate-$gen -j$(nproc); make -j$(nproc); done
-          for gen in ${UNSTABLE_GENERATORS}; do make generate-$gen; make; done
+          export JOBS=${{ matrix.tool.make_jobs_max }}
+          if [[ "${JOBS}x" == "x" ]]; then export JOBS=$(nproc); fi
+          for gen in ${STABLE_GENERATORS}; do echo "==GEN stable $gen -j $JOBS" ; make generate-$gen -j${JOBS}; make -j ${JOBS}; done
+          for gen in ${UNSTABLE_GENERATORS}; do echo "==GEN unstable $gen" ; make generate-$gen; make; done
       - name: Prepare Report
         run:
           mv out/report/report.csv out/report/${{ matrix.tool.name }}_report.csv
