@@ -11,6 +11,7 @@
 :name: local_scope_resolution_1
 :description: local:: scope resolution test
 :tags: uvm-random uvm
+:timeout: 300
 :unsynthesizable: 1
 */
 

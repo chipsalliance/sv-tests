@@ -11,6 +11,7 @@
 :name: set_randstate_0
 :description: set_randstate() test
 :tags: uvm-random uvm
+:timeout: 300
 :unsynthesizable: 1
 */
 

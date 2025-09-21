@@ -11,6 +11,7 @@
 :name: foreach_iterative_constraints_1
 :description: foreach iterative constraints test
 :tags: uvm-random uvm
+:timeout: 300
 :unsynthesizable: 1
 */
 

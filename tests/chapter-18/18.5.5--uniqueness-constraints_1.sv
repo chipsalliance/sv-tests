@@ -11,6 +11,7 @@
 :name: uniqueness_constraints_1
 :description: uniqueness constraints test
 :tags: uvm-random uvm
+:timeout: 300
 :unsynthesizable: 1
 */
 

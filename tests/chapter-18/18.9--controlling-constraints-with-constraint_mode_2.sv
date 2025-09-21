@@ -13,6 +13,7 @@
 :should_fail_because: The constraint_mode() method is built-in and cannot be overridden.
 :tags: uvm-random uvm
 :type: simulation elaboration
+:timeout: 300
 :unsynthesizable: 1
 */
 

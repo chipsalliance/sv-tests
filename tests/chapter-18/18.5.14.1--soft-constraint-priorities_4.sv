@@ -11,6 +11,7 @@
 :name: soft_constraint_priorities_4
 :description: soft constraint priorities test
 :tags: uvm-random uvm
+:timeout: 300
 :unsynthesizable: 1
 */
 

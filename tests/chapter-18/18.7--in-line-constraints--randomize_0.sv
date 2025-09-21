@@ -11,6 +11,7 @@
 :name: in-line_constraints--randomize_0
 :description: in-line constraints test - randomize()
 :tags: uvm-random uvm
+:timeout: 300
 :unsynthesizable: 1
 */
 

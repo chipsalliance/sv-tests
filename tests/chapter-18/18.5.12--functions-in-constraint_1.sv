@@ -11,6 +11,7 @@
 :name: functions_in_constraint_1
 :description: functions in constraint test
 :tags: uvm-random uvm
+:timeout: 300
 :unsynthesizable: 1
 */
 

@@ -11,6 +11,7 @@
 :name: implication_1
 :description: implication test
 :tags: uvm-random uvm
+:timeout: 300
 :unsynthesizable: 1
 */
 

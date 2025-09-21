@@ -11,6 +11,7 @@
 :name: distribution_1
 :description: distribution test
 :tags: uvm-random uvm
+:timeout: 300
 :unsynthesizable: 1
 */
 
