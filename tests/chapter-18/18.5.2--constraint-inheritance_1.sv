@@ -11,6 +11,7 @@
 :name: constraint_inheritance_1
 :description: contraint inheritance test
 :tags: uvm-random uvm
+:timeout: 300
 :unsynthesizable: 1
 */
 

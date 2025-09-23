@@ -11,6 +11,7 @@
 :name: post_randomize_method_1
 :description: post_randomize() method test
 :tags: uvm-random uvm
+:timeout: 300
 :unsynthesizable: 1
 */
 

@@ -11,6 +11,7 @@
 :name: array_reduction_iterative_constraints_1
 :description: array reduction iterative constraints test
 :tags: uvm-random uvm
+:timeout: 300
 :unsynthesizable: 1
 */
 

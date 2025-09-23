@@ -11,6 +11,7 @@
 :name: constraint_guards_1
 :description: constraint guards test
 :tags: uvm-random uvm
+:timeout: 300
 :unsynthesizable: 1
 */
 

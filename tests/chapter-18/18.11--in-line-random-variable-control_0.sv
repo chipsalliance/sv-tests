@@ -11,6 +11,7 @@
 :name: in-line_random_variable-control_0
 :description: in-line random variable control test
 :tags: uvm-random uvm
+:timeout: 300
 :unsynthesizable: 1
 */
 

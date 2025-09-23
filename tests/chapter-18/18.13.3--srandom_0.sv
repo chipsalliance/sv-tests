@@ -11,6 +11,7 @@
 :name: srandom_0
 :description: srandom() test
 :tags: uvm-random uvm
+:timeout: 300
 :unsynthesizable: 1
 */
 

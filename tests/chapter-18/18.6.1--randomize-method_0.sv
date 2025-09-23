@@ -11,6 +11,7 @@
 :name: randomize_method_0
 :description: randomize() method test
 :tags: uvm-random uvm
+:timeout: 300
 :unsynthesizable: 1
 */
 

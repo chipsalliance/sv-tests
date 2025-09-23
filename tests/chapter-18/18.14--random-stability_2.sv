@@ -11,6 +11,7 @@
 :name: random_stability_2
 :description: random stability - randcase test
 :tags: uvm-random uvm
+:timeout: 300
 :unsynthesizable: 1
 */
 

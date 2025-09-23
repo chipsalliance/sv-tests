@@ -11,6 +11,7 @@
 :name: behavior_of_randomization_methods_2
 :description: If randomize() fails, the constraints are infeasible, and the random variables retain their previous values.
 :tags: uvm-random uvm
+:timeout: 300
 :unsynthesizable: 1
 */
 

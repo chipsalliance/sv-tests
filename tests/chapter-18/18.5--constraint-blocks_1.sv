@@ -11,6 +11,7 @@
 :name: constraint_blocks_1
 :description: constraint blocks test
 :tags: uvm-random uvm
+:timeout: 300
 :unsynthesizable: 1
 */
 

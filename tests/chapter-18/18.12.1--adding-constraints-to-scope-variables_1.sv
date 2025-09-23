@@ -11,6 +11,7 @@
 :name: adding_constraints_to_scope_variables_1
 :description: Adding constraints to scope variables—std::randomize() with - test
 :tags: uvm-random uvm
+:timeout: 300
 :unsynthesizable: 1
 */
 

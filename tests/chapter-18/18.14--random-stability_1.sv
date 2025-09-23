@@ -11,6 +11,7 @@
 :name: random_stability_1
 :description: random stability - shuffle test
 :tags: uvm-random uvm
+:timeout: 300
 :unsynthesizable: 1
 */
 
