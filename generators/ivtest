@@ -385,6 +385,7 @@ ivtest_extra_args = {
     'comp1000': ':timeout: 360',
     'comp1001': ':timeout: 360',
     # Promote warning to error to match iverilog
+    'porttest3': ':runner_verilator_flags: -Werror-ASSIGNIN',
     'pr1909940': ':runner_verilator_flags: -Werror-IMPLICIT',
     'pr1909940b': ':runner_verilator_flags: -Werror-IMPLICIT'
 }
