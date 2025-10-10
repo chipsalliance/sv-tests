@@ -380,7 +380,15 @@ ivtest_file_exclude = [
     'br_gh1175f',
 ]
 
-ivtest_long = ['comp1000', 'comp1001']
+ivtest_extra_args = {
+    # Long running
+    'comp1000': ':timeout: 360',
+    'comp1001': ':timeout: 360',
+    # Promote warning to error to match iverilog
+    'porttest3': ':runner_verilator_flags: -Werror-ASSIGNIN',
+    'pr1909940': ':runner_verilator_flags: -Werror-IMPLICIT',
+    'pr1909940b': ':runner_verilator_flags: -Werror-IMPLICIT'
+}
 
 ivtest_dir = os.path.abspath(
     os.path.join(third_party_dir, "tools", "icarus", "ivtest"))
@@ -436,14 +444,14 @@ for l in ivtest_lists:
                 if re.match(t, line[1]):
                     should_fail_because = ':should_fail_because: this test was imported from ivtest and is designed to fail'
 
-            timeout = ''
-            if name in ivtest_long:
-                timeout = ':timeout: 360'
+            extra_args = ''
+            if name in ivtest_extra_args:
+                extra_args += ivtest_extra_args[name]
 
             tests.append(
                 (
                     list_filename + '_' + name + '_iv', path,
-                    should_fail_because, ' '.join(incdirs), timeout))
+                    should_fail_because, ' '.join(incdirs), extra_args))
 
 test_dir = os.path.join(tests_dir, 'generated', tests_subdir)
 
