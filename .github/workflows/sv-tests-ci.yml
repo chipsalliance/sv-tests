@@ -33,6 +33,7 @@ jobs:
             rust_ver: "1.81"
 # Temporary disabled to sidestep an out-of-diskspace issue. Should be disabled after
 # we found a way to reduce the logsize of the tree-sitter builds.
+# See https://github.com/chipsalliance/sv-tests/issues/7688 for details.
 #          - name: tree-sitter-systemverilog
 #            deps: gcc
 #          - name: tree-sitter-verilog
