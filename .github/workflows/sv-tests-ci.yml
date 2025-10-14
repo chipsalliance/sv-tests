@@ -31,10 +31,12 @@ jobs:
           - name: sv-parser
             deps: cargo
             rust_ver: "1.81"
-          - name: tree-sitter-systemverilog
-            deps: gcc
-          - name: tree-sitter-verilog
-            deps: gcc
+# Temporary disabled to sidestep an out-of-diskspace issue. Should be disabled after
+# we found a way to reduce the logsize of the tree-sitter builds.
+#          - name: tree-sitter-systemverilog
+#            deps: gcc
+#          - name: tree-sitter-verilog
+#            deps: gcc
           - name: verible
             deps: bazel=7.6.1 bison flex libfl-dev
             skip-ccache: 1
