@@ -31,7 +31,7 @@ class tree_sitter_verilog(BaseRunner):
         if os.path.exists(symlink_path) is False:
             os.symlink(self.parser_dir, symlink_path, True)
 
-        self.cmd = [self.executable, 'parse']
+        self.cmd = [self.executable, 'parse', '--quiet']
         self.cmd += params['files']
 
     def can_run(self):
