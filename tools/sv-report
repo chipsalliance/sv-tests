@@ -31,6 +31,8 @@ from typing import Dict, Any, List, Set, Iterable
 import json
 import itertools
 
+from typing import Match # portable type alias
+
 # We only consider tests with minimum this size for the throughput
 # calculation, so that we skip the super-tiny few-line tests that are
 # not a true reflection of a common usage.
@@ -182,7 +184,7 @@ class ReportJinja2Env(jinja2.Environment):
 
     @staticmethod
     def escapeJsString(value: str):
-        def esc(match: re.Match):
+        def esc(match: Match):
             return rf"\x{ord(match.group(0)):02x}"
 
         return re.sub(r"[\x00-\x1F\x7F'\"]", esc, value)
@@ -408,7 +410,7 @@ def convertPathsToRelativeLinks(text: str, relative_to: str):
     Returns:
       Text in which paths are replaced with HTML links.
     """
-    def convertPath(match: re.Match):
+    def convertPath(match: Match):
         path: str = html.unescape(match.group(1))
         if not os.path.exists(path):
             return match.group(0)
