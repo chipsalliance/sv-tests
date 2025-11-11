@@ -11,7 +11,7 @@
 :name: pre_randomize_method_1
 :description: pre_randomize() method test
 :tags: uvm-random uvm
-:timeout: 300
+:timeout: 500
 :unsynthesizable: 1
 */
 

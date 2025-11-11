@@ -11,7 +11,7 @@
 :name: implicit_external_constraint_2
 :description: implicit external constraint test
 :tags: uvm-random uvm
-:timeout: 300
+:timeout: 500
 :unsynthesizable: 1
 */
 

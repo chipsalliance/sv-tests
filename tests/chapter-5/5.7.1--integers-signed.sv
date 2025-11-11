@@ -20,7 +20,7 @@ module top();
 
   initial begin
     a = -8'd 6;  // this defines the two's-complement of 6,
-                 // held in 8 bits—equivalent to -(8'd 6)
+                 // held in 8 bits-equivalent to -(8'd 6)
     b = 4'shf;   // this denotes the 4-bit number '1111', to
                  // be interpreted as a two's-complement number,
                  // or '-1'. This is equivalent to -4'h 1

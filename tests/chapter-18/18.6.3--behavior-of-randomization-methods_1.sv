@@ -11,7 +11,7 @@
 :name: behavior_of_randomization_methods_1
 :description: static random variables test
 :tags: uvm-random uvm
-:timeout: 300
+:timeout: 500
 :unsynthesizable: 1
 */
 

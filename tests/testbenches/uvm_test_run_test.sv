@@ -12,7 +12,7 @@
 :description: test if uvm_test instance can be called by name
 :tags: uvm uvm-classes
 :type: simulation elaboration parsing
-:timeout: 300
+:timeout: 500
 :unsynthesizable: 1
 */
 

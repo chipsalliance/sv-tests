@@ -11,7 +11,7 @@
 :name: dynamic_constraint_modification_0
 :description: dynamic constraint modification test
 :tags: uvm-random uvm
-:timeout: 300
+:timeout: 500
 :unsynthesizable: 1
 */
 

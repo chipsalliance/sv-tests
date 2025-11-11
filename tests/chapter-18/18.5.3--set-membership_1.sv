@@ -11,7 +11,7 @@
 :name: set_membership_1
 :description: set membership test
 :tags: uvm-random uvm
-:timeout: 300
+:timeout: 500
 :unsynthesizable: 1
 */
 

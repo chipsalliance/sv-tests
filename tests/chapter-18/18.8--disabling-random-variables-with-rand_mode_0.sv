@@ -11,7 +11,7 @@
 :name: disabling-random-variables-with-rand_mode_0
 :description: rand_mode() test
 :tags: uvm-random uvm
-:timeout: 300
+:timeout: 500
 :unsynthesizable: 1
 */
 

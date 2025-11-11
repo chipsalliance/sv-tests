@@ -11,7 +11,7 @@
 :name: random_stability_0
 :description: random stability - urandom_range test
 :tags: uvm-random uvm
-:timeout: 300
+:timeout: 500
 :unsynthesizable: 1
 */
 

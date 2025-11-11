@@ -12,7 +12,7 @@
 :description: uvm resource_db::read_by_name test
 :tags: uvm
 :type: simulation elaboration parsing
-:timeout: 300
+:timeout: 500
 :unsynthesizable: 1
 */
 

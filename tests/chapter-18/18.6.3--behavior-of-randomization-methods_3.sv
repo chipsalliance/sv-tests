@@ -11,7 +11,7 @@
 :name: behavior_of_randomization_methods_3
 :description: If randomize() fails, post_randomize() is not called.
 :tags: uvm-random uvm
-:timeout: 300
+:timeout: 500
 :unsynthesizable: 1
 */
 

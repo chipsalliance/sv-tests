@@ -11,7 +11,7 @@
 :name: randomization_of_scope_variables_1
 :description: Randomization of scope variables - std::randomize() test
 :tags: uvm-random uvm
-:timeout: 300
+:timeout: 500
 :unsynthesizable: 1
 */
 

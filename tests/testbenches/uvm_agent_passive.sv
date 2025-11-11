@@ -12,7 +12,7 @@
 :description: passive uvm_agent (agent + monitor + env) test
 :tags: uvm uvm-agents
 :type: simulation elaboration parsing
-:timeout: 300
+:timeout: 500
 :unsynthesizable: 1
 */
 

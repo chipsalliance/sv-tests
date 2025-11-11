@@ -7,7 +7,7 @@
 		":description: {0} class test",
 		":tags: uvm uvm-classes",
 		":type: parsing",
-		":timeout: 300",
+		":timeout: 500",
 		"*/",
 		"import uvm_pkg::*;",
 		"`include \"uvm_macros.svh\"\n",

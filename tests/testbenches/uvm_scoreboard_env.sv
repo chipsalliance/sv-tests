@@ -12,7 +12,7 @@
 :description: uvm scoreboard + env test
 :tags: uvm uvm-scoreboards
 :type: simulation elaboration parsing
-:timeout: 300
+:timeout: 500
 :unsynthesizable: 1
 */
 

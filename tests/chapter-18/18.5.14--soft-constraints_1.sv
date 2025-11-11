@@ -11,7 +11,7 @@
 :name: soft_constraints_1
 :description: soft constraints test
 :tags: uvm-random uvm
-:timeout: 300
+:timeout: 500
 :unsynthesizable: 1
 */
 

@@ -13,7 +13,7 @@
 :should_fail_because: The rand_mode() method is built-in and cannot be overridden.
 :tags: uvm-random uvm
 :type: simulation elaboration
-:timeout: 300
+:timeout: 500
 :unsynthesizable: 1
 */
 

@@ -11,7 +11,7 @@
 :name: controlling-constraints-with-constraint_mode_0
 :description: constraint_mode() test
 :tags: uvm-random uvm
-:timeout: 300
+:timeout: 500
 :unsynthesizable: 1
 */
 

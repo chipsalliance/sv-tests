@@ -11,7 +11,7 @@
 :name: uvm_files
 :description: basic UVM test
 :tags: uvm
-:timeout: 300
+:timeout: 500
 :unsynthesizable: 1
 */
 

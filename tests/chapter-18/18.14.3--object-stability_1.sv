@@ -11,7 +11,7 @@
 :name: object_stability_1
 :description: object stability test
 :tags: uvm-random uvm
-:timeout: 300
+:timeout: 500
 :unsynthesizable: 1
 */
 

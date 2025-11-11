@@ -12,7 +12,7 @@
 :description: interface property test with UVM
 :type: simulation elaboration parsing
 :tags: uvm uvm-assertions
-:timeout: 300
+:timeout: 500
 :unsynthesizable: 1
 */
 

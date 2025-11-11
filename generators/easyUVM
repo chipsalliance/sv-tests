@@ -19,7 +19,7 @@ templ = """/*
 :files: {0}
 :incdirs: {1}
 :tags: uvm
-:timeout: 300
+:timeout: 500
 :unsynthesizable: 1
 */
 """

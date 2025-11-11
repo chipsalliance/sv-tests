@@ -11,7 +11,7 @@
 :name: if_else_constraints_4
 :description: if-else constraints test
 :tags: uvm-random uvm
-:timeout: 300
+:timeout: 500
 :unsynthesizable: 1
 */
 

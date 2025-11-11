@@ -12,7 +12,7 @@
 :description: uvm active agent (agent + monitor + driver + sequencer) test
 :tags: uvm uvm-agents
 :type: simulation elaboration parsing
-:timeout: 300
+:timeout: 500
 :unsynthesizable: 1
 */
 

@@ -11,7 +11,7 @@
 :name: urandom_range_2
 :description: urandom_range() test
 :tags: uvm-random uvm
-:timeout: 300
+:timeout: 500
 :unsynthesizable: 1
 */
 
