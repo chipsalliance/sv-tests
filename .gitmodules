@@ -62,6 +62,7 @@
 [submodule "third_party/tests/uvm"]
 	path = third_party/tests/uvm
 	url = https://github.com/SymbiFlow/uvm.git
+	branch = uvm-2017-1.0-vlt
 [submodule "third_party/cores/tnoc"]
 	path = third_party/cores/tnoc
 	url = https://github.com/taichi-ishitani/tnoc.git
