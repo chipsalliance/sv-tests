@@ -8,12 +8,11 @@
 
 
 /*
- :name: foreach_loop_synth
- :description: A module testing foreach loop
- :tags: 12.7.3
- :unsynthesizable: 0
- */
-module foreach_tb ();
+:name: foreach_loop_synth
+:description: A module testing foreach loop
+:tags: 12.7.3
+*/
+module test ();
   logic [15:0] test [4] = '{16'h1111, 16'h2222, 16'h3333, 16'h4444};
   logic [15:0] copy [4];
   always_comb begin
