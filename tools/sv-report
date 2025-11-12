@@ -31,7 +31,7 @@ from typing import Dict, Any, List, Set, Iterable
 import json
 import itertools
 
-from typing import Match # portable type alias
+from typing import Match  # portable type alias
 
 # We only consider tests with minimum this size for the throughput
 # calculation, so that we skip the super-tiny few-line tests that are
