@@ -19,9 +19,12 @@ int a = 1;
 int b = 2;
 int c = 3;
 
+bit ok;
+
 initial begin
-	bit [127:0] d = {<< 32 {a, b, c}};
-    $display(":assert: (((%d << 64) + (%d << 32) + %d) == %d)", c, b, a, d);
+    bit [127:0] d = {<< 32 {a, b, c}};
+    ok = d == 128'h00000003_00000002_00000001_00000000;
+    $display(":assert: (%0d == %0d)", ok, 1);
 end
 
 endmodule
