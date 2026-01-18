@@ -30,7 +30,7 @@ variants = [
         "top_module": "veer-el2_wrapper",
         "tags": "veer-el2",
         "compatible-runners":
-        "yosys-synlig yosys yosys-sv zachjs-sv2v icarus moore moore-parse odin sv-parser tree-sitter-verilog verible verible_extractor Surelog slang-parse",
+        "yosys-synlig yosys yosys-sv zachjs-sv2v icarus moore moore-parse sv-parser tree-sitter-verilog verible verible_extractor Surelog slang-parse",
         "type": "parsing elaboration",
     },
 ]

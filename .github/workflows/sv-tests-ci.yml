@@ -19,9 +19,6 @@ jobs:
             deps: autoconf autotools-dev bison flex libfl-dev gperf
           - name: moore
             rust_ver: "1.61"
-          - name: odin
-            repo: odin_ii
-            deps: autoconf autotools-dev bison flex libfl-dev cmake pkg-config
           - name: slang
             deps: cmake pkg-config
           - name: surelog

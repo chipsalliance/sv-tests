@@ -15,7 +15,6 @@ channels:
 dependencies:
 #  - LiteX-Hub::iverilog
 #  - LiteX-Hub::moore
-#  - LiteX-Hub::odin_ii
 #  - LiteX-Hub::slang
 #  - LiteX-Hub::surelog
 #  - LiteX-Hub::sv-parser
