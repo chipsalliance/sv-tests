@@ -23,7 +23,7 @@ union tagged packed {
 initial begin
     un = tagged v2 (10);
 	un = tagged v1 (85); // 101_0101
-	$display(":assert: ('%b' == 'v1:1010101'", un);
+	$display(":assert: ('%b' == '01010101')", un);
 end
 
 endmodule
