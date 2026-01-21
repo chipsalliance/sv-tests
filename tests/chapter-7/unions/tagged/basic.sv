@@ -22,7 +22,7 @@ union tagged {
 
 initial begin
 	un = tagged valid (10);
-	$display(":assert: ('%p' == ''{valid:valid:10})'", un);
+	$display(":assert: ('%p' == ''{valid:10}')", un);
 end
 
 endmodule
