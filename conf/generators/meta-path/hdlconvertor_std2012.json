@@ -12,7 +12,8 @@
 		"p140.sv",
 		"p160_2.sv",
 		"p76.sv",
-		"p77.sv"
+		"p77.sv",
+		"p87.sv"
 	],
 	"type": "parsing",
 	"results_group": "imported"
