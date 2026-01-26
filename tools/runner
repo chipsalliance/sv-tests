@@ -14,6 +14,7 @@ import re
 import sys
 import json
 import shutil
+import time
 import logging
 import argparse
 import tempfile
@@ -246,15 +247,17 @@ except (PermissionError, FileExistsError) as e:
 try:
     logger.info("Running {}/{}".format(args.runner, args.test))
 
+    start_time = time.time()
     output, rc, user_time, system_time, ram_usage = runner_obj.run(
         tmp_dir, test_params)
+    end_time = time.time()
 
     tool_success = runner_obj.is_success_returncode(rc, test_params)
     test_params['rc'] = rc
     test_params['tool_success'] = "1" if tool_success else "0"
     test_params['runner'] = runner_obj.name
     test_params['runner_url'] = runner_obj.url
-    test_params['time_elapsed'] = str(user_time + system_time)
+    test_params['time_elapsed'] = end_time - start_time
     test_params['user_time'] = user_time
     test_params['system_time'] = system_time
     test_params['ram_usage'] = ram_usage
