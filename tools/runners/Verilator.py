@@ -50,6 +50,8 @@ class Verilator(BaseRunner):
 
         # Allow UVM builds within reasonable timeout
         self.cmd += ['--build-jobs', '0']
+        # Disable compiler optimization as build time exceeds test runtime
+        self.cmd += ['-CFLAGS', '-O0']
 
         self.cmd += ['-Wno-fatal', '-Wno-UNOPTFLAT', '-Wno-BLKANDNBLK']
         # Flags for compliance testing:
