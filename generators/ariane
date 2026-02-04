@@ -83,6 +83,8 @@ def process_filelist(filelist):
                 process_filelist(l.partition(' ')[2])
             elif l.endswith(".sv"):
                 sources.append(l)
+            elif l.endswith(".v"):
+                sources.append(l)
 
 
 ver_cmd_comp_iter = iter(ver_cmd_comp)
