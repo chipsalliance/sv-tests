@@ -286,6 +286,8 @@ jobs:
           name: tests_summary
           path: |
             ./tests_summary/
+            ./out/report_yosys-synlig/logs/SynligYosys/generated/black-parrot/
+            ./out/report_yosys-synlig/out/logs/SynligYosys/generated/black-parrot/
       - name: Find artifacts that are no longer needed
         id: get-artifacts-to-delete
         if: github.event_name == 'pull_request'
