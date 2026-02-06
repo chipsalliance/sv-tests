@@ -44,16 +44,6 @@ main_path = os.path.abspath(os.getcwd())
 os.chdir(ariane_path)
 
 os.environ['RISCV'] = "./"
-# retrieve only data defined in makefile
-M = make_vars(origin=['makefile'])
-
-try:
-    ver_cmd = M['makefile']['verilate_command']
-except:
-    print("Ariane makefile was changed, unable to create source list")
-    sys.exit(1)
-
-ver_cmd_comp = ver_cmd.split()
 incdirs = ''
 defines = ''
 sources = []
@@ -87,25 +77,9 @@ def process_filelist(filelist):
                 sources.append(l)
 
 
-ver_cmd_comp_iter = iter(ver_cmd_comp)
-while (components := next(ver_cmd_comp_iter, False)):
-    args = components.strip()
-    if args.startswith("+incdir+"):
-        incdirs += os.path.join(
-            ariane_path,
-            args.partition("+incdir+")[2]) + ' '
-    elif args.startswith("-f"):
-        filelist = next(ver_cmd_comp_iter)
-        process_filelist(os.path.join(ariane_path, filelist))
-    elif args.startswith("--top-module"):
-        top_module = next(ver_cmd_comp_iter)
-    elif args.endswith('.sv'):
-        # The Ariane file lists contains a reference to this file but the module itself
-        # isn't instantiated anywhere. Problematically, it contains references to a
-        # nonexistent interface, so it otherwise breaks elaboration. This hack can be
-        # removed if the problem gets fixed upstream.
-        if 'axi2apb_wrap.sv' not in args and args not in sources:
-            sources.append(os.path.join(ariane_path, args))
+ariane_flist_path = os.path.join("core", "Flist.cva6")
+process_filelist(ariane_flist_path)
+top_module = "cva6"
 
 os.chdir(main_path)
 test_dir = os.path.join(tests_dir, 'generated', tests_subdir)
