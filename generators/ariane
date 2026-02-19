@@ -148,6 +148,10 @@ def get_verilate_command_sources():
     top_module = 'ariane_testharness'
     seen = set()
 
+    # Verilator auto-defines VERILATOR; add it for other tools (e.g. slang)
+    # that don't. This controls ifdef guards for UVM includes, mock UART, etc.
+    defines.add('VERILATOR')
+
     tokens = iter(ver_cmd.split())
     for tok in tokens:
         tok = tok.strip()
