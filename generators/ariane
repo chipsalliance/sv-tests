@@ -11,17 +11,18 @@
 
 import sys
 import os
+import re
 from make_var import *
 
 templ = """/*
-:name: ariane
-:description: Full ariane core test
-:files: {0}
-:incdirs: {1}
-:defines: {2}
-:tags: ariane
+:name: {name}
+:description: {description}
+:files: {files}
+:incdirs: {incdirs}
+:defines: {defines}
+:tags: ariane cva6
 :results_group: cores
-:top_module: {3}
+:top_module: {top_module}
 :timeout: 360
 */
 """
@@ -40,81 +41,181 @@ except IndexError:
     sys.exit(1)
 
 ariane_path = os.path.abspath(os.path.join(third_party_dir, "cores", "ariane"))
-main_path = os.path.abspath(os.getcwd())
-os.chdir(ariane_path)
+hpdcache_path = os.path.join(
+    ariane_path, "core", "cache_subsystem", "hpdcache")
 
-os.environ['RISCV'] = "./"
-# retrieve only data defined in makefile
-M = make_vars(origin=['makefile'])
+# Core-only configs use core/Flist.cva6 with target_cfg substitution.
+# The testbench config parses verilate_command from the Makefile via make -pn.
 
-try:
-    ver_cmd = M['makefile']['verilate_command']
-except:
-    print("Ariane makefile was changed, unable to create source list")
-    sys.exit(1)
+lists = [
+    # 64-bit baseline — default config, std write-through cache, Sv39 MMU
+    {
+        'name': 'cva6_cv64a6_imafdc_sv39',
+        'description': 'CVA6 64-bit RV64GC, Sv39 MMU, write-through cache',
+        'target_cfg': 'cv64a6_imafdc_sv39',
+        'top_module': 'cva6',
+        'flist': ['core/Flist.cva6'],
+    },
+    # 64-bit HPDcache — exercises the entirely different HPDcache subsystem RTL
+    {
+        'name': 'cva6_cv64a6_imafdc_sv39_hpdcache',
+        'description': 'CVA6 64-bit RV64GC, Sv39, HPDcache',
+        'target_cfg': 'cv64a6_imafdc_sv39_hpdcache',
+        'top_module': 'cva6',
+        'flist': ['core/Flist.cva6'],
+    },
+    # 64-bit H-extension — hypervisor adds two-stage MMU, new CSRs
+    {
+        'name': 'cva6_cv64a6_imafdch_sv39',
+        'description': 'CVA6 64-bit RV64GC + H-extension, Sv39',
+        'target_cfg': 'cv64a6_imafdch_sv39',
+        'top_module': 'cva6',
+        'flist': ['core/Flist.cva6'],
+    },
+    # 32-bit — different XLEN, Sv32 MMU, no FPU
+    {
+        'name': 'cva6_cv32a6_imac_sv32',
+        'description': 'CVA6 32-bit RV32IMAC, Sv32 MMU',
+        'target_cfg': 'cv32a6_imac_sv32',
+        'top_module': 'cva6',
+        'flist': ['core/Flist.cva6'],
+    },
+    # Testbench — APU wrapper, AXI, peripherals, RVFI
+    {
+        'name': 'cva6_tb_cv64a6_imafdc_sv39',
+        'description': 'CVA6 64-bit testharness with SoC peripherals',
+        'top_module': 'ariane_testharness',
+        'use_makefile': True,
+    },
+]
 
-ver_cmd_comp = ver_cmd.split()
-incdirs = ''
-defines = ''
-sources = []
+env_vars = {
+    '${CVA6_REPO_DIR}': ariane_path,
+    '${HPDCACHE_DIR}': hpdcache_path,
+    '${CVA6_TB_DIR}': os.path.join(ariane_path, 'verif', 'tb', 'core'),
+}
 
 
-def process_filelist(filelist):
-    global incdirs
-    global defines
-    global sources
-    with open(filelist) as f:
-        for l in f.readlines():
-            l = l.strip()
-            if l.startswith("//"):
+def expand_vars(line, target_cfg):
+    for var, val in env_vars.items():
+        line = line.replace(var, val)
+    line = line.replace('${TARGET_CFG}', target_cfg)
+    return line
+
+
+def process_filelist(flist_path, target_cfg, incdirs, defines, sources):
+    with open(flist_path) as f:
+        for line in f:
+            line = line.strip()
+            if not line or line.startswith('//'):
                 continue
 
-            l = l.replace("${CVA6_REPO_DIR}", ariane_path)
-            l = l.replace(
-                "${HPDCACHE_DIR}",
-                f"{ariane_path}/core/cache_subsystem/hpdcache")
-            l = l.replace("${TARGET_CFG}", "cv64a6_imafdc_sv39")
-            if l.startswith("+incdir+"):
-                incdirs += l.partition("+incdir+")[2] + ' '
-            elif l.startswith("+define+"):
-                defines += l.partition("+define+")[2] + ' '
-            elif l.startswith("-F"):
-                # recursively parse filelists
-                process_filelist(l.partition(' ')[2])
-            elif l.endswith(".sv"):
-                sources.append(l)
-            elif l.endswith(".v"):
-                sources.append(l)
+            line = expand_vars(line, target_cfg)
+
+            if line.startswith('+incdir+'):
+                incdirs.add(line.partition('+incdir+')[2])
+            elif line.startswith('+define+'):
+                defines.add(line.partition('+define+')[2])
+            elif line.startswith('-F'):
+                nested = line.split(None, 1)[1].strip()
+                if os.path.isfile(nested):
+                    process_filelist(
+                        nested, target_cfg, incdirs, defines, sources)
+            elif re.search(r'\.(sv|v)$', line):
+                if os.path.isfile(line):
+                    sources.append(line)
 
 
-ver_cmd_comp_iter = iter(ver_cmd_comp)
-while (components := next(ver_cmd_comp_iter, False)):
-    args = components.strip()
-    if args.startswith("+incdir+"):
-        incdirs += os.path.join(
-            ariane_path,
-            args.partition("+incdir+")[2]) + ' '
-    elif args.startswith("-f"):
-        filelist = next(ver_cmd_comp_iter)
-        process_filelist(os.path.join(ariane_path, filelist))
-    elif args.startswith("--top-module"):
-        top_module = next(ver_cmd_comp_iter)
-    elif args.endswith('.sv'):
-        # The Ariane file lists contains a reference to this file but the module itself
-        # isn't instantiated anywhere. Problematically, it contains references to a
-        # nonexistent interface, so it otherwise breaks elaboration. This hack can be
-        # removed if the problem gets fixed upstream.
-        if 'axi2apb_wrap.sv' not in args and args not in sources:
-            sources.append(os.path.join(ariane_path, args))
+def get_verilate_command_sources():
+    """Use make -pn to get the expanded verilate_command, then extract
+    sources, incdirs, defines, and top_module from it."""
+    main_path = os.path.abspath(os.getcwd())
+    os.chdir(ariane_path)
+    os.environ['RISCV'] = "./"
 
-os.chdir(main_path)
+    M = make_vars(origin=['makefile'])
+    os.chdir(main_path)
+
+    try:
+        ver_cmd = M['makefile']['verilate_command']
+    except KeyError:
+        print("Warning: verilate_command not found in Makefile")
+        return [], set(), set(), 'ariane_testharness'
+
+    incdirs = set()
+    defines = set()
+    sources = []
+    top_module = 'ariane_testharness'
+    seen = set()
+
+    # Verilator auto-defines VERILATOR; add it for other tools (e.g. slang)
+    # that don't. This controls ifdef guards for UVM includes, mock UART, etc.
+    defines.add('VERILATOR')
+
+    tokens = iter(ver_cmd.split())
+    for tok in tokens:
+        tok = tok.strip()
+        if tok.startswith('+incdir+'):
+            incdirs.add(tok.partition('+incdir+')[2])
+        elif tok.startswith('+define+'):
+            d = tok.partition('+define+')[2]
+            if d:
+                defines.add(d)
+        elif tok == '-f':
+            flist = next(tokens, '').strip()
+            flist_path = os.path.join(ariane_path, flist)
+            if os.path.isfile(flist_path):
+                process_filelist(
+                    flist_path, 'cv64a6_imafdc_sv39', incdirs, defines,
+                    sources)
+                seen.update(sources)
+        elif tok == '--top-module':
+            top_module = next(tokens, top_module).strip()
+        elif re.search(r'\.(sv|v)$', tok):
+            path = tok if os.path.isabs(tok) else os.path.join(
+                ariane_path, tok)
+            if os.path.isfile(path) and path not in seen:
+                sources.append(path)
+                seen.add(path)
+
+    return sources, incdirs, defines, top_module
+
+
 test_dir = os.path.join(tests_dir, 'generated', tests_subdir)
+os.makedirs(test_dir, exist_ok=True)
 
-if not os.path.isdir(test_dir):
-    os.makedirs(test_dir, exist_ok=True)
+for entry in lists:
+    incdirs = set()
+    defines = set()
+    sources = []
 
-test_file = os.path.join(test_dir, "ariane.sv")
+    if entry.get('use_makefile'):
+        sources, incdirs, defines, top = get_verilate_command_sources()
+        entry['top_module'] = top
+    else:
+        for flist in entry['flist']:
+            flist_path = os.path.join(ariane_path, flist)
+            if not os.path.isfile(flist_path):
+                print(f"Warning: flist not found: {flist_path}, skipping")
+                continue
+            process_filelist(
+                flist_path, entry['target_cfg'], incdirs, defines, sources)
 
-sources_str = " ".join(sources)
-with open(test_file, "w") as f:
-    f.write(templ.format(sources_str, incdirs, defines, top_module))
+    if not sources:
+        print(f"Warning: no sources for {entry['name']}, skipping")
+        continue
+
+    test_file = os.path.join(test_dir, entry['name'] + '.sv')
+
+    with open(test_file, 'w') as f:
+        f.write(
+            templ.format(
+                name=entry['name'],
+                description=entry['description'],
+                files=' '.join(sources),
+                incdirs=' '.join(sorted(incdirs)),
+                defines=' '.join(sorted(defines)),
+                top_module=entry['top_module'],
+            ))
+
+    print(f"Generated: {test_file}")
