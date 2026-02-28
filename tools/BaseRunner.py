@@ -249,17 +249,21 @@ class BaseRunner:
     def guess_top_module(self, params):
         """ Guess the top-level module
 
-        If the params do not contain a top-level module, guess it by grepping
-        for the first module in the first file. This works for single-module
-        tests, but is likely to give false results in more complex tests.
+        If the params do not contain a top-level module, check if there is a
+        module called "top". If not, guess the top-level module by grepping
+        for the first module in the first file. This works for most tests since
+        most follow the implied naming convention.
         """
         regex = re.compile(r'module\s+(\w+)\s*[#(;]')
         for fn in params['files']:
             with open(fn) as f:
                 try:
-                    m = regex.search(f.read())
+                    modules = regex.findall(f.read())
                 except UnicodeDecodeError:
                     continue
-                if m:
-                    return m.group(1)
+                if modules:
+                    if "top" in modules:
+                        return "top"
+                    else:
+                        modules[0]
         return None
