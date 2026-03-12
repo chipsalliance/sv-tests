@@ -59,10 +59,10 @@ class Slang(BaseRunner):
 
         tags = params["tags"]
 
-        # The Ariane core does not build correctly if VERILATOR is not defined -- it will attempt
-        # to reference nonexistent modules, for example.
+        # The Ariane core has syntax errors with stream concat operators and duplicate definitions.
         if "ariane" in tags:
-            self.cmd.append("-DVERILATOR")
+            self.cmd.append("--allow-self-determined-stream-concat")
+            self.cmd.append("-Wno-duplicate-definition")
 
         # black-parrot has syntax errors where variables are used before they are declared.
         # This is being fixed upstream, but it might take a long time to make it to master
