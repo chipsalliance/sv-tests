@@ -55,12 +55,13 @@ class circt_verilog(BaseRunner):
         self.cmd += ["--single-unit"]
 
         # Disable certain warnings to make the output less noisy.
+        self.cmd += ["-Wno-implicit-conv"]
+
         # Some tests access array elements out of bounds. Make that not an error.
         self.cmd += [
-            "-Wno-implicit-conv",
-            "-Wno-index-oob",
-            "-Wno-range-oob",
-            "-Wno-range-width-oob",
+            "-Wno-error=index-oob",
+            "-Wno-error=range-oob",
+            "-Wno-error=range-width-oob",
         ]
 
         top = self.get_top_module_or_guess(params)
@@ -69,10 +70,13 @@ class circt_verilog(BaseRunner):
 
         tags = params["tags"]
 
-        # The Ariane core does not build correctly if VERILATOR is not defined -- it will attempt
-        # to reference nonexistent modules, for example.
+        # The Ariane and Ibex cores have duplicate definitions.
+        if "ariane" in tags or "ibex" in tags:
+            self.cmd += ["-Wno-duplicate-definition"]
+
+        # The Ariane core has syntax errors with stream concat operators.
         if "ariane" in tags:
-            self.cmd += ["-DVERILATOR"]
+            self.cmd += ["--allow-self-determined-stream-concat"]
 
         # black-parrot has syntax errors where variables are used before they are declared.
         # This is being fixed upstream, but it might take a long time to make it to master
@@ -86,5 +90,10 @@ class circt_verilog(BaseRunner):
             name = params["name"]
             if 'bp_lce' in name or 'bp_uce' or 'bp_multicore' in name:
                 self.cmd += ["--parse-only"]
+
+        # These cores use a non-standard extension to write to the same variable
+        # from multiple procedures.
+        if "fx68k" in tags:
+            self.cmd += ["--allow-dup-initial-drivers"]
 
         self.cmd += params["files"]
