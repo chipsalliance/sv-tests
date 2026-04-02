@@ -103,7 +103,7 @@ module top();
     assert property (seq) else `uvm_info(label, $sformatf("$rose(dif.out) failed :assert: (%d != 8)", cycle), UVM_LOW);
 
     always @(posedge dif.clk)
-        cycle = cycle + 1;
+        cycle <= cycle + 1;
 
     initial begin
         forever begin

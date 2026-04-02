@@ -112,7 +112,7 @@ module top();
     assign dif.in = cycle;
 
     always @(posedge dif.clk)
-        cycle = cycle + 1;
+        cycle <= cycle + 1;
 
     initial begin
         forever begin

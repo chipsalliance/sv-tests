@@ -71,7 +71,7 @@ module top();
     assign in = cycle;
 
     always @(posedge clk)
-        cycle = cycle + 1;
+        cycle <= cycle + 1;
 
     initial begin
         forever begin
