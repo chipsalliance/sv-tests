@@ -255,7 +255,8 @@ try:
     tool_success = runner_obj.is_success_returncode(rc, test_params)
     test_params['rc'] = rc
     test_params['tool_success'] = "1" if tool_success else "0"
-    test_params['runner'] = runner_obj.name
+    test_params['runner'] = getattr(runner_obj, 'display_name',
+                                    runner_obj.name)
     test_params['runner_url'] = runner_obj.url
     test_params['time_elapsed'] = end_time - start_time
     test_params['user_time'] = user_time

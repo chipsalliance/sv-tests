@@ -34,7 +34,7 @@
                   <dd class="p_tool-filter">
                      <div class="p_checkboxes">
                         {% for tool, tool_info in report.tools|numeric_dictsort %}
-                        <label title="{{tool|escape_attr}}"><input type="checkbox" value="{{tool|lower|escape_attr}}" checked>{{tool|e}}</label>
+                        <label title="{{tool_info.name|default(tool)|escape_attr}}"><input type="checkbox" value="{{tool|lower|escape_attr}}" checked>{{tool_info.name|default(tool)|e}}</label>
                         {% endfor %}
                      </div>
                      <div class="p_buttons-bar">
@@ -94,7 +94,7 @@
                   <th></th>
                   {% for tool, tool_info in report.tools|numeric_dictsort %}
                   <th title="{{tool_info.version|escape_attr}}" style="--z: {{loop.length - loop.index}}">
-                     <a class="tool_link" target="_blank" href="{{tool_info.url}}">{{tool|e}}</a>
+                     <a class="tool_link" target="_blank" href="{{tool_info.url}}">{{tool_info.name|default(tool)|e}}</a>
                   </th>
                   {% endfor %}
                </tr>

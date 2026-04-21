@@ -52,6 +52,7 @@ class BaseRunner:
         supported_features -- list of supported test types
         """
         self.name = name
+        self.display_name = name
         self.executable = executable
         self.supported_features = supported_features
         self.allowed_extensions = ['.v', '.sv', '.vh', '.svh']

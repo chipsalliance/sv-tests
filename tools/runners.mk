@@ -150,10 +150,11 @@ $(INSTALL_DIR)/bin/yosys-slang: $(INSTALL_DIR)/bin/slang-yosys-config
 	# to yosys-slang, which is the executable registered in tools/runners/yosys_slang.py
 	cp $(INSTALL_DIR)/bin/slang-yosys $(INSTALL_DIR)/bin/yosys-slang
 
-# circt-verilog
+# circt-verilog / arcilator
 circt-verilog: $(INSTALL_DIR)/bin/circt-verilog
+arcilator: $(INSTALL_DIR)/bin/arcilator
 
-$(INSTALL_DIR)/bin/circt-verilog:
+$(RDIR)/circt-verilog/build/CMakeCache.txt:
 	cd $(RDIR)/circt-verilog && cmake llvm/llvm -B build \
 		-DCMAKE_INSTALL_PREFIX=$(INSTALL_DIR) \
 		-DCMAKE_BUILD_TYPE=Release \
@@ -162,9 +163,14 @@ $(INSTALL_DIR)/bin/circt-verilog:
 		-DLLVM_EXTERNAL_PROJECTS=circt \
 		-DLLVM_EXTERNAL_CIRCT_SOURCE_DIR=$(RDIR)/circt-verilog \
 		-DCIRCT_SLANG_FRONTEND_ENABLED=ON
+
+$(INSTALL_DIR)/bin/circt-verilog: $(RDIR)/circt-verilog/build/CMakeCache.txt
 	$(MAKE) -C $(RDIR)/circt-verilog/build install-circt-verilog
 
+$(INSTALL_DIR)/bin/arcilator: $(RDIR)/circt-verilog/build/CMakeCache.txt
+	$(MAKE) -C $(RDIR)/circt-verilog/build install-arcilator
+
 # setup the dependencies
-RUNNERS_TARGETS := odin yosys icarus verilator slang zachjs-sv2v tree-sitter-systemverilog tree-sitter-verilog sv-parser moore verible surelog yosys-synlig circt-verilog
+RUNNERS_TARGETS := odin yosys icarus verilator slang zachjs-sv2v tree-sitter-systemverilog tree-sitter-verilog sv-parser moore verible surelog yosys-synlig circt-verilog arcilator
 .PHONY: $(RUNNERS_TARGETS)
 runners: $(RUNNERS_TARGETS)
