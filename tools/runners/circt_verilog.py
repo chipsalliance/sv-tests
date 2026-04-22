@@ -76,7 +76,7 @@ class circt_verilog(BaseRunner):
 
         # The Ariane core has syntax errors with stream concat operators.
         if "ariane" in tags:
-            self.cmd += ["--allow-self-determined-stream-concat"]
+            self.cmd += ["-Xslang=--allow-self-determined-stream-concat"]
 
         # black-parrot has syntax errors where variables are used before they are declared.
         # This is being fixed upstream, but it might take a long time to make it to master
