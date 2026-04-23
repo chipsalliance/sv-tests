@@ -63,6 +63,10 @@ class Slang(BaseRunner):
         if "ariane" in tags or "ibex" in tags:
             self.cmd.append("-Wno-duplicate-definition")
 
+        # Ibex includes files that try to instantiate Xilinx-specific modules
+        if "ibex" in tags:
+            self.cmd.append("--ignore-unknown-modules")
+
         # The Ariane core has syntax errors with stream concat operators.
         if "ariane" in tags:
             self.cmd.append("--allow-self-determined-stream-concat")
