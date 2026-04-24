@@ -378,6 +378,10 @@ ivtest_file_exclude = [
     # Redefining the same UDP is above what IEEE specifies; it's an error on some tools,
     # warning on others (which pick first or last defined), and ignored on yet others.
     'br_gh1175f',
+    # These appear to be mismarked, should be expect-fail, referencing an implicit
+    # net before it's declared. All commercial tools fail on this.
+    'pr1909940',
+    'pr1909940b',
 ]
 
 ivtest_extra_args = {
