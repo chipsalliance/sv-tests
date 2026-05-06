@@ -13,7 +13,7 @@ top_module: tb_top
 tags: veer-eh1
 path: third_party/cores/veer-eh1
 command: fusesoc --cores-root third_party/cores/veer-eh1 run --target=sim --setup --build-root build/veer-eh1_sim chipsalliance.org:cores:VeeR_EH1:1.8
-conf_file: build/veer-eh1_sim/sim-verilator/chipsalliance.org_cores_VeeR_EH1_1.8.vc
+conf_file: build/veer-eh1_sim/chipsalliance.org_cores_VeeR_EH1_1.8/sim-verilator/chipsalliance.org_cores_VeeR_EH1_1.8.vc
 test_file: veer-eh1-sim.sv
 timeout: 180
 compatible-runners: verilator slang circt-verilog
