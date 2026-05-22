@@ -99,3 +99,6 @@
 [submodule "third_party/tools/verilator"]
 	path = third_party/tools/verilator
 	url = https://github.com/verilator/verilator
+[submodule "third_party/tests/uvm-examples"]
+	path = third_party/tests/uvm-examples
+	url = https://github.com/antmicro/uvm-examples.git
