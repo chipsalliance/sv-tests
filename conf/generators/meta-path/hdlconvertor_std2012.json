@@ -7,6 +7,7 @@
 	"matches": ["*.sv", "*.v"],
 	"blacklist": [
 		"p12.sv",
+		"p57.sv",
 		"p59.sv",
 		"p138.sv",
 		"p140.sv",
