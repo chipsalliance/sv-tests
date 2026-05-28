@@ -88,14 +88,12 @@ class Verilator(BaseRunner):
 
         self.cmd += params['files']
 
-        simargs = []
-        for arg in params['simargs']:
-            simargs.append('+' + arg)
-        simargs = " ".join(simargs)
-        print(simargs)
-
         with open(scr, 'w') as f:
             f.write('set -x\n')
             f.write('{0} "$@" || exit $?\n'.format(self.executable))
             if mode == 'simulation':
-                f.write(f'./{build_dir}/{build_name} {simargs}\n')
+                if not params['simvariants']:
+                    f.write(f'./{build_dir}/{build_name}\n')
+                else:
+                    for variant in params['simvariants']:
+                        f.write(f'./{build_dir}/{build_name} +{variant}\n')

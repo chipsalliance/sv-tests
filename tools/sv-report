@@ -550,7 +550,7 @@ def collect_logs(runner_name: str):
             "runner_url", "time_elapsed", "type", "mode", "timeout",
             "user_time", "system_time", "ram_usage", "tool_success",
             "should_fail_because", "defines", "compatible-runners",
-            "unsynthesizable", "results_group", "simargs"
+            "unsynthesizable", "results_group", "simvariants"
         }
         test_log_data: Dict[str, Any] = {}
         log_content = ""
