@@ -18,9 +18,11 @@ templ = """/*
 :description: UVM example - {name}
 :files: {0}
 :incdirs: {1}
-:defines: {2}
 :tags: uvm-examples uvm
+:type: simulation elaboration parsing
 :timeout: 360
+:unsynthesizable: 1
+:simargs: {2}
 */
 """
 
@@ -44,12 +46,12 @@ tests = {
     "apb_protocol_monitor": {
         "files": "protocol_monitor/apb_monitor.sv",
         "incdirs": "",
-        "defines": "",
+        "simargs": "",
     },
     "biquad_example": {
         "files": "tb/agents/signal_agent/signal_if.sv tb/agents/apb_agent/apb_if.sv tb/agents/apb_agent/apb_agent_pkg.sv tb/agents/signal_agent/signal_agent_pkg.sv",
         "incdirs": "tb/agents/apb_agent tb/agents/signal_agent",
-        "defines": "",
+        "simargs": "UVM_TESTNAME=biquad_smoke_test",
     },
     "uart_example": {
         "files": "rtl/uart/uart_16550.sv  rtl/uart/uart_register_file.sv rtl/uart/uart_rx_fifo.sv  rtl/uart/uart_rx.sv  rtl/uart/uart_tx_fifo.sv  rtl/uart/uart_tx.sv \
@@ -69,12 +71,12 @@ tests = {
             uvm_tb/sequences \
             uvm_tb/virtual_sequences \
             uvm_tb/tests",
-        "defines": "",
+        "simargs": "UVM_TESTNAME=uart_test",
     },
     "uvm_ac_config_db": {
         "files": "sfr_agent/sfr_agent_pkg.sv sfr_agent/sfr_master_bfm.sv sfr_agent/sfr_monitor_bfm.sv sfr_test_pkg/sfr_test_pkg.sv tb/hdl_top.sv  tb/hvl_top.sv rtl/sfr_dut.sv",
         "incdirs": "sfr_agent sfr_test_pkg",
-        "defines": "",
+        "simargs": "UVM_TESTNAME=sfr_test",
     },
     "uvm_alu_config_analysis": {
         "files": "agent/alu_agent_pkg.sv \
@@ -84,7 +86,7 @@ tests = {
             uvm_tb/alu_tb_pkg.sv \
             tb/hdl_top.sv  tb/hvl_top.sv",
         "incdirs": "agent uvm_tb",
-        "defines": "",
+        "simargs": "UVM_TESTNAME=test_all_parallel",
     },
     "uvm_c_stimulus_bl_example": {
         "files": "./c_stimulus_pkg/c_stimulus_pkg.sv \
@@ -118,7 +120,7 @@ tests = {
             block_level_example/uvm_tb/sequences \
             block_level_example/uvm_tb/test \
             block_level_example/c_code",
-        "defines": "",
+        "simargs": "UVM_TESTNAME=spi_c_int_test",
     },
     "uvm_ef_vif_config_db": {
         "files": "./sfr_agent/sfr_agent_pkg.sv \
@@ -129,7 +131,7 @@ tests = {
             ./tb/hdl_top.sv \
             ./rtl/sfr_dut.sv",
         "incdirs": "sfr_agent sfr_test_pkg",
-        "defines": "",
+        "simargs": "UVM_TESTNAME=sfr_test",
     },
     "uvm_generation_seq_persistence": {
         "files": "./common/bus_if.sv \
@@ -139,7 +141,7 @@ tests = {
             ./tests/test_lib_pkg.sv \
             ./common/top_tb.sv",
         "incdirs": "",
-        "defines": "",
+        "simargs": "UVM_TESTNAME=complete_transfer_test",
     },
     "uvm_generation_seq_poly": {
         "files": "./common/bus_if.sv \
@@ -149,7 +151,7 @@ tests = {
             ./tests/test_lib_pkg.sv \
             ./common/top_tb.sv",
         "incdirs": "",
-        "defines": "",
+        "simargs": "UVM_TESTNAME=rand_transfer_test",
     },
     "uvm_generation_seq_randomization": {
         "files": "common/bus_if.sv \
@@ -159,13 +161,13 @@ tests = {
             tests/test_lib_pkg.sv \
             common/top_tb.sv",
         "incdirs": "",
-        "defines": "",
+        "simargs": "UVM_TESTNAME=seq_rand_test",
     },
     "uvm_id_register": {
         "files": "apb_agent/apb_agent_pkg.sv apb_agent/apb_driver_bfm.sv apb_agent/apb_monitor_bfm.sv \
         reg_dut.sv regmodel_pkg.sv uvm_tb_pkg.sv hvl_top.sv hdl_top.sv",
         "incdirs": "apb_agent",
-        "defines": "",
+        "simargs": "",
     },
     "uvm_interrupts_parallel_processing": {
         "files": "utils/interrupt/interrupt_pkg.sv utils/interrupt/interrupt_if.sv \
@@ -174,19 +176,19 @@ tests = {
             parallel_processing/dsp_con_driver_bfm.sv \
             parallel_processing/top.sv",
         "incdirs": "utils/interrupt parallel_processing",
-        "defines": "",
+        "simargs": "",
     },
     "uvm_interrupts_prioritized": {
         "files": "utils/interrupt/interrupt_pkg.sv utils/interrupt/interrupt_if.sv \
             bidirect_bus_agent_pkg.sv prioritised/top.sv",
         "incdirs": "utils/interrupt",
-        "defines": "",
+        "simargs": "",
     },
     "uvm_interrupts_simple": {
         "files": "utils/interrupt/interrupt_pkg.sv utils/interrupt/interrupt_if.sv \
             bidirect_bus_agent_pkg.sv simple/top.sv",
         "incdirs": "utils/interrupt",
-        "defines": "",
+        "simargs": "",
     },
     "uvm_many_to_one": {
         "files": "./b.sv \
@@ -196,17 +198,17 @@ tests = {
             ./env.sv \
             ./test.sv",
         "incdirs": ".",
-        "defines": "",
+        "simargs": "UVM_TESTNAME=test",
     },
     "uvm_messaging_example": {
         "files": "messaging_example.sv",
         "incdirs": "",
-        "defines": "",
+        "simargs": "UVM_TESTNAME=message_test",
     },
     "uvm_overriding": {
         "files": "a_agent_pkg.sv top.sv",
         "incdirs": "",
-        "defines": "",
+        "simargs": "",
     },
     "uvm_param_vif_config_db": {
         "files": "./sfr_agent/sfr_agent_pkg.sv \
@@ -218,17 +220,17 @@ tests = {
             ./tb/hvl_top.sv \
             ./rtl/sfr_dut.sv",
         "incdirs": "sfr_agent sfr_test_pkg",
-        "defines": "",
+        "simargs": "UVM_TESTNAME=sfr_test",
     },
     "uvm_priority_arbitration": {
         "files": "top.sv",
         "incdirs": "",
-        "defines": "",
+        "simargs": "ARB_TYPE=SEQ_ARB_FIFO",
     },
     "uvm_priority_grab_lock": {
         "files": "top.sv",
         "incdirs": "",
-        "defines": "",
+        "simargs": "ARB_TYPE=SEQ_ARB_FIFO",
     },
     "uvm_register_mem_example": {
         "files": "./dut/timescale.v ./dut/mem_ss.sv ./dut/reg_defs.sv \
@@ -243,7 +245,7 @@ tests = {
             ./tb/hvl_top.sv \
             ./tb/hdl_top.sv",
         "incdirs": "dut agents/ahb_agent register_model env sequences test utils",
-        "defines": "",
+        "simargs": "UVM_TESTNAME=mem_ss_test",
     },
     "uvm_register_spi_bl_tb": {
         "files": "./rtl/spi/rtl/verilog/spi_clgen.v \
@@ -273,7 +275,7 @@ tests = {
         block_level_tbs/spi_tb/env \
         block_level_tbs/spi_tb/sequences \
         block_level_tbs/spi_tb/test",
-        "defines": "",
+        "simargs": "UVM_TESTNAME=spi_interrupt_test",
     },
     "uvm_slave_agent": {
         "files": "agents/apb_slave_agent/apb_slave_agent_pkg.sv \
@@ -285,7 +287,7 @@ tests = {
             ./tb/hvl_top.sv \
             ./tb/hdl_top.sv",
         "incdirs": "agents/apb_slave_agent tb",
-        "defines": "",
+        "simargs": "",
     },
     "uvm_slave_agent_multi_seq_item": {
         "files": "./agents/apb_slave_agent/apb_if.sv \
@@ -294,7 +296,7 @@ tests = {
             ./rtl/apb3_wlm_host.sv \
             ./tb/env_pkg.sv ./tb/hdl_top.sv ./tb/hvl_top.sv",
         "incdirs": "agents/apb_slave_agent tb",
-        "defines": "",
+        "simargs": "",
     },
     "uvm_tb_build_bl_tb": {
         "files": "./rtl/spi/rtl/verilog/spi_clgen.v \
@@ -329,7 +331,7 @@ tests = {
             rtl/spi/rtl/verilog \
             utils \
             utils/interrupt",
-        "defines": "",
+        "simargs": "UVM_TESTNAME=spi_interrupt_test",
     },
     "uvm_tb_build_ss_tb": {
         "files": "sub_system_tbs/pss_tb/tb/hdl_top.sv \
@@ -399,7 +401,7 @@ tests = {
             sub_system_tbs/pss_tb/env \
             block_level_tbs/spi_tb/sequences \
             block_level_tbs/gpio_tb/sequences",
-        "defines": "",
+        "simargs": "UVM_TESTNAME=pss_spi_interrupt_test",
     },
     "uvm_test_init": {
         "files": "agent_a_pkg.sv \
@@ -411,17 +413,17 @@ tests = {
             top_vseq_pkg.sv \
             top.sv",
         "incdirs": "",
-        "defines": "",
+        "simargs": "UVM_TESTNAME=init_vseq_from_test",
     },
     "uvm_use_models_bidir_get_put": {
         "files": "top_tb.sv top_hdl.sv",
         "incdirs": "",
-        "defines": "",
+        "simargs": "",
     },
     "uvm_use_models_bidir_item_done": {
         "files": "top_tb.sv top_hdl.sv",
         "incdirs": "",
-        "defines": "",
+        "simargs": "",
     },
     "uvm_use_models_pipelined_get_put": {
         "files": "mbus_slave/mbus_types_pkg.sv \
@@ -430,19 +432,19 @@ tests = {
         pipelined_get_put/mbus_pipelined_agent/mbus_pipelined_driver_bfm.sv \
         pipelined_get_put/top_tb.sv pipelined_get_put/top_hdl.sv",
         "incdirs": "pipelined_get_put/mbus_pipelined_agent",
-        "defines": "",
+        "simargs": "",
     },
     "uvm_use_models_pipelined_item_done": {
         "files": "./mbus_slave/mbus_slave.sv \
             ./pipelined_item_done/mbus_pipelined_agent/mbus_pipelined_agent_pkg.sv \
             ./pipelined_item_done/top.sv",
         "incdirs": "pipelined_item_done/mbus_pipelined_agent",
-        "defines": "",
+        "simargs": "",
     },
     "uvm_use_models_unidirectional": {
         "files": "top_tb.sv top_hdl.sv",
         "incdirs": "",
-        "defines": "",
+        "simargs": "",
     },
     "uvm_vif_config_db": {
         "files": "sfr_agent/sfr_agent_pkg.sv \
@@ -452,17 +454,17 @@ tests = {
             tb/hvl_top.sv \
             rtl/sfr_dut.sv",
         "incdirs": "sfr_agent sfr_test_pkg",
-        "defines": "",
+        "simargs": "UVM_TESTNAME=sfr_test",
     },
     "uvm_virt_seq_find_all": {
         "files": "simple_ovc/simple_pkg.sv top.sv",
         "incdirs": "simple_ovc",
-        "defines": "",
+        "simargs": "",
     },
     "uvm_wait_for_signal": {
         "files": "bus_if.sv bidirect_bus_pkg.sv bidirect_bus_driver_bfm.sv top.sv",
         "incdirs": "",
-        "defines": "",
+        "simargs": "",
     },
 }
 
@@ -476,5 +478,6 @@ for dir in os.scandir(examples_path):
     test_file = os.path.join(test_dir, dir.name + ".sv")
     files = [os.path.join(examples_path, test_name, name) for name in test["files"].split()]
     incdirs = [os.path.join(examples_path, test_name, name) for name in test["incdirs"].split()]
+    print(test["simargs"])
     with open(test_file, "w") as f:
-        f.write(templ.format(" ".join(files), " ".join(incdirs), test["defines"], name=dir.name))
+        f.write(templ.format(" ".join(files), " ".join(incdirs), test["simargs"], name=dir.name))
