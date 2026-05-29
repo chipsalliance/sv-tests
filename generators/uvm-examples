@@ -39,7 +39,8 @@ except IndexError:
     print("Usage: ./generator <subdir>")
     sys.exit(1)
 
-examples_path = os.path.abspath(os.path.join(third_party_dir, "tests", "uvm-examples"))
+examples_path = os.path.abspath(
+    os.path.join(third_party_dir, "tests", "uvm-examples"))
 main_path = os.path.abspath(os.getcwd())
 
 tests = {
@@ -55,25 +56,16 @@ tests = {
             "tb/agents/apb_agent/apb_agent_pkg.sv",
             "tb/agents/signal_agent/signal_agent_pkg.sv"
         ],
-        "incdirs": [
-            "tb/agents/apb_agent",
-            "tb/agents/signal_agent"
-        ],
-        "simvariants": [
-            "UVM_TESTNAME=biquad_smoke_test",
-            "UVM_TESTNAME=biquad_test"
-        ],
+        "incdirs": ["tb/agents/apb_agent", "tb/agents/signal_agent"],
+        "simvariants":
+        ["UVM_TESTNAME=biquad_smoke_test", "UVM_TESTNAME=biquad_test"],
     },
     "uart_example": {
         "files": [
-            "rtl/uart/uart_16550.sv",
-            "rtl/uart/uart_register_file.sv",
-            "rtl/uart/uart_rx_fifo.sv",
-            "rtl/uart/uart_rx.sv",
-            "rtl/uart/uart_tx_fifo.sv",
-            "rtl/uart/uart_tx.sv",
-            "agents/apb_agent/apb_if.sv",
-            "agents/apb_agent/apb_agent_pkg.sv",
+            "rtl/uart/uart_16550.sv", "rtl/uart/uart_register_file.sv",
+            "rtl/uart/uart_rx_fifo.sv", "rtl/uart/uart_rx.sv",
+            "rtl/uart/uart_tx_fifo.sv", "rtl/uart/uart_tx.sv",
+            "agents/apb_agent/apb_if.sv", "agents/apb_agent/apb_agent_pkg.sv",
             "agents/uart_agent/serial_if.sv",
             "agents/uart_agent/uart_agent_pkg.sv",
             "agents/modem_agent/modem_if.sv",
@@ -83,38 +75,26 @@ tests = {
             "uvm_tb/sequences/host_if_seq_pkg.sv",
             "uvm_tb/sequences/uart_seq_pkg.sv",
             "uvm_tb/virtual_sequences/uart_vseq_pkg.sv",
-            "uvm_tb/tests/uart_test_pkg.sv",
-            "uvm_tb/tb/interrupt_if.sv",
-            "protocol_monitor/apb_monitor.sv",
-            "uvm_tb/tb/uart_tb.sv"
+            "uvm_tb/tests/uart_test_pkg.sv", "uvm_tb/tb/interrupt_if.sv",
+            "protocol_monitor/apb_monitor.sv", "uvm_tb/tb/uart_tb.sv"
         ],
         "incdirs": [
-            "agents/apb_agent",
-            "agents/uart_agent",
-            "uvm_tb/env",
-            "uvm_tb/sequences",
-            "uvm_tb/sequences",
-            "uvm_tb/virtual_sequences",
+            "agents/apb_agent", "agents/uart_agent", "uvm_tb/env",
+            "uvm_tb/sequences", "uvm_tb/sequences", "uvm_tb/virtual_sequences",
             "uvm_tb/tests"
         ],
         "simvariants": [
-            "UVM_TESTNAME=uart_test",
-            "UVM_TESTNAME=baud_rate_test",
-            "UVM_TESTNAME=modem_int_test",
-            "UVM_TESTNAME=word_format_int_test",
+            "UVM_TESTNAME=uart_test", "UVM_TESTNAME=baud_rate_test",
+            "UVM_TESTNAME=modem_int_test", "UVM_TESTNAME=word_format_int_test",
             "UVM_TESTNAME=modem_poll_test",
             "UVM_TESTNAME=word_format_poll_test"
         ],
     },
     "uvm_ac_config_db": {
         "files": [
-            "sfr_agent/sfr_agent_pkg.sv",
-            "sfr_agent/sfr_master_bfm.sv",
-            "sfr_agent/sfr_monitor_bfm.sv",
-            "sfr_test_pkg/sfr_test_pkg.sv",
-            "tb/hdl_top.sv",
-            "tb/hvl_top.sv",
-            "rtl/sfr_dut.sv"
+            "sfr_agent/sfr_agent_pkg.sv", "sfr_agent/sfr_master_bfm.sv",
+            "sfr_agent/sfr_monitor_bfm.sv", "sfr_test_pkg/sfr_test_pkg.sv",
+            "tb/hdl_top.sv", "tb/hvl_top.sv", "rtl/sfr_dut.sv"
         ],
         "incdirs": ["sfr_agent", "sfr_test_pkg"],
         "simvariants": ["UVM_TESTNAME=sfr_test"],
@@ -156,39 +136,30 @@ tests = {
         ],
         "incdirs": [
             "block_level_example/agents/apb_agent",
-            "block_level_example/agents/spi_agent",
-            "c_stimulus_pkg",
+            "block_level_example/agents/spi_agent", "c_stimulus_pkg",
             "block_level_example/rtl/spi/rtl/verilog",
             "block_level_example/uvm_tb/uvm_register_model",
             "block_level_example/uvm_tb/env",
             "block_level_example/uvm_tb/sequences",
-            "block_level_example/uvm_tb/test",
-            "block_level_example/c_code"
+            "block_level_example/uvm_tb/test", "block_level_example/c_code"
         ],
-        "simvariants": [
-            "UVM_TESTNAME=spi_c_int_test",
-            "UVM_TESTNAME=spi_c_poll_test"
-        ],
+        "simvariants":
+        ["UVM_TESTNAME=spi_c_int_test", "UVM_TESTNAME=spi_c_poll_test"],
     },
     "uvm_ef_vif_config_db": {
         "files": [
-            "./sfr_agent/sfr_agent_pkg.sv",
-            "./sfr_agent/sfr_master_bfm.sv",
-            "./sfr_agent/sfr_monitor_bfm.sv",
-            "./sfr_test_pkg/sfr_test_pkg.sv",
-            "./tb/hvl_top.sv",
-            "./tb/hdl_top.sv",
-            "./rtl/sfr_dut.sv"],
+            "./sfr_agent/sfr_agent_pkg.sv", "./sfr_agent/sfr_master_bfm.sv",
+            "./sfr_agent/sfr_monitor_bfm.sv", "./sfr_test_pkg/sfr_test_pkg.sv",
+            "./tb/hvl_top.sv", "./tb/hdl_top.sv", "./rtl/sfr_dut.sv"
+        ],
         "incdirs": ["sfr_agent", "sfr_test_pkg"],
         "simvariants": ["UVM_TESTNAME=sfr_test"],
     },
     "uvm_generation_seq_persistence": {
         "files": [
-            "./common/bus_if.sv",
-            "./common/dut.sv",
+            "./common/bus_if.sv", "./common/dut.sv",
             "./common/bus_agent_pkg.sv",
-            "./sequence_library/bus_seq_lib_pkg.sv",
-            "./tests/test_lib_pkg.sv",
+            "./sequence_library/bus_seq_lib_pkg.sv", "./tests/test_lib_pkg.sv",
             "./common/top_tb.sv"
         ],
         "incdirs": [],
@@ -196,11 +167,9 @@ tests = {
     },
     "uvm_generation_seq_poly": {
         "files": [
-            "./common/bus_if.sv",
-            "./common/dut.sv",
+            "./common/bus_if.sv", "./common/dut.sv",
             "./common/bus_agent_pkg.sv",
-            "./sequence_library/bus_seq_lib_pkg.sv",
-            "./tests/test_lib_pkg.sv",
+            "./sequence_library/bus_seq_lib_pkg.sv", "./tests/test_lib_pkg.sv",
             "./common/top_tb.sv"
         ],
         "incdirs": [],
@@ -208,11 +177,8 @@ tests = {
     },
     "uvm_generation_seq_randomization": {
         "files": [
-            "common/bus_if.sv",
-            "common/dut.sv",
-            "common/bus_agent_pkg.sv",
-            "sequence_library/bus_seq_lib_pkg.sv",
-            "tests/test_lib_pkg.sv",
+            "common/bus_if.sv", "common/dut.sv", "common/bus_agent_pkg.sv",
+            "sequence_library/bus_seq_lib_pkg.sv", "tests/test_lib_pkg.sv",
             "common/top_tb.sv"
         ],
         "incdirs": [],
@@ -241,10 +207,7 @@ tests = {
             "parallel_processing/dsp_con_driver_bfm.sv",
             "parallel_processing/top.sv"
         ],
-        "incdirs": [
-            "utils/interrupt",
-            "parallel_processing"
-        ],
+        "incdirs": ["utils/interrupt", "parallel_processing"],
         "simvariants": [],
     },
     "uvm_interrupts_prioritized": {
@@ -621,7 +584,17 @@ for dir in os.scandir(examples_path):
     if not os.path.isdir(test_dir):
         os.makedirs(test_dir, exist_ok=True)
     test_file = os.path.join(test_dir, dir.name + ".sv")
-    files = [os.path.join(examples_path, test_name, name) for name in test["files"]]
-    incdirs = [os.path.join(examples_path, test_name, name) for name in test["incdirs"]]
+    files = [
+        os.path.join(examples_path, test_name, name) for name in test["files"]
+    ]
+    incdirs = [
+        os.path.join(examples_path, test_name, name)
+        for name in test["incdirs"]
+    ]
     with open(test_file, "w") as f:
-        f.write(templ.format(" ".join(files), " ".join(incdirs), " ".join(test["simvariants"]), name=dir.name))
+        f.write(
+            templ.format(
+                " ".join(files),
+                " ".join(incdirs),
+                " ".join(test["simvariants"]),
+                name=dir.name))
