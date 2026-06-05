@@ -39,6 +39,4 @@ jobs:
             ./third_party/cores/
             ./third_party/tests/
             ./third_party/tools/
-          exclude_license: |
-            ./third_party/tests/uvm-examples
 
