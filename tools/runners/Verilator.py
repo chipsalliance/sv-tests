@@ -94,4 +94,8 @@ class Verilator(BaseRunner):
             f.write('set -x\n')
             f.write('{0} "$@" || exit $?\n'.format(self.executable))
             if mode == 'simulation':
-                f.write(f'./{build_dir}/{build_name}\n')
+                if not params['simvariants']:
+                    f.write(f'./{build_dir}/{build_name}\n')
+                else:
+                    for variant in params['simvariants']:
+                        f.write(f'./{build_dir}/{build_name} +{variant}\n')

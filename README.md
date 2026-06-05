@@ -64,6 +64,8 @@ After creating a new test case it must be correctly tagged:
 * `top_module` - optional, allows to specify which module is the top one.
 * `tags` - tag must be used to specify which part of SystemVerilog specification this test case covers.
 * `defines` - provides a list of macros for preprocessor.
+* `simvariants` - optional, a list to run a simulation multiple times, each with a different argument.
+
   If the test case uses several SystemVerilog features, only the feature directly tested should be included in tags.
   List of existing tags is located in `conf/lrm.conf`.
 

@@ -55,7 +55,11 @@ class Icarus(BaseRunner):
         with open(scr, 'w') as f:
             f.write('set -x\n')
             f.write('{0} "$@" || exit $?\n'.format(self.cmd[0]))
-            f.write(f'./iverilog.out\n')
+            if not params['simvariants']:
+                f.write(f'./iverilog.out\n')
+            else:
+                for variant in params['simvariants']:
+                    f.write(f'./iverilog.out {variant}\n')
         self.cmd = ['sh', 'scr.sh'] + self.cmd[1:]
 
     def get_version_cmd(self):

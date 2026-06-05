@@ -1,0 +1,600 @@
+#!/usr/bin/env python3
+# -*- coding: utf-8 -*-
+#
+# Copyright (C) 2026 The SymbiFlow Authors.
+#
+# Use of this source code is governed by a ISC-style
+# license that can be found in the LICENSE file or at
+# https://opensource.org/licenses/ISC
+#
+# SPDX-License-Identifier: ISC
+
+import sys
+import os
+import glob
+
+templ = """/*
+:name: {name}
+:description: UVM example - {name}
+:files: {0}
+:incdirs: {1}
+:tags: uvm-examples uvm
+:type: simulation elaboration parsing
+:timeout: 360
+:unsynthesizable: 1
+:simvariants: {2}
+*/
+"""
+
+try:
+    third_party_dir = os.environ['THIRD_PARTY_DIR']
+    tests_dir = os.environ['TESTS_DIR']
+except KeyError:
+    print("Export the THIRD_PARTY_DIR and TESTS_DIR variables first")
+    sys.exit(1)
+
+try:
+    tests_subdir = sys.argv[1]
+except IndexError:
+    print("Usage: ./generator <subdir>")
+    sys.exit(1)
+
+examples_path = os.path.abspath(
+    os.path.join(third_party_dir, "tests", "uvm-examples"))
+main_path = os.path.abspath(os.getcwd())
+
+tests = {
+    "apb_protocol_monitor": {
+        "files": ["protocol_monitor/apb_monitor.sv"],
+        "incdirs": [],
+        "simvariants": [],
+    },
+    "biquad_example": {
+        "files": [
+            "tb/agents/signal_agent/signal_if.sv",
+            "tb/agents/apb_agent/apb_if.sv",
+            "tb/agents/apb_agent/apb_agent_pkg.sv",
+            "tb/agents/signal_agent/signal_agent_pkg.sv"
+        ],
+        "incdirs": ["tb/agents/apb_agent", "tb/agents/signal_agent"],
+        "simvariants":
+        ["UVM_TESTNAME=biquad_smoke_test", "UVM_TESTNAME=biquad_test"],
+    },
+    "uart_example": {
+        "files": [
+            "rtl/uart/uart_16550.sv", "rtl/uart/uart_register_file.sv",
+            "rtl/uart/uart_rx_fifo.sv", "rtl/uart/uart_rx.sv",
+            "rtl/uart/uart_tx_fifo.sv", "rtl/uart/uart_tx.sv",
+            "agents/apb_agent/apb_if.sv", "agents/apb_agent/apb_agent_pkg.sv",
+            "agents/uart_agent/serial_if.sv",
+            "agents/uart_agent/uart_agent_pkg.sv",
+            "agents/modem_agent/modem_if.sv",
+            "agents/modem_agent/modem_agent_pkg.sv",
+            "uvm_tb/register_model/uart_reg_pkg.sv",
+            "uvm_tb/env/uart_env_pkg.sv",
+            "uvm_tb/sequences/host_if_seq_pkg.sv",
+            "uvm_tb/sequences/uart_seq_pkg.sv",
+            "uvm_tb/virtual_sequences/uart_vseq_pkg.sv",
+            "uvm_tb/tests/uart_test_pkg.sv", "uvm_tb/tb/interrupt_if.sv",
+            "protocol_monitor/apb_monitor.sv", "uvm_tb/tb/uart_tb.sv"
+        ],
+        "incdirs": [
+            "agents/apb_agent", "agents/uart_agent", "uvm_tb/env",
+            "uvm_tb/sequences", "uvm_tb/sequences", "uvm_tb/virtual_sequences",
+            "uvm_tb/tests"
+        ],
+        "simvariants": [
+            "UVM_TESTNAME=uart_test", "UVM_TESTNAME=baud_rate_test",
+            "UVM_TESTNAME=modem_int_test", "UVM_TESTNAME=word_format_int_test",
+            "UVM_TESTNAME=modem_poll_test",
+            "UVM_TESTNAME=word_format_poll_test"
+        ],
+    },
+    "uvm_ac_config_db": {
+        "files": [
+            "sfr_agent/sfr_agent_pkg.sv", "sfr_agent/sfr_master_bfm.sv",
+            "sfr_agent/sfr_monitor_bfm.sv", "sfr_test_pkg/sfr_test_pkg.sv",
+            "tb/hdl_top.sv", "tb/hvl_top.sv", "rtl/sfr_dut.sv"
+        ],
+        "incdirs": ["sfr_agent", "sfr_test_pkg"],
+        "simvariants": ["UVM_TESTNAME=sfr_test"],
+    },
+    "uvm_alu_config_analysis": {
+        "files": "agent/alu_agent_pkg.sv \
+            agent/alu_monitor_bfm.sv \
+            agent/alu_driver_bfm.sv \
+            alu/alu_if.sv  alu/alu_rtl.sv\
+            uvm_tb/alu_tb_pkg.sv \
+            tb/hdl_top.sv  tb/hvl_top.sv",
+        "incdirs": ["agent uvm_tb"],
+        "simvariants": ["UVM_TESTNAME=test_all_parallel"],
+    },
+    "uvm_c_stimulus_bl_example": {
+        "files": [
+            "./c_stimulus_pkg/c_stimulus_pkg.sv",
+            "./c_stimulus_pkg/isr_pkg.sv",
+            "./block_level_example/rtl/spi/rtl/verilog/spi_clgen.v",
+            "./block_level_example/rtl/spi/rtl/verilog/timescale.v",
+            "./block_level_example/rtl/spi/rtl/verilog/spi_defines.v",
+            "./block_level_example/rtl/spi/rtl/verilog/spi_shift.v",
+            "./block_level_example/rtl/spi/rtl/verilog/spi_top.v",
+            "./block_level_example/agents/apb_agent/apb_agent_pkg.sv",
+            "./block_level_example/agents/spi_agent/spi_agent_pkg.sv",
+            "./block_level_example/uvm_tb/uvm_register_model/spi_reg_pkg.sv",
+            "./block_level_example/agents/apb_agent/apb_if.sv",
+            "./block_level_example/agents/spi_agent/spi_if.sv",
+            "./block_level_example/uvm_tb/tb/intr_if.sv",
+            "./block_level_example/uvm_tb/env/spi_env_pkg.sv",
+            "./block_level_example/uvm_tb/sequences/spi_bus_sequence_lib_pkg.sv",
+            "./block_level_example/uvm_tb/sequences/spi_sequence_lib_pkg.sv",
+            "./block_level_example/uvm_tb/sequences/spi_virtual_seq_lib_pkg.sv",
+            "./block_level_example/uvm_tb/test/spi_test_lib_pkg.sv",
+            "./block_level_example/uvm_tb/tb/top_tb.sv",
+            "./c_stimulus_pkg/reg_api.c",
+            "./block_level_example/c_code/spi_c_poll_test.c",
+            "./block_level_example/c_code/spi_int_test.c",
+        ],
+        "incdirs": [
+            "block_level_example/agents/apb_agent",
+            "block_level_example/agents/spi_agent", "c_stimulus_pkg",
+            "block_level_example/rtl/spi/rtl/verilog",
+            "block_level_example/uvm_tb/uvm_register_model",
+            "block_level_example/uvm_tb/env",
+            "block_level_example/uvm_tb/sequences",
+            "block_level_example/uvm_tb/test", "block_level_example/c_code"
+        ],
+        "simvariants":
+        ["UVM_TESTNAME=spi_c_int_test", "UVM_TESTNAME=spi_c_poll_test"],
+    },
+    "uvm_ef_vif_config_db": {
+        "files": [
+            "./sfr_agent/sfr_agent_pkg.sv", "./sfr_agent/sfr_master_bfm.sv",
+            "./sfr_agent/sfr_monitor_bfm.sv", "./sfr_test_pkg/sfr_test_pkg.sv",
+            "./tb/hvl_top.sv", "./tb/hdl_top.sv", "./rtl/sfr_dut.sv"
+        ],
+        "incdirs": ["sfr_agent", "sfr_test_pkg"],
+        "simvariants": ["UVM_TESTNAME=sfr_test"],
+    },
+    "uvm_generation_seq_persistence": {
+        "files": [
+            "./common/bus_if.sv", "./common/dut.sv",
+            "./common/bus_agent_pkg.sv",
+            "./sequence_library/bus_seq_lib_pkg.sv", "./tests/test_lib_pkg.sv",
+            "./common/top_tb.sv"
+        ],
+        "incdirs": [],
+        "simvariants": ["UVM_TESTNAME=complete_transfer_test"],
+    },
+    "uvm_generation_seq_poly": {
+        "files": [
+            "./common/bus_if.sv", "./common/dut.sv",
+            "./common/bus_agent_pkg.sv",
+            "./sequence_library/bus_seq_lib_pkg.sv", "./tests/test_lib_pkg.sv",
+            "./common/top_tb.sv"
+        ],
+        "incdirs": [],
+        "simvariants": ["UVM_TESTNAME=rand_transfer_test"],
+    },
+    "uvm_generation_seq_randomization": {
+        "files": [
+            "common/bus_if.sv", "common/dut.sv", "common/bus_agent_pkg.sv",
+            "sequence_library/bus_seq_lib_pkg.sv", "tests/test_lib_pkg.sv",
+            "common/top_tb.sv"
+        ],
+        "incdirs": [],
+        "simvariants": ["UVM_TESTNAME=seq_rand_test"],
+    },
+    "uvm_id_register": {
+        "files": [
+            "apb_agent/apb_agent_pkg.sv",
+            "apb_agent/apb_driver_bfm.sv",
+            "apb_agent/apb_monitor_bfm.sv",
+            "reg_dut.sv",
+            "regmodel_pkg.sv",
+            "uvm_tb_pkg.sv",
+            "hvl_top.sv",
+            "hdl_top.sv",
+        ],
+        "incdirs": ["apb_agent"],
+        "simvariants": [],
+    },
+    "uvm_interrupts_parallel_processing": {
+        "files": [
+            "utils/interrupt/interrupt_pkg.sv",
+            "utils/interrupt/interrupt_if.sv",
+            "parallel_processing/dsp_chain.sv",
+            "parallel_processing/dsp_con_pkg.sv",
+            "parallel_processing/dsp_con_driver_bfm.sv",
+            "parallel_processing/top.sv"
+        ],
+        "incdirs": ["utils/interrupt", "parallel_processing"],
+        "simvariants": [],
+    },
+    "uvm_interrupts_prioritized": {
+        "files": [
+            "utils/interrupt/interrupt_pkg.sv",
+            "utils/interrupt/interrupt_if.sv",
+            "bidirect_bus_agent_pkg.sv",
+            "prioritised/top.sv",
+        ],
+        "incdirs": ["utils/interrupt"],
+        "simvariants": [],
+    },
+    "uvm_interrupts_simple": {
+        "files": [
+            "utils/interrupt/interrupt_pkg.sv",
+            "utils/interrupt/interrupt_if.sv",
+            "bidirect_bus_agent_pkg.sv",
+            "simple/top.sv",
+        ],
+        "incdirs": ["utils/interrupt"],
+        "simvariants": [],
+    },
+    "uvm_many_to_one": {
+        "files": [
+            "./b.sv",
+            "./a.sv",
+            "./c.sv",
+            "./abc_layering.sv",
+            "./env.sv",
+            "./test.sv",
+        ],
+        "incdirs": ["."],
+        "simvariants": ["UVM_TESTNAME=test"],
+    },
+    "uvm_messaging_example": {
+        "files": ["messaging_example.sv"],
+        "incdirs": [],
+        "simvariants": ["UVM_TESTNAME=message_test"],
+    },
+    "uvm_overriding": {
+        "files": ["a_agent_pkg.sv", "top.sv"],
+        "incdirs": [],
+        "simvariants": [],
+    },
+    "uvm_param_vif_config_db": {
+        "files": [
+            "./sfr_agent/sfr_agent_pkg.sv",
+            "./sfr_agent/sfr_master_bfm.sv",
+            "./sfr_agent/sfr_monitor_bfm.sv",
+            "./tb/tb_params_pkg.sv",
+            "./sfr_test_pkg/sfr_test_pkg.sv",
+            "./tb/hdl_top.sv",
+            "./tb/hvl_top.sv",
+            "./rtl/sfr_dut.sv",
+        ],
+        "incdirs": ["sfr_agent", "sfr_test_pkg"],
+        "simvariants": ["UVM_TESTNAME=sfr_test"],
+    },
+    "uvm_priority_arbitration": {
+        "files": ["top.sv"],
+        "incdirs": [],
+        "simvariants": [
+            "ARB_TYPE=SEQ_ARB_FIFO",
+            "ARB_TYPE=SEQ_ARB_WEIGHTED",
+            "ARB_TYPE=SEQ_ARB_RANDOM",
+            "ARB_TYPE=SEQ_ARB_STRICT_FIFO",
+            "ARB_TYPE=SEQ_ARB_STRICT_RANDOM",
+            "ARB_TYPE=SEQ_ARB_USER",
+        ],
+    },
+    "uvm_priority_grab_lock": {
+        "files": ["top.sv"],
+        "incdirs": [],
+        "simvariants": [
+            "ARB_TYPE=SEQ_ARB_FIFO",
+            "ARB_TYPE=SEQ_ARB_WEIGHTED",
+            "ARB_TYPE=SEQ_ARB_RANDOM",
+            "ARB_TYPE=SEQ_ARB_STRICT_FIFO",
+            "ARB_TYPE=SEQ_ARB_STRICT_RANDOM",
+            "ARB_TYPE=SEQ_ARB_USER",
+        ],
+    },
+    "uvm_register_mem_example": {
+        "files": [
+            "./dut/timescale.v",
+            "./dut/mem_ss.sv",
+            "./dut/reg_defs.sv",
+            "./agents/ahb_agent/ahb_agent_pkg.sv",
+            "./register_model/mem_ss_reg_pkg.sv",
+            "./agents/ahb_agent/ahb_monitor_bfm.sv",
+            "./agents/ahb_agent/ahb_if.sv",
+            "./agents/ahb_agent/ahb_driver_bfm.sv",
+            "./env/mem_ss_env_pkg.sv",
+            "./sequences/mem_ss_seq_lib_pkg.sv",
+            "./test/mem_ss_test_lib_pkg.sv",
+            "./tb/hvl_top.sv",
+            "./tb/hdl_top.sv",
+        ],
+        "incdirs": [
+            "dut",
+            "agents/ahb_agent",
+            "register_model",
+            "env",
+            "sequences",
+            "test",
+            "utils",
+        ],
+        "simvariants": ["UVM_TESTNAME=mem_ss_test"],
+    },
+    "uvm_register_spi_bl_tb": {
+        "files": [
+            "./rtl/spi/rtl/verilog/spi_clgen.v",
+            "./rtl/spi/rtl/verilog/timescale.v",
+            "./rtl/spi/rtl/verilog/spi_defines.v",
+            "./rtl/spi/rtl/verilog/spi_shift.v",
+            "./rtl/spi/rtl/verilog/spi_top.v",
+            "./agents/apb_agent/apb_agent_pkg.sv",
+            "./agents/spi_agent/spi_agent_pkg.sv",
+            "./block_level_tbs/spi_tb/register_model/spi_reg_pkg.sv",
+            "./agents/spi_agent/spi_monitor_bfm.sv",
+            "./agents/spi_agent/spi_driver_bfm.sv",
+            "./agents/spi_agent/spi_if.sv",
+            "./agents/apb_agent/apb_driver_bfm.sv",
+            "./agents/apb_agent/apb_if.sv",
+            "./agents/apb_agent/apb_monitor_bfm.sv",
+            "./utils/interrupt/intr_pkg.sv",
+            "./utils/interrupt/intr_bfm.sv",
+            "./utils/interrupt/intr_if.sv",
+            "./block_level_tbs/spi_tb/env/spi_env_pkg.sv",
+            "./block_level_tbs/spi_tb/sequences/spi_bus_sequence_lib_pkg.sv",
+            "./block_level_tbs/spi_tb/sequences/spi_test_seq_lib_pkg.sv",
+            "./block_level_tbs/spi_tb/test/spi_test_lib_pkg.sv",
+            "./block_level_tbs/spi_tb/tb/hvl_top.sv",
+            "./block_level_tbs/spi_tb/tb/hdl_top.sv",
+        ],
+        "incdirs": [
+            "rtl/spi/rtl/verilog",
+            "agents/apb_agent",
+            "agents/spi_agent",
+            "utils",
+            "utils/interrupt",
+            "block_level_tbs/spi_tb/env",
+            "block_level_tbs/spi_tb/sequences",
+            "block_level_tbs/spi_tb/test",
+        ],
+        "simvariants": ["UVM_TESTNAME=spi_interrupt_test"],
+    },
+    "uvm_slave_agent": {
+        "files": [
+            "agents/apb_slave_agent/apb_slave_agent_pkg.sv",
+            "./agents/apb_slave_agent/apb_if.sv",
+            "./agents/apb_slave_agent/apb_slave_driver_bfm.sv",
+            "./agents/apb_slave_agent/apb_slave_monitor_bfm.sv",
+            "./rtl/apb3_wlm_host.sv",
+            "./tb/env_pkg.sv",
+            "./tb/hvl_top.sv",
+            "./tb/hdl_top.sv",
+        ],
+        "incdirs": ["agents/apb_slave_agent", "tb"],
+        "simvariants": [],
+    },
+    "uvm_slave_agent_multi_seq_item": {
+        "files": [
+            "./agents/apb_slave_agent/apb_if.sv",
+            "./agents/apb_slave_agent/apb_slave_agent_pkg.sv",
+            "./agents/apb_slave_agent/apb_slave_monitor_bfm.sv",
+            "./agents/apb_slave_agent/apb_slave_driver_bfm.sv",
+            "./rtl/apb3_wlm_host.sv",
+            "./tb/env_pkg.sv",
+            "./tb/hdl_top.sv",
+            "./tb/hvl_top.sv",
+        ],
+        "incdirs": ["agents/apb_slave_agent", "tb"],
+        "simvariants": [],
+    },
+    "uvm_tb_build_bl_tb": {
+        "files": [
+            "./rtl/spi/rtl/verilog/spi_clgen.v",
+            "./rtl/spi/rtl/verilog/timescale.v",
+            "./rtl/spi/rtl/verilog/spi_defines.v",
+            "./rtl/spi/rtl/verilog/spi_shift.v",
+            "./rtl/spi/rtl/verilog/spi_top.v",
+            "agents/apb_agent/apb_agent_pkg.sv",
+            "agents/spi_agent/spi_agent_pkg.sv",
+            "block_level_tbs/spi_tb/register_model/spi_reg_pkg.sv",
+            "agents/apb_agent/apb_if.sv",
+            "agents/apb_agent/apb_monitor_bfm.sv",
+            "agents/apb_agent/apb_driver_bfm.sv",
+            "agents/spi_agent/spi_if.sv",
+            "agents/spi_agent/spi_monitor_bfm.sv",
+            "agents/spi_agent/spi_driver_bfm.sv",
+            "utils/interrupt/intr_pkg.sv",
+            "utils/interrupt/intr_if.sv",
+            "utils/interrupt/intr_bfm.sv",
+            "block_level_tbs/spi_tb/env/spi_env_pkg.sv",
+            "block_level_tbs/spi_tb/sequences/spi_bus_sequence_lib_pkg.sv",
+            "block_level_tbs/spi_tb/sequences/spi_test_seq_lib_pkg.sv",
+            "block_level_tbs/spi_tb/test/spi_test_lib_pkg.sv",
+            "block_level_tbs/spi_tb/tb/hvl_top.sv",
+            "block_level_tbs/spi_tb/tb/hdl_top.sv",
+        ],
+        "incdirs": [
+            "block_level_tbs/spi_tb/env",
+            "block_level_tbs/spi_tb/sequences",
+            "block_level_tbs/spi_tb/register_model",
+            "block_level_tbs/spi_tb/test",
+            "agents/apb_agent",
+            "agents/spi_agent",
+            "rtl/spi/rtl/verilog",
+            "utils",
+            "utils/interrupt",
+        ],
+        "simvariants": ["UVM_TESTNAME=spi_interrupt_test"],
+    },
+    "uvm_tb_build_ss_tb": {
+        "files": [
+            "sub_system_tbs/pss_tb/tb/hdl_top.sv",
+            "sub_system_tbs/pss_tb/tb/hvl_top.sv",
+            "sub_system_tbs/pss_tb/tb/binder.sv",
+            "sub_system_tbs/pss_tb/tb/apb_prober.sv",
+            "sub_system_tbs/pss_tb/tb/intr_if.sv",
+            "rtl/spi/rtl/verilog/spi_top.v",
+            "agents/apb_agent/apb_agent_pkg.sv",
+            "agents/spi_agent/spi_agent_pkg.sv",
+            "agents/ahb_agent/ahb_agent_pkg.sv",
+            "agents/gpio_agent/gpio_agent_pkg.sv",
+            "agents/modem_agent/modem_agent_pkg.sv",
+            "agents/uart_agent/uart_agent_pkg.sv",
+            "agents/apb_agent/apb_if.sv",
+            "agents/apb_agent/apb_monitor_bfm.sv",
+            "agents/apb_agent/apb_driver_bfm.sv",
+            "agents/spi_agent/spi_if.sv",
+            "agents/spi_agent/spi_monitor_bfm.sv",
+            "agents/spi_agent/spi_driver_bfm.sv",
+            "agents/gpio_agent/gpio_if.sv",
+            "agents/gpio_agent/gpio_monitor_bfm.sv",
+            "agents/gpio_agent/gpio_driver_bfm.sv",
+            "agents/ahb_agent/ahb_if.sv",
+            "agents/ahb_agent/ahb_monitor_bfm.sv",
+            "agents/ahb_agent/ahb_driver_bfm.sv",
+            "agents/modem_agent/modem_if.sv",
+            "agents/modem_agent/modem_monitor_bfm.sv",
+            "agents/modem_agent/modem_driver_bfm.sv",
+            "agents/uart_agent/serial_if.sv",
+            "agents/uart_agent/uart_monitor_bfm.sv",
+            "agents/uart_agent/uart_driver_bfm.sv",
+            "utils/interrupt/intr_pkg.sv",
+            "utils/interrupt/intr_bfm.sv",
+            "block_level_tbs/spi_tb/register_model/spi_reg_pkg.sv",
+            "block_level_tbs/gpio_tb/register_model/gpio_reg_pkg.sv",
+            "sub_system_tbs/pss_tb/register_model/pss_reg_pkg.sv",
+            "block_level_tbs/spi_tb/env/spi_env_pkg.sv",
+            "block_level_tbs/gpio_tb/env/gpio_env_pkg.sv",
+            "sub_system_tbs/pss_tb/env/pss_env_pkg.sv",
+            "block_level_tbs/spi_tb/sequences/spi_bus_sequence_lib_pkg.sv",
+            "block_level_tbs/spi_tb/sequences/spi_test_seq_lib_pkg.sv",
+            "block_level_tbs/gpio_tb/sequences/gpio_bus_sequence_lib_pkg.sv",
+            "block_level_tbs/gpio_tb/sequences/gpio_test_sequence_lib_pkg.sv",
+            "sub_system_tbs/pss_tb/sequences/pss_test_seq_lib_pkg.sv",
+            "sub_system_tbs/pss_tb/test/pss_test_lib_pkg.sv",
+            "block_level_tbs/spi_tb/test/spi_test_lib_pkg.sv",
+        ],
+        "incdirs": [
+            "rtl/spi/rtl/verilog",
+            "block_level_tbs/spi_tb/test",
+            "rtl/uart/rtl",
+            "agents/apb_agent",
+            "agents/spi_agent",
+            "agents/ahb_agent",
+            "agents/gpio_agent",
+            "agents/modem_agent",
+            "agents/uart_agent",
+            "utils",
+            "utils/interrupt",
+            "block_level_tbs/spi_tb/register_model",
+            "block_level_tbs/gpio_tb/register_model",
+            "sub_system_tbs/pss_tb/test",
+            "sub_system_tbs/pss_tb/sequences",
+            "block_level_tbs/gpio_tb/env",
+            "block_level_tbs/gpio_tb/sequences",
+            "sub_system_tbs/pss_tb/register_model",
+            "block_level_tbs/spi_tb/env",
+            "sub_system_tbs/pss_tb/env",
+            "block_level_tbs/spi_tb/sequences",
+            "block_level_tbs/gpio_tb/sequences",
+        ],
+        "simvariants": ["UVM_TESTNAME=pss_spi_interrupt_test"],
+    },
+    "uvm_test_init": {
+        "files": [
+            "agent_a_pkg.sv",
+            "agent_b_pkg.sv",
+            "agent_c_pkg.sv",
+            "env_1_pkg.sv",
+            "env_2_pkg.sv",
+            "env_top_pkg.sv",
+            "top_vseq_pkg.sv",
+            "top.sv",
+        ],
+        "incdirs": [],
+        "simvariants": ["UVM_TESTNAME=init_vseq_from_test"],
+    },
+    "uvm_use_models_bidir_get_put": {
+        "files": ["top_tb.sv", "top_hdl.sv"],
+        "incdirs": [],
+        "simvariants": [],
+    },
+    "uvm_use_models_bidir_item_done": {
+        "files": ["top_tb.sv", "top_hdl.sv"],
+        "incdirs": [],
+        "simvariants": [],
+    },
+    "uvm_use_models_pipelined_get_put": {
+        "files": [
+            "mbus_slave/mbus_types_pkg.sv",
+            "pipelined_get_put/mbus_pipelined_agent/mbus_pipelined_agent_pkg.sv",
+            "mbus_slave/mbus_slave.sv",
+            "pipelined_get_put/mbus_pipelined_agent/mbus_pipelined_driver_bfm.sv",
+            "pipelined_get_put/top_tb.sv",
+            "pipelined_get_put/top_hdl.sv",
+        ],
+        "incdirs": ["pipelined_get_put/mbus_pipelined_agent"],
+        "simvariants": [],
+    },
+    "uvm_use_models_pipelined_item_done": {
+        "files": [
+            "./mbus_slave/mbus_slave.sv",
+            "./pipelined_item_done/mbus_pipelined_agent/mbus_pipelined_agent_pkg.sv",
+            "./pipelined_item_done/top.sv",
+        ],
+        "incdirs": ["pipelined_item_done/mbus_pipelined_agent"],
+        "simvariants": [],
+    },
+    "uvm_use_models_unidirectional": {
+        "files": ["top_tb.sv", "top_hdl.sv"],
+        "incdirs": [],
+        "simvariants": [],
+    },
+    "uvm_vif_config_db": {
+        "files": [
+            "sfr_agent/sfr_agent_pkg.sv",
+            "sfr_agent/sfr_if.sv",
+            "sfr_test_pkg/sfr_test_pkg.sv",
+            "tb/hdl_top.sv",
+            "tb/hvl_top.sv",
+            "rtl/sfr_dut.sv",
+        ],
+        "incdirs": ["sfr_agent", "sfr_test_pkg"],
+        "simvariants": ["UVM_TESTNAME=sfr_test"],
+    },
+    "uvm_virt_seq_find_all": {
+        "files": ["simple_ovc/simple_pkg.sv", "top.sv"],
+        "incdirs": ["simple_ovc"],
+        "simvariants": [],
+    },
+    "uvm_wait_for_signal": {
+        "files": [
+            "bus_if.sv",
+            "bidirect_bus_pkg.sv",
+            "bidirect_bus_driver_bfm.sv",
+            "top.sv",
+        ],
+        "incdirs": [],
+        "simvariants": [],
+    },
+}
+
+for dir in os.scandir(examples_path):
+    if dir.name == ".git" or dir.name == "LICENSE":
+        continue
+    test_name = dir.name
+    test = tests[test_name]
+    test_dir = os.path.join(tests_dir, 'generated', tests_subdir)
+    if not os.path.isdir(test_dir):
+        os.makedirs(test_dir, exist_ok=True)
+    test_file = os.path.join(test_dir, dir.name + ".sv")
+    files = [
+        os.path.join(examples_path, test_name, name) for name in test["files"]
+    ]
+    incdirs = [
+        os.path.join(examples_path, test_name, name)
+        for name in test["incdirs"]
+    ]
+    with open(test_file, "w") as f:
+        f.write(
+            templ.format(
+                " ".join(files),
+                " ".join(incdirs),
+                " ".join(test["simvariants"]),
+                name=dir.name))
