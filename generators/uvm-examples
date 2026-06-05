@@ -576,7 +576,7 @@ tests = {
 }
 
 for dir in os.scandir(examples_path):
-    if dir.name == ".git":
+    if dir.name == ".git" or dir.name == "LICENSE":
         continue
     test_name = dir.name
     test = tests[test_name]
