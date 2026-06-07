@@ -14,7 +14,7 @@ for file in $(find ./out/report_* -name "*.csv" -print); do
 done
 
 # concatenate test reports
-cat $(find ./out/report_* -name "*.csv" -print) >> $COMPARE_REPORT
+cat $(find ./out/report_* -name "*.csv" -print) | sort >> $COMPARE_REPORT
 
 # Insert header at the first line of concatenated report
 sed -i 1i\ $(head -1 $(find ./out/report_* -name "*.csv.backup" -print -quit)) $COMPARE_REPORT
