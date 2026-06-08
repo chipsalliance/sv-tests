@@ -39,7 +39,7 @@ jobs:
             deps: bazel=7.6.1 bison flex libfl-dev
             skip-ccache: 1
           - name: verilator
-            deps: autoconf autotools-dev bison flex help2man libfl-dev libelf-dev
+            deps: autoconf autotools-dev bison flex help2man libfl-dev libelf-dev z3
             make_jobs_max: 4
           - name: yosys
             deps: bison clang tcl-dev flex libfl-dev pkg-config libreadline-dev
