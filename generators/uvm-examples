@@ -79,9 +79,9 @@ tests = {
             "protocol_monitor/apb_monitor.sv", "uvm_tb/tb/uart_tb.sv"
         ],
         "incdirs": [
-            "agents/apb_agent", "agents/uart_agent", "uvm_tb/env",
-            "uvm_tb/sequences", "uvm_tb/sequences", "uvm_tb/virtual_sequences",
-            "uvm_tb/tests"
+            "agents/apb_agent", "agents/uart_agent", "agents/modem_agent",
+            "uvm_tb/env", "uvm_tb/sequences", "uvm_tb/sequences",
+            "uvm_tb/virtual_sequences", "uvm_tb/tests"
         ],
         "simvariants": [
             "UVM_TESTNAME=uart_test", "UVM_TESTNAME=baud_rate_test",
@@ -430,6 +430,22 @@ tests = {
             "sub_system_tbs/pss_tb/tb/apb_prober.sv",
             "sub_system_tbs/pss_tb/tb/intr_if.sv",
             "rtl/spi/rtl/verilog/spi_top.v",
+            "rtl/spi/rtl/verilog/spi_clgen.v",
+            "rtl/spi/rtl/verilog/spi_shift.v",
+            "rtl/ahb2apb/rtl/ahb_apb_bridge.sv",
+            "rtl/gpio/rtl/verilog/gpio_top.v",
+            "rtl/icpit/rtl/icpit.v",
+            "rtl/uart/rtl/uart_top.v",
+            "rtl/uart/rtl/uart_apb.v",
+            "rtl/uart/rtl/uart_regs.v",
+            "rtl/uart/rtl/uart_transmitter.v",
+            "rtl/uart/rtl/uart_receiver.v",
+            "rtl/uart/rtl/uart_tfifo.v",
+            "rtl/uart/rtl/uart_rfifo.v",
+            "rtl/uart/rtl/raminfr.v",
+            "rtl/uart/rtl/uart_sync_flops.v",
+            "rtl/pss/rtl/pss.sv",
+            "rtl/pss/rtl/pss_wrapper.sv",
             "agents/apb_agent/apb_agent_pkg.sv",
             "agents/spi_agent/spi_agent_pkg.sv",
             "agents/ahb_agent/ahb_agent_pkg.sv",
@@ -474,6 +490,7 @@ tests = {
             "rtl/spi/rtl/verilog",
             "block_level_tbs/spi_tb/test",
             "rtl/uart/rtl",
+            "rtl/gpio/rtl/verilog",
             "agents/apb_agent",
             "agents/spi_agent",
             "agents/ahb_agent",
