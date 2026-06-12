@@ -56,6 +56,11 @@ jobs:
           - name: circt-verilog
             deps: cmake clang ninja-build lld
             submodules: llvm
+          - name: arcilator
+            repo: circt-verilog
+            deps: cmake clang ninja-build lld
+            submodules: llvm
+            runners_filter: Arcilator
     env:
       RUNNERS_FILTER: ${{ matrix.tool.runners_filter }}
       CCACHE_DIR: "/root/sv-tests/sv-tests/.cache/"
