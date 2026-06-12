@@ -51,7 +51,8 @@ tests = {
         "simvariants": [],
     },
     "biquad_example": {
-        "uvm_tag": "uvm-1.2",
+        "uvm_tag":
+        "uvm-1.2",
         "files": [
             "tb/agents/signal_agent/signal_if.sv",
             "tb/agents/apb_agent/apb_if.sv",
@@ -63,7 +64,8 @@ tests = {
         ["UVM_TESTNAME=biquad_smoke_test", "UVM_TESTNAME=biquad_test"],
     },
     "uart_example": {
-        "uvm_tag": "uvm",
+        "uvm_tag":
+        "uvm",
         "files": [
             "rtl/uart/uart_16550.sv", "rtl/uart/uart_register_file.sv",
             "rtl/uart/uart_rx_fifo.sv", "rtl/uart/uart_rx.sv",
@@ -94,7 +96,8 @@ tests = {
         ],
     },
     "uvm_ac_config_db": {
-        "uvm_tag": "uvm",
+        "uvm_tag":
+        "uvm",
         "files": [
             "sfr_agent/sfr_agent_pkg.sv", "sfr_agent/sfr_master_bfm.sv",
             "sfr_agent/sfr_monitor_bfm.sv", "sfr_test_pkg/sfr_test_pkg.sv",
@@ -115,7 +118,8 @@ tests = {
         "simvariants": ["UVM_TESTNAME=test_all_parallel"],
     },
     "uvm_c_stimulus_bl_example": {
-        "uvm_tag": "uvm",
+        "uvm_tag":
+        "uvm",
         "files": [
             "./c_stimulus_pkg/c_stimulus_pkg.sv",
             "./c_stimulus_pkg/isr_pkg.sv",
@@ -153,7 +157,8 @@ tests = {
         ["UVM_TESTNAME=spi_c_int_test", "UVM_TESTNAME=spi_c_poll_test"],
     },
     "uvm_ef_vif_config_db": {
-        "uvm_tag": "uvm",
+        "uvm_tag":
+        "uvm",
         "files": [
             "./sfr_agent/sfr_agent_pkg.sv", "./sfr_agent/sfr_master_bfm.sv",
             "./sfr_agent/sfr_monitor_bfm.sv", "./sfr_test_pkg/sfr_test_pkg.sv",
@@ -163,7 +168,8 @@ tests = {
         "simvariants": ["UVM_TESTNAME=sfr_test"],
     },
     "uvm_generation_seq_persistence": {
-        "uvm_tag": "uvm",
+        "uvm_tag":
+        "uvm",
         "files": [
             "./common/bus_if.sv", "./common/dut.sv",
             "./common/bus_agent_pkg.sv",
@@ -174,7 +180,8 @@ tests = {
         "simvariants": ["UVM_TESTNAME=complete_transfer_test"],
     },
     "uvm_generation_seq_poly": {
-        "uvm_tag": "uvm",
+        "uvm_tag":
+        "uvm",
         "files": [
             "./common/bus_if.sv", "./common/dut.sv",
             "./common/bus_agent_pkg.sv",
@@ -185,7 +192,8 @@ tests = {
         "simvariants": ["UVM_TESTNAME=rand_transfer_test"],
     },
     "uvm_generation_seq_randomization": {
-        "uvm_tag": "uvm",
+        "uvm_tag":
+        "uvm",
         "files": [
             "common/bus_if.sv", "common/dut.sv", "common/bus_agent_pkg.sv",
             "sequence_library/bus_seq_lib_pkg.sv", "tests/test_lib_pkg.sv",
@@ -195,7 +203,8 @@ tests = {
         "simvariants": ["UVM_TESTNAME=seq_rand_test"],
     },
     "uvm_id_register": {
-        "uvm_tag": "uvm",
+        "uvm_tag":
+        "uvm",
         "files": [
             "apb_agent/apb_agent_pkg.sv",
             "apb_agent/apb_driver_bfm.sv",
@@ -210,7 +219,8 @@ tests = {
         "simvariants": [],
     },
     "uvm_interrupts_parallel_processing": {
-        "uvm_tag": "uvm",
+        "uvm_tag":
+        "uvm",
         "files": [
             "utils/interrupt/interrupt_pkg.sv",
             "utils/interrupt/interrupt_if.sv",
@@ -223,7 +233,8 @@ tests = {
         "simvariants": [],
     },
     "uvm_interrupts_prioritized": {
-        "uvm_tag": "uvm",
+        "uvm_tag":
+        "uvm",
         "files": [
             "utils/interrupt/interrupt_pkg.sv",
             "utils/interrupt/interrupt_if.sv",
@@ -234,7 +245,8 @@ tests = {
         "simvariants": [],
     },
     "uvm_interrupts_simple": {
-        "uvm_tag": "uvm",
+        "uvm_tag":
+        "uvm",
         "files": [
             "utils/interrupt/interrupt_pkg.sv",
             "utils/interrupt/interrupt_if.sv",
@@ -245,7 +257,8 @@ tests = {
         "simvariants": [],
     },
     "uvm_many_to_one": {
-        "uvm_tag": "uvm",
+        "uvm_tag":
+        "uvm",
         "files": [
             "./b.sv",
             "./a.sv",
@@ -270,7 +283,8 @@ tests = {
         "simvariants": [],
     },
     "uvm_param_vif_config_db": {
-        "uvm_tag": "uvm",
+        "uvm_tag":
+        "uvm",
         "files": [
             "./sfr_agent/sfr_agent_pkg.sv",
             "./sfr_agent/sfr_master_bfm.sv",
@@ -285,7 +299,8 @@ tests = {
         "simvariants": ["UVM_TESTNAME=sfr_test"],
     },
     "uvm_priority_arbitration": {
-        "uvm_tag": "uvm",
+        "uvm_tag":
+        "uvm",
         "files": ["top.sv"],
         "incdirs": [],
         "simvariants": [
@@ -298,7 +313,8 @@ tests = {
         ],
     },
     "uvm_priority_grab_lock": {
-        "uvm_tag": "uvm",
+        "uvm_tag":
+        "uvm",
         "files": ["top.sv"],
         "incdirs": [],
         "simvariants": [
@@ -311,7 +327,8 @@ tests = {
         ],
     },
     "uvm_register_mem_example": {
-        "uvm_tag": "uvm",
+        "uvm_tag":
+        "uvm",
         "files": [
             "./dut/timescale.v",
             "./dut/mem_ss.sv",
@@ -339,7 +356,8 @@ tests = {
         "simvariants": ["UVM_TESTNAME=mem_ss_test"],
     },
     "uvm_register_spi_bl_tb": {
-        "uvm_tag": "uvm",
+        "uvm_tag":
+        "uvm",
         "files": [
             "./rtl/spi/rtl/verilog/spi_clgen.v",
             "./rtl/spi/rtl/verilog/timescale.v",
@@ -378,7 +396,8 @@ tests = {
         "simvariants": ["UVM_TESTNAME=spi_interrupt_test"],
     },
     "uvm_slave_agent": {
-        "uvm_tag": "uvm",
+        "uvm_tag":
+        "uvm",
         "files": [
             "agents/apb_slave_agent/apb_slave_agent_pkg.sv",
             "./agents/apb_slave_agent/apb_if.sv",
@@ -393,7 +412,8 @@ tests = {
         "simvariants": [],
     },
     "uvm_slave_agent_multi_seq_item": {
-        "uvm_tag": "uvm",
+        "uvm_tag":
+        "uvm",
         "files": [
             "./agents/apb_slave_agent/apb_if.sv",
             "./agents/apb_slave_agent/apb_slave_agent_pkg.sv",
@@ -408,7 +428,8 @@ tests = {
         "simvariants": [],
     },
     "uvm_tb_build_bl_tb": {
-        "uvm_tag": "uvm",
+        "uvm_tag":
+        "uvm",
         "files": [
             "./rtl/spi/rtl/verilog/spi_clgen.v",
             "./rtl/spi/rtl/verilog/timescale.v",
@@ -448,7 +469,8 @@ tests = {
         "simvariants": ["UVM_TESTNAME=spi_interrupt_test"],
     },
     "uvm_tb_build_ss_tb": {
-        "uvm_tag": "uvm",
+        "uvm_tag":
+        "uvm",
         "files": [
             "sub_system_tbs/pss_tb/tb/hdl_top.sv",
             "sub_system_tbs/pss_tb/tb/hvl_top.sv",
@@ -540,7 +562,8 @@ tests = {
         "simvariants": ["UVM_TESTNAME=pss_spi_interrupt_test"],
     },
     "uvm_test_init": {
-        "uvm_tag": "uvm",
+        "uvm_tag":
+        "uvm",
         "files": [
             "agent_a_pkg.sv",
             "agent_b_pkg.sv",
@@ -567,7 +590,8 @@ tests = {
         "simvariants": [],
     },
     "uvm_use_models_pipelined_get_put": {
-        "uvm_tag": "uvm",
+        "uvm_tag":
+        "uvm",
         "files": [
             "mbus_slave/mbus_types_pkg.sv",
             "pipelined_get_put/mbus_pipelined_agent/mbus_pipelined_agent_pkg.sv",
@@ -580,7 +604,8 @@ tests = {
         "simvariants": [],
     },
     "uvm_use_models_pipelined_item_done": {
-        "uvm_tag": "uvm-1.2",
+        "uvm_tag":
+        "uvm-1.2",
         "files": [
             "./mbus_slave/mbus_slave.sv",
             "./pipelined_item_done/mbus_pipelined_agent/mbus_pipelined_agent_pkg.sv",
@@ -596,7 +621,8 @@ tests = {
         "simvariants": [],
     },
     "uvm_vif_config_db": {
-        "uvm_tag": "uvm",
+        "uvm_tag":
+        "uvm",
         "files": [
             "sfr_agent/sfr_agent_pkg.sv",
             "sfr_agent/sfr_if.sv",
@@ -615,7 +641,8 @@ tests = {
         "simvariants": [],
     },
     "uvm_wait_for_signal": {
-        "uvm_tag": "uvm",
+        "uvm_tag":
+        "uvm",
         "files": [
             "bus_if.sv",
             "bidirect_bus_pkg.sv",
