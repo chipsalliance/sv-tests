@@ -580,7 +580,7 @@ tests = {
         "simvariants": [],
     },
     "uvm_use_models_pipelined_item_done": {
-        "uvm_tag": "uvm",
+        "uvm_tag": "uvm-1.2",
         "files": [
             "./mbus_slave/mbus_slave.sv",
             "./pipelined_item_done/mbus_pipelined_agent/mbus_pipelined_agent_pkg.sv",
