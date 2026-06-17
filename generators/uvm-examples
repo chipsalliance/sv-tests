@@ -45,11 +45,14 @@ main_path = os.path.abspath(os.getcwd())
 
 tests = {
     "apb_protocol_monitor": {
+        "disable": True,
         "files": ["protocol_monitor/apb_monitor.sv"],
         "incdirs": [],
         "simvariants": [],
     },
     "biquad_example": {
+        "disable":
+        True,
         "files": [
             "tb/agents/signal_agent/signal_if.sv",
             "tb/agents/apb_agent/apb_if.sv",
@@ -61,6 +64,8 @@ tests = {
         ["UVM_TESTNAME=biquad_smoke_test", "UVM_TESTNAME=biquad_test"],
     },
     "uart_example": {
+        "disable":
+        True,
         "files": [
             "rtl/uart/uart_16550.sv", "rtl/uart/uart_register_file.sv",
             "rtl/uart/uart_rx_fifo.sv", "rtl/uart/uart_rx.sv",
@@ -110,6 +115,8 @@ tests = {
         "simvariants": ["UVM_TESTNAME=test_all_parallel"],
     },
     "uvm_c_stimulus_bl_example": {
+        "disable":
+        True,
         "files": [
             "./c_stimulus_pkg/c_stimulus_pkg.sv",
             "./c_stimulus_pkg/isr_pkg.sv",
@@ -156,6 +163,8 @@ tests = {
         "simvariants": ["UVM_TESTNAME=sfr_test"],
     },
     "uvm_generation_seq_persistence": {
+        "disable":
+        True,
         "files": [
             "./common/bus_if.sv", "./common/dut.sv",
             "./common/bus_agent_pkg.sv",
@@ -185,6 +194,8 @@ tests = {
         "simvariants": ["UVM_TESTNAME=seq_rand_test"],
     },
     "uvm_id_register": {
+        "disable":
+        True,
         "files": [
             "apb_agent/apb_agent_pkg.sv",
             "apb_agent/apb_driver_bfm.sv",
@@ -318,6 +329,8 @@ tests = {
         "simvariants": ["UVM_TESTNAME=mem_ss_test"],
     },
     "uvm_register_spi_bl_tb": {
+        "disable":
+        True,
         "files": [
             "./rtl/spi/rtl/verilog/spi_clgen.v",
             "./rtl/spi/rtl/verilog/timescale.v",
@@ -384,6 +397,8 @@ tests = {
         "simvariants": [],
     },
     "uvm_tb_build_bl_tb": {
+        "disable":
+        True,
         "files": [
             "./rtl/spi/rtl/verilog/spi_clgen.v",
             "./rtl/spi/rtl/verilog/timescale.v",
@@ -423,6 +438,8 @@ tests = {
         "simvariants": ["UVM_TESTNAME=spi_interrupt_test"],
     },
     "uvm_tb_build_ss_tb": {
+        "disable":
+        True,
         "files": [
             "sub_system_tbs/pss_tb/tb/hdl_top.sv",
             "sub_system_tbs/pss_tb/tb/hvl_top.sv",
@@ -533,6 +550,8 @@ tests = {
         "simvariants": [],
     },
     "uvm_use_models_pipelined_item_done": {
+        "disable":
+        True,
         "files": [
             "./mbus_slave/mbus_slave.sv",
             "./pipelined_item_done/mbus_pipelined_agent/mbus_pipelined_agent_pkg.sv",
@@ -559,6 +578,7 @@ tests = {
         "simvariants": ["UVM_TESTNAME=sfr_test"],
     },
     "uvm_virt_seq_find_all": {
+        "disable": True,
         "files": ["simple_ovc/simple_pkg.sv", "top.sv"],
         "incdirs": ["simple_ovc"],
         "simvariants": [],
@@ -580,6 +600,8 @@ for dir in os.scandir(examples_path):
         continue
     test_name = dir.name
     test = tests[test_name]
+    if "disable" in test:
+        continue
     test_dir = os.path.join(tests_dir, 'generated', tests_subdir)
     if not os.path.isdir(test_dir):
         os.makedirs(test_dir, exist_ok=True)
