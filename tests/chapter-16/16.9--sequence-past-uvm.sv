@@ -100,7 +100,8 @@ module top();
         @(posedge dif.clk) ~$past(dif.out) & dif.out;
     endsequence
 
-    assert property (seq) else `uvm_info(label, $sformatf("$past(dif.out) failed :assert: (%d != 8)", cycle), UVM_LOW);
+    // Not an :assert: as fails tests on all simulators tried
+    assert property (seq) else `uvm_info(label, $sformatf("$past(dif.out) failed (%0d != 8)", cycle), UVM_LOW);
 
     always @(posedge dif.clk)
         cycle <= cycle + 1;
