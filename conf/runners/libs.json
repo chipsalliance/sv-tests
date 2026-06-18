@@ -2,5 +2,9 @@
     "uvm": {
         "files": ["tests/uvm/src/uvm_pkg.sv"],
         "incdirs": ["tests/uvm/src"]
+    },
+    "uvm-1.2": {
+        "files": ["tests/uvm-1.2/src/uvm_pkg.sv"],
+        "incdirs": ["tests/uvm-1.2/src"]
     }
 }
