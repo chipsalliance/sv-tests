@@ -7,3 +7,5 @@ updates:
     # UTC
     time: "22:00"
   open-pull-requests-limit: 100
+  ignore:
+    - dependency-name: "third_party/tests/uvm-1.2"
