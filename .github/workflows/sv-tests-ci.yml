@@ -54,7 +54,8 @@ jobs:
             deps: bison clang tcl-dev flex libfl-dev pkg-config libreadline-dev cmake pkg-config
             submodules: third_party/slang
           - name: circt-verilog
-            deps: cmake clang ninja-build lld
+            deps: clang ninja-build lld
+            cmake_ver: ">=3.28"
             submodules: llvm
     env:
       RUNNERS_FILTER: ${{ matrix.tool.runners_filter }}
@@ -130,6 +131,10 @@ jobs:
         if: ${{ contains(matrix.tool.deps, 'haskell') }}
         run: |
           stack upgrade
+      - name: Setup recent CMake (if needed)
+        if: ${{ matrix.tool.cmake_ver }}
+        run: |
+          pip install --use-pep517 "cmake${{ matrix.tool.cmake_ver }}"
       - name: Checkout the tool submodule
         run: |
           # Github dropped support for unauthorized git: https://github.blog/2021-09-01-improving-git-protocol-security-github/
