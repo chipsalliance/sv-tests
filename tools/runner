@@ -114,7 +114,7 @@ test = os.path.abspath(os.path.join(dirs['tests'], args.test))
 supported_test_params = [
     "name", "tags", "description", "files", "incdirs", "top_module", "timeout",
     "type", "should_fail", "should_fail_because", "defines",
-    "compatible-runners", "unsynthesizable", "results_group", "simvariants"
+    "compatible-runners", "unsynthesizable", "results_group", "simvariants", "success_info"
 ]
 
 test_params = {}
@@ -162,6 +162,7 @@ try:
             test_params.setdefault('unsynthesizable', '0')
             test_params.setdefault('results_group', "")
             test_params.setdefault('simvariants', "")
+            test_params.setdefault('success_info', None)
 
             if len(set(supported_test_params) - set(test_params.keys())) != 0:
                 missing = list(
@@ -273,7 +274,7 @@ try:
     test_passed = not tool_crashed and tool_should_fail == tool_failed
 
     if test_passed and test_params['mode'] == 'simulation':
-        test_passed = parseLog(output)
+        test_passed = parseLog(output, test_params['success_info'])
 
     if test_passed:
         logger.info("PASS: {}/{}".format(args.runner, args.test))
