@@ -47,7 +47,8 @@ main_path = os.path.abspath(os.getcwd())
 tests = {
     "apb_protocol_monitor": {
         "uvm_tag": "uvm",
-        "files": ["protocol_monitor/apb_monitor.sv", "testbench/apb_monitor_tb.sv"],
+        "files":
+        ["protocol_monitor/apb_monitor.sv", "testbench/apb_monitor_tb.sv"],
         "incdirs": [],
         "simvariants": [],
         "success_info": "TEST PASSED"
@@ -67,10 +68,14 @@ tests = {
             "tb/test/biquad_test_pkg.sv",
             "tb/tb/biquad_tb.sv",
         ],
-        "incdirs": ["tb/agents/apb_agent", "tb/agents/signal_agent", "tb/env", "tb/sequences", "tb/test"],
+        "incdirs": [
+            "tb/agents/apb_agent", "tb/agents/signal_agent", "tb/env",
+            "tb/sequences", "tb/test"
+        ],
         "simvariants":
         ["UVM_TESTNAME=biquad_smoke_test", "UVM_TESTNAME=biquad_test"],
-        "success_info": "UVM TEST PASSED"
+        "success_info":
+        "UVM TEST PASSED"
     },
     "uart_example": {
         "uvm_tag":
@@ -103,7 +108,8 @@ tests = {
             "UVM_TESTNAME=modem_poll_test",
             "UVM_TESTNAME=word_format_poll_test"
         ],
-        "success_info": "UVM TEST PASSED"
+        "success_info":
+        "UVM TEST PASSED"
     },
     "uvm_ac_config_db": {
         "uvm_tag":
@@ -115,21 +121,21 @@ tests = {
         ],
         "incdirs": ["sfr_agent", "sfr_test_pkg"],
         "simvariants": ["UVM_TESTNAME=sfr_test"],
-        "success_info": "UVM TEST PASSED"
+        "success_info":
+        "UVM TEST PASSED"
     },
     "uvm_alu_config_analysis": {
-        "uvm_tag": "uvm",
+        "uvm_tag":
+        "uvm",
         "files": [
-            "agent/alu_agent_pkg.sv",
-            "agent/alu_monitor_bfm.sv",
-            "agent/alu_driver_bfm.sv",
-            "alu/alu_if.sv", "alu/alu_rtl.sv",
-            "uvm_tb/alu_tb_pkg.sv",
-            "tb/hdl_top.sv", "tb/hvl_top.sv"
+            "agent/alu_agent_pkg.sv", "agent/alu_monitor_bfm.sv",
+            "agent/alu_driver_bfm.sv", "alu/alu_if.sv", "alu/alu_rtl.sv",
+            "uvm_tb/alu_tb_pkg.sv", "tb/hdl_top.sv", "tb/hvl_top.sv"
         ],
         "incdirs": ["agent", "uvm_tb"],
         "simvariants": ["UVM_TESTNAME=test_all_parallel"],
-        "success_info": "UVM TEST PASSED"
+        "success_info":
+        "UVM TEST PASSED"
     },
     "uvm_c_stimulus_bl_example": {
         "uvm_tag":
@@ -169,7 +175,8 @@ tests = {
         ],
         "simvariants":
         ["UVM_TESTNAME=spi_c_int_test", "UVM_TESTNAME=spi_c_poll_test"],
-        "success_info": "UVM TEST PASSED"
+        "success_info":
+        "UVM TEST PASSED"
     },
     "uvm_ef_vif_config_db": {
         "uvm_tag":
@@ -181,7 +188,8 @@ tests = {
         ],
         "incdirs": ["sfr_agent", "sfr_test_pkg"],
         "simvariants": ["UVM_TESTNAME=sfr_test"],
-        "success_info": "UVM TEST PASSED"
+        "success_info":
+        "UVM TEST PASSED"
     },
     "uvm_generation_seq_persistence": {
         "uvm_tag":
@@ -194,7 +202,8 @@ tests = {
         ],
         "incdirs": [],
         "simvariants": ["UVM_TESTNAME=complete_transfer_test"],
-        "success_info": "UVM TEST PASSED"
+        "success_info":
+        "UVM TEST PASSED"
     },
     "uvm_generation_seq_poly": {
         "uvm_tag":
@@ -207,7 +216,8 @@ tests = {
         ],
         "incdirs": [],
         "simvariants": ["UVM_TESTNAME=rand_transfer_test"],
-        "success_info": "UVM TEST PASSED"
+        "success_info":
+        "UVM TEST PASSED"
     },
     "uvm_generation_seq_randomization": {
         "uvm_tag":
@@ -219,7 +229,8 @@ tests = {
         ],
         "incdirs": [],
         "simvariants": ["UVM_TESTNAME=seq_rand_test"],
-        "success_info": "UVM TEST PASSED"
+        "success_info":
+        "UVM TEST PASSED"
     },
     "uvm_id_register": {
         "uvm_tag":
@@ -236,7 +247,8 @@ tests = {
         ],
         "incdirs": ["apb_agent"],
         "simvariants": [],
-        "success_info": "UVM TEST PASSED"
+        "success_info":
+        "UVM TEST PASSED"
     },
     "uvm_interrupts_parallel_processing": {
         "uvm_tag":
@@ -251,7 +263,8 @@ tests = {
         ],
         "incdirs": ["utils/interrupt", "parallel_processing"],
         "simvariants": [],
-        "success_info": "UVM TEST PASSED"
+        "success_info":
+        "UVM TEST PASSED"
     },
     "uvm_interrupts_prioritized": {
         "uvm_tag":
@@ -264,7 +277,8 @@ tests = {
         ],
         "incdirs": ["utils/interrupt"],
         "simvariants": [],
-        "success_info": "UVM TEST PASSED"
+        "success_info":
+        "UVM TEST PASSED"
     },
     "uvm_interrupts_simple": {
         "uvm_tag":
@@ -277,7 +291,8 @@ tests = {
         ],
         "incdirs": ["utils/interrupt"],
         "simvariants": [],
-        "success_info": "UVM TEST PASSED"
+        "success_info":
+        "UVM TEST PASSED"
     },
     "uvm_many_to_one": {
         "uvm_tag":
@@ -292,7 +307,8 @@ tests = {
         ],
         "incdirs": ["."],
         "simvariants": ["UVM_TESTNAME=test"],
-        "success_info": "UVM TEST PASSED"
+        "success_info":
+        "UVM TEST PASSED"
     },
     "uvm_messaging_example": {
         "uvm_tag": "uvm",
@@ -323,7 +339,8 @@ tests = {
         ],
         "incdirs": ["sfr_agent", "sfr_test_pkg"],
         "simvariants": ["UVM_TESTNAME=sfr_test"],
-        "success_info": "UVM TEST PASSED"
+        "success_info":
+        "UVM TEST PASSED"
     },
     "uvm_priority_arbitration": {
         "uvm_tag":
@@ -338,7 +355,8 @@ tests = {
             "ARB_TYPE=SEQ_ARB_STRICT_RANDOM",
             "ARB_TYPE=SEQ_ARB_USER",
         ],
-        "success_info": "UVM TEST PASSED"
+        "success_info":
+        "UVM TEST PASSED"
     },
     "uvm_priority_grab_lock": {
         "uvm_tag":
@@ -353,7 +371,8 @@ tests = {
             "ARB_TYPE=SEQ_ARB_STRICT_RANDOM",
             "ARB_TYPE=SEQ_ARB_USER",
         ],
-        "success_info": "UVM TEST PASSED"
+        "success_info":
+        "UVM TEST PASSED"
     },
     "uvm_register_mem_example": {
         "uvm_tag":
@@ -383,7 +402,8 @@ tests = {
             "utils",
         ],
         "simvariants": ["UVM_TESTNAME=mem_ss_test"],
-        "success_info": "UVM TEST PASSED"
+        "success_info":
+        "UVM TEST PASSED"
     },
     "uvm_register_spi_bl_tb": {
         "uvm_tag":
@@ -424,7 +444,8 @@ tests = {
             "block_level_tbs/spi_tb/test",
         ],
         "simvariants": ["UVM_TESTNAME=spi_interrupt_test"],
-        "success_info": "UVM TEST PASSED"
+        "success_info":
+        "UVM TEST PASSED"
     },
     "uvm_slave_agent": {
         "uvm_tag":
@@ -441,8 +462,10 @@ tests = {
         ],
         "incdirs": ["agents/apb_slave_agent", "tb"],
         "simvariants": [],
-        "success_info": "UVM TEST PASSED",
-        "extra_param": ":runner_verilator_flags: --timescale 1ns/1ns\n"
+        "success_info":
+        "UVM TEST PASSED",
+        "extra_param":
+        ":runner_verilator_flags: --timescale 1ns/1ns\n"
     },
     "uvm_slave_agent_multi_seq_item": {
         "uvm_tag":
@@ -459,8 +482,10 @@ tests = {
         ],
         "incdirs": ["agents/apb_slave_agent", "tb"],
         "simvariants": [],
-        "success_info": "UVM TEST PASSED",
-        "extra_param": ":runner_verilator_flags: --timescale 1ns/1ns\n"
+        "success_info":
+        "UVM TEST PASSED",
+        "extra_param":
+        ":runner_verilator_flags: --timescale 1ns/1ns\n"
     },
     "uvm_tb_build_bl_tb": {
         "uvm_tag":
@@ -502,7 +527,8 @@ tests = {
             "utils/interrupt",
         ],
         "simvariants": ["UVM_TESTNAME=spi_interrupt_test"],
-        "success_info": "UVM TEST PASSED"
+        "success_info":
+        "UVM TEST PASSED"
     },
     "uvm_tb_build_ss_tb": {
         "uvm_tag":
@@ -596,7 +622,8 @@ tests = {
             "block_level_tbs/gpio_tb/sequences",
         ],
         "simvariants": ["UVM_TESTNAME=pss_spi_interrupt_test"],
-        "success_info": "UVM TEST PASSED"
+        "success_info":
+        "UVM TEST PASSED"
     },
     "uvm_test_init": {
         "uvm_tag":
@@ -613,7 +640,8 @@ tests = {
         ],
         "incdirs": [],
         "simvariants": ["UVM_TESTNAME=init_vseq_from_test"],
-        "success_info": "UVM TEST PASSED"
+        "success_info":
+        "UVM TEST PASSED"
     },
     "uvm_use_models_bidir_get_put": {
         "uvm_tag": "uvm",
@@ -642,7 +670,8 @@ tests = {
         ],
         "incdirs": ["pipelined_get_put/mbus_pipelined_agent"],
         "simvariants": [],
-        "success_info": "UVM TEST PASSED"
+        "success_info":
+        "UVM TEST PASSED"
     },
     "uvm_use_models_pipelined_item_done": {
         "uvm_tag":
@@ -654,7 +683,8 @@ tests = {
         ],
         "incdirs": ["pipelined_item_done/mbus_pipelined_agent"],
         "simvariants": [],
-        "success_info": "UVM TEST PASSED"
+        "success_info":
+        "UVM TEST PASSED"
     },
     "uvm_use_models_unidirectional": {
         "uvm_tag": "uvm",
@@ -676,7 +706,8 @@ tests = {
         ],
         "incdirs": ["sfr_agent", "sfr_test_pkg"],
         "simvariants": ["UVM_TESTNAME=sfr_test"],
-        "success_info": "UVM TEST PASSED"
+        "success_info":
+        "UVM TEST PASSED"
     },
     "uvm_virt_seq_find_all": {
         "uvm_tag": "uvm-1.2",
@@ -696,7 +727,8 @@ tests = {
         ],
         "incdirs": [],
         "simvariants": [],
-        "success_info": "UVM TEST PASSED"
+        "success_info":
+        "UVM TEST PASSED"
     },
 }
 
@@ -729,5 +761,4 @@ for dir in os.scandir(examples_path):
                 name=dir.name,
                 uvm_tag=test["uvm_tag"],
                 success_info=test["success_info"],
-                extra_param=extra_param
-            ))
+                extra_param=extra_param))

@@ -114,7 +114,8 @@ test = os.path.abspath(os.path.join(dirs['tests'], args.test))
 supported_test_params = [
     "name", "tags", "description", "files", "incdirs", "top_module", "timeout",
     "type", "should_fail", "should_fail_because", "defines",
-    "compatible-runners", "unsynthesizable", "results_group", "simvariants", "success_info"
+    "compatible-runners", "unsynthesizable", "results_group", "simvariants",
+    "success_info"
 ]
 
 test_params = {}
