@@ -24,7 +24,7 @@ templ = """/*
 :unsynthesizable: 1
 :simvariants: {2}
 :success_info: {success_info}
-*/
+{extra_param}*/
 """
 
 try:
@@ -439,7 +439,8 @@ tests = {
         ],
         "incdirs": ["agents/apb_slave_agent", "tb"],
         "simvariants": [],
-        "success_info": "UVM TEST PASSED"
+        "success_info": "UVM TEST PASSED",
+        "extra_param": ":runner_verilator_flags: --timescale 1ns/1ns\n"
     },
     "uvm_slave_agent_multi_seq_item": {
         "uvm_tag":
@@ -456,7 +457,8 @@ tests = {
         ],
         "incdirs": ["agents/apb_slave_agent", "tb"],
         "simvariants": [],
-        "success_info": "UVM TEST PASSED"
+        "success_info": "UVM TEST PASSED",
+        "extra_param": ":runner_verilator_flags: --timescale 1ns/1ns\n"
     },
     "uvm_tb_build_bl_tb": {
         "uvm_tag":
@@ -712,6 +714,10 @@ for dir in os.scandir(examples_path):
         os.path.join(examples_path, test_name, name)
         for name in test["incdirs"]
     ]
+    if "extra_param" in test:
+        extra_param = test["extra_param"]
+    else:
+        extra_param = ""
     with open(test_file, "w") as f:
         f.write(
             templ.format(
@@ -720,5 +726,6 @@ for dir in os.scandir(examples_path):
                 " ".join(test["simvariants"]),
                 name=dir.name,
                 uvm_tag=test["uvm_tag"],
-                success_info=test["success_info"]
+                success_info=test["success_info"],
+                extra_param=extra_param
             ))
