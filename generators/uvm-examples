@@ -74,7 +74,7 @@ tests = {
     },
     "uart_example": {
         "uvm_tag":
-        "uvm",
+        "uvm-1.2",
         "files": [
             "rtl/uart/uart_16550.sv", "rtl/uart/uart_register_file.sv",
             "rtl/uart/uart_rx_fifo.sv", "rtl/uart/uart_rx.sv",
@@ -119,13 +119,15 @@ tests = {
     },
     "uvm_alu_config_analysis": {
         "uvm_tag": "uvm",
-        "files": "agent/alu_agent_pkg.sv \
-            agent/alu_monitor_bfm.sv \
-            agent/alu_driver_bfm.sv \
-            alu/alu_if.sv  alu/alu_rtl.sv\
-            uvm_tb/alu_tb_pkg.sv \
-            tb/hdl_top.sv  tb/hvl_top.sv",
-        "incdirs": ["agent uvm_tb"],
+        "files": [
+            "agent/alu_agent_pkg.sv",
+            "agent/alu_monitor_bfm.sv",
+            "agent/alu_driver_bfm.sv",
+            "alu/alu_if.sv", "alu/alu_rtl.sv",
+            "uvm_tb/alu_tb_pkg.sv",
+            "tb/hdl_top.sv", "tb/hvl_top.sv"
+        ],
+        "incdirs": ["agent", "uvm_tb"],
         "simvariants": ["UVM_TESTNAME=test_all_parallel"],
         "success_info": "UVM TEST PASSED"
     },
