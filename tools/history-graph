@@ -33,6 +33,13 @@ parser.add_argument(
     required=True)
 
 parser.add_argument(
+    '-r',
+    '--tmp-results-dir',
+    help='Directory with the uncommited new test results',
+    default='out/report')
+    required=True)
+
+parser.add_argument(
     '-n',
     '--number-of-commits',
     help='Number of commits in the history to process',
@@ -76,8 +83,8 @@ repo = Repo(args.results_dir)
 main_hash = repo.head.object.hexsha
 
 # check if there is new (not yet committed) results file available
-changed_files = [i.a_path for i in repo.index.diff(None)]
-append_changed = 'report.csv' in changed_files
+new_report_path = os.path.join(args.tmp_results_dir, 'report.csv')
+append_changed = os.path.exists(new_report_path)
 
 if append_changed:
     # process fewer history commits
@@ -96,8 +103,7 @@ for i in range(args.number_of_commits - 1, -1, -1):
 if append_changed:
     date = datetime.datetime.now()
     print('Processing locally modified results')
-    csv_path = os.path.join(args.results_dir, 'report.csv')
-    process_csv_from_file(date, csv_path, data)
+    process_csv_from_file(date, new_report_path, data)
 
 datasets = defaultdict(list)
 
