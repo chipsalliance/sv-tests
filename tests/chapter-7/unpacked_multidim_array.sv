@@ -1,3 +1,4 @@
+// SPDX-License-Identifier: Apache-2.0
 /*
 :name: unpacked_multidim_array
 :description: Verifies that tools correctly parse and manipulate multi-dimensional unpacked arrays.
