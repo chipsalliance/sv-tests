@@ -24,6 +24,7 @@ jobs:
             deps: autoconf autotools-dev bison flex libfl-dev cmake pkg-config
           - name: slang
             deps: cmake pkg-config
+            cmake_ver: ">=3.28"
           - name: surelog
             repo: Surelog
             submodules: third_party/UHDM third_party/antlr4 third_party/googletest
