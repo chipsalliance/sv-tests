@@ -163,7 +163,7 @@ try:
             test_params.setdefault('unsynthesizable', '0')
             test_params.setdefault('results_group', "")
             test_params.setdefault('simvariants', "")
-            test_params.setdefault('success_info', None)
+            test_params.setdefault('success_info', "")
 
             if len(set(supported_test_params) - set(test_params.keys())) != 0:
                 missing = list(

@@ -16,7 +16,7 @@ def parseLog(log, success_info):
     res = True
     success_pattern_found = False
     for line in log.split('\n'):
-        if success_info is not None:
+        if success_info != "":
             pat = re.search(success_info, line.strip())
             if pat:
                 success_pattern_found = True
@@ -29,6 +29,6 @@ def parseLog(log, success_info):
                         res = False
                 except Exception:
                     res = False
-    if success_info is not None:
+    if success_info != "":
         return res and success_pattern_found
     return res
