@@ -58,6 +58,14 @@ jobs:
             deps: clang ninja-build lld
             cmake_ver: ">=3.28"
             submodules: llvm
+          - name: arcilator
+            repo: circt-verilog
+            deps: clang ninja-build lld
+            cmake_ver: ">=3.28"
+            submodules: llvm
+            runners_filter: Arcilator
+            cache_name: circt-verilog
+            make_jobs_max: 8
     env:
       RUNNERS_FILTER: ${{ matrix.tool.runners_filter }}
       CCACHE_DIR: "/root/sv-tests/sv-tests/.cache/"
@@ -169,8 +177,8 @@ jobs:
         continue-on-error: true
         with:
           path: "/root/sv-tests/sv-tests/.cache/"
-          key: cache_${{ matrix.tool.name }}_${{ steps.cache_timestamp.outputs.time }}
-          restore-keys: cache_${{ matrix.tool.name }}_
+          key: cache_${{ matrix.tool.cache_name || matrix.tool.name }}_${{ steps.cache_timestamp.outputs.time }}
+          restore-keys: cache_${{ matrix.tool.cache_name || matrix.tool.name }}_
       - name: Build
         run: |
           export PATH="/usr/lib/ccache:/usr/local/opt/ccache/libexec:$PATH"
