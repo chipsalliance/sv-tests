@@ -106,3 +106,9 @@
 [submodule "third_party/tests/uvm-1.2"]
 	path = third_party/tests/uvm-1.2
 	url = https://github.com/chipsalliance/uvm-verilator.git
+[submodule "third_party/tools/vpsim"]
+	path = third_party/tools/vpsim
+	url = https://github.com/Kyungsang/vpsim.git
+[submodule "third_party/tools/vparser"]
+	path = third_party/tools/vparser
+	url = https://github.com/Kyungsang/vparser.git

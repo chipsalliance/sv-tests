@@ -164,7 +164,18 @@ $(INSTALL_DIR)/bin/circt-verilog:
 		-DCIRCT_SLANG_FRONTEND_ENABLED=ON
 	$(MAKE) -C $(RDIR)/circt-verilog/build install-circt-verilog
 
+# vpsim
+vpsim: $(INSTALL_DIR)/bin/vpsim
+
+$(INSTALL_DIR)/bin/vpsim: $(RDIR)/vpsim/pyproject.toml $(RDIR)/vparser/pyproject.toml
+	python3 -m venv $(INSTALL_DIR)/vpsim-venv
+	$(INSTALL_DIR)/vpsim-venv/bin/pip install --upgrade pip
+	$(INSTALL_DIR)/vpsim-venv/bin/pip install -e $(RDIR)/vparser -e $(RDIR)/vpsim
+	cargo build --release --manifest-path $(RDIR)/vpsim/rust/vpsim-rust-core/Cargo.toml --bin run_sim_ir
+	mkdir -p $(INSTALL_DIR)/bin
+	ln -sf $(INSTALL_DIR)/vpsim-venv/bin/vpsim $@
+
 # setup the dependencies
-RUNNERS_TARGETS := odin yosys icarus verilator slang zachjs-sv2v tree-sitter-systemverilog tree-sitter-verilog sv-parser moore verible surelog yosys-synlig circt-verilog
+RUNNERS_TARGETS := odin yosys icarus verilator slang zachjs-sv2v tree-sitter-systemverilog tree-sitter-verilog sv-parser moore verible surelog yosys-synlig circt-verilog vpsim
 .PHONY: $(RUNNERS_TARGETS)
 runners: $(RUNNERS_TARGETS)

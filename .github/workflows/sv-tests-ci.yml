@@ -57,6 +57,10 @@ jobs:
             deps: clang ninja-build lld
             cmake_ver: ">=3.28"
             submodules: llvm
+          - name: vpsim
+            deps: python3-venv
+            rust_ver: "stable"
+            make_jobs_max: 4
     env:
       RUNNERS_FILTER: ${{ matrix.tool.runners_filter }}
       CCACHE_DIR: "/root/sv-tests/sv-tests/.cache/"
@@ -148,6 +152,9 @@ jobs:
             REPOSITORY_NAME=${{ matrix.tool.repo }}
           fi
           git submodule update --init --depth 1 third_party/tools/${REPOSITORY_NAME}
+          if [[ "${{ matrix.tool.name }}" == "vpsim" ]]; then
+            git submodule update --init --depth 1 third_party/tools/vparser
+          fi
           if [[ ! -z "${{ matrix.tool.submodules }}" ]]; then
             pushd third_party/tools/${REPOSITORY_NAME}
             git submodule update --init --recursive --depth 1 ${{ matrix.tool.submodules }}
