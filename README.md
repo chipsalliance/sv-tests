@@ -25,6 +25,15 @@ Install all the python dependencies and make sure the installed binaries can be 
 pip3 install --user -r conf/requirements.txt
 export PATH=~/.local/bin:$PATH
 ```
+Install other dependencies 
+```bash
+sudo apt-get install tcl-dev
+sudo apt-get install libreadline-dev
+sudo apt-get install npm cargo uuid-dev
+sudo npm install -g @bazel/bazelisk
+sudo apt-get install default-jre
+git clone https://github.com/kward/shunit2.git
+```
 
 Build tools (optional, tools from `PATH` can be used):
 
