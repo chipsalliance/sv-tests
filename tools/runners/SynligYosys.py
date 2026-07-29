@@ -59,8 +59,25 @@ class SynligYosys(BaseRunner):
             for d in params["defines"]:
                 f.write(f" -D{d}")
 
+            mem_path = None
             for fn in params["files"]:
-                f.write(f" {fn}")
+                # Remove unsynthesizable memory modules
+                if not fn.endswith("bsg_mem_1rw_sync_mask_write_bit_synth.v") \
+                   and not fn.endswith("bsg_mem_1rw_sync_mask_write_bit.v"):
+                    f.write(f" {fn}")
+                else:
+                    mem_path = fn.split("/")
+
+            # Replace removed modules with synthesizable memory
+            if mem_path != None:
+                mem_path = mem_path[:-2]
+                str_mem_path = "/"
+
+                for p in mem_path:
+                    str_mem_path = os.path.join(str_mem_path, p)
+                str_mem_path += "/hard/ultrascale_plus/bsg_mem/bsg_mem_1rw_sync_mask_write_bit.v"
+
+                f.write(f" {str_mem_path}")
 
             f.write("\n")
 
