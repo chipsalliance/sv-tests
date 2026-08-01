@@ -35,8 +35,7 @@ parser.add_argument(
 parser.add_argument(
     '--tmp-results-dir',
     help='Directory with the uncommited new test results',
-    default='out/report',
-    required=True)
+    default='out/report')
 
 parser.add_argument(
     '-n',
