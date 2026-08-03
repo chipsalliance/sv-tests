@@ -58,6 +58,9 @@ jobs:
             deps: clang ninja-build lld
             cmake_ver: ">=3.28"
             submodules: llvm
+          - name: xezim
+            deps: gcc
+            rust_ver: "1.85"
     env:
       RUNNERS_FILTER: ${{ matrix.tool.runners_filter }}
       CCACHE_DIR: "/root/sv-tests/sv-tests/.cache/"
@@ -158,6 +161,8 @@ jobs:
           git submodule update --init --recursive --depth 1 third_party/tools/yosys
           # icarus contains tests
           git submodule update --init --depth 1 third_party/tools/icarus
+          # xezim depends on the sibling xezim-core library
+          git submodule update --init --depth 1 third_party/tools/xezim-core
       - name: Create Cache Timestamp
         id: cache_timestamp
         uses: nanzm/get-time-action@v1.1
