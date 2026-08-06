@@ -552,7 +552,7 @@ def collect_logs(runner_name: str):
             "runner_url", "time_elapsed", "type", "mode", "timeout",
             "user_time", "system_time", "ram_usage", "tool_success",
             "should_fail_because", "defines", "compatible-runners",
-            "unsynthesizable", "results_group", "simvariants"
+            "unsynthesizable", "results_group", "simvariants", "success_info"
         }
         test_log_data: Dict[str, Any] = {}
         log_content = ""
@@ -625,7 +625,7 @@ def collect_logs(runner_name: str):
         if tool_crashed or tool_should_fail != tool_failed:
             test_result.status = TestStatus.FAILED
         elif (test_log_data["mode"] == "simulation"
-              and not parseLog(log_content)):
+              and not parseLog(log_content, test_log_data["success_info"])):
             test_result.status = TestStatus.FAILED
         else:
             test_result.status = TestStatus.PASSED
