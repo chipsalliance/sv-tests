@@ -23,7 +23,10 @@ module top();
       $display(":assert: (0 == %d)", i);
       $display(":assert: (0 == %d)", $time);
 
-      ->e;
+      // Move the trigger to the Inactive region so the always block has
+      // deterministically reached its event control first. An event trigger
+      // that races the wait in the same Active region may legally be missed.
+      #0 ->e;
 
       #5;
 
