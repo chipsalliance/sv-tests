@@ -1,7 +1,8 @@
 // SPDX-License-Identifier: Apache-2.0
 /*
 :name: unpacked_multidim_array
-:description: Verifies that tools correctly parse and manipulate multi-dimensional unpacked arrays.
+:description: Verifies that tools correctly parse and manipulate multi-dimensional unpacked arrays
+:type: simulation elaboration parsing
 :tags: 7.4
 */
 module top;
@@ -10,5 +11,12 @@ module top;
     initial begin
         grid[0][0] = 32'hA5A5A5A5;
         grid[1][2] = 32'h5A5A5A5A;
+
+        // Check if assigned values are correct
+        if (grid[0][0] == 32'hA5A5A5A5 && grid[1][2] == 32'h5A5A5A5A) begin
+            $display("PASSED");
+        end else begin
+            $display("FAILED");
+        end
     end
 endmodule
