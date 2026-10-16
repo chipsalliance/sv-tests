@@ -106,3 +106,11 @@
 [submodule "third_party/tests/uvm-1.2"]
 	path = third_party/tests/uvm-1.2
 	url = https://github.com/chipsalliance/uvm-verilator.git
+[submodule "third_party/tools/xezim"]
+	path = third_party/tools/xezim
+	url = https://github.com/aionhw/xezim
+	branch = main
+[submodule "third_party/tools/xezim-core"]
+	path = third_party/tools/xezim-core
+	url = https://github.com/aionhw/xezim-core
+	branch = main
