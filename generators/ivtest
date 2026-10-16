@@ -164,9 +164,6 @@ ivtest_file_exclude = [
     'always_latch_fail4',
     'always_latch_fail',
     'always_latch_no_sens',
-    # '@ *' is possibly valid and is supported by commercial tools
-    'case3',
-    'wildsense',
     # The following tests need to be looked at and verified
     'pr1723367',  # scalar with vectored net
     'undef',  # undefined macro behaviour is ambiguous
