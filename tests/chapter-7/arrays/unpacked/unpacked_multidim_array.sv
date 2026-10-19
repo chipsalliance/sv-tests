@@ -12,11 +12,7 @@ module top;
         grid[0][0] = 32'hA5A5A5A5;
         grid[1][2] = 32'h5A5A5A5A;
 
-        // Check if assigned values are correct
-        if (grid[0][0] == 32'hA5A5A5A5 && grid[1][2] == 32'h5A5A5A5A) begin
-            $display("PASSED");
-        end else begin
-            $display("FAILED");
-        end
+        $display(":assert: ((%d == %d) and (%d == %d))",
+            grid[0][0], 32'hA5A5A5A5, grid[1][2], 32'h5A5A5A5A);
     end
 endmodule
