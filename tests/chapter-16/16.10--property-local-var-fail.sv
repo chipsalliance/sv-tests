@@ -66,7 +66,7 @@ module top();
         @(posedge clk) (valid, x = in) |-> ##4 (out == x + 3);
     endproperty
 
-    assert property (prop) else $error($sformatf("property check failed :assert: (True)"));
+    assert property (prop) else $fatal(1, $sformatf("property check failed :assert: (True)"));
 
     assign in = cycle;
 
