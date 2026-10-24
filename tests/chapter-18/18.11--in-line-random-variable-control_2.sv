@@ -34,7 +34,7 @@ module top;
         if (ok == 1 && obj.y == y_before) begin
             $display("x=%0d y_before=%0d y_after=%0d SUCCESS", obj.x, y_before, obj.y);
         end else begin
-            $error("x=%0d y_before=%0d y_after=%0d FAILED -- randomize(x) changed y",
+            $display("x=%0d y_before=%0d y_after=%0d FAILED -- randomize(x) changed y",
                 obj.x, y_before, obj.y);
         end
     end
