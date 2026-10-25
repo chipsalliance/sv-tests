@@ -56,6 +56,7 @@ class Slang(BaseRunner):
         self.cmd.append("-Wno-error=index-oob")
         self.cmd.append("-Wno-error=range-oob")
         self.cmd.append("-Wno-error=range-width-oob")
+        self.cmd.append("-Wno-error=range-select-reversed")
 
         tags = params["tags"]
 
@@ -81,7 +82,7 @@ class Slang(BaseRunner):
             # modules that have invalid parameter values for a top-level module,
             # or have an invalid configuration that results in $fatal calls.
             name = params["name"]
-            if 'bp_lce' in name or 'bp_uce' or 'bp_multicore' in name:
+            if 'bp_lce' in name or 'bp_uce' in name or 'bp_multicore' in name:
                 self.cmd.append("--parse-only")
 
         # These cores use a non-standard extension to write to the same variable
