@@ -66,7 +66,7 @@ module top();
         @(posedge clk) (valid, x = in) ##4 (out == x + 3);
     endsequence
 
-    assert property (seq) else $error($sformatf("sequence check failed :assert: (False)"));
+    assert property (seq) else $fatal(1, $sformatf("sequence check failed :assert: (False)"));
 
     assign in = cycle;
 
