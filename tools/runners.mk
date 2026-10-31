@@ -164,7 +164,18 @@ $(INSTALL_DIR)/bin/circt-verilog:
 		-DCIRCT_SLANG_FRONTEND_ENABLED=ON
 	$(MAKE) -C $(RDIR)/circt-verilog/build install-circt-verilog
 
+# arcilator (CIRCT's simulation backend) plus llc and the AOT runtime libs.
+arcilator: $(INSTALL_DIR)/bin/arcilator
+
+# One sub-make per goal: parallel multi-goal makes of a CMake tree race.
+$(INSTALL_DIR)/bin/arcilator: $(INSTALL_DIR)/bin/circt-verilog
+	$(MAKE) -C $(RDIR)/circt-verilog/build install-arcilator
+	$(MAKE) -C $(RDIR)/circt-verilog/build install-llc
+	$(MAKE) -C $(RDIR)/circt-verilog/build install-CIRCTArcRuntime
+	$(MAKE) -C $(RDIR)/circt-verilog/build install-LLVMSupport
+	$(MAKE) -C $(RDIR)/circt-verilog/build install-LLVMDemangle
+
 # setup the dependencies
-RUNNERS_TARGETS := odin yosys icarus verilator slang zachjs-sv2v tree-sitter-systemverilog tree-sitter-verilog sv-parser moore verible surelog yosys-synlig circt-verilog
+RUNNERS_TARGETS := odin yosys icarus verilator slang zachjs-sv2v tree-sitter-systemverilog tree-sitter-verilog sv-parser moore verible surelog yosys-synlig circt-verilog arcilator
 .PHONY: $(RUNNERS_TARGETS)
 runners: $(RUNNERS_TARGETS)
