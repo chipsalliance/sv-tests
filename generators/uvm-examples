@@ -63,38 +63,39 @@ tests = {
         "simvariants":
         ["UVM_TESTNAME=biquad_smoke_test", "UVM_TESTNAME=biquad_test"],
     },
-    "uart_example": {
-        "uvm_tag":
-        "uvm",
-        "files": [
-            "rtl/uart/uart_16550.sv", "rtl/uart/uart_register_file.sv",
-            "rtl/uart/uart_rx_fifo.sv", "rtl/uart/uart_rx.sv",
-            "rtl/uart/uart_tx_fifo.sv", "rtl/uart/uart_tx.sv",
-            "agents/apb_agent/apb_if.sv", "agents/apb_agent/apb_agent_pkg.sv",
-            "agents/uart_agent/serial_if.sv",
-            "agents/uart_agent/uart_agent_pkg.sv",
-            "agents/modem_agent/modem_if.sv",
-            "agents/modem_agent/modem_agent_pkg.sv",
-            "uvm_tb/register_model/uart_reg_pkg.sv",
-            "uvm_tb/env/uart_env_pkg.sv",
-            "uvm_tb/sequences/host_if_seq_pkg.sv",
-            "uvm_tb/sequences/uart_seq_pkg.sv",
-            "uvm_tb/virtual_sequences/uart_vseq_pkg.sv",
-            "uvm_tb/tests/uart_test_pkg.sv", "uvm_tb/tb/interrupt_if.sv",
-            "protocol_monitor/apb_monitor.sv", "uvm_tb/tb/uart_tb.sv"
-        ],
-        "incdirs": [
-            "agents/apb_agent", "agents/uart_agent", "agents/modem_agent",
-            "uvm_tb/env", "uvm_tb/sequences", "uvm_tb/sequences",
-            "uvm_tb/virtual_sequences", "uvm_tb/tests"
-        ],
-        "simvariants": [
-            "UVM_TESTNAME=uart_test", "UVM_TESTNAME=baud_rate_test",
-            "UVM_TESTNAME=modem_int_test", "UVM_TESTNAME=word_format_int_test",
-            "UVM_TESTNAME=modem_poll_test",
-            "UVM_TESTNAME=word_format_poll_test"
-        ],
-    },
+    # References non-existent member 'sprint' in 'm_uvm_printer_knobs'
+    # "uart_example": {
+    #     "uvm_tag":
+    #     "uvm",
+    #     "files": [
+    #         "rtl/uart/uart_16550.sv", "rtl/uart/uart_register_file.sv",
+    #         "rtl/uart/uart_rx_fifo.sv", "rtl/uart/uart_rx.sv",
+    #         "rtl/uart/uart_tx_fifo.sv", "rtl/uart/uart_tx.sv",
+    #         "agents/apb_agent/apb_if.sv", "agents/apb_agent/apb_agent_pkg.sv",
+    #         "agents/uart_agent/serial_if.sv",
+    #         "agents/uart_agent/uart_agent_pkg.sv",
+    #         "agents/modem_agent/modem_if.sv",
+    #         "agents/modem_agent/modem_agent_pkg.sv",
+    #         "uvm_tb/register_model/uart_reg_pkg.sv",
+    #         "uvm_tb/env/uart_env_pkg.sv",
+    #         "uvm_tb/sequences/host_if_seq_pkg.sv",
+    #         "uvm_tb/sequences/uart_seq_pkg.sv",
+    #         "uvm_tb/virtual_sequences/uart_vseq_pkg.sv",
+    #         "uvm_tb/tests/uart_test_pkg.sv", "uvm_tb/tb/interrupt_if.sv",
+    #         "protocol_monitor/apb_monitor.sv", "uvm_tb/tb/uart_tb.sv"
+    #     ],
+    #     "incdirs": [
+    #         "agents/apb_agent", "agents/uart_agent", "agents/modem_agent",
+    #         "uvm_tb/env", "uvm_tb/sequences", "uvm_tb/sequences",
+    #         "uvm_tb/virtual_sequences", "uvm_tb/tests"
+    #     ],
+    #     "simvariants": [
+    #         "UVM_TESTNAME=uart_test", "UVM_TESTNAME=baud_rate_test",
+    #         "UVM_TESTNAME=modem_int_test", "UVM_TESTNAME=word_format_int_test",
+    #         "UVM_TESTNAME=modem_poll_test",
+    #         "UVM_TESTNAME=word_format_poll_test"
+    #     ],
+    # },
     "uvm_ac_config_db": {
         "uvm_tag":
         "uvm",
@@ -218,44 +219,47 @@ tests = {
         "incdirs": ["apb_agent"],
         "simvariants": [],
     },
-    "uvm_interrupts_parallel_processing": {
-        "uvm_tag":
-        "uvm",
-        "files": [
-            "utils/interrupt/interrupt_pkg.sv",
-            "utils/interrupt/interrupt_if.sv",
-            "parallel_processing/dsp_chain.sv",
-            "parallel_processing/dsp_con_pkg.sv",
-            "parallel_processing/dsp_con_driver_bfm.sv",
-            "parallel_processing/top.sv"
-        ],
-        "incdirs": ["utils/interrupt", "parallel_processing"],
-        "simvariants": [],
-    },
-    "uvm_interrupts_prioritized": {
-        "uvm_tag":
-        "uvm",
-        "files": [
-            "utils/interrupt/interrupt_pkg.sv",
-            "utils/interrupt/interrupt_if.sv",
-            "bidirect_bus_agent_pkg.sv",
-            "prioritised/top.sv",
-        ],
-        "incdirs": ["utils/interrupt"],
-        "simvariants": [],
-    },
-    "uvm_interrupts_simple": {
-        "uvm_tag":
-        "uvm",
-        "files": [
-            "utils/interrupt/interrupt_pkg.sv",
-            "utils/interrupt/interrupt_if.sv",
-            "bidirect_bus_agent_pkg.sv",
-            "simple/top.sv",
-        ],
-        "incdirs": ["utils/interrupt"],
-        "simvariants": [],
-    },
+    # interrupt_util.svh used in these three tests calls a method on a virtual interface
+    # handle without using parentheses, which is illegal. All commercial tools tried
+    # report an error for this.
+    # "uvm_interrupts_parallel_processing": {
+    #     "uvm_tag":
+    #     "uvm",
+    #     "files": [
+    #         "utils/interrupt/interrupt_pkg.sv",
+    #         "utils/interrupt/interrupt_if.sv",
+    #         "parallel_processing/dsp_chain.sv",
+    #         "parallel_processing/dsp_con_pkg.sv",
+    #         "parallel_processing/dsp_con_driver_bfm.sv",
+    #         "parallel_processing/top.sv"
+    #     ],
+    #     "incdirs": ["utils/interrupt", "parallel_processing"],
+    #     "simvariants": [],
+    # },
+    # "uvm_interrupts_prioritized": {
+    #     "uvm_tag":
+    #     "uvm",
+    #     "files": [
+    #         "utils/interrupt/interrupt_pkg.sv",
+    #         "utils/interrupt/interrupt_if.sv",
+    #         "bidirect_bus_agent_pkg.sv",
+    #         "prioritised/top.sv",
+    #     ],
+    #     "incdirs": ["utils/interrupt"],
+    #     "simvariants": [],
+    # },
+    # "uvm_interrupts_simple": {
+    #     "uvm_tag":
+    #     "uvm",
+    #     "files": [
+    #         "utils/interrupt/interrupt_pkg.sv",
+    #         "utils/interrupt/interrupt_if.sv",
+    #         "bidirect_bus_agent_pkg.sv",
+    #         "simple/top.sv",
+    #     ],
+    #     "incdirs": ["utils/interrupt"],
+    #     "simvariants": [],
+    # },
     "uvm_many_to_one": {
         "uvm_tag":
         "uvm",
