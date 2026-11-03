@@ -6,7 +6,7 @@
 :tags: 7.4
 */
 module top;
-    int grid [2][3]; // 2 rows, 3 columns unpacked array
+    int unsigned grid [2][3]; // 2 rows, 3 columns unpacked array
 
     initial begin
         grid[0][0] = 32'hA5A5A5A5;
