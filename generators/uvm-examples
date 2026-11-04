@@ -662,6 +662,8 @@ for dir in os.scandir(examples_path):
     if dir.name == ".git" or dir.name == "LICENSE":
         continue
     test_name = dir.name
+    if test_name not in tests:
+        continue
     test = tests[test_name]
     test_dir = os.path.join(tests_dir, 'generated', tests_subdir)
     if not os.path.isdir(test_dir):
