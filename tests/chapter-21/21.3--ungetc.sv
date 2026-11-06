@@ -19,7 +19,13 @@ int fd;
 
 initial begin
 	fd = $fopen("tmp.txt", "w");
-	$ungetc(123, fd);
+	$fwrite(fd, "x");
+	$fclose(fd);
+
+	// File input functions are valid only on an input-capable stream.
+	// Reopen the self-created file for reading before pushing a byte back.
+	fd = $fopen("tmp.txt", "r");
+	$display(":assert: (0 == %d)", $ungetc(123, fd));
 	$display(":assert: (%d == %d)", 123, $fgetc(fd));
 end
 
