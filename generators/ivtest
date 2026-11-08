@@ -380,8 +380,6 @@ ivtest_file_exclude = [
     # net before it's declared. All commercial tools fail on this.
     'pr1909940',
     'pr1909940b',
-    # Uses '==?' operator between 'string' and logic vector types, not allowed by LRM, commercial tools fail on this
-    'sv_param_string_compare',
 ]
 
 ivtest_extra_args = {
