@@ -53,7 +53,8 @@ jobs:
             deps: haskell-stack
           - name: yosys-slang
             deps: bison clang tcl-dev flex libfl-dev pkg-config libreadline-dev cmake pkg-config
-            submodules: third_party/slang
+            cmake_ver: ">=3.28"
+            submodules: third_party/slang third_party/fmt
           - name: circt-verilog
             deps: clang ninja-build lld
             cmake_ver: ">=3.28"

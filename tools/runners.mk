@@ -143,9 +143,13 @@ $(INSTALL_DIR)/bin/slang-yosys $(INSTALL_DIR)/bin/slang-yosys-config:
 
 $(INSTALL_DIR)/bin/yosys-slang: $(INSTALL_DIR)/bin/slang-yosys-config
 	mkdir -p $(INSTALL_DIR)
-	(export PATH=$(INSTALL_DIR)/bin/:${PATH} && \
-		cd $(RDIR)/yosys-slang && \
-		TARGET=$(INSTALL_DIR)/share/slang-yosys/plugins/slang.so YOSYS_PREFIX=slang- ./build.sh)
+	cmake -S $(RDIR)/yosys-slang -B $(RDIR)/yosys-slang/build \
+		-DCMAKE_BUILD_TYPE=Release \
+		-DYOSYS_CONFIG=$(INSTALL_DIR)/bin/slang-yosys-config
+	$(MAKE) -C $(RDIR)/yosys-slang/build
+	mkdir -p $(INSTALL_DIR)/share/slang-yosys/plugins
+	cp $(RDIR)/yosys-slang/build/slang.so \
+		$(INSTALL_DIR)/share/slang-yosys/plugins/slang.so
 	# copy slang-yosys, which was the result of compiling yosys with PROGRAM_PREFIX=slang-,
 	# to yosys-slang, which is the executable registered in tools/runners/yosys_slang.py
 	cp $(INSTALL_DIR)/bin/slang-yosys $(INSTALL_DIR)/bin/yosys-slang
