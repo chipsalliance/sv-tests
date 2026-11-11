@@ -114,6 +114,13 @@ $(INSTALL_DIR)/bin/parse_sv:
 	cd $(RDIR)/sv-parser && cargo build --release --example parse_sv
 	install -D $(RDIR)/sv-parser/target/release/examples/parse_sv $@
 
+# forj
+forj: $(INSTALL_DIR)/bin/parse
+
+$(INSTALL_DIR)/bin/parse:
+	cd $(RDIR)/forj && cargo build --release --example parse
+	install -D $(RDIR)/forj/target/release/examples/parse $@
+
 # moore
 moore: $(INSTALL_DIR)/bin/moore
 
@@ -165,6 +172,6 @@ $(INSTALL_DIR)/bin/circt-verilog:
 	$(MAKE) -C $(RDIR)/circt-verilog/build install-circt-verilog
 
 # setup the dependencies
-RUNNERS_TARGETS := odin yosys icarus verilator slang zachjs-sv2v tree-sitter-systemverilog tree-sitter-verilog sv-parser moore verible surelog yosys-synlig circt-verilog
+RUNNERS_TARGETS := odin yosys icarus verilator slang zachjs-sv2v tree-sitter-systemverilog tree-sitter-verilog sv-parser forj moore verible surelog yosys-synlig circt-verilog
 .PHONY: $(RUNNERS_TARGETS)
 runners: $(RUNNERS_TARGETS)
