@@ -54,7 +54,7 @@ for cfg in glob.glob(os.path.join(conf_dir, 'generators', 'meta-path',
         blacklist = data.get('blacklist', [''])
         commons = data.get('commons', [])
         incdirs = data.get('incdirs', [])
-        timeouts = data.get('timeouts', {})
+        cfg_extra_tags = data.get('extra_tags', {})
         test_type = data.get('type', None)
         results_group = data.get('results_group', None)
 
@@ -77,7 +77,7 @@ for cfg in glob.glob(os.path.join(conf_dir, 'generators', 'meta-path',
         for match in matches:
             search_path = os.path.abspath(
                 os.path.join(third_party_dir, *path, match))
-            for f in glob.glob(search_path):
+            for f in sorted(glob.glob(search_path)):
 
                 # make a copy of extra tags for a particular test
                 extra_tags = global_extra_tags[:]
@@ -108,8 +108,8 @@ for cfg in glob.glob(os.path.join(conf_dir, 'generators', 'meta-path',
                     incs = os.path.abspath(
                         os.path.join(third_party_dir, incdir)) + " " + incs
 
-                if basename in timeouts:
-                    extra_tags.append(f":timeout: {timeouts[basename]}")
+                if basename in cfg_extra_tags:
+                    extra_tags.append(cfg_extra_tags[basename])
 
                 extra_tags = "\n".join(extra_tags)
 
