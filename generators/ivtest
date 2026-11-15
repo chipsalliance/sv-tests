@@ -333,6 +333,7 @@ ivtest_file_exclude = [
     # These need to be run in a Verilog-specific mode once sv-tests has one, since they expect
     # failure even though SystemVerilog allows them.
     'br_gh956a',
+    'br_gh1268a',
     'module_inout_port_type',
     'module_input_port_list_def',
     'module_input_port_type',
@@ -382,6 +383,8 @@ ivtest_file_exclude = [
     # net before it's declared. All commercial tools fail on this.
     'pr1909940',
     'pr1909940b',
+    # Uses '==?' operator between 'string' and logic vector types, not allowed by LRM, commercial tools fail on this
+    'sv_param_string_compare',
 ]
 
 ivtest_extra_args = {

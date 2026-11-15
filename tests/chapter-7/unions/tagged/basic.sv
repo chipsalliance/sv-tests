@@ -22,7 +22,9 @@ union tagged {
 
 initial begin
 	un = tagged valid (10);
-	$display(":assert: ('%p' == ''{valid:10}')", un);
+	// Keep the oracle in SystemVerilog. Python eval cannot parse the
+	// assignment-pattern syntax produced by the normative %p rendering.
+	$display(":assert: (10 == %0d)", un.valid);
 end
 
 endmodule
