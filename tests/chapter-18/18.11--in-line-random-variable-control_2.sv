@@ -31,6 +31,9 @@ module top;
         y_before = obj.y;
         ok = obj.randomize(x);
 
+        $display(":assert: (1 == %0d)", ok);
+        $display(":assert: (%0d == %0d)", obj.y, y_before);
+
         if (ok == 1 && obj.y == y_before) begin
             $display("x=%0d y_before=%0d y_after=%0d SUCCESS", obj.x, y_before, obj.y);
         end else begin
