@@ -6,6 +6,10 @@
 		["tools", "yosys", "tests", "errors"]
 	],
 	"matches": ["*.v"],
+	"extra_tags": {
+		"syntax_err03.v": ":runner_verilator_flags: -Werror-NONSTD",
+		"syntax_err04.v": ":runner_verilator_flags: -Werror-NONSTD"
+	},
 	"blacklist": ["syntax_err06.v", "syntax_err09.v", "syntax_err12.v", "syntax_err13.v"],
 	"results_group": "imported"
 }

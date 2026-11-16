@@ -5,6 +5,9 @@
 		["tests", "hdlconvertor", "tests", "sv_test", "std2017"]
 	],
 	"matches": ["*.sv", "*.v"],
+	"extra_tags": {
+		"p774.sv": ":runner_verilator_flags: -Wno-ENUMVALUE"
+	},
 	"blacklist": [
 		"p93.sv",
 		"p95.sv",
@@ -42,6 +45,7 @@
 		"p341.sv",
 		"p342.sv",
 		"p346.sv",
+		"p347.sv",
 		"p352.sv",
 		"p477.sv",
 		"p478.sv",

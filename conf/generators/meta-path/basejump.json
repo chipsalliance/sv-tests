@@ -28,13 +28,13 @@
 		"cores/basejump_stl/bsg_noc",
 		"cores/basejump_stl/bsg_clk_gen"
 	],
-	"timeouts": {
-		"bsg_scatter_gather.sv": "60",
-		"bsg_launch_sync_sync.sv": "60",
-		"bsg_cache.sv": "30",
-		"bsg_cache_non_blocking_mhu.sv": "30",
-		"bsg_tag_master.sv": "30",
-		"bsg_round_robin_fifo_to_fifo.sv": "30"
+	"extra_tags": {
+		"bsg_scatter_gather.sv": ":timeout: 60",
+		"bsg_launch_sync_sync.sv": ":timeout: 60",
+		"bsg_cache.sv": ":timeout: 30",
+		"bsg_cache_non_blocking_mhu.sv": ":timeout: 30",
+		"bsg_tag_master.sv": ":timeout: 30",
+		"bsg_round_robin_fifo_to_fifo.sv": ":timeout: 30"
 	},
 	"blacklist": [
 		"bsg_1_to_n_tagged_fifo_shared.sv",
