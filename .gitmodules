@@ -106,3 +106,6 @@
 [submodule "third_party/tests/uvm-1.2"]
 	path = third_party/tests/uvm-1.2
 	url = https://github.com/chipsalliance/uvm-verilator.git
+[submodule "third_party/tools/astli"]
+	path = third_party/tools/astli
+	url = https://github.com/fischeti/astli

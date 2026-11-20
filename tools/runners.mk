@@ -22,6 +22,12 @@ export TREE_SITTER_VERILOG_PARSER_DIR
 
 runners:
 
+# astli
+astli: $(INSTALL_DIR)/bin/astli
+
+$(INSTALL_DIR)/bin/astli:
+	cargo install --locked --path $(RDIR)/astli/crates/astli-cli --root $(INSTALL_DIR) --bin astli
+
 # odin
 odin: $(INSTALL_DIR)/bin/odin_II
 
@@ -165,6 +171,6 @@ $(INSTALL_DIR)/bin/circt-verilog:
 	$(MAKE) -C $(RDIR)/circt-verilog/build install-circt-verilog
 
 # setup the dependencies
-RUNNERS_TARGETS := odin yosys icarus verilator slang zachjs-sv2v tree-sitter-systemverilog tree-sitter-verilog sv-parser moore verible surelog yosys-synlig circt-verilog
+RUNNERS_TARGETS := astli odin yosys icarus verilator slang zachjs-sv2v tree-sitter-systemverilog tree-sitter-verilog sv-parser moore verible surelog yosys-synlig circt-verilog
 .PHONY: $(RUNNERS_TARGETS)
 runners: $(RUNNERS_TARGETS)

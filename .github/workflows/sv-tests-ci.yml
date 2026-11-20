@@ -15,6 +15,9 @@ jobs:
       fail-fast: false
       matrix:
         tool:
+          - name: astli
+            deps: build-essential
+            rust_ver: "1.92"
           - name: icarus
             deps: autoconf autotools-dev bison flex libfl-dev gperf
           - name: moore

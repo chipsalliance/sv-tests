@@ -98,6 +98,7 @@ Finally the file containing the test case and metadata should be placed in `test
 
 ## Supported tools
 
+* [astli](https://github.com/fischeti/astli)
 * [Yosys](https://github.com/yosysHQ/yosys)
 * [Odin II](https://verilogtorouting.org)
 * [Verilator](https://verilator.org)
