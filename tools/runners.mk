@@ -164,7 +164,14 @@ $(INSTALL_DIR)/bin/circt-verilog:
 		-DCIRCT_SLANG_FRONTEND_ENABLED=ON
 	$(MAKE) -C $(RDIR)/circt-verilog/build install-circt-verilog
 
+# xezim
+xezim: $(INSTALL_DIR)/bin/xezim
+
+$(INSTALL_DIR)/bin/xezim:
+	cd $(RDIR)/xezim && cargo build --release --bin xezim
+	install -D $(RDIR)/xezim/target/release/xezim $@
+
 # setup the dependencies
-RUNNERS_TARGETS := odin yosys icarus verilator slang zachjs-sv2v tree-sitter-systemverilog tree-sitter-verilog sv-parser moore verible surelog yosys-synlig circt-verilog
+RUNNERS_TARGETS := odin yosys icarus verilator slang zachjs-sv2v tree-sitter-systemverilog tree-sitter-verilog sv-parser moore verible surelog yosys-synlig circt-verilog xezim
 .PHONY: $(RUNNERS_TARGETS)
 runners: $(RUNNERS_TARGETS)
