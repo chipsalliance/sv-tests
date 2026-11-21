@@ -111,3 +111,4 @@ Finally the file containing the test case and metadata should be placed in `test
 * [verible](https://github.com/google/verible)
 * [circt-verilog](https://github.com/llvm/circt)
 * [yosys-slang](https://github.com/povik/yosys-slang)
+* [uhdm2rtlil](https://github.com/chipsalliance/uhdm2rtlil)
