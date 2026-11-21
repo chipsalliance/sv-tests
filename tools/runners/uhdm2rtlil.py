@@ -18,7 +18,6 @@ class uhdm2rtlil(BaseRunner):
     """Yosys with the uhdm2rtlil plugin: Surelog elaborates the design and the
     plugin imports the in-memory UHDM model into RTLIL (`read_sv`).  Modes and
     per-mode scripts are the Yosys runner's."""
-
     def __init__(self):
         super().__init__(
             "uhdm2rtlil", "yosys-uhdm2rtlil", {
