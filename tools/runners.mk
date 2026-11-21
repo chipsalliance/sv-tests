@@ -172,9 +172,13 @@ $(INSTALL_DIR)/bin/yosys-uhdm2rtlil:
 	mkdir -p $(RDIR)/uhdm2rtlil/build $(INSTALL_DIR)/bin
 	cd $(RDIR)/uhdm2rtlil/build && cmake -DCMAKE_BUILD_TYPE=Release \
 		-DCPU_CORES=$(shell nproc) -DUHDM2RTLIL_ENABLE_SLANG=OFF ..
-	$(MAKE) -C $(RDIR)/uhdm2rtlil/build install
-	# yosys locates its share/ directory, where the plugin is installed,
-	# from its resolved path, so a link keeps the uhdm2rtlil tree whole.
+	$(MAKE) -C $(RDIR)/uhdm2rtlil/build uhdm2rtlil
+	# The build installs its yosys into out/current; put the plugin in that
+	# yosys's plugin directory (`make install` would also install Surelog
+	# and ANTLR into /usr/local).  yosys finds share/ from its resolved
+	# path, so a link keeps the uhdm2rtlil tree whole.
+	install -D $(RDIR)/uhdm2rtlil/build/uhdm2rtlil.so \
+		$(RDIR)/uhdm2rtlil/out/current/share/yosys/plugins/uhdm2rtlil.so
 	ln -sf $(RDIR)/uhdm2rtlil/out/current/bin/yosys $@
 
 # setup the dependencies
