@@ -27,7 +27,7 @@ jobs:
             cmake_ver: ">=3.28"
           - name: surelog
             repo: Surelog
-            submodules: third_party/UHDM third_party/antlr4 third_party/googletest
+            submodules: third_party/UHDM third_party/antlr4 third_party/googletest third_party/json
             deps: cmake default-jre pkg-config tclsh uuid-dev
           - name: sv-parser
             deps: cargo

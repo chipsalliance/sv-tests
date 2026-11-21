@@ -23,6 +23,11 @@ class Surelog(BaseRunner):
     def prepare_run_cb(self, tmp_dir, params):
         self.cmd = [self.executable, '-nopython', '-parse']
 
+        # No runner reads the UHDM database, and writing it is the largest
+        # cost on the big designs: 160 s of bp_multicore_4's 460 s, and a
+        # 6.8 GB file.
+        self.cmd.append('-nouhdm')
+
         if params['mode'] in ["parsing", "preprocessing"]:
             self.cmd.append('-noelab')
 
