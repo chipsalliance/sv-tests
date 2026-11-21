@@ -41,13 +41,11 @@ class uhdm2rtlil(BaseRunner):
 
         top = params['top_module'].strip() or None
 
-        # read_sv runs Surelog in-process (it adds -parse, -DSYNTHESIS and
-        # -filterprotected itself, writes no .uhdm file, and fails the read
-        # on any Surelog syntax, fatal or error).
-        read = [
-            "read_sv", "-nobuiltin", "-nocache", "-sverilog", "-nonote",
-            "-noinfo", "-nowarning"
-        ]
+        # read_sv runs Surelog in-process with the uhdm2rtlil flow's default
+        # options (-parse -nobuiltin -nocache -sverilog -DSYNTHESIS
+        # -filterprotected), writes no .uhdm file, and fails the read on any
+        # Surelog syntax, fatal or error.  Only the messages are silenced.
+        read = ["read_sv", "-nonote", "-noinfo", "-nowarning"]
         if top is not None:
             read += ["--top-module", top]
         read += [f"-I{incdir}" for incdir in params['incdirs']]
