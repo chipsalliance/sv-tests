@@ -164,7 +164,24 @@ $(INSTALL_DIR)/bin/circt-verilog:
 		-DCIRCT_SLANG_FRONTEND_ENABLED=ON
 	$(MAKE) -C $(RDIR)/circt-verilog/build install-circt-verilog
 
+# uhdm2rtlil (Yosys + the uhdm2rtlil plugin, which builds its own Surelog
+# and Yosys)
+uhdm2rtlil: $(INSTALL_DIR)/bin/yosys-uhdm2rtlil
+
+$(INSTALL_DIR)/bin/yosys-uhdm2rtlil:
+	mkdir -p $(RDIR)/uhdm2rtlil/build $(INSTALL_DIR)/bin
+	cd $(RDIR)/uhdm2rtlil/build && cmake -DCMAKE_BUILD_TYPE=Release \
+		-DCPU_CORES=$(shell nproc) -DUHDM2RTLIL_ENABLE_SLANG=OFF ..
+	$(MAKE) -C $(RDIR)/uhdm2rtlil/build uhdm2rtlil
+	# The build installs its yosys into out/current; put the plugin in that
+	# yosys's plugin directory (`make install` would also install Surelog
+	# and ANTLR into /usr/local).  yosys finds share/ from its resolved
+	# path, so a link keeps the uhdm2rtlil tree whole.
+	install -D $(RDIR)/uhdm2rtlil/build/uhdm2rtlil.so \
+		$(RDIR)/uhdm2rtlil/out/current/share/yosys/plugins/uhdm2rtlil.so
+	ln -sf $(RDIR)/uhdm2rtlil/out/current/bin/yosys $@
+
 # setup the dependencies
-RUNNERS_TARGETS := odin yosys icarus verilator slang zachjs-sv2v tree-sitter-systemverilog tree-sitter-verilog sv-parser moore verible surelog yosys-synlig circt-verilog
+RUNNERS_TARGETS := odin yosys icarus verilator slang zachjs-sv2v tree-sitter-systemverilog tree-sitter-verilog sv-parser moore verible surelog yosys-synlig circt-verilog uhdm2rtlil
 .PHONY: $(RUNNERS_TARGETS)
 runners: $(RUNNERS_TARGETS)
