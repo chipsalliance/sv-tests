@@ -20,7 +20,7 @@ int b = 2;
 int c = 3;
 
 initial begin
-	bit [95:0] d = {<< 32 {a, b, c}};
+	static bit [95:0] d = {<< 32 {a, b, c}};
     $display(":assert: (((%d << 64) + (%d << 32) + %d) == %d)", c, b, a, d);
 end
 

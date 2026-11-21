@@ -16,7 +16,7 @@ module top();
 	typedef enum {a, b, c, d} e;
 
 	initial begin
-		e val = a;
-		int n = val.num();
+		static e val = a;
+		static int n = val.num();
 	end
 endmodule

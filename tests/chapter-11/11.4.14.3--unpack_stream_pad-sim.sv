@@ -22,7 +22,7 @@ int c = 3;
 bit ok;
 
 initial begin
-    bit [127:0] d = {<< 32 {a, b, c}};
+    static bit [127:0] d = {<< 32 {a, b, c}};
     ok = d == 128'h00000003_00000002_00000001_00000000;
     $display(":assert: (%0d == %0d)", ok, 1);
 end

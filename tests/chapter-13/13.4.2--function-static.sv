@@ -16,7 +16,7 @@
 module top();
 
 function static int add(int val);
-	int a = 0;
+	static int a = 0;
 	a = a + val;
 	return a;
 endfunction
