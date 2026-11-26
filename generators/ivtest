@@ -103,6 +103,8 @@ ivtest_file_exclude = [
     'pr2257003b',
     # Using %v with a variable
     'pr923',
+    # Using %v with a vector; IEEE 1800 21.2.1.4 requires a scalar reference
+    'multi_bit_strength',
     # $itor(real) and $rtoi(self-determined integer)
     'itor_rtoi',
     # $printtimescale() can be passed more than a module identifier
