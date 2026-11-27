@@ -22,9 +22,13 @@ int qi[$];
 initial begin
 	qi = s.unique_index;
     $display(":assert: (%d == 3)", qi.size);
-	qi.sort;
-    $display(":assert: ((%d == 0) and (%d == 2) and (%d == 3))",
-		qi[0], qi[1], qi[2]);
+	begin
+		int v[$];
+		foreach (qi[i]) v.push_back(s[qi[i]]);
+		v.sort;
+		$display(":assert: ((%d == 3) and (%d == 10) and (%d == 20))",
+			v[0], v[1], v[2]);
+	end
 end
 
 endmodule
