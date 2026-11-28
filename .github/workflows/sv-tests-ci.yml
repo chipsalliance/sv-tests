@@ -54,6 +54,10 @@ jobs:
           - name: yosys-slang
             deps: bison clang tcl-dev flex libfl-dev pkg-config libreadline-dev cmake pkg-config
             submodules: third_party/slang
+          - name: uhdm2rtlil
+            deps: bison flex libfl-dev tcl-dev libreadline-dev pkg-config default-jre tclsh uuid-dev zlib1g-dev libffi-dev
+            submodules: third_party/Surelog third_party/yosys
+            cmake_ver: ">=3.28,<4"
           - name: circt-verilog
             deps: clang ninja-build lld
             cmake_ver: ">=3.28"
