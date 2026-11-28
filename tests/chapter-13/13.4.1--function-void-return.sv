@@ -22,6 +22,6 @@ function void add(int a, int b);
 endfunction
 
 initial
-	$display("%d", add(45, 90));
+	add(45, 90);
 
 endmodule
