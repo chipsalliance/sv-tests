@@ -22,7 +22,7 @@ int b = 2;
 int c = 3;
 
 initial begin
-	int d = {<<{a, b, c}};
+	static int d = {<<{a, b, c}};
 end
 
 endmodule

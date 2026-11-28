@@ -17,7 +17,7 @@
 module top();
 
 task static mytask(int test);
-	int a = 0;
+	static int a = 0;
 	a++;
 	if (test)
 		$display(":assert:(%d != 1)", a);

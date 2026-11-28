@@ -15,7 +15,7 @@
 module dowhile_tb ();
 	string test [4] = '{"111", "222", "333", "444"};
 	initial begin
-		int i = 0;
+		static int i = 0;
 		do begin
 			$display(i, test[i]);
 			i++;

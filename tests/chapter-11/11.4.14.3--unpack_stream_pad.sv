@@ -19,7 +19,7 @@ int b = 2;
 int c = 3;
 
 initial begin
-	bit [127:0] d = {<<{a, b, c}};
+	static bit [127:0] d = {<<{a, b, c}};
 end
 
 endmodule
